@@ -1,6 +1,6 @@
 import React from "react";
 import type { Exam, Correction } from "../../types/database";
-import { FiEye, FiEyeOff, FiDownload } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiDownload, FiSave } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
 
 interface ExamEditorProps {
@@ -151,37 +151,50 @@ export function ExamEditor({
             )}
           </div>
           <div className="flex justify-end gap-2">
-            <button
-              onClick={() => setShowPreview(!showPreview)}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              {showPreview ? (
-                <>
+            <div className="relative group">
+              <button
+                onClick={() => setShowPreview(!showPreview)}
+                className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                aria-label={showPreview ? "Hide Preview" : "Show Preview"}
+              >
+                {showPreview ? (
                   <FiEyeOff className="w-4 h-4" />
-                  Hide Preview
-                </>
-              ) : (
-                <>
+                ) : (
                   <FiEye className="w-4 h-4" />
-                  Show Preview
-                </>
-              )}
-            </button>
-            <button
-              onClick={onDownload}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              <FiDownload className="w-4 h-4" />
-              Download
-            </button>
+                )}
+              </button>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                {showPreview ? "Hide Preview" : "Show Preview"}
+              </div>
+            </div>
+
+            <div className="relative group">
+              <button
+                onClick={onDownload}
+                className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                aria-label="Download"
+              >
+                <FiDownload className="w-4 h-4" />
+              </button>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                Download
+              </div>
+            </div>
+
             {((mode === "edit" && !isCreatingNew) ||
               (mode === "correction" && correction)) && (
-              <button
-                onClick={onSave}
-                className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
-              >
-                Save Changes
-              </button>
+              <div className="relative group">
+                <button
+                  onClick={onSave}
+                  className="p-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
+                  aria-label="Save Changes"
+                >
+                  <FiSave className="w-4 h-4" />
+                </button>
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                  Save Changes
+                </div>
+              </div>
             )}
           </div>
         </div>
