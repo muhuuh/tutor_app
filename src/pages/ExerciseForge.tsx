@@ -9,6 +9,7 @@ import { ChatBox } from "../components/ExerciseForge/ChatBox";
 import toast from "react-hot-toast";
 import type { Exam, Correction } from "../types/database";
 import { convertWordToMarkdown } from "../lib/wordToMarkdown";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import {
   convertMarkdownToWord,
   downloadWordDocument,
@@ -484,9 +485,7 @@ export function ExerciseForge() {
             <h1 className="text-2xl font-bold text-gray-900 mb-6">
               Exercise Forge
             </h1>
-
             <div className="flex justify-between divide-x divide-gray-300 pb-8 mb-8 border-b">
-              {/* Left Section */}
               <div className="flex-1 pr-4 flex items-stretch">
                 <div className="w-full">
                   <FileUpload
@@ -501,8 +500,6 @@ export function ExerciseForge() {
                   />
                 </div>
               </div>
-
-              {/* Right Section */}
               <div className="flex-1 pl-4 flex items-stretch">
                 <button
                   onClick={() => handleExamSelect(null)}
@@ -513,9 +510,12 @@ export function ExerciseForge() {
                   }`}
                 >
                   <div>
-                    <h3 className="font-medium text-gray-900">
-                      Create New Exam
-                    </h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <PencilSquareIcon className="w-6 h-6 text-indigo-500" />
+                      <h2 className="text-lg font-medium text-gray-900">
+                        Create New Exam
+                      </h2>
+                    </div>
                     <p className="text-sm text-gray-500 mt-1">
                       Start a conversation with AI to create a new exam
                     </p>

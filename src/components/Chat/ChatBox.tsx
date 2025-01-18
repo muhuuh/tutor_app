@@ -376,7 +376,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           {/* File Upload Section */}
           <div>
             <div className="flex items-center gap-2 mb-6">
-              <h3 className="text-lg font-medium text-gray-900">
+              <h3 className=" font-medium text-gray-900">
                 Correction of Handwritten Exercises
               </h3>
               <button
@@ -439,7 +439,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           {/* Chat Suggestions Section */}
           <div>
             <div className="flex items-center gap-2 mb-2 mt-10">
-              <h3 className="text-lg font-medium text-gray-900">
+              <h3 className=" font-medium text-gray-900">
                 Suggestions How to Continue
               </h3>
               <button
