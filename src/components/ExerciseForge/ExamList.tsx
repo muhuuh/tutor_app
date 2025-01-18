@@ -1,5 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import type { Exam } from "../../types/database";
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+  useHover,
+  useFocus,
+  useInteractions,
+  FloatingPortal,
+} from "@floating-ui/react";
 
 interface ExamListProps {
   loading: boolean;
@@ -7,6 +18,55 @@ interface ExamListProps {
   selectedExam: Exam | null;
   isCreatingNew: boolean;
   onExamSelect: (examId: string | null) => void;
+}
+
+function ExamTooltip({
+  content,
+  children,
+}: {
+  content: string;
+  children: React.ReactNode;
+}) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const contentPreview =
+    content.length > 150 ? content.slice(0, 150).trim() + "..." : content;
+
+  const { refs, floatingStyles, context } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+    middleware: [offset(10), flip(), shift()],
+    whileElementsMounted: autoUpdate,
+  });
+
+  const hover = useHover(context);
+  const focus = useFocus(context);
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    hover,
+    focus,
+  ]);
+
+  return (
+    <>
+      <div ref={refs.setReference} {...getReferenceProps()}>
+        {children}
+      </div>
+      <FloatingPortal>
+        {isOpen && (
+          <div
+            ref={refs.setFloating}
+            style={floatingStyles}
+            {...getFloatingProps()}
+            className="z-50 max-w-md p-4 bg-white rounded-lg shadow-lg border border-gray-200"
+          >
+            <div className="text-sm text-gray-700 whitespace-pre-wrap">
+              {contentPreview}
+            </div>
+          </div>
+        )}
+      </FloatingPortal>
+    </>
+  );
 }
 
 export function ExamList({
@@ -25,35 +85,27 @@ export function ExamList({
         </div>
       ) : (
         <div className="space-y-4">
-          <button
-            onClick={() => onExamSelect(null)}
-            className={`w-full text-left p-4 rounded-lg border transition-colors ${
-              isCreatingNew
-                ? "border-indigo-500 bg-indigo-50"
-                : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
-            }`}
-          >
-            <h3 className="font-medium text-gray-900">Create New Exam</h3>
-            <p className="text-sm text-gray-500 mt-1">
-              Start a conversation with AI to create a new exam
-            </p>
-          </button>
-
           {exams.map((exam) => (
-            <button
-              key={exam.id}
-              onClick={() => onExamSelect(exam.id)}
-              className={`w-full text-left p-4 rounded-lg border transition-colors ${
-                selectedExam?.id === exam.id
-                  ? "border-indigo-500 bg-indigo-50"
-                  : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
-              }`}
-            >
-              <h3 className="font-medium text-gray-900">{exam.title}</h3>
-              <p className="text-sm text-gray-500 mt-1">
-                Last updated: {new Date(exam.updated_at).toLocaleString()}
-              </p>
-            </button>
+            <ExamTooltip key={exam.id} content={exam.content}>
+              <button
+                onClick={() => onExamSelect(exam.id)}
+                className={`w-full text-left p-4 rounded-lg border transition-colors ${
+                  selectedExam?.id === exam.id
+                    ? "border-indigo-500 bg-indigo-50"
+                    : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
+                }`}
+              >
+                <h3 className="font-medium text-gray-900">{exam.title}</h3>
+                <p className="text-sm text-gray-500 mt-1">
+                  Last updated:{" "}
+                  {new Date(exam.updated_at).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </p>
+              </button>
+            </ExamTooltip>
           ))}
         </div>
       )}
