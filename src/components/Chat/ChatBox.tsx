@@ -17,6 +17,7 @@ import {
   useInteractions,
   FloatingPortal,
 } from "@floating-ui/react";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 interface Message {
   id: string;
@@ -92,6 +93,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const [currentPrompt, setCurrentPrompt] = useState("");
   const [suggestions, setSuggestions] = useState<SuggestionBox[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  const [showUploadInfo, setShowUploadInfo] = useState(false);
+  const [showSuggestionInfo, setShowSuggestionInfo] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -372,15 +375,31 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         <div className="w-1/3 space-y-6">
           {/* File Upload Section */}
           <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Correction of Handwritten Exercises
-            </h3>
-            <p className="text-sm text-gray-600 mb-4">
-              Upload pictures of handwritten exam answers to receive a detailed
-              correction report. The analysis will highlight mistakes, identify
-              misunderstood concepts, and provide targeted resources and
-              training exercises for improvement.
-            </p>
+            <div className="flex items-center gap-2 mb-6">
+              <h3 className="text-lg font-medium text-gray-900">
+                Correction of Handwritten Exercises
+              </h3>
+              <button
+                onClick={() => setShowUploadInfo(!showUploadInfo)}
+                className="text-gray-500 hover:text-indigo-600 transition-colors"
+                aria-label="Toggle information"
+              >
+                <InformationCircleIcon
+                  className={`w-5 h-5 pt-1 ${
+                    showUploadInfo ? "text-indigo-600" : "text-gray-500"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {showUploadInfo && (
+              <p className="text-sm text-gray-600 mb-4 animate-fadeIn">
+                Upload pictures of handwritten exam answers to receive a
+                detailed correction report. The analysis will highlight
+                mistakes, identify misunderstood concepts, and provide targeted
+                resources and training exercises for improvement.
+              </p>
+            )}
             <FileUpload
               selectedPupilId={selectedPupilId}
               onUploadComplete={handleFilesUploaded}
@@ -419,13 +438,29 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
           {/* Chat Suggestions Section */}
           <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Suggestions How to Continue
-            </h3>
-            <p className="text-sm text-gray-600 mb-4">
-              Based on your conversation, here are some suggested questions and
-              topics you might want to explore with the AI assistant.
-            </p>
+            <div className="flex items-center gap-2 mb-2 mt-10">
+              <h3 className="text-lg font-medium text-gray-900">
+                Suggestions How to Continue
+              </h3>
+              <button
+                onClick={() => setShowSuggestionInfo(!showSuggestionInfo)}
+                className="text-gray-500 hover:text-indigo-600 transition-colors"
+                aria-label="Toggle information"
+              >
+                <InformationCircleIcon
+                  className={`w-5 h-5 pt-1 ${
+                    showSuggestionInfo ? "text-indigo-600" : "text-gray-500"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {showSuggestionInfo && (
+              <p className="text-sm text-gray-600 mb-4 animate-fadeIn">
+                Based on your conversation, here are some suggested questions
+                and topics you might want to explore with the AI assistant.
+              </p>
+            )}
             {isLoadingSuggestions ? (
               <div className="flex justify-center py-4">
                 <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
