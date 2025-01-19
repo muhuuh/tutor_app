@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useReport } from "../hooks/useReport";
 import { usePupils } from "../hooks/usePupils";
@@ -13,6 +13,7 @@ import {
   downloadWordDocument,
   convertMarkdownToWord,
 } from "../lib/markdownToWord";
+import { PencilIcon } from "@heroicons/react/24/outline";
 
 const TABS = [
   { id: "chat", label: "Chat Assistant" },
@@ -42,6 +43,9 @@ export function Dashboard() {
     loading: loadingPupils,
     refetch: refetchPupils,
   } = usePupils();
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [editedTitle, setEditedTitle] = useState("");
+  const titleInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -154,6 +158,37 @@ export function Dashboard() {
     }
   };
 
+  const handleUpdateTitle = async (newTitle: string) => {
+    if (!currentReportId) return;
+
+    try {
+      const { error } = await supabase
+        .from("reports")
+        .update({ report_title: newTitle })
+        .eq("id", currentReportId);
+
+      if (error) throw error;
+
+      setAvailableReports((prev) =>
+        prev.map((report) =>
+          report.id === currentReportId
+            ? { ...report, report_title: newTitle }
+            : report
+        )
+      );
+      toast.success("Report title updated");
+    } catch (error) {
+      console.error("Error updating report title:", error);
+      toast.error("Failed to update report title");
+    }
+  };
+
+  useEffect(() => {
+    if (isEditingTitle && titleInputRef.current) {
+      titleInputRef.current.focus();
+    }
+  }, [isEditingTitle]);
+
   const renderReportContent = () => {
     if (!selectedPupilId) {
       return (
@@ -207,7 +242,47 @@ export function Dashboard() {
     return (
       <div className="space-y-8">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">{reportTitle}</h2>
+          <div className="flex items-center gap-2 flex-1 max-w-2xl">
+            {isEditingTitle ? (
+              <input
+                ref={titleInputRef}
+                type="text"
+                value={editedTitle}
+                onChange={(e) => setEditedTitle(e.target.value)}
+                onBlur={() => {
+                  setIsEditingTitle(false);
+                  if (editedTitle.trim() && editedTitle !== reportTitle) {
+                    handleUpdateTitle(editedTitle.trim());
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.currentTarget.blur();
+                  } else if (e.key === "Escape") {
+                    setIsEditingTitle(false);
+                    setEditedTitle(reportTitle);
+                  }
+                }}
+                className="text-xl font-semibold text-gray-900 w-full px-2 py-1 border border-indigo-500 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            ) : (
+              <>
+                <h2 className="text-xl font-semibold text-gray-900">
+                  {reportTitle}
+                </h2>
+                <button
+                  onClick={() => {
+                    setEditedTitle(reportTitle);
+                    setIsEditingTitle(true);
+                  }}
+                  className="p-1 text-gray-400 hover:text-indigo-600 transition-colors"
+                  aria-label="Edit report title"
+                >
+                  <PencilIcon className="w-4 h-4" />
+                </button>
+              </>
+            )}
+          </div>
           <div className="flex gap-2">
             <button
               onClick={handleDownloadReport}
