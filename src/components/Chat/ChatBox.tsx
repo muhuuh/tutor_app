@@ -18,6 +18,7 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { ChatFileUpload } from "./ChatFileUpload";
 
 interface Message {
   id: string;
@@ -415,10 +416,9 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                 resources and training exercises for improvement.
               </p>
             )}
-            <FileUpload
+            <ChatFileUpload
               selectedPupilId={selectedPupilId}
               onUploadComplete={handleFilesUploaded}
-              showPupilSelect={false}
             />
             {pendingFiles.length > 0 && (
               <div className="mt-4 space-y-4">
