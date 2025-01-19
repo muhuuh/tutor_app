@@ -322,7 +322,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         // After getting the AI response, store that too
         await database.chat.insertMessage({
           content: data.output,
-          type: "assistant",
+          type: "ai",
           session_id: selectedPupilId,
           teacher_id: user!.id,
         });
@@ -391,7 +391,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         // After getting the AI response, store that too
         await database.chat.insertMessage({
           content: chatData.output,
-          type: "assistant",
+          type: "ai",
           session_id: selectedPupilId,
           teacher_id: user!.id,
         });

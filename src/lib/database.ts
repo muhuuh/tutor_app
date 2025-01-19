@@ -3,7 +3,7 @@ import type { Pupil, Report, Exam, Correction } from "../types/database";
 
 interface ChatMessage {
   content: string;
-  type: "human" | "assistant";
+  type: "human" | "ai";
   session_id: string;
   teacher_id: string;
 }
