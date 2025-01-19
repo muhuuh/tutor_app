@@ -208,11 +208,16 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
     }
   };
 
-  const handleSendMessage = async (content: string) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!selectedPupilId) {
       toast.error("Please select a student first");
       return;
     }
+
+    const content = currentPrompt.trim();
+    if (!content) return;
 
     // Add user message to chat
     const userMessage: Message = {
