@@ -108,6 +108,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const [showSuggestionInfo, setShowSuggestionInfo] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -389,36 +390,11 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
     <div className="space-y-6">
       <div className="flex gap-6">
         <div className="w-1/3 space-y-6">
-          {/* File Upload Section */}
           <div>
-            <div className="flex items-center gap-2 mb-6">
-              <h3 className=" font-medium text-gray-900">
-                Correction of Handwritten Exercises
-              </h3>
-              <button
-                onClick={() => setShowUploadInfo(!showUploadInfo)}
-                className="text-gray-500 hover:text-indigo-600 transition-colors"
-                aria-label="Toggle information"
-              >
-                <InformationCircleIcon
-                  className={`w-5 h-5 pt-1 ${
-                    showUploadInfo ? "text-indigo-600" : "text-gray-500"
-                  }`}
-                />
-              </button>
-            </div>
-
-            {showUploadInfo && (
-              <p className="text-sm text-gray-600 mb-4 animate-fadeIn">
-                Upload pictures of handwritten exam answers to receive a
-                detailed correction report. The analysis will highlight
-                mistakes, identify misunderstood concepts, and provide targeted
-                resources and training exercises for improvement.
-              </p>
-            )}
             <ChatFileUpload
               selectedPupilId={selectedPupilId}
               onUploadComplete={handleFilesUploaded}
+              setIsUploading={setIsUploading}
             />
             {pendingFiles.length > 0 && (
               <div className="mt-4 space-y-4">
@@ -451,7 +427,6 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             )}
           </div>
 
-          {/* Chat Suggestions Section */}
           <div>
             <div className="flex items-center gap-2 mb-2 mt-10">
               <h3 className=" font-medium text-gray-900">
@@ -563,7 +538,10 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                   }
                   className="flex-1 rounded-full border border-gray-200 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={
-                    isProcessing || isLoadingHistory || !selectedPupilId
+                    isProcessing ||
+                    isLoadingHistory ||
+                    !selectedPupilId ||
+                    isUploading
                   }
                   ref={inputRef}
                 />
@@ -573,7 +551,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                     isProcessing ||
                     isLoadingHistory ||
                     !selectedPupilId ||
-                    !currentPrompt.trim()
+                    !currentPrompt.trim() ||
+                    isUploading
                   }
                   className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
