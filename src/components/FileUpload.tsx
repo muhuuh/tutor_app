@@ -82,7 +82,7 @@ export function FileUpload({
         </div>
         <div className="text-center">
           <p className="text-gray-600 text-sm mb-4">
-            Get AI suggestions for improving exercises and generate solutions:
+            Get AI suggestions for improving exercises and generating solutions
           </p>
         </div>
         {showPupilSelect && !selectedPupilId && (

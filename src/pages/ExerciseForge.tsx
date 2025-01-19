@@ -466,6 +466,40 @@ export function ExerciseForge() {
     }
   };
 
+  const handleExamDelete = async (examId: string) => {
+    if (!window.confirm("Are you sure you want to delete this exam?")) {
+      return;
+    }
+
+    try {
+      await database.exams.delete(examId);
+
+      // Clear the exam from cache
+      delete examContentCache.current[examId];
+
+      // Update the exams list
+      const updatedExams = exams.filter((exam) => exam.id !== examId);
+      setExams(updatedExams);
+      examListCache.current = updatedExams;
+
+      // If the deleted exam was selected, clear the selection
+      if (selectedExam?.id === examId) {
+        setSelectedExam(null);
+        setExamContent("");
+        setCorrectionContent("");
+        setCorrection(null);
+        setEditableContent("");
+        setChatMessages([]);
+        setMode("edit");
+      }
+
+      toast.success("Exam deleted successfully");
+    } catch (error) {
+      console.error("Error deleting exam:", error);
+      toast.error("Failed to delete exam. Please try again.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -520,6 +554,7 @@ export function ExerciseForge() {
                 selectedExam={selectedExam}
                 isCreatingNew={isCreatingNew}
                 onExamSelect={handleExamSelect}
+                onExamDelete={handleExamDelete}
               />
 
               <div className="col-span-2 pl-6">

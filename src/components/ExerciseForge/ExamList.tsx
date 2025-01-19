@@ -12,6 +12,7 @@ import {
   FloatingPortal,
   useDelayGroup,
 } from "@floating-ui/react";
+import { FiTrash2 } from "react-icons/fi";
 
 interface ExamListProps {
   loading: boolean;
@@ -19,6 +20,7 @@ interface ExamListProps {
   selectedExam: Exam | null;
   isCreatingNew: boolean;
   onExamSelect: (examId: string | null) => void;
+  onExamDelete: (examId: string) => void;
 }
 
 function ExamTooltip({
@@ -86,6 +88,7 @@ export function ExamList({
   selectedExam,
   isCreatingNew,
   onExamSelect,
+  onExamDelete,
 }: ExamListProps) {
   return (
     <div className="col-span-1 border-r pr-6">
@@ -98,24 +101,36 @@ export function ExamList({
         <div className="space-y-4">
           {exams.map((exam) => (
             <ExamTooltip key={exam.id} content={exam.content}>
-              <button
-                onClick={() => onExamSelect(exam.id)}
-                className={`w-full text-left p-4 rounded-lg border transition-colors ${
-                  selectedExam?.id === exam.id
-                    ? "border-indigo-500 bg-indigo-50"
-                    : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
-                }`}
-              >
-                <h3 className="font-medium text-gray-900">{exam.title}</h3>
-                <p className="text-sm text-gray-500 mt-1">
-                  Last updated:{" "}
-                  {new Date(exam.updated_at).toLocaleDateString("en-GB", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </p>
-              </button>
+              <div className="relative group">
+                <button
+                  onClick={() => onExamSelect(exam.id)}
+                  className={`w-full text-left p-4 rounded-lg border transition-colors ${
+                    selectedExam?.id === exam.id
+                      ? "border-indigo-500 bg-indigo-50"
+                      : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
+                  }`}
+                >
+                  <h3 className="font-medium text-gray-900">{exam.title}</h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Last updated:{" "}
+                    {new Date(exam.updated_at).toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onExamDelete(exam.id);
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-label="Delete exam"
+                >
+                  <FiTrash2 className="w-4 h-4" />
+                </button>
+              </div>
             </ExamTooltip>
           ))}
         </div>
