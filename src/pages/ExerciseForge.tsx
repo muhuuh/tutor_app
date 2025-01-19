@@ -533,9 +533,9 @@ export function ExerciseForge() {
                   }`}
                 >
                   <div>
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center justify-center gap-2 mb-2">
                       <PencilSquareIcon className="w-6 h-6 text-indigo-500" />
-                      <h2 className="text-lg font-medium text-gray-900">
+                      <h2 className="text-lg  font-medium text-gray-900">
                         Create New Exam
                       </h2>
                     </div>
