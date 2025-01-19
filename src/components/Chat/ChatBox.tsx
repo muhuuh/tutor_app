@@ -542,12 +542,40 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             <div ref={messagesEndRef} />
           </div>
           <div className="border-t p-4">
-            <ChatInput
-              onSend={handleSendMessage}
-              disabled={isProcessing || isLoadingHistory}
-              ref={inputRef}
-              initialValue={currentPrompt}
-            />
+            <form
+              onSubmit={handleSendMessage}
+              className="p-3 bg-white border-t border-gray-100 rounded-b-lg"
+            >
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={currentPrompt}
+                  onChange={(e) => setCurrentPrompt(e.target.value)}
+                  placeholder={
+                    !selectedPupilId
+                      ? "Select a student before sending a message"
+                      : "Type your message..."
+                  }
+                  className="flex-1 rounded-full border border-gray-200 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={
+                    isProcessing || isLoadingHistory || !selectedPupilId
+                  }
+                  ref={inputRef}
+                />
+                <button
+                  type="submit"
+                  disabled={
+                    isProcessing ||
+                    isLoadingHistory ||
+                    !selectedPupilId ||
+                    !currentPrompt.trim()
+                  }
+                  className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {isProcessing ? "Sending..." : "Send"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
