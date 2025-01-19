@@ -295,90 +295,45 @@ export function Dashboard() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6">
-            <div className="flex justify-center items-end gap-6 mb-4">
-              {!showAddPupil && (
-                <div className="w-64">
-                  <label
-                    htmlFor="pupil"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Select Student
-                  </label>
-                  <select
-                    id="pupil"
-                    value={selectedPupilId}
-                    onChange={handlePupilChange}
-                    className="block w-full rounded-lg border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 transition-colors disabled:opacity-50"
-                    disabled={loadingPupils}
-                  >
-                    <option value="">Choose a student...</option>
-                    {pupils.map((pupil) => (
-                      <option key={pupil.id} value={pupil.id}>
-                        {pupil.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-
-              {activeTab === "reports" &&
-                selectedPupilId &&
-                availableReports.length > 0 && (
-                  <div className="w-64">
-                    <label
-                      htmlFor="report"
-                      className="block text-sm font-medium text-gray-700 mb-2"
-                    >
-                      Select Report
-                    </label>
-                    <select
-                      id="report"
-                      value={currentReportId || ""}
-                      onChange={(e) => setCurrentReportId(e.target.value)}
-                      className="block w-full rounded-lg border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
-                    >
-                      {availableReports.map((report) => (
-                        <option key={report.id} value={report.id}>
-                          {report.report_title ||
-                            `Report from ${new Date(
-                              report.requested_at
-                            ).toLocaleString()}`}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-
-              {!showAddPupil && (
-                <button
-                  onClick={() => setShowAddPupil(!showAddPupil)}
-                  className="px-4 py-3 text-sm font-medium text-indigo-600 hover:text-indigo-700"
+            <div className="flex items-center justify-center gap-6">
+              <label
+                htmlFor="pupil"
+                className="text-sm font-medium text-gray-700 whitespace-nowrap"
+              >
+                Select Student
+              </label>
+              <div className="w-64">
+                <select
+                  id="pupil"
+                  value={selectedPupilId}
+                  onChange={handlePupilChange}
+                  className="block w-full rounded-lg border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 transition-colors disabled:opacity-50"
+                  disabled={loadingPupils}
                 >
-                  Or add New Student
-                </button>
-              )}
+                  <option value="">Choose a student...</option>
+                  {pupils.map((pupil) => (
+                    <option key={pupil.id} value={pupil.id}>
+                      {pupil.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button
+                onClick={() => setShowAddPupil(true)}
+                className="px-4 py-3 text-sm font-medium text-indigo-600 hover:text-indigo-700 whitespace-nowrap"
+              >
+                Or add New Student
+              </button>
             </div>
 
             {showAddPupil && (
-              <div className="mt-6 border-t pt-6">
-                <div className="flex items-center justify-left">
-                  <h2 className="text-lg font-medium text-gray-900 mb-4">
-                    Add New Student
-                  </h2>
-                  <button
-                    onClick={() => setShowAddPupil(!showAddPupil)}
-                    className="px-4 mb-3 text-sm font-medium text-indigo-600 hover:text-indigo-700"
-                  >
-                    Cancel
-                  </button>
-                </div>
-                <PupilForm
-                  onSuccess={() => {
-                    setShowAddPupil(false);
-                    refetchPupils();
-                  }}
-                />
-              </div>
+              <PupilForm
+                onSuccess={() => {
+                  setShowAddPupil(false);
+                  refetchPupils();
+                }}
+                onClose={() => setShowAddPupil(false)}
+              />
             )}
           </div>
 
