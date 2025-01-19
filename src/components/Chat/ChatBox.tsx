@@ -391,6 +391,32 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
       <div className="flex gap-6">
         <div className="w-1/3 space-y-6">
           <div>
+            <div className="flex items-center gap-2 mb-6">
+              <h3 className="font-medium text-gray-900">
+                Correction of Handwritten Exercises
+              </h3>
+              <button
+                onClick={() => setShowUploadInfo(!showUploadInfo)}
+                className="text-gray-500 hover:text-indigo-600 transition-colors"
+                aria-label="Toggle information"
+              >
+                <InformationCircleIcon
+                  className={`w-5 h-5 pt-1 ${
+                    showUploadInfo ? "text-indigo-600" : "text-gray-500"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {showUploadInfo && (
+              <p className="text-sm text-gray-600 mb-4 animate-fadeIn">
+                Upload pictures of handwritten exam answers to receive a
+                detailed correction report. The analysis will highlight
+                mistakes, identify misunderstood concepts, and provide targeted
+                resources and training exercises for improvement.
+              </p>
+            )}
+
             <ChatFileUpload
               selectedPupilId={selectedPupilId}
               onUploadComplete={handleFilesUploaded}
