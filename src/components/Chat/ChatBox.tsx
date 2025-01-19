@@ -19,6 +19,7 @@ import {
 } from "@floating-ui/react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { ChatFileUpload } from "./ChatFileUpload";
+import { database } from "../../lib/database";
 
 interface Message {
   id: string;
@@ -121,7 +122,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   // Load chat history when pupil is selected
   useEffect(() => {
     const loadChatHistory = async () => {
-      if (!selectedPupilId) {
+      if (!selectedPupilId || !user?.id) {
         setMessages([]);
         return;
       }
@@ -132,6 +133,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           .from("chat_history")
           .select("message")
           .eq("session_id", selectedPupilId)
+          .or(`teacher_id.eq.${user.id},teacher_id.is.null`)
           .order("id", { ascending: true });
 
         if (error) throw error;
@@ -154,7 +156,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
     };
 
     loadChatHistory();
-  }, [selectedPupilId]);
+  }, [selectedPupilId, user?.id]);
 
   const updateSuggestions = async (currentMessages: Message[]) => {
     if (!selectedPupilId || currentMessages.length === 0) {
@@ -308,6 +310,22 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             },
           }
         );
+
+        // Store the user's message in the database
+        await database.chat.insertMessage({
+          content: content,
+          type: "human",
+          session_id: selectedPupilId,
+          teacher_id: user!.id,
+        });
+
+        // After getting the AI response, store that too
+        await database.chat.insertMessage({
+          content: data.output,
+          type: "assistant",
+          session_id: selectedPupilId,
+          teacher_id: user!.id,
+        });
       } else {
         // Add typing indicator
         const typingMessage: Message = {
@@ -318,21 +336,19 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         setMessages((prev) => [...prev, typingMessage]);
 
         // Handle interactive chat
-        const chatResponse = await fetch(
-          "https://arani.app.n8n.cloud/webhook/e505d62b-76a4-43d8-a461-187f7d6dc312/chat",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({
-              message: content,
-              pupilId: selectedPupilId,
-              teacherId: user?.id,
-            }),
-          }
-        );
+        const chatResponse = await fetch(config.chatWebhookUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            message: content,
+            pupilId: selectedPupilId,
+            teacherId: user?.id,
+            timestamp: Date.now(),
+          }),
+        });
 
         if (!chatResponse.ok) {
           console.error("Chat response not OK:", {
@@ -363,6 +379,22 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         setMessages(updatedMessages);
         // Update suggestions with new messages
         updateSuggestions(updatedMessages);
+
+        // Store the user's message in the database
+        await database.chat.insertMessage({
+          content: content,
+          type: "human",
+          session_id: selectedPupilId,
+          teacher_id: user!.id,
+        });
+
+        // After getting the AI response, store that too
+        await database.chat.insertMessage({
+          content: chatData.output,
+          type: "assistant",
+          session_id: selectedPupilId,
+          teacher_id: user!.id,
+        });
       }
     } catch (error) {
       console.error("Processing error:", error);

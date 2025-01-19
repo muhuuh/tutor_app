@@ -1,6 +1,13 @@
 import { supabase } from "./supabase";
 import type { Pupil, Report, Exam, Correction } from "../types/database";
 
+interface ChatMessage {
+  content: string;
+  type: "human" | "assistant";
+  session_id: string;
+  teacher_id: string;
+}
+
 export const database = {
   pupils: {
     async create(data: Omit<Pupil, "id" | "created_at" | "teacher_id">) {
@@ -146,6 +153,26 @@ export const database = {
 
       if (error) throw error;
       return correction;
+    },
+  },
+
+  chat: {
+    async insertMessage(message: Omit<ChatMessage, "id" | "created_at">) {
+      const { data, error } = await supabase
+        .from("chat_history")
+        .insert({
+          message: {
+            content: message.content,
+            type: message.type,
+          },
+          session_id: message.session_id,
+          teacher_id: message.teacher_id,
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
     },
   },
 };
