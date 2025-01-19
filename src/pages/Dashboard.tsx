@@ -14,8 +14,6 @@ import {
   convertMarkdownToWord,
 } from "../lib/markdownToWord";
 
-const DEFAULT_REPORT_ID = "013eee03-6226-470d-ae9b-f9fe0a8948cd";
-
 const TABS = [
   { id: "chat", label: "Chat Assistant" },
   { id: "reports", label: "Reports" },
@@ -38,9 +36,7 @@ export function Dashboard() {
   const [availableReports, setAvailableReports] = useState<
     Array<{ id: string; requested_at: string; report_title: string }>
   >([]);
-  const { report, loading, error } = useReport(
-    currentReportId || DEFAULT_REPORT_ID
-  );
+  const { report, loading, error } = useReport(currentReportId || "");
   const {
     pupils,
     loading: loadingPupils,
@@ -169,7 +165,7 @@ export function Dashboard() {
       );
     }
 
-    if (!currentReportId) {
+    if (!currentReportId || availableReports.length === 0) {
       return (
         <div className="text-center py-8">
           <p className="text-gray-500">
@@ -177,6 +173,24 @@ export function Dashboard() {
           </p>
         </div>
       );
+    }
+
+    if (currentReportId) {
+      if (loading) {
+        return (
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-500 border-t-transparent" />
+          </div>
+        );
+      }
+
+      if (error) {
+        return (
+          <div className="text-red-600 p-4">
+            Failed to load report data. Please try again later.
+          </div>
+        );
+      }
     }
 
     if (!report?.report) return null;
@@ -258,22 +272,6 @@ export function Dashboard() {
   };
 
   const renderTabContent = () => {
-    if (loading) {
-      return (
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-500 border-t-transparent" />
-        </div>
-      );
-    }
-
-    if (error) {
-      return (
-        <div className="text-red-600 p-4">
-          Failed to load report data. Please try again later.
-        </div>
-      );
-    }
-
     switch (activeTab) {
       case "chat":
         return (
