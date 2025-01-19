@@ -10,6 +10,7 @@ import {
   useFocus,
   useInteractions,
   FloatingPortal,
+  useDelayGroup,
 } from "@floating-ui/react";
 
 interface ExamListProps {
@@ -39,7 +40,17 @@ function ExamTooltip({
     whileElementsMounted: autoUpdate,
   });
 
-  const hover = useHover(context);
+  const delay = {
+    open: 400, // 1 second delay before opening
+    close: 200, // small delay before closing to prevent flickering
+  };
+
+  const hover = useHover(context, {
+    delay,
+    move: false, // Disable moving to prevent unwanted triggers
+    handleClose: null, // Use default close handling
+  });
+
   const focus = useFocus(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([
     hover,

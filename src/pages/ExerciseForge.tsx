@@ -95,12 +95,6 @@ export function ExerciseForge() {
     }
   }, [user?.id, selectedExam]);
 
-  useEffect(() => {
-    if (selectedExam && mode === "correction") {
-      loadCorrection("correction");
-    }
-  }, [selectedExam, mode]);
-
   const loadExams = async () => {
     try {
       setLoading(true);
@@ -242,20 +236,15 @@ export function ExerciseForge() {
       setEditableContent(examContent);
     } else if (mode === "edit" && newMode === "correction") {
       setExamContent(editableContent);
-      if (!correction) {
-        setEditableContent("");
+      // Only load correction if we haven't loaded it yet
+      if (!correction && selectedExam) {
+        await loadCorrection(newMode);
       } else {
         setEditableContent(correctionContent);
       }
     }
 
     setMode(newMode);
-
-    if (newMode === "correction" && selectedExam) {
-      await loadCorrection(newMode);
-    } else if (newMode === "edit" && selectedExam) {
-      setEditableContent(examContent);
-    }
   };
 
   const handleSave = async () => {

@@ -42,7 +42,7 @@ function SuggestionTooltip({
   content: string;
   children: React.ReactNode;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -51,7 +51,17 @@ function SuggestionTooltip({
     whileElementsMounted: autoUpdate,
   });
 
-  const hover = useHover(context);
+  const delay = {
+    open: 400,
+    close: 200, // small delay before closing to prevent flickering
+  };
+
+  const hover = useHover(context, {
+    delay,
+    move: false, // Disable moving to prevent unwanted triggers
+    handleClose: null, // Use default close handling
+  });
+
   const focus = useFocus(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([
     hover,
