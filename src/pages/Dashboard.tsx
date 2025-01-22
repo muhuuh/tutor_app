@@ -106,20 +106,20 @@ export function Dashboard() {
   };
 
   const handleDownloadReport = async () => {
-    if (!report?.report) return;
+    if (!report) return;
 
     try {
       const content = [
         "# Performance Summary\n",
-        report.report.performance_summary,
+        report.performance_summary,
         "\n\n# Grading\n",
-        report.report.grading,
+        report.grading,
         "\n\n# Misunderstood Concepts\n",
-        report.report.misunderstood_concepts,
+        report.misunderstood_concepts,
         "\n\n# Learning Materials\n",
-        report.report.learning_material,
+        report.learning_material,
         "\n\n# Practice Exercises\n",
-        report.report.practice_exercises,
+        report.practice_exercises,
       ].join("\n");
 
       const title =
@@ -239,14 +239,10 @@ export function Dashboard() {
         currentReport?.requested_at || ""
       ).toLocaleDateString()}`;
 
-    console.log("report");
-    console.log(report);
-    console.log(report.report);
-
     return (
       <div className="space-y-8">
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2 flex-1 max-w-2xl">
+          <div className="flex-1 max-w-[21cm] mx-auto">
             {isEditingTitle ? (
               <input
                 ref={titleInputRef}
@@ -267,11 +263,11 @@ export function Dashboard() {
                     setEditedTitle(reportTitle);
                   }
                 }}
-                className="text-xl font-semibold text-gray-900 w-full px-2 py-1 border border-indigo-500 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="text-2xl font-semibold text-gray-900 w-full px-4 py-2 border-b-2 border-indigo-500 focus:outline-none focus:border-indigo-600 bg-transparent text-center"
               />
             ) : (
-              <>
-                <h2 className="text-xl font-semibold text-gray-900">
+              <div className="flex items-center justify-center gap-2">
+                <h2 className="text-2xl font-semibold text-gray-900">
                   {reportTitle}
                 </h2>
                 <button
@@ -282,74 +278,89 @@ export function Dashboard() {
                   className="p-1 text-gray-400 hover:text-indigo-600 transition-colors"
                   aria-label="Edit report title"
                 >
-                  <PencilIcon className="w-4 h-4" />
+                  <PencilIcon className="w-5 h-5" />
                 </button>
-              </>
+              </div>
             )}
           </div>
           <div className="flex gap-2">
             <button
               onClick={handleDownloadReport}
-              className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="p-2 text-gray-700 hover:text-indigo-600 transition-colors"
               aria-label="Download report"
             >
-              <FiDownload className="w-4 h-4" />
+              <FiDownload className="w-5 h-5" />
             </button>
             <button
               onClick={handleDeleteReport}
-              className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-red-500"
+              className="p-2 text-gray-700 hover:text-red-500 transition-colors"
               aria-label="Delete report"
             >
-              <FiTrash2 className="w-4 h-4" />
+              <FiTrash2 className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* Performance Summary */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.performance_summary}</ReactMarkdown>
+        {/* Report sections */}
+        <div className="space-y-6 bg-white max-w-[21cm] mx-auto px-12 py-8 shadow-[0_-1px_3px_rgba(0,0,0,0.1)] min-h-screen">
+          {/* Performance Summary */}
+          <div>
+            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
+              Performance Summary
+            </h3>
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown>{report.performance_summary}</ReactMarkdown>
+            </div>
           </div>
-        </div>
 
-        {/* Incorrect Questions */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.grading}</ReactMarkdown>
+          {/* Grading */}
+          <div>
+            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
+              Grading
+            </h3>
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown>{report.grading}</ReactMarkdown>
+            </div>
           </div>
-        </div>
 
-        {/* Misunderstood Concepts */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.misunderstood_concepts}</ReactMarkdown>
+          {/* Misunderstood Concepts */}
+          <div>
+            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
+              Misunderstood Concepts
+            </h3>
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown>{report.misunderstood_concepts}</ReactMarkdown>
+            </div>
           </div>
-        </div>
 
-        {/* Suggested next steps */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.suggested_next_steps}</ReactMarkdown>
+          {/* Suggested Next Steps */}
+          <div>
+            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
+              Suggested Next Steps
+            </h3>
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown>{report.suggested_next_steps}</ReactMarkdown>
+            </div>
           </div>
-        </div>
 
-        {/* Learning Materials */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.learning_material}</ReactMarkdown>
+          {/* Learning Materials */}
+          <div>
+            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
+              Learning Materials
+            </h3>
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown>{report.learning_material}</ReactMarkdown>
+            </div>
           </div>
-        </div>
 
-        {/* Practice Exercises */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.practice_exercises}</ReactMarkdown>
+          {/* Practice Exercises */}
+          <div>
+            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
+              Practice Exercises
+            </h3>
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown>{report.practice_exercises}</ReactMarkdown>
+            </div>
           </div>
         </div>
       </div>
