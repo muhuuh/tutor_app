@@ -112,8 +112,8 @@ export function Dashboard() {
       const content = [
         "# Performance Summary\n",
         report.report.performance_summary,
-        "\n\n# Incorrect Questions\n",
-        report.report.incorrect_questions,
+        "\n\n# Grading\n",
+        report.report.grading,
         "\n\n# Misunderstood Concepts\n",
         report.report.misunderstood_concepts,
         "\n\n# Learning Materials\n",
@@ -228,7 +228,7 @@ export function Dashboard() {
       }
     }
 
-    if (!report?.report) return null;
+    if (!report) return null;
 
     const currentReport = availableReports.find(
       (r) => r.id === currentReportId
@@ -238,6 +238,10 @@ export function Dashboard() {
       `Report from ${new Date(
         currentReport?.requested_at || ""
       ).toLocaleDateString()}`;
+
+    console.log("report");
+    console.log(report);
+    console.log(report.report);
 
     return (
       <div className="space-y-8">
@@ -305,7 +309,7 @@ export function Dashboard() {
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
           <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.report.performance_summary}</ReactMarkdown>
+            <ReactMarkdown>{report.performance_summary}</ReactMarkdown>
           </div>
         </div>
 
@@ -313,7 +317,7 @@ export function Dashboard() {
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
           <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.report.incorrect_questions}</ReactMarkdown>
+            <ReactMarkdown>{report.grading}</ReactMarkdown>
           </div>
         </div>
 
@@ -321,9 +325,15 @@ export function Dashboard() {
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
           <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>
-              {report.report.misunderstood_concepts}
-            </ReactMarkdown>
+            <ReactMarkdown>{report.misunderstood_concepts}</ReactMarkdown>
+          </div>
+        </div>
+
+        {/* Suggested next steps */}
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
+          <div className="prose prose-sm max-w-none">
+            <ReactMarkdown>{report.suggested_next_steps}</ReactMarkdown>
           </div>
         </div>
 
@@ -331,7 +341,7 @@ export function Dashboard() {
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
           <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.report.learning_material}</ReactMarkdown>
+            <ReactMarkdown>{report.learning_material}</ReactMarkdown>
           </div>
         </div>
 
@@ -339,7 +349,7 @@ export function Dashboard() {
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h3 className="text-lg font-medium text-gray-900 mb-4"></h3>
           <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{report.report.practice_exercises}</ReactMarkdown>
+            <ReactMarkdown>{report.practice_exercises}</ReactMarkdown>
           </div>
         </div>
       </div>
@@ -393,6 +403,31 @@ export function Dashboard() {
                   ))}
                 </select>
               </div>
+              {activeTab === "reports" && selectedPupilId && (
+                <>
+                  <label
+                    htmlFor="report"
+                    className="text-sm font-medium text-gray-700 whitespace-nowrap"
+                  >
+                    Select Report
+                  </label>
+                  <div className="w-64">
+                    <select
+                      id="report"
+                      value={currentReportId || ""}
+                      onChange={(e) => setCurrentReportId(e.target.value)}
+                      className="block w-full rounded-lg border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
+                    >
+                      {availableReports.map((report) => (
+                        <option key={report.id} value={report.id}>
+                          {report.report_title ||
+                            new Date(report.requested_at).toLocaleDateString()}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              )}
               <button
                 onClick={() => setShowAddPupil(true)}
                 className="px-4 py-3 text-sm font-medium text-indigo-600 hover:text-indigo-700 whitespace-nowrap"
