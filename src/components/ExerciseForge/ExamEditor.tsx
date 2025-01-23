@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import type { Exam, Correction } from "../../types/database";
 import { FiEye, FiEyeOff, FiDownload, FiSave, FiTrash2 } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
+import { PencilIcon } from "@heroicons/react/24/outline";
 
 interface ExamEditorProps {
   selectedExam: Exam | null;
@@ -20,6 +21,8 @@ interface ExamEditorProps {
   onCreateCorrection: () => void;
   onSave: () => void;
   onDelete: () => void;
+  title: string;
+  onTitleChange: (newTitle: string) => void;
 }
 
 export function ExamEditor({
@@ -39,7 +42,19 @@ export function ExamEditor({
   onCreateCorrection,
   onSave,
   onDelete,
+  title,
+  onTitleChange,
 }: ExamEditorProps) {
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(title);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isEditingTitle) {
+      titleInputRef.current?.focus();
+    }
+  }, [isEditingTitle]);
+
   const renderCorrectionSection = () => {
     if (isLoadingContent) {
       return (
@@ -140,6 +155,44 @@ export function ExamEditor({
 
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-center gap-2 mb-6">
+        {isEditingTitle ? (
+          <input
+            ref={titleInputRef}
+            type="text"
+            value={editedTitle}
+            onChange={(e) => setEditedTitle(e.target.value)}
+            onBlur={() => {
+              setIsEditingTitle(false);
+              if (editedTitle.trim() && editedTitle !== title) {
+                onTitleChange(editedTitle.trim());
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.currentTarget.blur();
+              } else if (e.key === "Escape") {
+                setIsEditingTitle(false);
+                setEditedTitle(title);
+              }
+            }}
+            className="text-2xl font-semibold text-center text-gray-900 w-full max-w-2xl px-4 py-1 border-b-2 border-indigo-500 focus:outline-none focus:border-indigo-600"
+          />
+        ) : (
+          <div className="flex items-center gap-2">
+            <h2 className="text-2xl font-semibold text-gray-900">{title}</h2>
+            <button
+              onClick={() => {
+                setEditedTitle(title);
+                setIsEditingTitle(true);
+              }}
+              className="p-1 text-gray-400 hover:text-indigo-600 transition-colors"
+            >
+              <PencilIcon className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+      </div>
       <div className="flex items-center justify-between">
         <div className="flex rounded-lg border border-gray-200 p-1">
           <button

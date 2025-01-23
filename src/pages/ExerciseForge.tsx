@@ -529,6 +529,27 @@ export function ExerciseForge() {
     }
   };
 
+  const handleTitleChange = async (newTitle: string) => {
+    if (!selectedExam) return;
+    try {
+      // Keep the existing exam content when updating the title
+      await database.exams.update(selectedExam.id, {
+        title: newTitle,
+        content: selectedExam.content, // Keep existing content
+      });
+
+      // Update both the exam list and selected exam
+      const updatedExam = { ...selectedExam, title: newTitle };
+      updateExamInList(updatedExam);
+      setSelectedExam(updatedExam);
+
+      toast.success("Title updated successfully");
+    } catch (error) {
+      console.error("Error updating title:", error);
+      toast.error("Failed to update title");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -584,6 +605,7 @@ export function ExerciseForge() {
                 isCreatingNew={isCreatingNew}
                 onExamSelect={handleExamSelect}
                 onExamDelete={handleExamDelete}
+                onExamDownload={handleDownload}
                 newExamId={newExamId}
               />
 
@@ -610,6 +632,8 @@ export function ExerciseForge() {
                         onDelete={() =>
                           selectedExam && handleExamDelete(selectedExam.id)
                         }
+                        title={selectedExam?.title || ""}
+                        onTitleChange={handleTitleChange}
                       />
                     )}
 

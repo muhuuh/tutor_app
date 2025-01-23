@@ -12,7 +12,8 @@ import {
   FloatingPortal,
   useDelayGroup,
 } from "@floating-ui/react";
-import { FiTrash2 } from "react-icons/fi";
+import { FiTrash2, FiDownload } from "react-icons/fi";
+import ReactMarkdown from "react-markdown";
 
 interface ExamListProps {
   loading: boolean;
@@ -22,19 +23,31 @@ interface ExamListProps {
   onExamSelect: (examId: string | null) => void;
   onExamDelete: (examId: string) => void;
   newExamId?: string;
+  onExamDownload: (examId: string) => void;
 }
 
 function ExamTooltip({
   content,
   children,
+  formatted = false,
 }: {
   content: string;
   children: React.ReactNode;
+  formatted?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const contentPreview =
-    content.length > 150 ? content.slice(0, 150).trim() + "..." : content;
+  const contentPreview = formatted ? (
+    <div className="prose prose-sm">
+      <ReactMarkdown>
+        {content.length > 300 ? content.slice(0, 300).trim() + "..." : content}
+      </ReactMarkdown>
+    </div>
+  ) : (
+    <div className="whitespace-pre-wrap">
+      {content.length > 150 ? content.slice(0, 150).trim() + "..." : content}
+    </div>
+  );
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -73,9 +86,7 @@ function ExamTooltip({
             {...getFloatingProps()}
             className="z-50 max-w-md p-4 bg-white rounded-lg shadow-lg border border-gray-200"
           >
-            <div className="text-sm text-gray-700 whitespace-pre-wrap">
-              {contentPreview}
-            </div>
+            <div className="text-sm text-gray-700">{contentPreview}</div>
           </div>
         )}
       </FloatingPortal>
@@ -91,6 +102,7 @@ export function ExamList({
   onExamSelect,
   onExamDelete,
   newExamId,
+  onExamDownload,
 }: ExamListProps) {
   return (
     <div className="col-span-1 border-r pr-6">
@@ -102,11 +114,11 @@ export function ExamList({
       ) : (
         <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
           {exams.slice(0, 5).map((exam) => (
-            <ExamTooltip key={exam.id} content={exam.content}>
+            <ExamTooltip key={exam.id} content={exam.content} formatted>
               <div className="relative group">
                 <button
                   onClick={() => onExamSelect(exam.id)}
-                  className={`w-full text-left p-4 rounded-lg border transition-colors ${
+                  className={`w-full text-left p-4 pr-20 rounded-lg border transition-colors ${
                     selectedExam?.id === exam.id
                       ? "border-indigo-500 bg-indigo-50"
                       : newExamId === exam.id
@@ -131,16 +143,28 @@ export function ExamList({
                     })}
                   </p>
                 </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onExamDelete(exam.id);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                  aria-label="Delete exam"
-                >
-                  <FiTrash2 className="w-4 h-4" />
-                </button>
+                <div className="absolute right-2 top-0 bottom-0 flex flex-col justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onExamDownload(exam.id);
+                    }}
+                    className="p-2 text-gray-400 hover:text-indigo-600 transition-colors"
+                    aria-label="Download exam"
+                  >
+                    <FiDownload className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onExamDelete(exam.id);
+                    }}
+                    className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                    aria-label="Delete exam"
+                  >
+                    <FiTrash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </ExamTooltip>
           ))}
