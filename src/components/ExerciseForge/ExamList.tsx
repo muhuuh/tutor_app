@@ -38,13 +38,17 @@ function ExamTooltip({
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const contentPreview = formatted ? (
-    <div className="prose prose-sm">
-      <ReactMarkdown>
-        {content.length > 300 ? content.slice(0, 300).trim() + "..." : content}
-      </ReactMarkdown>
+    <div className="prose prose-sm max-w-none">
+      <div className="[&>*]:my-1 [&>p]:leading-normal text-xs">
+        <ReactMarkdown>
+          {content.length > 300
+            ? content.slice(0, 300).trim() + "..."
+            : content}
+        </ReactMarkdown>
+      </div>
     </div>
   ) : (
-    <div className="whitespace-pre-wrap">
+    <div className="whitespace-pre-wrap text-xs">
       {content.length > 150 ? content.slice(0, 150).trim() + "..." : content}
     </div>
   );
@@ -84,9 +88,9 @@ function ExamTooltip({
             ref={refs.setFloating}
             style={floatingStyles}
             {...getFloatingProps()}
-            className="z-50 max-w-md p-4 bg-white rounded-lg shadow-lg border border-gray-200"
+            className="z-50 max-w-md p-3 bg-white rounded-lg shadow-lg border border-gray-200"
           >
-            <div className="text-sm text-gray-700">{contentPreview}</div>
+            <div className="text-xs text-gray-700">{contentPreview}</div>
           </div>
         )}
       </FloatingPortal>

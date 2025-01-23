@@ -532,11 +532,11 @@ export function ExerciseForge() {
   const handleTitleChange = async (newTitle: string) => {
     if (!selectedExam) return;
     try {
-      // Keep the existing exam content when updating the title
-      await database.exams.update(selectedExam.id, {
-        title: newTitle,
-        content: selectedExam.content, // Keep existing content
-      });
+      // Only update the title column
+      await supabase
+        .from("exams")
+        .update({ title: newTitle })
+        .eq("id", selectedExam.id);
 
       // Update both the exam list and selected exam
       const updatedExam = { ...selectedExam, title: newTitle };
