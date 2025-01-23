@@ -2,8 +2,11 @@ import React, { useState, useRef, useEffect, Fragment } from "react";
 import type { Exam, Correction } from "../../types/database";
 import { FiEye, FiEyeOff, FiDownload, FiSave, FiTrash2 } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { PencilIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
+import "katex/dist/katex.min.css";
 
 interface ExamEditorProps {
   selectedExam: Exam | null;
@@ -25,6 +28,43 @@ interface ExamEditorProps {
   title: string;
   onTitleChange: (newTitle: string) => void;
 }
+
+const processContent = (content: string) => {
+  // Convert \[ ... \] to $$ ... $$
+  content = content.replace(/\\\[(.*?)\\\]/g, (_, match) => `$$${match}$$`);
+
+  // Convert \( ... \) to $ ... $
+  content = content.replace(/\\\((.*?)\\\)/g, (_, match) => `$${match}$`);
+
+  // Convert scientific notation (e.g., 6.674×10^-11)
+  content = content.replace(
+    /(\d+\.?\d*)\s*[×x]\s*10\^(-?\d+)/g,
+    (_, base, exp) => `$${base} \\times 10^{${exp}}$`
+  );
+
+  // Convert simple exponential notation (e.g., 10^24)
+  content = content.replace(
+    /(\d+)\^(-?\d+)/g,
+    (_, base, exp) => `$${base}^{${exp}}$`
+  );
+
+  // Convert units with superscripts (e.g., m²)
+  content = content.replace(/([a-zA-Z])²/g, (_, unit) => `$${unit}^2$`);
+  content = content.replace(/([a-zA-Z])³/g, (_, unit) => `$${unit}^3$`);
+
+  // Convert compound units (e.g., N·m²/kg²)
+  content = content.replace(/([A-Z]·[a-zA-Z²³]+\/[a-zA-Z²³]+)/g, (match) => {
+    return `$\\text{${match
+      .replace("·", "\\cdot ")
+      .replace("²", "^2")
+      .replace("³", "^3")}$`;
+  });
+
+  // Convert single capital letters that likely represent variables
+  content = content.replace(/\s([A-Z])\s/g, (_, letter) => ` $${letter}$ `);
+
+  return content;
+};
 
 export function ExamEditor({
   selectedExam,
@@ -56,6 +96,8 @@ export function ExamEditor({
       titleInputRef.current?.focus();
     }
   }, [isEditingTitle]);
+
+  const processedContent = processContent(editableContent);
 
   const renderCorrectionSection = () => {
     if (isLoadingContent) {
@@ -132,7 +174,17 @@ export function ExamEditor({
           <div className="mb-4">
             <h3 className="text-lg font-medium text-gray-900 mb-2">Preview</h3>
             <div className="prose prose-sm max-w-none p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <ReactMarkdown>{editableContent}</ReactMarkdown>
+              <ReactMarkdown
+                remarkPlugins={[remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+                components={{
+                  p: ({ node, children }) => {
+                    return <p className="my-2">{children}</p>;
+                  },
+                }}
+              >
+                {processedContent}
+              </ReactMarkdown>
             </div>
           </div>
         )}
@@ -366,7 +418,17 @@ export function ExamEditor({
                     </button>
                   </div>
                   <div className="prose prose-sm max-w-none p-6 bg-gray-50 rounded-lg border border-gray-200 max-h-[70vh] overflow-y-auto">
-                    <ReactMarkdown>{editableContent}</ReactMarkdown>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkMath]}
+                      rehypePlugins={[rehypeKatex]}
+                      components={{
+                        p: ({ node, children }) => {
+                          return <p className="my-2">{children}</p>;
+                        },
+                      }}
+                    >
+                      {processedContent}
+                    </ReactMarkdown>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
