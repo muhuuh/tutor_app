@@ -607,6 +607,9 @@ export function ExerciseForge() {
                         onDownload={handleDownload}
                         onCreateCorrection={handleCreateCorrection}
                         onSave={handleSave}
+                        onDelete={() =>
+                          selectedExam && handleExamDelete(selectedExam.id)
+                        }
                       />
                     )}
 

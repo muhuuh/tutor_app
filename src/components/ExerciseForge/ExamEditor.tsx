@@ -1,6 +1,6 @@
 import React from "react";
 import type { Exam, Correction } from "../../types/database";
-import { FiEye, FiEyeOff, FiDownload, FiSave } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiDownload, FiSave, FiTrash2 } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
 
 interface ExamEditorProps {
@@ -19,6 +19,7 @@ interface ExamEditorProps {
   onDownload: () => void;
   onCreateCorrection: () => void;
   onSave: () => void;
+  onDelete: () => void;
 }
 
 export function ExamEditor({
@@ -37,6 +38,7 @@ export function ExamEditor({
   onDownload,
   onCreateCorrection,
   onSave,
+  onDelete,
 }: ExamEditorProps) {
   const renderCorrectionSection = () => {
     if (isLoadingContent) {
@@ -139,29 +141,29 @@ export function ExamEditor({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex rounded-lg border border-gray-200 p-1">
-            <button
-              onClick={() => setMode("edit")}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                mode === "edit"
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-500 hover:text-indigo-600"
-              }`}
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => setMode("correction")}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                mode === "correction"
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-500 hover:text-indigo-600"
-              }`}
-            >
-              Correction
-            </button>
-          </div>
+        <div className="flex rounded-lg border border-gray-200 p-1">
+          <button
+            onClick={() => setMode("edit")}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              mode === "edit"
+                ? "bg-indigo-600 text-white"
+                : "text-gray-500 hover:text-indigo-600"
+            }`}
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => setMode("correction")}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              mode === "correction"
+                ? "bg-indigo-600 text-white"
+                : "text-gray-500 hover:text-indigo-600"
+            }`}
+          >
+            Correction
+          </button>
+        </div>
+        <div className="flex items-center gap-2">
           <div className="relative group">
             <button
               onClick={() => setShowPreview(!showPreview)}
@@ -202,6 +204,20 @@ export function ExamEditor({
               </button>
               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
                 Save Changes
+              </div>
+            </div>
+          )}
+          {!isCreatingNew && (
+            <div className="relative group">
+              <button
+                onClick={onDelete}
+                className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                aria-label="Delete Exam"
+              >
+                <FiTrash2 className="w-4 h-4" />
+              </button>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                Delete Exam
               </div>
             </div>
           )}
