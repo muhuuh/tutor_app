@@ -461,7 +461,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                     {pendingFiles.length} file(s) ready to process
                   </p>
                   <p className="text-xs text-indigo-600 mt-1">
-                    Please enter a title and send a message to start analysis
+                    Please enter a title for the report to continue
                   </p>
                 </div>
                 <div>
@@ -585,36 +585,47 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               className="p-3 bg-white border-t border-gray-100 rounded-b-lg"
             >
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={currentPrompt}
-                  onChange={(e) => setCurrentPrompt(e.target.value)}
-                  placeholder={
-                    !selectedPupilId
-                      ? "Select a student before sending a message"
-                      : "Type your message..."
-                  }
-                  className="flex-1 rounded-full border border-gray-200 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={
-                    isProcessing ||
-                    isLoadingHistory ||
-                    !selectedPupilId ||
-                    isUploading
-                  }
-                  ref={inputRef}
-                />
+                {pendingFiles.length > 0 ? (
+                  <div className="flex-1 text-sm text-gray-600 px-4 py-2">
+                    {pendingFiles.length} file(s) ready to be processed
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    value={currentPrompt}
+                    onChange={(e) => setCurrentPrompt(e.target.value)}
+                    placeholder={
+                      !selectedPupilId
+                        ? "Select a student before sending a message"
+                        : "Type your message..."
+                    }
+                    className="flex-1 rounded-full border border-gray-200 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={
+                      isProcessing ||
+                      isLoadingHistory ||
+                      !selectedPupilId ||
+                      isUploading
+                    }
+                    ref={inputRef}
+                  />
+                )}
                 <button
                   type="submit"
                   disabled={
                     isProcessing ||
                     isLoadingHistory ||
                     !selectedPupilId ||
-                    !currentPrompt.trim() ||
+                    (!currentPrompt.trim() && pendingFiles.length === 0) ||
+                    (pendingFiles.length > 0 && !reportTitle.trim()) ||
                     isUploading
                   }
                   className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  {isProcessing ? "Sending..." : "Send"}
+                  {isProcessing
+                    ? "Processing..."
+                    : pendingFiles.length > 0
+                    ? "Generate Report"
+                    : "Send"}
                 </button>
               </div>
             </form>
