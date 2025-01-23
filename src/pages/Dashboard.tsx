@@ -14,6 +14,9 @@ import {
   convertMarkdownToWord,
 } from "../lib/markdownToWord";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const TABS = [
   { id: "chat", label: "Chat Assistant" },
@@ -447,15 +450,66 @@ export function Dashboard() {
               </button>
             </div>
 
-            {showAddPupil && (
-              <PupilForm
-                onSuccess={() => {
-                  setShowAddPupil(false);
-                  refetchPupils();
-                }}
+            {/* Add Student Modal */}
+            <Transition appear show={showAddPupil} as={Fragment}>
+              <Dialog
+                as="div"
+                className="relative z-50"
                 onClose={() => setShowAddPupil(false)}
-              />
-            )}
+              >
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <div className="fixed inset-0 bg-gray-500/75" />
+                </Transition.Child>
+
+                <div className="fixed inset-0 overflow-y-auto">
+                  <div className="flex min-h-full items-center justify-center">
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0 scale-95"
+                      enterTo="opacity-100 scale-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100 scale-100"
+                      leaveTo="opacity-0 scale-95"
+                    >
+                      <Dialog.Panel className="w-full max-w-[500px] transform bg-white transition-all">
+                        <div className="relative p-8">
+                          <div className="flex items-center justify-between mb-8">
+                            <Dialog.Title
+                              as="h2"
+                              className="text-2xl font-bold text-gray-900"
+                            >
+                              Add New Student
+                            </Dialog.Title>
+                            <button
+                              onClick={() => setShowAddPupil(false)}
+                              className="text-gray-400 hover:text-gray-500"
+                            >
+                              <XMarkIcon className="w-6 h-6" />
+                            </button>
+                          </div>
+                          <PupilForm
+                            onSuccess={() => {
+                              setShowAddPupil(false);
+                              refetchPupils();
+                            }}
+                            onClose={() => setShowAddPupil(false)}
+                          />
+                        </div>
+                      </Dialog.Panel>
+                    </Transition.Child>
+                  </div>
+                </div>
+              </Dialog>
+            </Transition>
           </div>
 
           <div className="px-6">
