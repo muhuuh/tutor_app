@@ -115,8 +115,8 @@ export function ChatBox({
           />
           <button
             type="submit"
-            disabled={isSendingMessage}
-            className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-full hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+            disabled={!message.trim() || isSendingMessage}
+            className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {isSendingMessage ? "Sending..." : "Send"}
           </button>

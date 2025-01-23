@@ -55,6 +55,9 @@ export function ExerciseForge() {
   const startResizeY = useRef<number>(0);
   const startHeight = useRef<number>(0);
 
+  // Add new state for tracking new exam
+  const [newExamId, setNewExamId] = useState<string | null>(null);
+
   useEffect(() => {
     if (!initialLoadComplete.current) {
       loadExams();
@@ -94,6 +97,45 @@ export function ExerciseForge() {
       };
     }
   }, [user?.id, selectedExam]);
+
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const channel = supabase
+      .channel("exams")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "exams",
+          filter: `teacher_id=eq.${user.id}`,
+        },
+        async (payload) => {
+          if (payload.new.teacher_id === user?.id) {
+            // Fetch the complete exam data
+            const { data: newExam } = await supabase
+              .from("exams")
+              .select("*")
+              .eq("id", payload.new.id)
+              .single();
+
+            if (newExam) {
+              // Add to cache and list
+              examContentCache.current[newExam.id] = newExam.content;
+              setExams((prev) => [newExam, ...prev]);
+              // Mark as new
+              setNewExamId(newExam.id);
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user?.id]);
 
   const loadExams = async () => {
     try {
@@ -180,37 +222,20 @@ export function ExerciseForge() {
         return;
       }
 
-      if (selectedExam?.id === examId) {
-        setSelectedExam(null);
-        setExamContent("");
-        setCorrectionContent("");
-        setCorrection(null);
-        setEditableContent("");
-        setChatMessages([]);
-        setIsCreatingNew(true);
-        setMode("edit");
-        return;
+      // Clear the new exam highlight when selecting it
+      if (newExamId === examId) {
+        setNewExamId(null);
       }
 
-      const exam = examListCache.current.find((e) => e.id === examId);
-      if (!exam) return;
-
-      // Check if we have the exam content cached
-      if (examContentCache.current[examId]) {
-        setSelectedExam(exam);
-        setExamContent(examContentCache.current[examId]);
-        setEditableContent(examContentCache.current[examId]);
-        setCorrectionContent("");
-        setCorrection(null);
-        setChatMessages([]);
-        setMode("edit");
-        setIsCreatingNew(false);
-        return;
-      }
-
-      // If not cached, load from database
       setIsLoadingContent(true);
       const fetchedExam = await database.exams.get(examId);
+
+      if (!fetchedExam) {
+        toast.error("Failed to load exam. Please try again.");
+        return;
+      }
+
+      // Set all the necessary states
       setSelectedExam(fetchedExam);
       setExamContent(fetchedExam.content);
       setEditableContent(fetchedExam.content);
@@ -220,7 +245,7 @@ export function ExerciseForge() {
       setMode("edit");
       setIsCreatingNew(false);
 
-      // Cache the exam content
+      // Update cache
       examContentCache.current[examId] = fetchedExam.content;
     } catch (error) {
       console.error("Error loading exam:", error);
@@ -555,6 +580,7 @@ export function ExerciseForge() {
                 isCreatingNew={isCreatingNew}
                 onExamSelect={handleExamSelect}
                 onExamDelete={handleExamDelete}
+                newExamId={newExamId}
               />
 
               <div className="col-span-2 pl-6">
@@ -581,20 +607,44 @@ export function ExerciseForge() {
                     )}
 
                     {isCreatingNew && (
-                      <div className="mb-8">
-                        <h2 className="text-lg font-medium text-gray-900 mb-4">
-                          Create New Exam
-                        </h2>
-                        <p className="text-gray-600 mb-4">
-                          Please explain to the AI what kind of exam you need.
-                          Be as specific as possible about:
+                      <div className="mb-8 bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+                        <div className="flex items-center gap-3 mb-6">
+                          <div className="p-2 bg-indigo-50 rounded-lg">
+                            <PencilSquareIcon className="w-6 h-6 text-indigo-600" />
+                          </div>
+                          <h2 className="text-xl font-semibold text-gray-900">
+                            Create New Exam
+                          </h2>
+                        </div>
+
+                        <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                          Explain to the AI what kind of exam you need. The more
+                          specific you are, the better the result will be.
                         </p>
-                        <ul className="list-disc list-inside text-gray-600 mb-6 space-y-2">
-                          <li>Subject matter and topics to cover</li>
-                          <li>Difficulty level and target audience</li>
-                          <li>Types of questions you prefer</li>
-                          <li>Any specific requirements or constraints</li>
-                        </ul>
+
+                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                          <h3 className="text-sm font-medium text-gray-900 mb-3">
+                            Include in your request:
+                          </h3>
+                          <ul className="grid grid-cols-2 gap-3 text-sm text-gray-600">
+                            <li className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
+                              Subject matter and topics
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
+                              Difficulty level
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
+                              Types of questions
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
+                              Specific requirements
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     )}
 

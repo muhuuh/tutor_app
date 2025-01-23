@@ -21,6 +21,7 @@ interface ExamListProps {
   isCreatingNew: boolean;
   onExamSelect: (examId: string | null) => void;
   onExamDelete: (examId: string) => void;
+  newExamId?: string;
 }
 
 function ExamTooltip({
@@ -89,6 +90,7 @@ export function ExamList({
   isCreatingNew,
   onExamSelect,
   onExamDelete,
+  newExamId,
 }: ExamListProps) {
   return (
     <div className="col-span-1 border-r pr-6">
@@ -98,8 +100,8 @@ export function ExamList({
           <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-500 border-t-transparent" />
         </div>
       ) : (
-        <div className="space-y-4">
-          {exams.map((exam) => (
+        <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+          {exams.slice(0, 5).map((exam) => (
             <ExamTooltip key={exam.id} content={exam.content}>
               <div className="relative group">
                 <button
@@ -107,10 +109,19 @@ export function ExamList({
                   className={`w-full text-left p-4 rounded-lg border transition-colors ${
                     selectedExam?.id === exam.id
                       ? "border-indigo-500 bg-indigo-50"
+                      : newExamId === exam.id
+                      ? "border-green-200 bg-green-50"
                       : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
                   }`}
                 >
-                  <h3 className="font-medium text-gray-900">{exam.title}</h3>
+                  <h3 className="font-medium text-gray-900 flex items-center gap-2">
+                    {exam.title}
+                    {newExamId === exam.id && (
+                      <span className="text-xs font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded-full">
+                        New
+                      </span>
+                    )}
+                  </h3>
                   <p className="text-sm text-gray-500 mt-1">
                     Last updated:{" "}
                     {new Date(exam.updated_at).toLocaleDateString("en-GB", {
@@ -133,6 +144,13 @@ export function ExamList({
               </div>
             </ExamTooltip>
           ))}
+          {exams.length > 5 && (
+            <div className="pt-2 border-t">
+              <div className="text-sm text-gray-500 text-center">
+                Scroll to see {exams.length - 5} more exams
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
