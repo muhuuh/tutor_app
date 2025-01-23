@@ -456,6 +456,15 @@ export function ExerciseForge() {
     setIsWaitingForCorrection(true);
 
     try {
+      // Show immediate notification for submission
+      toast.success(
+        "Correction request submitted! Processing will begin shortly.",
+        {
+          duration: 5000,
+          icon: "🔄",
+        }
+      );
+
       const response = await fetch(
         "https://arani.app.n8n.cloud/webhook/5b117600-11a7-4640-967b-e5259872c6f1/chat",
         {
@@ -475,13 +484,8 @@ export function ExerciseForge() {
 
       if (!response.ok) throw new Error("Failed to create correction");
 
-      toast.success(
-        "Correction request sent! You will be notified when it is ready.",
-        {
-          duration: 10000,
-          icon: "🔄",
-        }
-      );
+      // This notification will show when the correction is actually ready
+      // (handled by the real-time subscription)
     } catch (error) {
       console.error("Error creating correction:", error);
       toast.error("Failed to create correction");
@@ -648,17 +652,19 @@ export function ExerciseForge() {
                       </div>
                     )}
 
-                    <ChatBox
-                      messages={chatMessages}
-                      message={message}
-                      setMessage={setMessage}
-                      isSendingMessage={isSendingMessage}
-                      onSendMessage={handleSendMessage}
-                      height={chatHeight}
-                      onResize={startResize}
-                      isCreatingNew={isCreatingNew}
-                      mode={mode}
-                    />
+                    {(mode !== "correction" || correction) && (
+                      <ChatBox
+                        messages={chatMessages}
+                        message={message}
+                        setMessage={setMessage}
+                        isSendingMessage={isSendingMessage}
+                        onSendMessage={handleSendMessage}
+                        height={chatHeight}
+                        onResize={startResize}
+                        isCreatingNew={isCreatingNew}
+                        mode={mode}
+                      />
+                    )}
                   </>
                 ) : (
                   <div className="flex items-center justify-center h-64 text-gray-500">
