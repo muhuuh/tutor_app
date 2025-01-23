@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Fragment } from "react";
 import type { Exam, Correction } from "../../types/database";
 import { FiEye, FiEyeOff, FiDownload, FiSave, FiTrash2 } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
-import { PencilIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Dialog, Transition } from "@headlessui/react";
 
 interface ExamEditorProps {
   selectedExam: Exam | null;
@@ -47,6 +48,7 @@ export function ExamEditor({
 }: ExamEditorProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -219,18 +221,14 @@ export function ExamEditor({
         <div className="flex items-center gap-2">
           <div className="relative group">
             <button
-              onClick={() => setShowPreview(!showPreview)}
+              onClick={() => setIsPreviewOpen(true)}
               className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-              aria-label={showPreview ? "Hide Preview" : "Show Preview"}
+              aria-label="Show Preview"
             >
-              {showPreview ? (
-                <FiEyeOff className="w-4 h-4" />
-              ) : (
-                <FiEye className="w-4 h-4" />
-              )}
+              <FiEye className="w-4 h-4" />
             </button>
             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-              {showPreview ? "Hide Preview" : "Show Preview"}
+              Show Preview
             </div>
           </div>
           <div className="relative group">
@@ -321,6 +319,61 @@ export function ExamEditor({
       ) : (
         <div className="space-y-4">{renderCorrectionSection()}</div>
       )}
+
+      {/* Preview Modal */}
+      <Transition appear show={isPreviewOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-50"
+          onClose={() => setIsPreviewOpen(false)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-all">
+                  <div className="flex items-center justify-between mb-4">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-lg font-medium text-gray-900"
+                    >
+                      Preview
+                    </Dialog.Title>
+                    <button
+                      onClick={() => setIsPreviewOpen(false)}
+                      className="p-2 text-gray-400 hover:text-gray-500 rounded-lg transition-colors"
+                    >
+                      <XMarkIcon className="w-5 h-5" />
+                    </button>
+                  </div>
+                  <div className="prose prose-sm max-w-none p-6 bg-gray-50 rounded-lg border border-gray-200 max-h-[70vh] overflow-y-auto">
+                    <ReactMarkdown>{editableContent}</ReactMarkdown>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </div>
   );
 }
