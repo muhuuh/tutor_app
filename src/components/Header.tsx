@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { FiChevronDown } from 'react-icons/fi';
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { FiChevronDown } from "react-icons/fi";
 
 export function Header() {
   const { user, signOut } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const toolsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        toolsRef.current &&
+        !toolsRef.current.contains(event.target as Node)
+      ) {
+        setIsToolsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSignOut = async () => {
     await signOut();
-    navigate('/auth');
+    navigate("/auth");
   };
 
   return (
@@ -28,25 +45,29 @@ export function Header() {
             <Link
               to="/home"
               className={`text-sm ${
-                location.pathname === '/home'
-                  ? 'text-indigo-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                location.pathname === "/home"
+                  ? "text-indigo-600"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Home
             </Link>
 
-            <div className="relative">
+            <div className="relative" ref={toolsRef}>
               <button
                 onClick={() => setIsToolsOpen(!isToolsOpen)}
                 className={`flex items-center gap-1 text-sm ${
-                  location.pathname.startsWith('/tools')
-                    ? 'text-indigo-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                  location.pathname.startsWith("/tools")
+                    ? "text-indigo-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 Tools
-                <FiChevronDown className={`transition-transform ${isToolsOpen ? 'rotate-180' : ''}`} />
+                <FiChevronDown
+                  className={`transition-transform ${
+                    isToolsOpen ? "rotate-180" : ""
+                  }`}
+                />
               </button>
 
               {isToolsOpen && (
@@ -72,9 +93,9 @@ export function Header() {
             <Link
               to="/pricing"
               className={`text-sm ${
-                location.pathname === '/pricing'
-                  ? 'text-indigo-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                location.pathname === "/pricing"
+                  ? "text-indigo-600"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Pricing
@@ -83,9 +104,9 @@ export function Header() {
             <Link
               to="/contact"
               className={`text-sm ${
-                location.pathname === '/contact'
-                  ? 'text-indigo-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                location.pathname === "/contact"
+                  ? "text-indigo-600"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Contact
