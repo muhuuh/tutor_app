@@ -409,7 +409,9 @@ export function Dashboard() {
                   className="block w-full rounded-lg border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 transition-colors disabled:opacity-50"
                   disabled={loadingPupils}
                 >
-                  <option value="">Choose a student...</option>
+                  <option value="" disabled>
+                    Select Student
+                  </option>
                   {pupils.map((pupil) => (
                     <option key={pupil.id} value={pupil.id}>
                       {pupil.name}

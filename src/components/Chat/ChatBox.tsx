@@ -93,6 +93,35 @@ function SuggestionTooltip({
   );
 }
 
+function InfoTooltip({ content }: { content: string }) {
+  return (
+    <div className="relative group">
+      <InformationCircleIcon className="w-5 h-5 text-gray-400 hover:text-gray-500 cursor-help" />
+      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+        {content}
+      </div>
+    </div>
+  );
+}
+
+const DEFAULT_SUGGESTIONS = [
+  {
+    title: "What do you know about this student",
+    content:
+      "Please tell me if you know something about this student, based on the information stored about him (report, notes, pupil info, etc).",
+  },
+  {
+    title: "General info about my pupils",
+    content:
+      "Tell me more about the pupils that are currently have (how many, which class, etc) and more specifically what are the topics that seem to be the most misunderstood based on latest reports",
+  },
+  {
+    title: "Summary of latest report",
+    content:
+      "Please give me a summary of the latest report and clear next steps that were defined",
+  },
+];
+
 export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -105,8 +134,6 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const [currentPrompt, setCurrentPrompt] = useState("");
   const [suggestions, setSuggestions] = useState<SuggestionBox[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
-  const [showUploadInfo, setShowUploadInfo] = useState(false);
-  const [showSuggestionInfo, setShowSuggestionInfo] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -427,27 +454,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               <h3 className="font-medium text-gray-900">
                 Correction of Handwritten Exercises
               </h3>
-              <button
-                onClick={() => setShowUploadInfo(!showUploadInfo)}
-                className="text-gray-500 hover:text-indigo-600 transition-colors"
-                aria-label="Toggle information"
-              >
-                <InformationCircleIcon
-                  className={`w-5 h-5 pt-1 ${
-                    showUploadInfo ? "text-indigo-600" : "text-gray-500"
-                  }`}
-                />
-              </button>
+              <InfoTooltip content="Upload pictures of handwritten exam answers to receive a detailed correction report. The analysis will highlight mistakes, identify misunderstood concepts, and provide targeted resources and training exercises for improvement." />
             </div>
-
-            {showUploadInfo && (
-              <p className="text-sm text-gray-600 mb-4 animate-fadeIn">
-                Upload pictures of handwritten exam answers to receive a
-                detailed correction report. The analysis will highlight
-                mistakes, identify misunderstood concepts, and provide targeted
-                resources and training exercises for improvement.
-              </p>
-            )}
 
             <ChatFileUpload
               selectedPupilId={selectedPupilId}
@@ -486,53 +494,46 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           </div>
 
           <div>
-            <div className="flex items-center gap-2 mb-2 mt-10">
-              <h3 className=" font-medium text-gray-900">
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="font-medium text-gray-900">
                 Suggestions How to Continue
               </h3>
-              <button
-                onClick={() => setShowSuggestionInfo(!showSuggestionInfo)}
-                className="text-gray-500 hover:text-indigo-600 transition-colors"
-                aria-label="Toggle information"
-              >
-                <InformationCircleIcon
-                  className={`w-5 h-5 pt-1 ${
-                    showSuggestionInfo ? "text-indigo-600" : "text-gray-500"
-                  }`}
-                />
-              </button>
+              <InfoTooltip content="Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant." />
             </div>
 
-            {showSuggestionInfo && (
-              <p className="text-sm text-gray-600 mb-4 animate-fadeIn">
-                Based on your conversation, here are some suggested questions
-                and topics you might want to explore with the AI assistant.
-              </p>
-            )}
             {isLoadingSuggestions ? (
               <div className="flex justify-center py-4">
-                <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
               </div>
-            ) : suggestions.length > 0 ? (
-              <div className="space-y-3">
-                {suggestions.map((suggestion, index) => (
-                  <SuggestionTooltip key={index} content={suggestion.content}>
-                    <button
-                      onClick={() => handleSuggestionClick(suggestion.content)}
-                      className="w-full p-4 text-left rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition-colors duration-200 group"
-                    >
-                      <h4 className="font-medium text-gray-900 group-hover:text-indigo-600 mb-1">
+            ) : (
+              <div className="space-y-2">
+                <div className="grid grid-cols-1 gap-2 w-full">
+                  {(messages.length > 0 &&
+                  messages[messages.length - 1].content.suggestions
+                    ? messages[messages.length - 1].content.suggestions
+                    : messages.length === 0
+                    ? DEFAULT_SUGGESTIONS
+                    : suggestions
+                  ).map((suggestion, index) => (
+                    <div key={index} className="relative group w-full">
+                      <button
+                        onClick={() =>
+                          handleSuggestionClick(
+                            suggestion.content || suggestion.prompt
+                          )
+                        }
+                        className="w-full text-left px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
                         {suggestion.title}
-                      </h4>
-                    </button>
-                  </SuggestionTooltip>
-                ))}
+                      </button>
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                        {suggestion.content || suggestion.prompt}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ) : messages.length > 0 ? (
-              <div className="text-center py-4 text-gray-500">
-                Loading suggestions...
-              </div>
-            ) : null}
+            )}
           </div>
         </div>
 
