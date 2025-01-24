@@ -7,6 +7,8 @@ import rehypeKatex from "rehype-katex";
 import { PencilIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import "katex/dist/katex.min.css";
+import html2pdf from "html2pdf.js";
+import { toast } from "react-hot-toast";
 
 interface ExamEditorProps {
   selectedExam: Exam | null;
@@ -90,6 +92,7 @@ export function ExamEditor({
   const [editedTitle, setEditedTitle] = useState(title);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isEditingTitle) {
@@ -98,6 +101,26 @@ export function ExamEditor({
   }, [isEditingTitle]);
 
   const processedContent = processContent(editableContent);
+
+  const handleDownload = async () => {
+    if (!previewRef.current) return;
+
+    try {
+      const element = previewRef.current;
+      const opt = {
+        margin: 20,
+        filename: `${title || "exam"}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      };
+
+      await html2pdf().set(opt).from(element).save();
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast.error("Failed to generate PDF");
+    }
+  };
 
   const renderCorrectionSection = () => {
     if (isLoadingContent) {
@@ -285,14 +308,14 @@ export function ExamEditor({
           </div>
           <div className="relative group">
             <button
-              onClick={onDownload}
+              onClick={handleDownload}
               className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
               aria-label="Download"
             >
               <FiDownload className="w-4 h-4" />
             </button>
             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-              Download
+              Download PDF
             </div>
           </div>
           {((mode === "edit" && !isCreatingNew) ||
@@ -436,6 +459,26 @@ export function ExamEditor({
           </div>
         </Dialog>
       </Transition>
+
+      {/* Add a hidden div for PDF generation */}
+      <div className="hidden">
+        <div ref={previewRef} className="p-8 bg-white">
+          <h1 className="text-2xl font-bold mb-6">{title}</h1>
+          <div className="prose prose-sm max-w-none">
+            <ReactMarkdown
+              remarkPlugins={[remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+              components={{
+                p: ({ node, children }) => {
+                  return <p className="my-2">{children}</p>;
+                },
+              }}
+            >
+              {processedContent}
+            </ReactMarkdown>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
