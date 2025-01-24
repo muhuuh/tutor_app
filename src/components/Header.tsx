@@ -8,7 +8,9 @@ export function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const toolsRef = useRef<HTMLDivElement>(null);
+  const companyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -17,6 +19,12 @@ export function Header() {
         !toolsRef.current.contains(event.target as Node)
       ) {
         setIsToolsOpen(false);
+      }
+      if (
+        companyRef.current &&
+        !companyRef.current.contains(event.target as Node)
+      ) {
+        setIsCompanyOpen(false);
       }
     }
 
@@ -89,6 +97,54 @@ export function Header() {
                 </div>
               )}
             </div>
+
+            <div className="relative" ref={companyRef}>
+              <button
+                onClick={() => setIsCompanyOpen(!isCompanyOpen)}
+                className={`flex items-center gap-1 text-sm ${
+                  location.pathname.startsWith("/company")
+                    ? "text-indigo-600"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                Company
+                <FiChevronDown
+                  className={`transition-transform ${
+                    isCompanyOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {isCompanyOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-100 py-1">
+                  <Link
+                    to="/company/about"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    onClick={() => setIsCompanyOpen(false)}
+                  >
+                    About Us
+                  </Link>
+                  <Link
+                    to="/company/contact"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    onClick={() => setIsCompanyOpen(false)}
+                  >
+                    Contact
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <Link
+              to="/faq"
+              className={`text-sm ${
+                location.pathname === "/faq"
+                  ? "text-indigo-600"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              FAQ
+            </Link>
 
             <Link
               to="/pricing"

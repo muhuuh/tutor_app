@@ -98,19 +98,22 @@ export function Home() {
 
   const pricingPlans = [
     {
-      name: "Starter",
-      price: "Free",
-      description: "Perfect for individual tutors exploring AI-powered grading",
+      name: "Basic",
+      price: "$9.99",
+      period: "/month",
+      description:
+        "Perfect for individual tutors getting started with AI grading",
       features: [
         "Basic handwriting recognition",
         "Simple exercise generation",
         "Limited student analytics",
         "Email support",
+        "Up to 50 corrections/month",
       ],
     },
     {
       name: "Professional",
-      price: "$49",
+      price: "$24.99",
       period: "/month",
       popular: true,
       description: "Ideal for active tutors and small teaching practices",
@@ -120,7 +123,7 @@ export function Home() {
         "Detailed performance analytics",
         "Custom exercise generation",
         "Priority support",
-        "Unlimited students",
+        "Unlimited corrections",
       ],
     },
     {
