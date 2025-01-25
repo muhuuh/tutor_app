@@ -551,8 +551,15 @@ export function ExerciseForge() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50 ">
+      <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
+        Exam Creation
+      </h2>
+      <p className="text-lg text-gray-600 text-center mt-4 max-w-3xl mx-auto">
+        Create new personalised exams based on the latest pupil performances,
+        brainstorming insights or latest methodologies you want to apply.
+      </p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6">
             <h1 className="text-2xl font-bold text-gray-900 mb-6">
@@ -702,7 +709,7 @@ export function ExerciseForge() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

@@ -35,7 +35,7 @@ export function Contact() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-indigo-600 to-purple-700 py-24">
+      <div className="relative bg-gradient-to-br from-gray-900 to-blue-900 py-24">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -178,7 +178,7 @@ export function Contact() {
             </div>
 
             {/* Contact Info */}
-            <div className="bg-gradient-to-br from-indigo-600 to-purple-700 p-8 lg:p-12 text-white">
+            <div className="bg-gradient-to-br from-indigo-600 to-blue-900 p-8 lg:p-12 text-white">
               <div className="h-full flex flex-col justify-between">
                 <div>
                   <h3 className="text-2xl font-bold mb-8">

@@ -383,7 +383,15 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
+        Grading and Report Creation
+      </h2>
+      <p className="text-lg text-gray-600 text-center mt-4 max-w-3xl mx-auto">
+        Get handwritten answers from your pupils corrected, and receive
+        personalised reports about concepts to focus on, resources and exercice
+        propositions, and more
+      </p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6">
             <div className="flex items-center justify-center gap-6">

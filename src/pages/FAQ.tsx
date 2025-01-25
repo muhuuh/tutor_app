@@ -85,7 +85,7 @@ export function FAQ() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section with violet background */}
-      <div className="relative bg-gradient-to-br from-indigo-600 to-purple-700 py-24">
+      <div className="relative bg-gradient-to-br from-gray-900 to-blue-900 py-24">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
