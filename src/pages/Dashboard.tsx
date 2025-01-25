@@ -23,14 +23,6 @@ const TABS = [
   { id: "reports", label: "Reports" },
 ];
 
-interface ReportData {
-  performance_summary: string;
-  incorrect_questions: string;
-  misunderstood_concepts: string;
-  learning_material: string;
-  practice_exercises: string;
-}
-
 export function Dashboard() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("chat");
