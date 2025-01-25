@@ -494,51 +494,56 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             )}
           </div>
 
-          {/* Suggestions Section */}
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <h3 className="font-medium text-gray-900">
-                Suggestions How to Continue
-              </h3>
-              <InfoTooltip content="Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant." />
-            </div>
-            {isLoadingSuggestions ? (
-              <div className="flex justify-center py-4">
-                <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+          {/* Suggestions Section - Only show when student is selected */}
+          {selectedPupilId && (
+            <div className="flex flex-col h-full">
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className="font-medium text-gray-900">
+                  Suggestions How to Continue
+                </h3>
+                <InfoTooltip content="Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant." />
               </div>
-            ) : (
-              <div className="space-y-2">
-                <div className="grid grid-cols-1 gap-2 w-full">
-                  {(messages.length > 0 &&
-                  messages[messages.length - 1].content.suggestions
-                    ? messages[messages.length - 1].content.suggestions
-                    : messages.length === 0
-                    ? DEFAULT_SUGGESTIONS
-                    : suggestions
-                  ).map((suggestion, index) => (
-                    <div key={index} className="relative group w-full">
-                      <button
-                        onClick={() =>
-                          handleSuggestionClick(
-                            suggestion.content || suggestion.prompt
-                          )
-                        }
-                        className="w-full text-left px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-                      >
-                        {suggestion.title}
-                      </button>
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                        {suggestion.content || suggestion.prompt}
-                      </div>
-                    </div>
-                  ))}
+              {isLoadingSuggestions ? (
+                <div className="flex justify-center py-4">
+                  <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
                 </div>
-              </div>
-            )}
-          </div>
+              ) : (
+                <div
+                  className="space-y-2 flex-1"
+                  style={{ maxHeight: messages.length > 0 ? "424px" : "auto" }}
+                >
+                  <div className="grid grid-cols-1 gap-2 w-full relative">
+                    {(messages.length > 0 &&
+                    messages[messages.length - 1].content?.suggestions
+                      ? messages[messages.length - 1].content.suggestions
+                      : messages.length === 0
+                      ? DEFAULT_SUGGESTIONS
+                      : suggestions || DEFAULT_SUGGESTIONS
+                    ).map((suggestion, index) => (
+                      <div key={index} className="relative group w-full">
+                        <button
+                          onClick={() =>
+                            handleSuggestionClick(
+                              suggestion.content || suggestion.prompt
+                            )
+                          }
+                          className="w-full text-left px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                        >
+                          {suggestion.title}
+                        </button>
+                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                          {suggestion.content || suggestion.prompt}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Chat Section - Updated with conditional height */}
+        {/* Chat Section */}
         <div
           className={`flex-1 flex flex-col rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden ${
             messages.length === 0 ? "h-min" : "h-[500px]"
