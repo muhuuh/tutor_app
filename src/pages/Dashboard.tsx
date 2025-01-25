@@ -8,7 +8,12 @@ import { PupilForm } from "../components/PupilForm";
 import { supabase } from "../lib/supabase";
 import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
-import { FiDownload, FiTrash2 } from "react-icons/fi";
+import {
+  FiDownload,
+  FiTrash2,
+  FiMessageSquare,
+  FiFileText,
+} from "react-icons/fi";
 import {
   downloadWordDocument,
   convertMarkdownToWord,
@@ -19,8 +24,16 @@ import { Fragment } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const TABS = [
-  { id: "chat", label: "Chat Assistant" },
-  { id: "reports", label: "Reports" },
+  {
+    id: "chat",
+    label: "Chat Assistant",
+    icon: <FiMessageSquare className="w-5 h-5" />,
+  },
+  {
+    id: "reports",
+    label: "Reports",
+    icon: <FiFileText className="w-5 h-5" />,
+  },
 ];
 
 export function Dashboard() {
@@ -395,13 +408,7 @@ export function Dashboard() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6">
             <div className="flex items-center justify-center gap-6">
-              <label
-                htmlFor="pupil"
-                className="text-sm font-medium text-gray-700 whitespace-nowrap"
-              >
-                Select Student
-              </label>
-              <div className="w-64">
+              <div className="w-64 pt-4">
                 <select
                   id="pupil"
                   value={selectedPupilId}
@@ -446,7 +453,7 @@ export function Dashboard() {
               )}
               <button
                 onClick={() => setShowAddPupil(true)}
-                className="px-4 py-3 text-sm font-medium text-indigo-600 hover:text-indigo-700 whitespace-nowrap"
+                className="px-4 py-3 text-sm font-medium text-indigo-600 hover:text-indigo-700 whitespace-nowrap pt-6"
               >
                 Or add New Student
               </button>
@@ -514,12 +521,26 @@ export function Dashboard() {
             </Transition>
           </div>
 
-          <div className="px-6">
-            <Tabs
-              tabs={TABS}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
+          <div className="px-6 border-b border-gray-200">
+            <div className="flex space-x-8">
+              {TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`
+                    flex items-center gap-2 px-4 py-5 text-sm font-medium border-b-2 transition-colors
+                    ${
+                      activeTab === tab.id
+                        ? "border-indigo-600 text-indigo-600"
+                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    }
+                  `}
+                >
+                  {tab.icon}
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="p-6">{renderTabContent()}</div>

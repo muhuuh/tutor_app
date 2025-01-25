@@ -137,13 +137,18 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const isFirstLoad = useRef(true);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
+  // Scroll to bottom when new messages arrive, but not on initial load
   useEffect(() => {
-    scrollToBottom();
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      return;
+    }
+
+    if (messages.length > 0) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   // Load chat history when pupil is selected
@@ -470,17 +475,29 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           <div>{/* ... keep suggestions section ... */}</div>
         </div>
 
-        {/* Chat Section - Updated Styling */}
-        <div className="flex-1 flex flex-col h-[500px] rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        {/* Chat Section - Updated with conditional height */}
+        <div
+          className={`flex-1 flex flex-col rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden ${
+            messages.length === 0 ? "h-min" : "h-[500px]"
+          }`}
+        >
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {isLoadingHistory ? (
-              <div className="flex items-center justify-center h-full">
+              <div className="flex items-center justify-center py-8">
                 <div className="flex flex-col items-center gap-2">
                   <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
                   <p className="text-sm text-gray-500">
                     Loading chat history...
                   </p>
                 </div>
+              </div>
+            ) : messages.length === 0 ? (
+              <div className="flex items-center justify-center py-8">
+                <p className="text-sm text-gray-500">
+                  {!selectedPupilId
+                    ? "Select a student to start chatting"
+                    : "No messages yet. Start a conversation!"}
+                </p>
               </div>
             ) : (
               messages.map((message) =>
