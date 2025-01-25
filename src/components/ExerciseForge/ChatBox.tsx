@@ -39,18 +39,18 @@ export function ChatBox({
 
   return (
     <div
-      className="flex flex-col bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden"
+      className="flex flex-col bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
       style={{ height: messages.length > 0 ? height : "auto" }}
     >
       {messages.length > 0 && (
         <>
           <div
             ref={chatResizeRef}
-            className="h-2 w-full cursor-ns-resize bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-colors group relative"
+            className="h-2 w-full cursor-ns-resize bg-gray-100 hover:bg-gray-200 transition-colors group relative"
             onMouseDown={onResize}
           >
             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-center">
-              <div className="h-1 w-8 bg-white/20 rounded-full group-hover:bg-white/30 transition-colors" />
+              <div className="h-1 w-8 bg-gray-300 rounded-full group-hover:bg-gray-400 transition-colors" />
             </div>
           </div>
 
@@ -65,7 +65,7 @@ export function ChatBox({
                 <div
                   className={`max-w-[85%] rounded-2xl p-4 transition-all duration-200 ${
                     msg.isUser
-                      ? "bg-gradient-to-br from-blue-500 to-purple-500 text-white shadow-lg"
+                      ? "bg-indigo-600 text-white shadow-sm"
                       : "bg-gray-50 border border-gray-100 shadow-sm"
                   }`}
                 >
@@ -81,12 +81,20 @@ export function ChatBox({
                     </div>
                   ) : (
                     <>
-                      <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-wrap">
+                      <p
+                        className={`text-sm leading-relaxed ${
+                          msg.isUser ? "text-white" : "text-gray-800"
+                        } whitespace-pre-wrap`}
+                      >
                         {msg.content}
                       </p>
                       {msg.timestamp && (
                         <div className="mt-2 flex justify-end">
-                          <span className="text-xs text-gray-500 opacity-80">
+                          <span
+                            className={`text-xs ${
+                              msg.isUser ? "text-indigo-100" : "text-gray-500"
+                            } opacity-80`}
+                          >
                             {new Date(msg.timestamp).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
@@ -120,13 +128,13 @@ export function ChatBox({
                 ? "Ask about the correction..."
                 : "Ask AI anything about this exam..."
             }
-            className="flex-1 rounded-xl border-0 bg-gray-50 px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+            className="flex-1 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all"
             disabled={isSendingMessage}
           />
           <button
             type="submit"
             disabled={!message.trim() || isSendingMessage}
-            className="flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+            className="flex items-center justify-center h-12 w-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
             aria-label="Send message"
           >
             {isSendingMessage ? (
