@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiLogOut, FiLogIn } from "react-icons/fi";
 
 export function Header() {
   const { user, signOut } = useAuth();
@@ -40,7 +40,7 @@ export function Header() {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-100">
+    <nav className="bg-white border-b border-gray-100 relative z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -156,33 +156,20 @@ export function Header() {
             >
               Pricing
             </Link>
-
-            <Link
-              to="/contact"
-              className={`text-sm ${
-                location.pathname === "/contact"
-                  ? "text-indigo-600"
-                  : "text-gray-600 hover:text-gray-900"
-              }`}
-            >
-              Contact
-            </Link>
-
             {user ? (
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-gray-600">{user.email}</span>
-                <button
-                  onClick={handleSignOut}
-                  className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  Sign Out
-                </button>
-              </div>
+              <button
+                onClick={handleSignOut}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <FiLogOut className="w-4 h-4" />
+                Sign Out
+              </button>
             ) : (
               <Link
                 to="/auth"
-                className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
               >
+                <FiLogIn className="w-4 h-4" />
                 Sign In
               </Link>
             )}
