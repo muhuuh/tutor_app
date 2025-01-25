@@ -84,18 +84,33 @@ export function FAQ() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center mb-20">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
+      {/* Hero Section with violet background */}
+      <div className="relative bg-gradient-to-br from-indigo-600 to-purple-700 py-24">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl"
+            >
               Frequently Asked Questions
-            </h1>
-            <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mt-6 text-xl text-indigo-100 max-w-3xl mx-auto"
+            >
               Everything you need to know about our platform
-            </p>
+            </motion.p>
           </div>
+        </div>
+      </div>
 
+      {/* Rest of the FAQ content */}
+      <section className="pt-12 pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* FAQ Content */}
           <div className="mt-16 space-y-20">
             {faqs.map((category, categoryIndex) => (

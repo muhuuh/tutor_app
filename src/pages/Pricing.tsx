@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { FiCheck, FiHelpCircle } from "react-icons/fi";
 
 export function Pricing() {
@@ -67,19 +68,34 @@ export function Pricing() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Hero Section with violet background */}
+      <div className="relative bg-gradient-to-br from-indigo-600 to-purple-700 py-24">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800  sm:tracking-tight ">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl"
+            >
               Simple, transparent pricing
-            </h1>
-            <p className="mt-5 text-xl text-gray-500">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mt-6 text-xl text-indigo-100 max-w-3xl mx-auto"
+            >
               Choose the plan that's right for you
-            </p>
+            </motion.p>
           </div>
+        </div>
+      </div>
 
+      {/* Pricing Cards Section */}
+      <section className="pt-12 pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Pricing Cards */}
           <div className="mt-24 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8">
             {pricingPlans.map((plan) => (
@@ -159,7 +175,7 @@ export function Pricing() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
