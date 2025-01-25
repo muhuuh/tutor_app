@@ -137,10 +137,10 @@ export function Home() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Modern Hero Section with floating elements */}
       <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
-        <div className="absolute inset-0 opacity-10 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+        <div className="absolute inset-0 -z-10 opacity-10 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="text-center lg:text-left space-y-8">
+            <div className="text-center lg:text-left space-y-8 relative z-10">
               <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-300 leading-tight">
                 Your Personal AI Tutor Assistant
               </h1>
@@ -148,11 +148,11 @@ export function Home() {
                 Boost your tutoring with personalized insights, and smart tools.
                 Focus on what truly matters - inspiring your students.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start relative z-20">
                 {user ? (
                   <Link
                     to="/tools/homework-corrections"
-                    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-semibold hover:scale-[1.02] transition-transform"
+                    className="inline-flex items-center px-8 py-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors relative z-30"
                   >
                     Let's start
                     <FiArrowRight className="ml-3" />
@@ -160,14 +160,14 @@ export function Home() {
                 ) : (
                   <>
                     <Link
-                      to="/signup"
-                      className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-semibold hover:scale-[1.02] transition-transform"
+                      to="/auth"
+                      className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-semibold hover:scale-[1.02] transition-transform cursor-pointer select-none"
                     >
                       Start Free Trial
                     </Link>
                     <Link
-                      to="/login"
-                      className="inline-flex items-center px-8 py-4 bg-gray-800 text-gray-100 rounded-2xl font-semibold hover:bg-gray-700 transition-colors"
+                      to="/auth"
+                      className="inline-flex items-center px-8 py-4 bg-gray-800 text-gray-100 rounded-2xl font-semibold hover:bg-gray-700 transition-colors cursor-pointer select-none"
                     >
                       Educator Login
                     </Link>
@@ -461,12 +461,6 @@ export function Home() {
               className="px-8 py-4 bg-white text-gray-900 rounded-2xl font-semibold hover:bg-gray-100 transition-colors"
             >
               Start Free Trial
-            </Link>
-            <Link
-              to="/demo"
-              className="px-8 py-4 border-2 border-white/20 rounded-2xl hover:border-white/40 transition-colors"
-            >
-              Request Demo
             </Link>
           </div>
         </div>
