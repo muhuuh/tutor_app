@@ -72,7 +72,7 @@ export function Pricing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-800  sm:tracking-tight ">
               Simple, transparent pricing
             </h1>
             <p className="mt-5 text-xl text-gray-500">
