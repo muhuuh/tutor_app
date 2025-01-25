@@ -137,18 +137,13 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const isFirstLoad = useRef(true);
 
-  // Scroll to bottom when new messages arrive, but not on initial load
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
-    if (isFirstLoad.current) {
-      isFirstLoad.current = false;
-      return;
-    }
-
-    if (messages.length > 0) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
+    scrollToBottom();
   }, [messages]);
 
   // Load chat history when pupil is selected
@@ -468,11 +463,79 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               onUploadComplete={handleFilesUploaded}
               setIsUploading={setIsUploading}
             />
-            {/* ... rest of file upload UI ... */}
+            {pendingFiles.length > 0 && (
+              <div className="mt-4 space-y-4">
+                <div className="p-3 bg-indigo-50 rounded-lg">
+                  <p className="text-sm text-indigo-700 font-medium">
+                    {pendingFiles.length} file(s) ready to process
+                  </p>
+                  <p className="text-xs text-indigo-600 mt-1">
+                    Please enter a title for the report to continue
+                  </p>
+                </div>
+                <div>
+                  <label
+                    htmlFor="reportTitle"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Report Title
+                  </label>
+                  <input
+                    type="text"
+                    id="reportTitle"
+                    value={reportTitle}
+                    onChange={(e) => setReportTitle(e.target.value)}
+                    placeholder="Enter a title for this report"
+                    className="w-full rounded-lg border-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    required
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Suggestions Section */}
-          <div>{/* ... keep suggestions section ... */}</div>
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="font-medium text-gray-900">
+                Suggestions How to Continue
+              </h3>
+              <InfoTooltip content="Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant." />
+            </div>
+            {isLoadingSuggestions ? (
+              <div className="flex justify-center py-4">
+                <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <div className="grid grid-cols-1 gap-2 w-full">
+                  {(messages.length > 0 &&
+                  messages[messages.length - 1].content.suggestions
+                    ? messages[messages.length - 1].content.suggestions
+                    : messages.length === 0
+                    ? DEFAULT_SUGGESTIONS
+                    : suggestions
+                  ).map((suggestion, index) => (
+                    <div key={index} className="relative group w-full">
+                      <button
+                        onClick={() =>
+                          handleSuggestionClick(
+                            suggestion.content || suggestion.prompt
+                          )
+                        }
+                        className="w-full text-left px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
+                        {suggestion.title}
+                      </button>
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                        {suggestion.content || suggestion.prompt}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Chat Section - Updated with conditional height */}
@@ -541,7 +604,6 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                 )
               )
             )}
-            <div ref={messagesEndRef} />
           </div>
 
           {/* Input Section - Updated Styling */}
