@@ -106,12 +106,10 @@ export function ChatFileUpload({
         }`}
       />
       <h3 className="text-sm font-medium text-gray-900 mb-1">
-        Upload Image of Pupil Answers
+        Upload Foto of Exam and Answers{" "}
+        <span className="font-normal">(*docx)</span>
       </h3>
-      <p className="text-xs text-gray-500">
-        Get a report with the correction, concepts to review, resources and new
-        exercises to train
-      </p>
+
       {isProcessing && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/80 rounded-lg">
           <div className="flex flex-col items-center gap-2">

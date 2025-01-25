@@ -451,11 +451,17 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         <div className="w-1/3 space-y-6">
           {/* File Upload Section */}
           <div>
-            <div className="flex items-center gap-2 mb-6">
-              <h3 className="font-medium text-gray-900">
-                Correction of Handwritten Exercises
-              </h3>
-              <InfoTooltip content="Upload pictures of handwritten exam answers to receive a detailed correction report. The analysis will highlight mistakes, identify misunderstood concepts, and provide targeted resources and training exercises for improvement." />
+            <div className="mb-6">
+              <div className="flex items-center justify-center gap-2">
+                <h3 className="font-medium text-gray-800 text-lg">
+                  Correction of Exercises
+                </h3>
+                <InfoTooltip content="Upload pictures of handwritten exam answers to receive a detailed correction report. The analysis will highlight mistakes, identify misunderstood concepts, and provide targeted resources and training exercises for improvement." />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Get a report with the correction, concepts to review, resources
+                and new exercises to train
+              </p>
             </div>
 
             <ChatFileUpload
@@ -497,11 +503,16 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           {/* Suggestions Section - Only show when student is selected */}
           {selectedPupilId && (
             <div className="flex flex-col h-full">
-              <div className="flex items-center gap-2 mb-2">
-                <h3 className="font-medium text-gray-900">
-                  Suggestions How to Continue
-                </h3>
-                <InfoTooltip content="Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant." />
+              <div className="mb-6">
+                <div className="flex items-center justify-center gap-2">
+                  <h3 className="font-medium text-gray-800 text-lg">
+                    Suggestions How to Continue
+                  </h3>
+                  <InfoTooltip content="Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant." />
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  Click on any suggestion to quickly start a conversation
+                </p>
               </div>
               {isLoadingSuggestions ? (
                 <div className="flex justify-center py-4">
@@ -527,11 +538,26 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                               suggestion.content || suggestion.prompt
                             )
                           }
-                          className="w-full text-left px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                          className="w-full text-left px-4 py-3 text-sm text-gray-600 bg-gray-50/50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-all hover:border-gray-300 shadow-sm hover:shadow-md"
                         >
-                          {suggestion.title}
+                          <div className="flex items-center justify-between">
+                            <span>{suggestion.title}</span>
+                            <svg
+                              className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </div>
                         </button>
-                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
                           {suggestion.content || suggestion.prompt}
                         </div>
                       </div>
