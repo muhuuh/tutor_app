@@ -4,515 +4,598 @@ import { useAuth } from "../hooks/useAuth";
 import {
   FiCheck,
   FiArrowRight,
-  FiStar,
-  FiClock,
   FiBook,
-  FiAward,
   FiZap,
   FiTrendingUp,
   FiTarget,
   FiEdit3,
   FiBarChart2,
+  FiFileText,
+  FiVideo,
+  FiClock,
 } from "react-icons/fi";
 
 export function Home() {
   const { user } = useAuth();
 
+  // Updated pain points with modern icons and concise copy
   const painPoints = [
     {
       icon: <FiEdit3 className="w-6 h-6" />,
-      title: "Time-Consuming Grading",
+      title: "Smart Grading",
       description:
-        "Spending hours grading complex STEM problems and determining partial credit, leaving less time for actual teaching.",
-      solution:
-        "AI-powered grading that understands multi-step problems and reasoning.",
+        "Automated evaluation of complex STEM problems with AI-powered partial credit system",
+      solution: "Instant grading with detailed feedback",
     },
     {
       icon: <FiTarget className="w-6 h-6" />,
-      title: "Inconsistent Assessment",
+      title: "Consistent Evaluation",
       description:
-        "Struggling to maintain grading consistency across multiple students and sessions.",
-      solution:
-        "Standardized grading criteria with AI assistance for fair evaluation.",
+        "Uniform grading standards across all students and assignments",
+      solution: "AI-assisted standardized rubrics",
     },
     {
       icon: <FiBarChart2 className="w-6 h-6" />,
-      title: "Personalization Challenges",
+      title: "Adaptive Learning",
       description:
-        "Difficulty in identifying individual student weaknesses and creating tailored practice materials.",
-      solution:
-        "Smart analysis of student work to generate personalized learning paths.",
+        "Dynamic adjustment of teaching materials based on student performance",
+      solution: "Real-time learning analytics dashboard",
     },
   ];
 
+  // Features with gradient backgrounds and hover effects
   const features = [
     {
       icon: <FiZap className="w-6 h-6" />,
-      title: "Intelligent Handwriting Analysis",
+      title: "AI-Powered Analysis",
       description:
-        "Our AI accurately grades handwritten STEM assignments, understanding complex equations and multi-step solutions.",
-    },
-    {
-      icon: <FiStar className="w-6 h-6" />,
-      title: "Partial Credit Recognition",
-      description:
-        "Sophisticated assessment of student understanding, even with minor errors in complex problem-solving.",
+        "Advanced handwriting recognition for mathematical notations and chemical formulas",
+      gradient: "from-purple-600 to-blue-500",
     },
     {
       icon: <FiTrendingUp className="w-6 h-6" />,
-      title: "Performance Analytics",
+      title: "Progress Tracking",
       description:
-        "Deep insights into student progress with detailed breakdowns of conceptual understanding and skill development.",
+        "Interactive dashboards with competency mapping and skill progression",
+      gradient: "from-pink-600 to-rose-500",
     },
     {
       icon: <FiBook className="w-6 h-6" />,
-      title: "Custom Exercise Generation",
+      title: "Dynamic Content",
       description:
-        "AI-powered creation of targeted practice problems based on identified learning gaps.",
+        "Automated generation of practice problems based on learning gaps",
+      gradient: "from-orange-600 to-amber-500",
+    },
+    {
+      icon: <FiBarChart2 className="w-6 h-6" />,
+      title: "Deep Analytics",
+      description:
+        "Concept-level performance breakdown with comparative insights",
+      gradient: "from-green-600 to-cyan-500",
     },
   ];
 
-  const testimonials = [
+  // New blog and tutorials section data
+  const resources = [
     {
-      name: "Dr. Sarah Johnson",
-      role: "Mathematics Professor",
-      content:
-        "The partial credit recognition is a game-changer. It accurately assesses student understanding in complex calculus problems, saving me hours of grading time.",
-      avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+      icon: <FiFileText className="w-6 h-6" />,
+      title: "Mastering AI Grading",
+      category: "Blog Post",
+      link: "/blog/ai-grading",
+      image: "https://cdn-icons-png.flaticon.com/512/4711/4711987.png",
     },
     {
-      name: "Michael Chen, Ph.D.",
-      role: "Physics Instructor",
-      content:
-        "Finally, a tool that understands multi-step physics problems! The personalized exercise generation helps my students focus on areas where they need the most practice.",
-      avatar: "https://randomuser.me/api/portraits/men/2.jpg",
+      icon: <FiVideo className="w-6 h-6" />,
+      title: "Personalized Learning Paths",
+      category: "Video Tutorial",
+      link: "/tutorials/learning-paths",
+      image: "https://cdn-icons-png.flaticon.com/512/4711/4711999.png",
     },
     {
-      name: "Emma Davis, M.Ed.",
-      role: "STEM Department Head",
-      content:
-        "The analytics provide unprecedented insight into student learning patterns. We've seen a 40% improvement in test scores since implementing this system.",
-      avatar: "https://randomuser.me/api/portraits/women/3.jpg",
+      icon: <FiFileText className="w-6 h-6" />,
+      title: "STEM Assessment Guide",
+      category: "eBook",
+      link: "/resources/stem-guide",
+      image: "https://cdn-icons-png.flaticon.com/512/4711/4711976.png",
     },
   ];
 
+  // Pricing plans with glassmorphism effect
   const pricingPlans = [
     {
-      name: "Basic",
-      price: "$9.99",
+      name: "Starter",
+      price: "$9",
       period: "/month",
-      description:
-        "Perfect for individual tutors getting started with AI grading",
-      features: [
-        "Basic handwriting recognition",
-        "Simple exercise generation",
-        "Limited student analytics",
-        "Email support",
-        "Up to 50 corrections/month",
-      ],
+      description: "For individual educators",
+      features: ["50 submissions/month", "Basic analytics", "Email support"],
+      gradient: "from-purple-600/5 to-blue-500/5",
     },
     {
       name: "Professional",
-      price: "$24.99",
+      price: "$29",
       period: "/month",
       popular: true,
-      description: "Ideal for active tutors and small teaching practices",
+      description: "For teaching teams",
       features: [
-        "Advanced handwriting analysis",
-        "Partial credit recognition",
-        "Detailed performance analytics",
-        "Custom exercise generation",
+        "Unlimited submissions",
+        "Advanced analytics",
         "Priority support",
-        "Unlimited corrections",
+        "Custom rubrics",
       ],
+      gradient: "from-pink-600/5 to-rose-500/5",
     },
     {
-      name: "Institution",
+      name: "Enterprise",
       price: "Custom",
-      description: "For schools and large educational organizations",
-      features: [
-        "All Professional features",
-        "API access",
-        "Custom integrations",
-        "Dedicated support team",
-        "Advanced reporting",
-        "Training sessions",
-      ],
+      description: "For institutions",
+      features: ["SAML SSO", "API access", "Dedicated support", "Custom SLAs"],
+      gradient: "from-green-600/5 to-cyan-500/5",
     },
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section with modern gradient background */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                Transform Your Teaching with AI
-                <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-yellow-400">
-                  Powered by Intelligence
-                </span>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Modern Hero Section with floating elements */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
+        <div className="absolute inset-0 opacity-10 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="text-center lg:text-left space-y-8">
+              <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-300 leading-tight">
+                Your Personal AI Tutor Assistant
               </h1>
-              <p className="mt-6 text-lg md:text-xl text-indigo-100 max-w-2xl mx-auto lg:mx-0">
-                Revolutionize your tutoring with AI-powered grading,
-                personalized insights, and smart tools that help you focus on
-                what truly matters - inspiring your students.
+              <p className="text-xl text-gray-300 max-w-2xl">
+                Boost your tutoring with personalized insights, and smart tools.
+                Focus on what truly matters - inspiring your students.
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 {user ? (
                   <Link
                     to="/tools/homework-corrections"
-                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-indigo-600 bg-white rounded-full shadow-lg hover:bg-indigo-50 transition-all duration-200 group"
+                    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-semibold hover:scale-[1.02] transition-transform"
                   >
-                    Go to Dashboard
-                    <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    Let's start
+                    <FiArrowRight className="ml-3" />
                   </Link>
                 ) : (
                   <>
                     <Link
-                      to="/auth"
-                      className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-indigo-600 bg-white rounded-full shadow-lg hover:bg-indigo-50 transition-all duration-200 group"
+                      to="/signup"
+                      className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-semibold hover:scale-[1.02] transition-transform"
                     >
-                      Get Started Free
-                      <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                      Start Free Trial
                     </Link>
                     <Link
-                      to="/auth"
-                      className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white border-2 border-white/20 rounded-full backdrop-blur-sm hover:bg-white/10 transition-all duration-200"
+                      to="/login"
+                      className="inline-flex items-center px-8 py-4 bg-gray-800 text-gray-100 rounded-2xl font-semibold hover:bg-gray-700 transition-colors"
                     >
-                      Sign In
+                      Educator Login
                     </Link>
                   </>
                 )}
               </div>
             </div>
-            <div className="relative hidden lg:block">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 to-purple-600/20 backdrop-blur-sm rounded-3xl transform rotate-3" />
-              <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-                alt="Teacher using laptop"
-                className="relative rounded-3xl shadow-2xl transform -rotate-3 hover:rotate-0 transition-transform duration-500"
-              />
+            <div className="relative lg:block">
+              <div className="relative rounded-[2.5rem] overflow-hidden transform rotate-1 hover:rotate-0 transition-transform">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-lg" />
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/4711/4711981.png"
+                  alt="AI Education Platform"
+                  className="relative w-full h-[500px] object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Pain Points Section - New */}
-      <div className="py-24 bg-white">
+      {/* Educator Challenges Section - Updated with Real Pain Points */}
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-base font-semibold text-indigo-600 tracking-wide uppercase">
-              Challenges We Solve
+          <div className="text-center mb-20">
+            <span className="text-sm font-semibold text-blue-500 tracking-wide">
+              EDUCATOR CHALLENGES
+            </span>
+            <h2 className="mt-4 text-4xl font-bold text-gray-900">
+              Top Tutor Pain Points
             </h2>
-            <p className="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
-              Common Teaching Frustrations
-            </p>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-              We understand the daily challenges educators face
-            </p>
           </div>
-
-          <div className="mt-20 grid lg:grid-cols-3 gap-8">
-            {painPoints.map((point, index) => (
-              <div key={index} className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative h-full p-8 bg-white rounded-2xl shadow-lg border border-gray-100">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600">
-                    {point.icon}
-                  </div>
-                  <h3 className="mt-6 text-xl font-semibold text-gray-900">
-                    {point.title}
-                  </h3>
-                  <p className="mt-4 text-gray-500">{point.description}</p>
-                  <div className="mt-6 pt-6 border-t border-gray-100">
-                    <p className="text-indigo-600 font-medium">Our Solution:</p>
-                    <p className="mt-2 text-gray-600">{point.solution}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section with modern cards */}
-      <div className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-base font-semibold text-indigo-600 tracking-wide uppercase">
-              Features
-            </h2>
-            <p className="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
-              Everything you need to excel
-            </p>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-              Powerful tools designed to make teaching more effective and
-              enjoyable.
-            </p>
-          </div>
-
-          <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative h-full p-8 bg-white rounded-3xl shadow-lg group-hover:translate-y-[-4px] transition-transform duration-300">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 group-hover:bg-white group-hover:text-indigo-500 transition-colors duration-300">
-                    {feature.icon}
-                  </div>
-                  <h3 className="mt-6 text-xl font-semibold text-gray-900 group-hover:text-white transition-colors duration-300">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-4 text-gray-500 group-hover:text-white/90 transition-colors duration-300">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Testimonials with modern design */}
-      <div className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-base font-semibold text-indigo-600 tracking-wide uppercase">
-              Testimonials
-            </h2>
-            <p className="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
-              Loved by educators worldwide
-            </p>
-          </div>
-
-          <div className="mt-20 grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
+          <div className="grid lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <FiClock className="w-6 h-6" />,
+                title: "Manual Grading Marathon",
+                description:
+                  "Spending 10+ hours weekly assessing handwritten STEM work with complex problem-solving steps",
+                solution:
+                  "AI that understands multi-step reasoning and provides instant assessment",
+              },
+              {
+                icon: <FiCheck className="w-6 h-6" />,
+                title: "Partial Credit Dilemma",
+                description:
+                  "Struggling to fairly evaluate conceptual understanding when students make small calculation errors",
+                solution:
+                  "Sophisticated error analysis with step-by-step credit allocation",
+              },
+              {
+                icon: <FiTrendingUp className="w-6 h-6" />,
+                title: "Personalization Overload",
+                description:
+                  "Overwhelmed creating individualized practice materials for diverse learning needs",
+                solution:
+                  "Automated generation of targeted exercises based on performance gaps",
+              },
+            ].map((point, index) => (
               <div
                 key={index}
-                className="relative p-8 bg-white rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="group relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
               >
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <img
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
-                  />
-                </div>
-                <div className="pt-8">
-                  <p className="text-gray-600 italic">{testimonial.content}</p>
-                  <div className="mt-6">
-                    <p className="font-semibold text-gray-900">
-                      {testimonial.name}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white">
+                    {point.icon}
+                  </div>
+                  <h3 className="mt-6 text-xl font-bold text-gray-900">
+                    {point.title}
+                  </h3>
+                  <p className="mt-4 text-gray-600">{point.description}</p>
+                  <div className="mt-6 pt-6 border-t border-gray-100">
+                    <p className="text-sm font-semibold text-blue-500">
+                      Our Solution →
                     </p>
-                    <p className="text-indigo-600">{testimonial.role}</p>
+                    <p className="mt-2 text-gray-800 font-medium">
+                      {point.solution}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Pricing Section with modern cards */}
-      <div className="py-24 bg-gray-50">
+      {/* Platform Features Section - Improved UI */}
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-base font-semibold text-indigo-600 tracking-wide uppercase">
-              Pricing
+          <div className="text-center mb-20">
+            <span className="text-sm font-semibold text-blue-500 tracking-wide">
+              PLATFORM FEATURES
+            </span>
+            <h2 className="mt-4 text-4xl font-bold text-gray-900">
+              Advanced Teaching Tools
             </h2>
-            <p className="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
-              Choose your perfect plan
-            </p>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-              Simple, transparent pricing that grows with you
-            </p>
           </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+            {[
+              {
+                icon: <FiEdit3 className="w-6 h-6" />,
+                title: "AI-Powered Grading System",
+                description:
+                  "Automated assessment of handwritten STEM work with detailed error analysis and partial credit reasoning",
+                gradient: "from-purple-600 to-blue-500",
+              },
+              {
+                icon: <FiBook className="w-6 h-6" />,
+                title: "Dynamic Learning Engine",
+                description:
+                  "Real-time generation of personalized lesson plans and practice problems based on performance insights",
+                gradient: "from-pink-600 to-rose-500",
+              },
+            ].map((feature, index) => (
+              <div key={index} className="relative group h-full">
+                <div
+                  className={`absolute -inset-1 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-20 blur-sm transition-opacity group-hover:opacity-30`}
+                />
+                <div className="relative h-full bg-white rounded-2xl border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-shadow">
+                  <div
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center text-white`}
+                  >
+                    {feature.icon}
+                  </div>
+                  <h3 className="mt-6 text-2xl font-bold text-gray-900">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-4 text-gray-600 leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <div className="mt-8 pt-8 border-t border-gray-100">
+                    <ul className="space-y-4 text-gray-600">
+                      {feature.title.includes("Grading") &&
+                        [
+                          "Handwriting recognition for math/physics",
+                          "Step-by-step error analysis",
+                          "Automated partial credit allocation",
+                          "Consistency across submissions",
+                        ].map((item, i) => (
+                          <li key={i} className="flex items-center gap-3">
+                            <FiCheck className="flex-shrink-0 text-green-500" />
+                            {item}
+                          </li>
+                        ))}
+                      {feature.title.includes("Learning") &&
+                        [
+                          "Real-time performance tracking",
+                          "Automated exercise generation",
+                          "Competency gap analysis",
+                          "Adaptive learning paths",
+                        ].map((item, i) => (
+                          <li key={i} className="flex items-center gap-3">
+                            <FiCheck className="flex-shrink-0 text-green-500" />
+                            {item}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* New Resources Section (Blog & Tutorials) */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <span className="text-sm font-semibold text-blue-500 tracking-wide">
+              LEARNING RESOURCES
+            </span>
+            <h2 className="mt-4 text-4xl font-bold text-gray-900">
+              Guides & Tutorials
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {resources.map((resource, index) => (
+              <article
+                key={index}
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+              >
+                <div className="h-48 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-center">
+                  <img
+                    src={resource.image}
+                    alt=""
+                    className="h-32 w-32 object-contain opacity-90"
+                  />
+                </div>
+                <div className="p-8">
+                  <div className="flex items-center gap-2 text-blue-500">
+                    {resource.icon}
+                    <span className="text-sm font-medium">
+                      {resource.category}
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-xl font-semibold text-gray-900">
+                    {resource.title}
+                  </h3>
+                  <Link
+                    to={resource.link}
+                    className="mt-6 inline-flex items-center text-blue-500 font-medium hover:text-blue-600 transition-colors"
+                  >
+                    Learn More
+                    <FiArrowRight className="ml-2" />
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <div className="mt-20 grid lg:grid-cols-3 gap-8">
+      {/* Pricing Section with glass effect */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <span className="text-sm font-semibold text-blue-500 tracking-wide">
+              PRICING
+            </span>
+            <h2 className="mt-4 text-4xl font-bold text-gray-900">
+              Flexible Plans for Every Need
+            </h2>
+          </div>
+          <div className="grid lg:grid-cols-3 gap-8">
             {pricingPlans.map((plan, index) => (
               <div
                 key={index}
-                className={`relative p-8 bg-white rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 ${
-                  plan.popular ? "ring-2 ring-indigo-600 scale-105" : ""
+                className={`relative bg-gradient-to-b ${
+                  plan.gradient
+                } backdrop-blur-lg rounded-2xl p-px overflow-hidden ${
+                  plan.popular ? "shadow-2xl" : "shadow-lg"
                 }`}
               >
-                {plan.popular && (
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-indigo-600 text-white">
+                <div className="h-full bg-white/95 rounded-[calc(2rem-1px)] p-8">
+                  {plan.popular && (
+                    <div className="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 rounded-bl-xl text-sm font-medium">
                       Most Popular
-                    </span>
-                  </div>
-                )}
-                <div>
+                    </div>
+                  )}
                   <h3 className="text-2xl font-bold text-gray-900">
                     {plan.name}
                   </h3>
-                  <p className="mt-4 text-gray-500">{plan.description}</p>
-                  <div className="mt-6 flex items-baseline">
-                    <span className="text-5xl font-extrabold text-gray-900">
+                  <p className="mt-2 text-gray-600">{plan.description}</p>
+                  <div className="mt-6 flex items-baseline gap-2">
+                    <span className="text-5xl font-bold text-gray-900">
                       {plan.price}
                     </span>
                     {plan.period && (
-                      <span className="ml-1 text-2xl text-gray-500">
-                        {plan.period}
-                      </span>
+                      <span className="text-gray-500">{plan.period}</span>
                     )}
                   </div>
                   <ul className="mt-8 space-y-4">
-                    {plan.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center">
-                        <FiCheck className="flex-shrink-0 w-5 h-5 text-indigo-500" />
-                        <span className="ml-3 text-gray-500">{feature}</span>
+                    {plan.features.map((feature, fIndex) => (
+                      <li key={fIndex} className="flex items-center gap-3">
+                        <FiCheck className="flex-shrink-0 text-blue-500" />
+                        <span className="text-gray-600">{feature}</span>
                       </li>
                     ))}
                   </ul>
                   <Link
-                    to="/auth"
-                    className={`mt-8 block w-full px-6 py-4 text-center font-medium rounded-2xl transition-all duration-200 ${
+                    to="/pricing"
+                    className={`mt-8 inline-flex w-full justify-center items-center px-6 py-3 rounded-xl font-medium transition-colors ${
                       plan.popular
-                        ? "bg-indigo-600 text-white hover:bg-indigo-700"
-                        : "bg-gray-50 text-gray-900 hover:bg-gray-100"
+                        ? "bg-blue-500 text-white hover:bg-blue-600"
+                        : "bg-gray-100 text-gray-900 hover:bg-gray-200"
                     }`}
                   >
-                    Get started
+                    Get Started
                   </Link>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Contact Section with gradient background */}
-      <div className="relative py-24 bg-gradient-to-br from-indigo-500 to-purple-600 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-base font-semibold text-indigo-200 tracking-wide uppercase">
-              Contact
-            </h2>
-            <p className="mt-2 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-              Ready to get started?
-            </p>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-indigo-100">
-              Join thousands of educators already transforming their teaching
-              with TutorAI.
-            </p>
-          </div>
-          <div className="mt-10 flex justify-center">
+      {/* CTA Section */}
+      <section className="bg-gradient-to-br from-gray-900 to-blue-900 text-white py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold mb-6">
+            Transform Your Teaching Today
+          </h2>
+          <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+            Join thousands of educators enhancing their STEM instruction with
+            AI-powered tools
+          </p>
+          <div className="flex justify-center gap-4">
             <Link
-              to="/contact"
-              className="inline-flex items-center px-8 py-4 text-lg font-medium text-indigo-600 bg-white rounded-full shadow-lg hover:bg-indigo-50 transition-all duration-200 group"
+              to="/signup"
+              className="px-8 py-4 bg-white text-gray-900 rounded-2xl font-semibold hover:bg-gray-100 transition-colors"
             >
-              Contact Us
-              <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+              Start Free Trial
+            </Link>
+            <Link
+              to="/demo"
+              className="px-8 py-4 border-2 border-white/20 rounded-2xl hover:border-white/40 transition-colors"
+            >
+              Request Demo
             </Link>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Modern Footer */}
-      <footer className="bg-gray-900 text-gray-300">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <footer className="bg-gray-900 text-gray-400">
+        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase">
-                Product
-              </h3>
-              <ul className="mt-4 space-y-4">
+              <h3 className="text-white font-semibold mb-4">Product</h3>
+              <ul className="space-y-3">
                 <li>
-                  <a
-                    href="#features"
-                    className="text-base text-gray-300 hover:text-white transition-colors"
+                  <Link
+                    to="/features"
+                    className="hover:text-white transition-colors"
                   >
                     Features
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#pricing"
-                    className="text-base text-gray-300 hover:text-white transition-colors"
+                  <Link
+                    to="/pricing"
+                    className="hover:text-white transition-colors"
                   >
                     Pricing
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase">
-                Support
-              </h3>
-              <ul className="mt-4 space-y-4">
-                <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-300 hover:text-white transition-colors"
-                  >
-                    Documentation
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-300 hover:text-white transition-colors"
-                  >
-                    Guides
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase">
-                Company
-              </h3>
-              <ul className="mt-4 space-y-4">
-                <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-300 hover:text-white transition-colors"
-                  >
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-300 hover:text-white transition-colors"
+                  <Link
+                    to="/blog"
+                    className="hover:text-white transition-colors"
                   >
                     Blog
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase">
-                Legal
-              </h3>
-              <ul className="mt-4 space-y-4">
+              <h3 className="text-white font-semibold mb-4">Resources</h3>
+              <ul className="space-y-3">
                 <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-300 hover:text-white transition-colors"
+                  <Link
+                    to="/docs"
+                    className="hover:text-white transition-colors"
                   >
-                    Privacy
-                  </a>
+                    Documentation
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="text-base text-gray-300 hover:text-white transition-colors"
+                  <Link
+                    to="/tutorials"
+                    className="hover:text-white transition-colors"
+                  >
+                    Tutorials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/webinars"
+                    className="hover:text-white transition-colors"
+                  >
+                    Webinars
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold mb-4">Company</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    to="/about"
+                    className="hover:text-white transition-colors"
+                  >
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/careers"
+                    className="hover:text-white transition-colors"
+                  >
+                    Careers
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/contact"
+                    className="hover:text-white transition-colors"
+                  >
+                    Contact
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold mb-4">Legal</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    to="/privacy"
+                    className="hover:text-white transition-colors"
+                  >
+                    Privacy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/terms"
+                    className="hover:text-white transition-colors"
                   >
                     Terms
-                  </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/security"
+                    className="hover:text-white transition-colors"
+                  >
+                    Security
+                  </Link>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-gray-800">
-            <p className="text-base text-gray-400 text-center">
-              &copy; 2024 TutorAI. All rights reserved.
+          <div className="mt-12 pt-8 border-t border-gray-800 text-center">
+            <p className="text-gray-500">
+              &copy; 2024 EduAI. All rights reserved.
             </p>
           </div>
         </div>
