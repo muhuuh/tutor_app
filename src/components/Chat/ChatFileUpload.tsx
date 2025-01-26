@@ -107,7 +107,7 @@ export function ChatFileUpload({
       />
       <h3 className="text-sm font-medium text-gray-900 mb-1">
         Upload Foto of Exam and Answers{" "}
-        <span className="font-normal">(*docx)</span>
+        <span className="font-normal">(jpeg, png)</span>
       </h3>
 
       {isProcessing && (

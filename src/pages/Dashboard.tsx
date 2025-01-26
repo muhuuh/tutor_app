@@ -324,8 +324,9 @@ export function Dashboard() {
             </h3>
             <div className="prose prose-sm max-w-none">
               <ReactMarkdown>
-                {report.performance_summary ??
-                  report.output.performance_summary}
+                {report?.performance_summary ??
+                  report?.output?.performance_summary ??
+                  "No value found for this section. Try creating a new report"}
               </ReactMarkdown>
             </div>
           </div>
@@ -337,7 +338,9 @@ export function Dashboard() {
             </h3>
             <div className="prose prose-sm max-w-none">
               <ReactMarkdown>
-                {report.grading ?? report.output.grading}
+                {report?.grading ??
+                  report?.output?.grading ??
+                  "No value found for this section. Try creating a new report"}
               </ReactMarkdown>
             </div>
           </div>
@@ -349,8 +352,9 @@ export function Dashboard() {
             </h3>
             <div className="prose prose-sm max-w-none">
               <ReactMarkdown>
-                {report.misunderstood_concepts ??
-                  report.output.misunderstood_concepts}
+                {report?.misunderstood_concepts ??
+                  report?.output?.misunderstood_concepts ??
+                  "No value found for this section. Try creating a new report"}
               </ReactMarkdown>
             </div>
           </div>
@@ -362,8 +366,9 @@ export function Dashboard() {
             </h3>
             <div className="prose prose-sm max-w-none">
               <ReactMarkdown>
-                {report.suggested_next_steps ??
-                  report.output.suggested_next_steps}
+                {report?.suggested_next_steps ??
+                  report?.output?.suggested_next_steps ??
+                  "No value found for this section. Try creating a new report"}
               </ReactMarkdown>
             </div>
           </div>
@@ -375,7 +380,9 @@ export function Dashboard() {
             </h3>
             <div className="prose prose-sm max-w-none">
               <ReactMarkdown>
-                {report.learning_material ?? report.output.learning_material}
+                {report?.learning_material ??
+                  report?.output?.learning_material ??
+                  "No value found for this section. Try creating a new report"}
               </ReactMarkdown>
             </div>
           </div>
@@ -387,7 +394,9 @@ export function Dashboard() {
             </h3>
             <div className="prose prose-sm max-w-none">
               <ReactMarkdown>
-                {report.practice_exercises ?? report.output.practice_exercises}
+                {report?.practice_exercises ??
+                  report?.output?.practice_exercises ??
+                  "No value found for this section. Try creating a new report"}
               </ReactMarkdown>
             </div>
           </div>
