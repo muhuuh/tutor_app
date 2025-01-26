@@ -83,6 +83,10 @@ export function Dashboard() {
   };
 
   useEffect(() => {
+    fetchReports(selectedPupilId);
+  }, [selectedPupilId]);
+
+  useEffect(() => {
     if (!user?.id) return;
 
     const channel = supabase
@@ -319,7 +323,10 @@ export function Dashboard() {
               Performance Summary
             </h3>
             <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>{report.performance_summary}</ReactMarkdown>
+              <ReactMarkdown>
+                {report.performance_summary ??
+                  report.output.performance_summary}
+              </ReactMarkdown>
             </div>
           </div>
 
@@ -329,7 +336,9 @@ export function Dashboard() {
               Grading
             </h3>
             <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>{report.grading}</ReactMarkdown>
+              <ReactMarkdown>
+                {report.grading ?? report.output.grading}
+              </ReactMarkdown>
             </div>
           </div>
 
@@ -339,7 +348,10 @@ export function Dashboard() {
               Misunderstood Concepts
             </h3>
             <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>{report.misunderstood_concepts}</ReactMarkdown>
+              <ReactMarkdown>
+                {report.misunderstood_concepts ??
+                  report.output.misunderstood_concepts}
+              </ReactMarkdown>
             </div>
           </div>
 
@@ -349,7 +361,10 @@ export function Dashboard() {
               Suggested Next Steps
             </h3>
             <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>{report.suggested_next_steps}</ReactMarkdown>
+              <ReactMarkdown>
+                {report.suggested_next_steps ??
+                  report.output.suggested_next_steps}
+              </ReactMarkdown>
             </div>
           </div>
 
@@ -359,7 +374,9 @@ export function Dashboard() {
               Learning Materials
             </h3>
             <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>{report.learning_material}</ReactMarkdown>
+              <ReactMarkdown>
+                {report.learning_material ?? report.output.learning_material}
+              </ReactMarkdown>
             </div>
           </div>
 
@@ -369,7 +386,9 @@ export function Dashboard() {
               Practice Exercises
             </h3>
             <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>{report.practice_exercises}</ReactMarkdown>
+              <ReactMarkdown>
+                {report.practice_exercises ?? report.output.practice_exercises}
+              </ReactMarkdown>
             </div>
           </div>
         </div>
