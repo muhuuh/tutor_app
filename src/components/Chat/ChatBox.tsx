@@ -122,6 +122,8 @@ const DEFAULT_SUGGESTIONS = [
   },
 ];
 
+const REPORT_CREATION_TIMEOUT = 5 * 60 * 1000; // 5 minutes in milliseconds
+
 export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -278,84 +280,33 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         };
         setMessages((prev) => [...prev, processingMessage]);
 
-        // Call file analysis webhook
-        const response = await fetch(config.n8nWebhookUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            pupilId: selectedPupilId,
-            teacherId: user?.id,
-            imageUrls: pendingFiles.map((f) => f.url),
-            reportTitle: reportTitle.trim(),
-            timestamp: Date.now(),
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to process files");
-        }
-
-        const data = await response.json();
-        onReportGenerated(
-          data.reportId || "013eee03-6226-470d-ae9b-f9fe0a8948cd"
-        );
-        setPendingFiles([]);
-        setReportTitle("");
-
-        // Add report ready message
-        const reportReadyMessage: Message = {
-          id: (Date.now() + 2).toString(),
-          content:
-            "Great news! The report is ready. You can view it in the Reports tab.",
-          isUser: false,
-        };
-        setMessages((prev) => [...prev, reportReadyMessage]);
-        // Update suggestions with new messages
-        updateSuggestions([...messages, userMessage, reportReadyMessage]);
-
-        toast(
-          (t) => (
-            <div className="flex items-start gap-4">
-              <div className="text-2xl">📋</div>
-              <div>
-                <h3 className="font-medium text-base mb-1">Report Ready!</h3>
-                <p className="text-sm text-gray-600">
-                  Your analysis report has been generated and is now available
-                  in the Reports tab.
-                </p>
-              </div>
-            </div>
-          ),
-          {
-            duration: 6000,
-            style: {
-              minWidth: "360px",
-              backgroundColor: "#f0f9ff",
-              border: "1px solid #bae6fd",
+        try {
+          // Fire and forget - don't wait for response
+          fetch(config.n8nWebhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-          }
-        );
+            body: JSON.stringify({
+              pupilId: selectedPupilId,
+              teacherId: user?.id,
+              imageUrls: pendingFiles.map((f) => f.url),
+              reportTitle: reportTitle.trim(),
+              timestamp: Date.now(),
+            }),
+          }).catch((error) => {
+            console.error("Error initiating report generation:", error);
+            // Don't show error to user as the process might still succeed
+          });
 
-        // removed storing user message when sending files, because it ai answer should not be stored in chat history and was causing issues when chatting with the ai
-        /* 
-        // Store the user's message in the database
-        await database.chat.insertMessage({
-          content: content,
-          type: "human",
-          session_id: selectedPupilId,
-          teacher_id: user!.id,
-        });
-
-        // After getting the AI response, store that too
-        await database.chat.insertMessage({
-          content: data.output,
-          type: "ai",
-          session_id: selectedPupilId,
-          teacher_id: user!.id,
-        });
-      */
+          // Clear the files and title immediately
+          setPendingFiles([]);
+          setReportTitle("");
+          setIsProcessing(false);
+        } catch (error) {
+          console.error("Error initiating report generation:", error);
+          setIsProcessing(false);
+        }
       } else {
         // Add typing indicator
         const typingMessage: Message = {

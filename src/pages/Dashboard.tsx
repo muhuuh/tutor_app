@@ -59,6 +59,7 @@ export function Dashboard() {
     if (!pupilId) return;
 
     try {
+      console.log("Fetching reports for pupil:", pupilId);
       const { data, error } = await supabase
         .from("reports")
         .select("id, requested_at, report_title")
@@ -71,9 +72,11 @@ export function Dashboard() {
         return;
       }
 
+      console.log("Reports fetched:", data);
       setAvailableReports(data || []);
 
       if (data && data.length > 0 && !currentReportId) {
+        console.log("Setting initial report ID:", data[0].id);
         setCurrentReportId(data[0].id);
       }
     } catch (error) {
@@ -89,6 +92,8 @@ export function Dashboard() {
   useEffect(() => {
     if (!user?.id) return;
 
+    console.log("Setting up Supabase subscription for user:", user.id);
+
     const channel = supabase
       .channel("reports")
       .on(
@@ -100,17 +105,48 @@ export function Dashboard() {
           filter: `teacher_id=eq.${user.id}`,
         },
         async (payload) => {
-          toast.success("New report is ready!", {
-            duration: 5000,
-            icon: "📋",
-          });
+          console.log("New report detected:", payload);
+
+          // Update available reports list
+          console.log("Fetching updated reports for pupil:", selectedPupilId);
           await fetchReports(selectedPupilId);
+
+          // Set the current report ID and update the UI
+          console.log("Setting current report ID:", payload.new.id);
+          setCurrentReportId(payload.new.id);
           setActiveTab("reports");
+
+          // Show success notification based on Supabase signal
+          toast(
+            (t) => (
+              <div className="flex items-start gap-4">
+                <div className="text-2xl">📋</div>
+                <div>
+                  <h3 className="font-medium text-base mb-1">Report Ready!</h3>
+                  <p className="text-sm text-gray-600">
+                    Your analysis report has been generated and is now available
+                    in the Reports tab.
+                  </p>
+                </div>
+              </div>
+            ),
+            {
+              duration: 6000,
+              style: {
+                minWidth: "360px",
+                backgroundColor: "#f0f9ff",
+                border: "1px solid #bae6fd",
+              },
+            }
+          );
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log("Supabase subscription status:", status);
+      });
 
     return () => {
+      console.log("Cleaning up Supabase subscription");
       supabase.removeChannel(channel);
     };
   }, [user?.id, selectedPupilId]);
