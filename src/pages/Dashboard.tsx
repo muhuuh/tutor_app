@@ -55,6 +55,33 @@ export function Dashboard() {
   const [editedTitle, setEditedTitle] = useState("");
   const titleInputRef = useRef<HTMLInputElement>(null);
 
+  const fetchReports = async (pupilId: string) => {
+    if (!pupilId) return;
+
+    try {
+      const { data, error } = await supabase
+        .from("reports")
+        .select("id, requested_at, report_title")
+        .eq("pupil_id", pupilId)
+        .order("requested_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching reports:", error);
+        toast.error("Failed to load reports. Please try again.");
+        return;
+      }
+
+      setAvailableReports(data || []);
+
+      if (data && data.length > 0 && !currentReportId) {
+        setCurrentReportId(data[0].id);
+      }
+    } catch (error) {
+      console.error("Error in fetchReports:", error);
+      toast.error("Failed to load reports. Please try again.");
+    }
+  };
+
   useEffect(() => {
     if (!user?.id) return;
 
@@ -68,12 +95,13 @@ export function Dashboard() {
           table: "reports",
           filter: `teacher_id=eq.${user.id}`,
         },
-        (payload) => {
+        async (payload) => {
           toast.success("New report is ready!", {
             duration: 5000,
             icon: "📋",
           });
-          fetchReports(selectedPupilId);
+          await fetchReports(selectedPupilId);
+          setActiveTab("reports");
         }
       )
       .subscribe();
@@ -82,32 +110,6 @@ export function Dashboard() {
       supabase.removeChannel(channel);
     };
   }, [user?.id, selectedPupilId]);
-
-  const fetchReports = async (pupilId: string) => {
-    if (!pupilId) return;
-
-    const { data, error } = await supabase
-      .from("reports")
-      .select("id, requested_at, report_title")
-      .eq("pupil_id", pupilId)
-      .order("requested_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching reports:", error);
-      return;
-    }
-
-    setAvailableReports(data);
-    if (data.length > 0) {
-      setCurrentReportId(data[0].id);
-    } else {
-      setCurrentReportId(null);
-    }
-  };
-
-  useEffect(() => {
-    fetchReports(selectedPupilId);
-  }, [selectedPupilId]);
 
   const handlePupilChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPupilId(e.target.value);

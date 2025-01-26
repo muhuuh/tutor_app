@@ -338,6 +338,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           }
         );
 
+        // removed storing user message when sending files, because it ai answer should not be stored in chat history and was causing issues when chatting with the ai
+        /* 
         // Store the user's message in the database
         await database.chat.insertMessage({
           content: content,
@@ -353,6 +355,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           session_id: selectedPupilId,
           teacher_id: user!.id,
         });
+      */
       } else {
         // Add typing indicator
         const typingMessage: Message = {
@@ -370,12 +373,15 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             Accept: "application/json",
           },
           body: JSON.stringify({
-            message: content,
+            content: content,
             pupilId: selectedPupilId,
             teacherId: user?.id,
             timestamp: Date.now(),
           }),
         });
+
+        console.log("chatResponse");
+        console.log(chatResponse);
 
         if (!chatResponse.ok) {
           console.error("Chat response not OK:", {
