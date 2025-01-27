@@ -22,6 +22,9 @@ import { PencilIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 const TABS = [
   {
@@ -35,6 +38,49 @@ const TABS = [
     icon: <FiFileText className="w-5 h-5" />,
   },
 ];
+
+// Add this type for the ReactMarkdown components prop
+type Components = {
+  [key: string]: React.ComponentType<any>;
+};
+
+// Add this function near the top of the file, after imports
+const processContent = (content: string) => {
+  // Convert \[ ... \] to $$ ... $$
+  content = content.replace(/\\\[(.*?)\\\]/g, (_, match) => `$$${match}$$`);
+
+  // Convert \( ... \) to $ ... $
+  content = content.replace(/\\\((.*?)\\\)/g, (_, match) => `$${match}$`);
+
+  // Convert scientific notation (e.g., 6.674×10^-11)
+  content = content.replace(
+    /(\d+\.?\d*)\s*[×x]\s*10\^(-?\d+)/g,
+    (_, base, exp) => `$${base} \\times 10^{${exp}}$`
+  );
+
+  // Convert simple exponential notation (e.g., 10^24)
+  content = content.replace(
+    /(\d+)\^(-?\d+)/g,
+    (_, base, exp) => `$${base}^{${exp}}$`
+  );
+
+  // Convert units with superscripts (e.g., m²)
+  content = content.replace(/([a-zA-Z])²/g, (_, unit) => `$${unit}^2$`);
+  content = content.replace(/([a-zA-Z])³/g, (_, unit) => `$${unit}^3$`);
+
+  // Convert compound units (e.g., N·m²/kg²)
+  content = content.replace(/([A-Z]·[a-zA-Z²³]+\/[a-zA-Z²³]+)/g, (match) => {
+    return `$\\text{${match
+      .replace("·", "\\cdot ")
+      .replace("²", "^2")
+      .replace("³", "^3")}$`;
+  });
+
+  // Convert single capital letters that likely represent variables
+  content = content.replace(/\s([A-Z])\s/g, (_, letter) => ` $${letter}$ `);
+
+  return content;
+};
 
 export function Dashboard() {
   const { user } = useAuth();
@@ -359,7 +405,17 @@ export function Dashboard() {
         {/* Report content */}
         <div className="space-y-6 bg-white max-w-[21cm] mx-auto px-12 py-8 shadow-[0_-1px_3px_rgba(0,0,0,0.1)] min-h-screen">
           <div className="prose prose-sm max-w-none">
-            <ReactMarkdown>{combinedReport}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+              components={{
+                p: ({ node, children }) => {
+                  return <p className="my-2">{children}</p>;
+                },
+              }}
+            >
+              {processContent(combinedReport)}
+            </ReactMarkdown>
           </div>
         </div>
       </div>
