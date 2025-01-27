@@ -552,6 +552,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                 <p className="text-sm text-gray-500">
                   {!selectedPupilId
                     ? "Select a student to start chatting"
+                    : pendingFiles.length > 0
+                    ? ""
                     : "No messages yet. Start a conversation!"}
                 </p>
               </div>
@@ -613,6 +615,10 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                   placeholder={
                     !selectedPupilId
                       ? "Select a student before sending a message"
+                      : pendingFiles.length > 0
+                      ? reportTitle.trim()
+                        ? "Send files to create report"
+                        : "Please enter a title to create a report"
                       : "Type your message..."
                   }
                   className="flex-1 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all disabled:bg-gray-50 disabled:border-gray-100 disabled:text-gray-400"
@@ -620,7 +626,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                     isProcessing ||
                     isLoadingHistory ||
                     !selectedPupilId ||
-                    isUploading
+                    isUploading ||
+                    pendingFiles.length > 0
                   }
                   ref={inputRef}
                 />
