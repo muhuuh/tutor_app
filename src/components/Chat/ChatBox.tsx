@@ -176,6 +176,11 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         setMessages(formattedMessages);
         // Get initial suggestions based on loaded history
         updateSuggestions(formattedMessages);
+
+        // Scroll to bottom after messages are loaded
+        setTimeout(() => {
+          scrollToBottom();
+        }, 100);
       } catch (error) {
         console.error("Error loading chat history:", error);
         toast.error("Failed to load chat history");
@@ -551,46 +556,49 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                 </p>
               </div>
             ) : (
-              messages.map((message) =>
-                message.id === "typing" ? (
-                  <div key="typing" className="flex justify-start">
-                    <div className="bg-gray-50 rounded-2xl p-4 shadow-sm">
-                      <div className="flex gap-2">
-                        {[...Array(3)].map((_, i) => (
-                          <div
-                            key={i}
-                            className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"
-                            style={{ animationDelay: `${i * 150}ms` }}
-                          />
-                        ))}
+              <>
+                {messages.map((message) =>
+                  message.id === "typing" ? (
+                    <div key="typing" className="flex justify-start">
+                      <div className="bg-gray-50 rounded-2xl p-4 shadow-sm">
+                        <div className="flex gap-2">
+                          {[...Array(3)].map((_, i) => (
+                            <div
+                              key={i}
+                              className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"
+                              style={{ animationDelay: `${i * 150}ms` }}
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <div
-                    key={message.id}
-                    className={`flex ${
-                      message.isUser ? "justify-end" : "justify-start"
-                    }`}
-                  >
+                  ) : (
                     <div
-                      className={`max-w-[85%] rounded-2xl p-4 transition-all duration-200 ${
-                        message.isUser
-                          ? "bg-indigo-600 text-white shadow-sm"
-                          : "bg-gray-50 border border-gray-100 shadow-sm"
+                      key={message.id}
+                      className={`flex ${
+                        message.isUser ? "justify-end" : "justify-start"
                       }`}
                     >
-                      <p
-                        className={`text-sm leading-relaxed ${
-                          message.isUser ? "text-white" : "text-gray-800"
-                        } whitespace-pre-wrap`}
+                      <div
+                        className={`max-w-[85%] rounded-2xl p-4 transition-all duration-200 ${
+                          message.isUser
+                            ? "bg-indigo-600 text-white shadow-sm"
+                            : "bg-gray-50 border border-gray-100 shadow-sm"
+                        }`}
                       >
-                        {message.content}
-                      </p>
+                        <p
+                          className={`text-sm leading-relaxed ${
+                            message.isUser ? "text-white" : "text-gray-800"
+                          } whitespace-pre-wrap`}
+                        >
+                          {message.content}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                )
-              )
+                  )
+                )}
+                <div ref={messagesEndRef} />
+              </>
             )}
           </div>
 
