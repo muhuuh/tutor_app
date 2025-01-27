@@ -260,22 +260,20 @@ export function Dashboard() {
       );
     }
 
-    if (currentReportId) {
-      if (loading) {
-        return (
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-500 border-t-transparent" />
-          </div>
-        );
-      }
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-500 border-t-transparent" />
+        </div>
+      );
+    }
 
-      if (error) {
-        return (
-          <div className="text-red-600 p-4">
-            Failed to load report data. Please try again later.
-          </div>
-        );
-      }
+    if (error) {
+      return (
+        <div className="text-red-600 p-4">
+          Failed to load report data. Please try again later.
+        </div>
+      );
     }
 
     if (!report) return null;
@@ -288,6 +286,13 @@ export function Dashboard() {
       `Report from ${new Date(
         currentReport?.requested_at || ""
       ).toLocaleDateString()}`;
+
+    // Combine all report sections from the array of outputs
+    const combinedReport = report.reduce((acc, section) => {
+      // Get the first key (output1, output2, etc) from the section
+      const key = Object.keys(section)[0];
+      return acc + section[key] + "\n\n";
+    }, "");
 
     return (
       <div className="space-y-8">
@@ -351,90 +356,10 @@ export function Dashboard() {
           </div>
         </div>
 
-        {/* Report sections */}
+        {/* Report content */}
         <div className="space-y-6 bg-white max-w-[21cm] mx-auto px-12 py-8 shadow-[0_-1px_3px_rgba(0,0,0,0.1)] min-h-screen">
-          {/* Performance Summary */}
-          <div>
-            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
-              Performance Summary
-            </h3>
-            <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>
-                {report?.performance_summary ??
-                  report?.output?.performance_summary ??
-                  "No value found for this section. Try creating a new report"}
-              </ReactMarkdown>
-            </div>
-          </div>
-
-          {/* Grading */}
-          <div>
-            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
-              Grading
-            </h3>
-            <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>
-                {report?.grading ??
-                  report?.output?.grading ??
-                  "No value found for this section. Try creating a new report"}
-              </ReactMarkdown>
-            </div>
-          </div>
-
-          {/* Misunderstood Concepts */}
-          <div>
-            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
-              Misunderstood Concepts
-            </h3>
-            <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>
-                {report?.misunderstood_concepts ??
-                  report?.output?.misunderstood_concepts ??
-                  "No value found for this section. Try creating a new report"}
-              </ReactMarkdown>
-            </div>
-          </div>
-
-          {/* Suggested Next Steps */}
-          <div>
-            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
-              Suggested Next Steps
-            </h3>
-            <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>
-                {report?.suggested_next_steps ??
-                  report?.output?.suggested_next_steps ??
-                  "No value found for this section. Try creating a new report"}
-              </ReactMarkdown>
-            </div>
-          </div>
-
-          {/* Learning Materials */}
-          <div>
-            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
-              Learning Materials
-            </h3>
-            <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>
-                {report?.learning_material ??
-                  report?.output?.learning_material ??
-                  "No value found for this section. Try creating a new report"}
-              </ReactMarkdown>
-            </div>
-          </div>
-
-          {/* Practice Exercises */}
-          <div>
-            <h3 className="text-lg font-medium text-indigo-600 mb-4 pb-2 border-b border-indigo-200">
-              Practice Exercises
-            </h3>
-            <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>
-                {report?.practice_exercises ??
-                  report?.output?.practice_exercises ??
-                  "No value found for this section. Try creating a new report"}
-              </ReactMarkdown>
-            </div>
+          <div className="prose prose-sm max-w-none">
+            <ReactMarkdown>{combinedReport}</ReactMarkdown>
           </div>
         </div>
       </div>
