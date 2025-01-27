@@ -25,6 +25,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import html2pdf from "html2pdf.js";
 
 const TABS = [
   {
@@ -100,6 +101,7 @@ export function Dashboard() {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState("");
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const pdfRef = useRef<HTMLDivElement>(null);
 
   const fetchReports = async (pupilId: string) => {
     if (!pupilId) return;
@@ -202,27 +204,34 @@ export function Dashboard() {
   };
 
   const handleDownloadReport = async () => {
-    if (!report) return;
+    if (!report || !pdfRef.current) return;
 
     try {
-      const content = [
-        "# Performance Summary\n",
-        report.performance_summary,
-        "\n\n# Grading\n",
-        report.grading,
-        "\n\n# Misunderstood Concepts\n",
-        report.misunderstood_concepts,
-        "\n\n# Learning Materials\n",
-        report.learning_material,
-        "\n\n# Practice Exercises\n",
-        report.practice_exercises,
-      ].join("\n");
+      const combinedReport = report.reduce((acc, section) => {
+        const key = Object.keys(section)[0];
+        return acc + section[key] + "\n\n";
+      }, "");
 
+      const processedContent = processContent(combinedReport);
+
+      const currentReport = availableReports.find(
+        (r) => r.id === currentReportId
+      );
       const title =
-        report.report_title ||
-        `Report ${new Date(report.requested_at).toLocaleDateString()}`;
-      const wordBlob = await convertMarkdownToWord(content, title);
-      downloadWordDocument(wordBlob, title);
+        currentReport?.report_title ||
+        `Report from ${new Date(
+          currentReport?.requested_at || ""
+        ).toLocaleDateString()}`;
+
+      const opt = {
+        margin: 20,
+        filename: `${title}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      };
+
+      await html2pdf().set(opt).from(pdfRef.current).save();
       toast.success("Report downloaded successfully");
     } catch (error) {
       console.error("Error downloading report:", error);
@@ -416,6 +425,65 @@ export function Dashboard() {
             >
               {processContent(combinedReport)}
             </ReactMarkdown>
+          </div>
+        </div>
+
+        {/* Add this hidden div for PDF generation */}
+        <div className="hidden">
+          <div ref={pdfRef} className="p-8 bg-white">
+            <h1 className="text-2xl font-bold mb-6">{reportTitle}</h1>
+            <div
+              className="prose prose-sm max-w-none"
+              style={{
+                pageBreakInside: "avoid",
+                breakInside: "avoid",
+              }}
+            >
+              <ReactMarkdown
+                remarkPlugins={[remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+                components={{
+                  // Handle paragraphs with page break control
+                  p: ({ node, children }) => {
+                    return (
+                      <p
+                        className="my-2"
+                        style={{
+                          pageBreakInside: "avoid",
+                          breakInside: "avoid",
+                        }}
+                      >
+                        {children}
+                      </p>
+                    );
+                  },
+                  // Handle headings with page break control
+                  h1: ({ children }) => (
+                    <h1
+                      style={{
+                        pageBreakBefore: "always",
+                        pageBreakAfter: "avoid",
+                        breakAfter: "avoid",
+                      }}
+                    >
+                      {children}
+                    </h1>
+                  ),
+                  h2: ({ children }) => (
+                    <h2
+                      style={{
+                        pageBreakAfter: "avoid",
+                        breakAfter: "avoid",
+                      }}
+                    >
+                      {children}
+                    </h2>
+                  ),
+                }}
+              >
+                {processContent(combinedReport)}
+              </ReactMarkdown>
+            </div>
           </div>
         </div>
       </div>
