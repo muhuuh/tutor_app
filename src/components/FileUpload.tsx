@@ -81,8 +81,11 @@ export function FileUpload({
           </p>
         </div>
         <div className="text-center">
-          <p className="text-gray-600 text-sm mb-4">
+          <p className="text-gray-600 text-sm mb-2">
             Get AI suggestions for improving exercises and generating solutions
+          </p>
+          <p className="text-gray-600 text-sm font-light italic mb-4">
+            (Format: .docx)
           </p>
         </div>
         {showPupilSelect && !selectedPupilId && (

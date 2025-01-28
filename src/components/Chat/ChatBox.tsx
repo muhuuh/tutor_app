@@ -249,21 +249,27 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    console.log("handleSendMessage");
+
     if (!selectedPupilId) {
       toast.error("Please select a student first");
       return;
     }
 
     const content = currentPrompt.trim();
-    if (!content) return;
+    // Only check for content if there are no pending files
+    if (!content && pendingFiles.length === 0) return;
 
-    // Add user message to chat
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content,
-      isUser: true,
-    };
-    setMessages((prev) => [...prev, userMessage]);
+    // Add user message to chat only if it's a regular message
+    if (content) {
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        content,
+        isUser: true,
+      };
+      setMessages((prev) => [...prev, userMessage]);
+    }
+
     setIsProcessing(true);
     setCurrentPrompt("");
 
