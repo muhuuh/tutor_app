@@ -20,6 +20,10 @@ import {
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { ChatFileUpload } from "./ChatFileUpload";
 import { database } from "../../lib/database";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 interface Message {
   id: string;
@@ -610,13 +614,25 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                             : "bg-gray-50 border border-gray-100 shadow-sm"
                         }`}
                       >
-                        <p
-                          className={`text-sm leading-relaxed ${
-                            message.isUser ? "text-white" : "text-gray-800"
-                          } whitespace-pre-wrap`}
+                        <div
+                          className={`prose prose-sm ${
+                            message.isUser ? "prose-invert" : ""
+                          } max-w-none`}
                         >
-                          {message.content}
-                        </p>
+                          <ReactMarkdown
+                            remarkPlugins={[remarkMath]}
+                            rehypePlugins={[rehypeKatex]}
+                            components={{
+                              p: ({ children }) => (
+                                <p className="m-0 text-sm leading-relaxed whitespace-pre-wrap">
+                                  {children}
+                                </p>
+                              ),
+                            }}
+                          >
+                            {message.content}
+                          </ReactMarkdown>
+                        </div>
                       </div>
                     </div>
                   )
