@@ -349,6 +349,8 @@ export function Dashboard() {
       return acc + section[key] + "\n\n";
     }, "");
 
+    console.log("combinedReport", combinedReport);
+
     return (
       <div className="space-y-8">
         <div className="flex items-center justify-between mb-6">

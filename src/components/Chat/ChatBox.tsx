@@ -260,18 +260,19 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
     // Only check for content if there are no pending files
     if (!content && pendingFiles.length === 0) return;
 
-    // Add user message to chat only if it's a regular message
+    setIsProcessing(true);
+    setCurrentPrompt("");
+
+    // Declare userMessage outside the if block so it's accessible throughout the function
+    let userMessage: Message | null = null;
     if (content) {
-      const userMessage: Message = {
+      userMessage = {
         id: Date.now().toString(),
         content,
         isUser: true,
       };
       setMessages((prev) => [...prev, userMessage]);
     }
-
-    setIsProcessing(true);
-    setCurrentPrompt("");
 
     try {
       if (pendingFiles.length > 0) {
@@ -281,15 +282,27 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           setIsProcessing(false);
           return;
         }
+        // Add first response message after 1 second delay
+        setTimeout(() => {
+          const firstMessage: Message = {
+            id: Date.now().toString(),
+            content:
+              "Thanks for sharing the files! I'm analysing them, it might take up to 2 mins",
+            isUser: false,
+          };
+          setMessages((prev) => [...prev, firstMessage]);
+        }, 1000);
 
-        // Add immediate response message for file analysis
-        const processingMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content:
-            "I'm analyzing the files you've sent. You'll receive a notification when the report is ready. Feel free to continue chatting or switch to other tabs - I'll let you know when the analysis is complete.",
-          isUser: false,
-        };
-        setMessages((prev) => [...prev, processingMessage]);
+        // Add second message after 1 second delay
+        setTimeout(() => {
+          const secondMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content:
+              "Feel free to continue chatting or switch to other tabs, You'll receive a notification when the report is ready.",
+            isUser: false,
+          };
+          setMessages((prev) => [...prev, secondMessage]);
+        }, 1000);
 
         try {
           // Fire and forget - don't wait for response
@@ -354,6 +367,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         }
 
         const chatData = await chatResponse.json();
+        console.log("chatData", chatData);
 
         if (!chatData || typeof chatData.output !== "string") {
           throw new Error("Invalid response format from chat service");
@@ -375,13 +389,15 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         // Update suggestions with new messages
         updateSuggestions(updatedMessages);
 
-        // Store the user's message in the database
-        await database.chat.insertMessage({
-          content: content,
-          type: "human",
-          session_id: selectedPupilId,
-          teacher_id: user!.id,
-        });
+        // Store the user's message in the database (only if there was a message)
+        if (userMessage) {
+          await database.chat.insertMessage({
+            content: content,
+            type: "human",
+            session_id: selectedPupilId,
+            teacher_id: user!.id,
+          });
+        }
 
         // After getting the AI response, store that too
         await database.chat.insertMessage({
