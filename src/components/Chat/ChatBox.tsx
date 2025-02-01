@@ -488,8 +488,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             )}
           </div>
 
-          {/* Suggestions Section - Only show when student is selected */}
-          {selectedPupilId && (
+          {/* Suggestions Section - Only show when student is selected and no files are pending */}
+          {selectedPupilId && pendingFiles.length === 0 && (
             <div className="flex flex-col h-full">
               <div className="mb-6">
                 <div className="flex items-center justify-center gap-2">
