@@ -39,7 +39,7 @@ export function ExerciseForge() {
 
   // Mode, loading states
   const [mode, setMode] = useState<Mode>("edit");
-  const [showPreview, setShowPreview] = useState(false);
+  const [showPreview, setShowPreview] = useState(true);
   const [loading, setLoading] = useState(true);
   const [isLoadingContent, setIsLoadingContent] = useState(false);
   const [isCreatingNew, setIsCreatingNew] = useState(false);

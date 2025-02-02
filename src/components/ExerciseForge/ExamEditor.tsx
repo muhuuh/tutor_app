@@ -1,6 +1,13 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import type { Exam, Correction } from "../../types/database";
-import { FiEye, FiEyeOff, FiDownload, FiSave, FiTrash2 } from "react-icons/fi";
+import {
+  FiEye,
+  FiEyeOff,
+  FiDownload,
+  FiSave,
+  FiTrash2,
+  FiMaximize,
+} from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -199,30 +206,38 @@ export function ExamEditor({
 
     return (
       <>
-        {showPreview && !isCreatingNew && (
-          <div className="mb-4">
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Preview</h3>
-            <div className="prose prose-sm max-w-none p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <ReactMarkdown
-                remarkPlugins={[remarkMath]}
-                rehypePlugins={[rehypeKatex]}
-                components={{
-                  p: ({ node, children }) => {
-                    return <p className="my-2">{children}</p>;
-                  },
-                }}
-              >
-                {processedContent}
-              </ReactMarkdown>
+        <div className="relative">
+          {showPreview ? (
+            // Formatted view with height constraint and scroll
+            <div className="prose prose-sm max-w-none p-6 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex justify-end mb-4">
+                <button
+                  onClick={() => setIsPreviewOpen(true)}
+                  className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1"
+                >
+                  <FiMaximize className="w-4 h-4" />
+                  Full Screen
+                </button>
+              </div>
+              <div className="h-[500px] overflow-y-auto">
+                <ReactMarkdown
+                  remarkPlugins={[remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
+                >
+                  {processedContent}
+                </ReactMarkdown>
+              </div>
             </div>
-          </div>
-        )}
-        <div className="prose prose-sm max-w-none">
-          <textarea
-            value={editableContent}
-            onChange={(e) => setEditableContent(e.target.value)}
-            className="w-full h-96 p-4 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-          />
+          ) : (
+            // Edit view
+            <textarea
+              value={editableContent}
+              onChange={(e) => setEditableContent(e.target.value)}
+              className="w-full h-[500px] rounded-lg border border-gray-200 p-4 text-sm font-mono resize-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              placeholder="Start typing your exam content..."
+              disabled={isLoadingContent}
+            />
+          )}
         </div>
       </>
     );
@@ -286,7 +301,7 @@ export function ExamEditor({
                 : "text-gray-500 hover:text-indigo-600"
             }`}
           >
-            Edit
+            Questions
           </button>
           <button
             onClick={() => setMode("correction")}
@@ -296,20 +311,24 @@ export function ExamEditor({
                 : "text-gray-500 hover:text-indigo-600"
             }`}
           >
-            Correction
+            Solutions
           </button>
         </div>
         <div className="flex items-center gap-2">
           <div className="relative group">
             <button
-              onClick={() => setIsPreviewOpen(true)}
+              onClick={() => setShowPreview(!showPreview)}
               className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-              aria-label="Show Preview"
+              aria-label={showPreview ? "Edit" : "Show Preview"}
             >
-              <FiEye className="w-4 h-4" />
+              {showPreview ? (
+                <PencilIcon className="w-4 h-4" />
+              ) : (
+                <FiEye className="w-4 h-4" />
+              )}
             </button>
             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-              Show Preview
+              {showPreview ? "Edit" : "Show Preview"}
             </div>
           </div>
           <div className="relative group">
