@@ -550,6 +550,30 @@ export function ExerciseForge() {
     }
   };
 
+  // Add a new function to handle correction deletion
+  const handleCorrectionDelete = async (correctionId: string) => {
+    if (!window.confirm("Are you sure you want to delete this correction?")) {
+      return;
+    }
+
+    try {
+      await database.corrections.delete(correctionId);
+
+      // Clear the correction states
+      setCorrection(null);
+      setCorrectionContent("");
+      setEditableContent("");
+
+      // Switch back to edit mode since correction is deleted
+      setMode("edit");
+
+      toast.success("Correction deleted successfully");
+    } catch (error) {
+      console.error("Error deleting correction:", error);
+      toast.error("Failed to delete correction. Please try again.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 ">
       <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
@@ -636,9 +660,13 @@ export function ExerciseForge() {
                         onDownload={handleDownload}
                         onCreateCorrection={handleCreateCorrection}
                         onSave={handleSave}
-                        onDelete={() =>
-                          selectedExam && handleExamDelete(selectedExam.id)
-                        }
+                        onDelete={() => {
+                          if (mode === "correction" && correction) {
+                            handleCorrectionDelete(correction.id);
+                          } else if (selectedExam) {
+                            handleExamDelete(selectedExam.id);
+                          }
+                        }}
                         title={selectedExam?.title || ""}
                         onTitleChange={handleTitleChange}
                       />

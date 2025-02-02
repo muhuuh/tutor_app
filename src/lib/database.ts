@@ -154,6 +154,15 @@ export const database = {
       if (error) throw error;
       return correction;
     },
+
+    async delete(correctionId: string) {
+      const { error } = await supabase
+        .from("corrections")
+        .delete()
+        .eq("id", correctionId);
+
+      if (error) throw error;
+    },
   },
 
   chat: {
