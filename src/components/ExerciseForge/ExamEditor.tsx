@@ -31,12 +31,18 @@ interface ExamEditorProps {
   onTitleChange: (newTitle: string) => void;
 }
 
-const processContent = (content: string) => {
+export const processContent = (content: string) => {
+  // Handle square brackets with LaTeX content
+  content = content.replace(/\[(.*?)\]/g, (_, match) => `$${match}$`);
+
   // Convert \[ ... \] to $$ ... $$
   content = content.replace(/\\\[(.*?)\\\]/g, (_, match) => `$$${match}$$`);
 
   // Convert \( ... \) to $ ... $
   content = content.replace(/\\\((.*?)\\\)/g, (_, match) => `$${match}$`);
+
+  // Handle \text{...} expressions that aren't already in math mode
+  content = content.replace(/\\text\{([^}]+)\}/g, (match) => `$${match}$`);
 
   // Convert scientific notation (e.g., 6.674×10^-11)
   content = content.replace(

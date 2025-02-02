@@ -1,4 +1,9 @@
 import React, { useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
+import { processContent } from "./ExamEditor";
 
 interface Message {
   content: string;
@@ -81,13 +86,23 @@ export function ChatBox({
                     </div>
                   ) : (
                     <>
-                      <p
-                        className={`text-sm leading-relaxed ${
-                          msg.isUser ? "text-white" : "text-gray-800"
-                        } whitespace-pre-wrap`}
+                      <div
+                        className={`prose prose-sm ${
+                          msg.isUser ? "prose-invert" : ""
+                        } max-w-none`}
                       >
-                        {msg.content}
-                      </p>
+                        <ReactMarkdown
+                          remarkPlugins={[remarkMath]}
+                          rehypePlugins={[rehypeKatex]}
+                          components={{
+                            p: ({ node, children }) => {
+                              return <p className="my-2">{children}</p>;
+                            },
+                          }}
+                        >
+                          {processContent(msg.content)}
+                        </ReactMarkdown>
+                      </div>
                       {msg.timestamp && (
                         <div className="mt-2 flex justify-end">
                           <span
