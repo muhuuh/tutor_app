@@ -512,25 +512,28 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
-        Grading and Report Creation
-      </h2>
-      <p className="text-lg text-gray-600 text-center mt-4 max-w-3xl mx-auto">
-        Get handwritten answers from your pupils corrected, and receive
-        personalised reports about concepts to focus on, resources and exercice
-        propositions, and more
-      </p>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50/50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
+            Grading and Report Creation
+          </h2>
+          <p className="text-lg text-gray-600 text-center mt-4 max-w-3xl mx-auto">
+            Get handwritten answers from your pupils corrected, and receive
+            personalised reports about concepts to focus on, resources and
+            exercice propositions, and more
+          </p>
+        </div>
+
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100">
           <div className="p-6">
             <div className="flex items-center justify-center gap-6">
-              <div className="w-64 pt-4">
+              <div className="w-64">
                 <select
                   id="pupil"
                   value={selectedPupilId}
                   onChange={handlePupilChange}
-                  className="block w-full rounded-lg border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 transition-colors disabled:opacity-50"
+                  className="w-full rounded-xl border-gray-200 bg-white/50 backdrop-blur px-4 py-3 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors disabled:opacity-50"
                   disabled={loadingPupils}
                 >
                   <option value="" disabled>
@@ -543,20 +546,15 @@ export function Dashboard() {
                   ))}
                 </select>
               </div>
+
               {activeTab === "reports" && selectedPupilId && (
                 <>
-                  <label
-                    htmlFor="report"
-                    className="text-sm font-medium text-gray-700 whitespace-nowrap"
-                  >
-                    Select Report
-                  </label>
                   <div className="w-64">
                     <select
                       id="report"
                       value={currentReportId || ""}
                       onChange={(e) => setCurrentReportId(e.target.value)}
-                      className="block w-full rounded-lg border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
+                      className="w-full rounded-xl border-gray-200 bg-white/50 backdrop-blur px-4 py-3 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors"
                     >
                       {availableReports.map((report) => (
                         <option key={report.id} value={report.id}>
@@ -568,11 +566,12 @@ export function Dashboard() {
                   </div>
                 </>
               )}
+
               <button
                 onClick={() => setShowAddPupil(true)}
-                className="px-4 py-3 text-sm font-medium text-indigo-600 hover:text-indigo-700 whitespace-nowrap pt-6"
+                className="px-4 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
               >
-                Or add New Student
+                Add New Student
               </button>
             </div>
 
@@ -606,7 +605,7 @@ export function Dashboard() {
                       leaveFrom="opacity-100 scale-100"
                       leaveTo="opacity-0 scale-95"
                     >
-                      <Dialog.Panel className="w-full max-w-[500px] transform bg-white transition-all">
+                      <Dialog.Panel className="w-full max-w-[500px] transform bg-white rounded-2xl shadow-xl transition-all">
                         <div className="relative p-8">
                           <div className="flex items-center justify-between mb-8">
                             <Dialog.Title
@@ -638,7 +637,7 @@ export function Dashboard() {
             </Transition>
           </div>
 
-          <div className="px-6 border-b border-gray-200">
+          <div className="px-6 border-b border-gray-100">
             <Tabs
               tabs={TABS}
               activeTab={activeTab}
@@ -648,7 +647,7 @@ export function Dashboard() {
 
           <div className="p-6">{renderTabContent()}</div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
