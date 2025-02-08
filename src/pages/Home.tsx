@@ -18,7 +18,6 @@ import {
 export function Home() {
   const { user } = useAuth();
 
-  // Updated pain points with modern icons and concise copy
   const painPoints = [
     {
       icon: <FiEdit3 className="w-6 h-6" />,
@@ -43,7 +42,6 @@ export function Home() {
     },
   ];
 
-  // Features with gradient backgrounds and hover effects
   const features = [
     {
       icon: <FiZap className="w-6 h-6" />,
@@ -75,7 +73,6 @@ export function Home() {
     },
   ];
 
-  // New blog and tutorials section data
   const resources = [
     {
       icon: <FiFileText className="w-6 h-6" />,
@@ -100,7 +97,6 @@ export function Home() {
     },
   ];
 
-  // Pricing plans with glassmorphism effect
   const pricingPlans = [
     {
       name: "Starter",
@@ -134,40 +130,58 @@ export function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* Modern Hero Section with floating elements */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
-        <div className="absolute inset-0 -z-10 opacity-10 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+      {/* Hero Section with enhanced design */}
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900">
+        {/* Animated grid background */}
+        <div className="absolute inset-0 -z-10 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] opacity-30" />
+        <div className="absolute inset-0 -z-10 opacity-10 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="text-center lg:text-left space-y-8 relative z-10">
-              <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-300 leading-tight">
-                Your Personal AI Tutor Assistant
+              <div className="animate-fade-in [--animate-delay:200ms]">
+                <span className="inline-flex items-center gap-2 rounded-full px-4 py-1 text-sm bg-blue-500/10 text-blue-300 ring-1 ring-blue-500/20">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
+                  </span>
+                  AI-Powered Education Platform
+                </span>
+              </div>
+
+              <h1 className="text-5xl md:text-7xl font-bold leading-tight animate-fade-in [--animate-delay:400ms]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-200 to-purple-300">
+                  Your Personal AI Tutor Assistant
+                </span>
               </h1>
-              <p className="text-xl text-gray-300 max-w-2xl">
-                Boost your tutoring with personalized insights, and smart tools.
+
+              <p className="text-xl text-gray-300 max-w-2xl animate-fade-in [--animate-delay:600ms] leading-relaxed">
+                Boost your tutoring with personalized insights and smart tools.
                 Focus on what truly matters - inspiring your students.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start relative z-20">
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start relative z-20 animate-fade-in [--animate-delay:800ms]">
                 {user ? (
                   <Link
                     to="/tools/homework-corrections"
-                    className="inline-flex items-center px-8 py-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors relative z-30"
+                    className="group inline-flex items-center px-8 py-4 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25"
                   >
                     Let's start
-                    <FiArrowRight className="ml-3" />
+                    <FiArrowRight className="ml-3 transition-transform group-hover:translate-x-1" />
                   </Link>
                 ) : (
                   <>
                     <Link
                       to="/auth"
-                      className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-semibold hover:scale-[1.02] transition-transform cursor-pointer select-none"
+                      className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/25"
                     >
                       Start Free Trial
+                      <FiArrowRight className="ml-3 transition-transform group-hover:translate-x-1" />
                     </Link>
                     <Link
                       to="/auth"
-                      className="inline-flex items-center px-8 py-4 bg-gray-800 text-gray-100 rounded-2xl font-semibold hover:bg-gray-700 transition-colors cursor-pointer select-none"
+                      className="inline-flex items-center px-8 py-4 bg-gray-800/50 text-gray-100 rounded-xl font-semibold hover:bg-gray-800 transition-all duration-300 backdrop-blur-sm border border-gray-700"
                     >
                       Educator Login
                     </Link>
@@ -175,13 +189,15 @@ export function Home() {
                 )}
               </div>
             </div>
-            <div className="relative lg:block">
-              <div className="relative rounded-[2.5rem] overflow-hidden transform rotate-1 hover:rotate-0 transition-transform">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-lg" />
+
+            <div className="relative lg:block animate-fade-in [--animate-delay:1000ms]">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-[2.5rem] blur opacity-30 animate-pulse"></div>
+              <div className="relative rounded-[2.5rem] overflow-hidden transform hover:rotate-1 transition-all duration-500 hover:scale-105">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl"></div>
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/4711/4711981.png"
                   alt="AI Education Platform"
-                  className="relative w-full h-[500px] object-contain"
+                  className="relative w-full h-[500px] object-contain p-8"
                 />
               </div>
             </div>
@@ -189,17 +205,20 @@ export function Home() {
         </div>
       </section>
 
-      {/* Educator Challenges Section - Updated with Real Pain Points */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Educator Challenges Section - Enhanced UI */}
+      <section className="relative py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gray-50/90 backdrop-blur-3xl"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <span className="text-sm font-semibold text-blue-500 tracking-wide">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">
               EDUCATOR CHALLENGES
             </span>
-            <h2 className="mt-4 text-4xl font-bold text-gray-900">
+            <h2 className="mt-6 text-4xl font-bold text-gray-900 tracking-tight">
               Top Tutor Pain Points
             </h2>
           </div>
+
           <div className="grid lg:grid-cols-3 gap-8">
             {[
               {
@@ -229,17 +248,19 @@ export function Home() {
             ].map((point, index) => (
               <div
                 key={index}
-                className="group relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                className="group relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
               >
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
                     {point.icon}
                   </div>
                   <h3 className="mt-6 text-xl font-bold text-gray-900">
                     {point.title}
                   </h3>
-                  <p className="mt-4 text-gray-600">{point.description}</p>
+                  <p className="mt-4 text-gray-600 leading-relaxed">
+                    {point.description}
+                  </p>
                   <div className="mt-6 pt-6 border-t border-gray-100">
                     <p className="text-sm font-semibold text-blue-500">
                       Our Solution →
@@ -255,18 +276,20 @@ export function Home() {
         </div>
       </section>
 
-      {/* Platform Features Section - Improved UI */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Platform Features Section - Modern Design */}
+      <section className="py-32 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <span className="text-sm font-semibold text-blue-500 tracking-wide">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">
               PLATFORM FEATURES
             </span>
-            <h2 className="mt-4 text-4xl font-bold text-gray-900">
+            <h2 className="mt-6 text-4xl font-bold text-gray-900 tracking-tight">
               Advanced Teaching Tools
             </h2>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+
+          <div className="grid md:grid-cols-2 gap-8">
             {[
               {
                 icon: <FiEdit3 className="w-6 h-6" />,
@@ -283,13 +306,13 @@ export function Home() {
                 gradient: "from-pink-600 to-rose-500",
               },
             ].map((feature, index) => (
-              <div key={index} className="relative group h-full">
+              <div key={index} className="relative group">
                 <div
-                  className={`absolute -inset-1 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-20 blur-sm transition-opacity group-hover:opacity-30`}
+                  className={`absolute -inset-px rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-25 blur-xl transition-all duration-500 group-hover:opacity-50`}
                 />
-                <div className="relative h-full bg-white rounded-2xl border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="relative h-full bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-100/50 p-8 shadow-lg transition-all duration-500 group-hover:shadow-2xl">
                   <div
-                    className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center text-white`}
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center text-white shadow-lg`}
                   >
                     {feature.icon}
                   </div>
@@ -333,28 +356,32 @@ export function Home() {
           </div>
         </div>
       </section>
-      {/* New Resources Section (Blog & Tutorials) */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      {/* Resources Section - Enhanced Design */}
+      <section className="py-32 bg-gray-50/80 backdrop-blur-lg relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <span className="text-sm font-semibold text-blue-500 tracking-wide">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">
               LEARNING RESOURCES
             </span>
-            <h2 className="mt-4 text-4xl font-bold text-gray-900">
+            <h2 className="mt-6 text-4xl font-bold text-gray-900 tracking-tight">
               Guides & Tutorials
             </h2>
           </div>
+
           <div className="grid md:grid-cols-3 gap-8">
             {resources.map((resource, index) => (
               <article
                 key={index}
-                className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                className="group relative bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1"
               >
-                <div className="h-48 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-center">
+                <div className="h-48 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <img
                     src={resource.image}
                     alt=""
-                    className="h-32 w-32 object-contain opacity-90"
+                    className="h-32 w-32 object-contain opacity-90 transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
                 <div className="p-8">
@@ -369,10 +396,10 @@ export function Home() {
                   </h3>
                   <Link
                     to={resource.link}
-                    className="mt-6 inline-flex items-center text-blue-500 font-medium hover:text-blue-600 transition-colors"
+                    className="mt-6 inline-flex items-center text-blue-500 font-medium hover:text-blue-600 transition-colors group"
                   >
                     Learn More
-                    <FiArrowRight className="ml-2" />
+                    <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </div>
               </article>
@@ -381,74 +408,13 @@ export function Home() {
         </div>
       </section>
 
-      {/* Pricing Section with glass effect */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <span className="text-sm font-semibold text-blue-500 tracking-wide">
-              PRICING
-            </span>
-            <h2 className="mt-4 text-4xl font-bold text-gray-900">
-              Flexible Plans for Every Need
-            </h2>
-          </div>
-          <div className="grid lg:grid-cols-3 gap-8">
-            {pricingPlans.map((plan, index) => (
-              <div
-                key={index}
-                className={`relative bg-gradient-to-b ${
-                  plan.gradient
-                } backdrop-blur-lg rounded-2xl p-px overflow-hidden ${
-                  plan.popular ? "shadow-2xl" : "shadow-lg"
-                }`}
-              >
-                <div className="h-full bg-white/95 rounded-[calc(2rem-1px)] p-8">
-                  {plan.popular && (
-                    <div className="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 rounded-bl-xl text-sm font-medium">
-                      Most Popular
-                    </div>
-                  )}
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    {plan.name}
-                  </h3>
-                  <p className="mt-2 text-gray-600">{plan.description}</p>
-                  <div className="mt-6 flex items-baseline gap-2">
-                    <span className="text-5xl font-bold text-gray-900">
-                      {plan.price}
-                    </span>
-                    {plan.period && (
-                      <span className="text-gray-500">{plan.period}</span>
-                    )}
-                  </div>
-                  <ul className="mt-8 space-y-4">
-                    {plan.features.map((feature, fIndex) => (
-                      <li key={fIndex} className="flex items-center gap-3">
-                        <FiCheck className="flex-shrink-0 text-blue-500" />
-                        <span className="text-gray-600">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    to="/pricing"
-                    className={`mt-8 inline-flex w-full justify-center items-center px-6 py-3 rounded-xl font-medium transition-colors ${
-                      plan.popular
-                        ? "bg-blue-500 text-white hover:bg-blue-600"
-                        : "bg-gray-100 text-gray-900 hover:bg-gray-200"
-                    }`}
-                  >
-                    Get Started
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* CTA Section - Enhanced Design */}
+      <section className="relative py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-gradient-to-br from-gray-900 to-blue-900 text-white py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">
             Transform Your Teaching Today
           </h2>
           <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
@@ -458,17 +424,19 @@ export function Home() {
           <div className="flex justify-center gap-4">
             <Link
               to="/signup"
-              className="px-8 py-4 bg-white text-gray-900 rounded-2xl font-semibold hover:bg-gray-100 transition-colors"
+              className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-white/25 hover:scale-105"
             >
               Start Free Trial
+              <FiArrowRight className="ml-2 inline-block transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Modern Footer */}
-      <footer className="bg-gray-900 text-gray-400">
-        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+      {/* Footer - Modern Design */}
+      <footer className="bg-gray-900 text-gray-400 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="relative max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-white font-semibold mb-4">Product</h3>
