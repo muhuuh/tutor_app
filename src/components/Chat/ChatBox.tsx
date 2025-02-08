@@ -1,7 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ChatMessage } from "./ChatMessage";
-import { ChatInput } from "./ChatInput";
-import { FileUpload } from "../FileUpload";
 import { config } from "../../lib/config";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
@@ -441,7 +438,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-100 shadow-lg">
             <div className="mb-6">
               <div className="flex items-center gap-2 justify-center">
-                <h3 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600">
+                <h3 className="text-lg font-semibold text-blue-900">
                   Correction of Exercises
                 </h3>
                 <InfoTooltip content="Upload pictures of handwritten exam answers to receive a detailed correction report." />
@@ -487,12 +484,12 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-100 shadow-lg">
               <div className="mb-6">
                 <div className="flex items-center justify-center gap-2">
-                  <h3 className="font-medium text-gray-800 text-lg">
+                  <h3 className="text-lg font-semibold text-blue-900">
                     Suggestions How to Continue
                   </h3>
                   <InfoTooltip content="Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant." />
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-sm text-gray-600 text-center mt-2">
                   Click on any suggestion to quickly start a conversation
                 </p>
               </div>

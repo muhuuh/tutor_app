@@ -379,7 +379,7 @@ export function Dashboard() {
               />
             ) : (
               <div className="flex items-center justify-center gap-2">
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600">
                   {reportTitle}
                 </h2>
                 <button
@@ -414,7 +414,7 @@ export function Dashboard() {
         </div>
 
         {/* Report content */}
-        <div className="space-y-6 bg-white max-w-[21cm] mx-auto px-12 py-8 shadow-[0_-1px_3px_rgba(0,0,0,0.1)] min-h-screen">
+        <div className="space-y-6 bg-white max-w-[21cm] mx-auto px-12 py-16 shadow-[0_-1px_3px_rgba(0,0,0,0.1)] min-h-screen">
           <div className="prose prose-sm max-w-none">
             <ReactMarkdown
               remarkPlugins={[remarkMath]}
@@ -528,7 +528,7 @@ export function Dashboard() {
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100">
           <div className="p-6">
             <div className="flex items-center justify-center gap-6">
-              <div className="w-64">
+              <div className="w-64 shadow-sm rounded-xl">
                 <select
                   id="pupil"
                   value={selectedPupilId}
@@ -549,7 +549,7 @@ export function Dashboard() {
 
               {activeTab === "reports" && selectedPupilId && (
                 <>
-                  <div className="w-64">
+                  <div className="w-64 shadow-sm rounded-xl">
                     <select
                       id="report"
                       value={currentReportId || ""}
