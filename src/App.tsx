@@ -16,6 +16,7 @@ import { Header } from "./components/Header";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { About } from "./pages/company/About";
 import { FAQ } from "./pages/FAQ";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -23,7 +24,9 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/signin" element={<Auth />} />
+          <Route path="/signup" element={<Auth />} />
+          <Route path="/auth" element={<Navigate to="/signup" replace />} />
           <Route path="/home" element={<Home />} />
           <Route
             path="/tools/homework-corrections"
@@ -46,6 +49,9 @@ function App() {
           <Route path="/company/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route element={<ProtectedRoute />}>
+            {/* Your existing protected routes */}
+          </Route>
         </Routes>
         <Toaster position="top-right" />
       </Router>

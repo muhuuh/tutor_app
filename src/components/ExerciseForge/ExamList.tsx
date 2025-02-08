@@ -123,7 +123,7 @@ export function ExamList({
   onExamDownload,
 }: ExamListProps) {
   return (
-    <div className="col-span-1 pr-8">
+    <div className="col-span-1 ">
       <div className="flex items-center gap-2 justify-center mb-6">
         <h2 className="text-xl font-semibold text-blue-900">Your Exams</h2>
         <div className="-mt-1">

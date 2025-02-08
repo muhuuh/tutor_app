@@ -195,20 +195,12 @@ export function Header() {
                   </button>
                 </>
               ) : (
-                <>
-                  <Link
-                    to="/auth/login"
-                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/auth/signup"
-                    className="px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg transition-shadow"
-                  >
-                    Get Started
-                  </Link>
-                </>
+                <Link
+                  to="/auth"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-indigo-600 hover:to-purple-600 transition-all duration-200"
+                >
+                  Login
+                </Link>
               )}
             </div>
           </div>
