@@ -650,7 +650,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                         : "Please enter a title to create a report"
                       : "Type your message..."
                   }
-                  className="flex-1 rounded-xl border border-gray-200 bg-white/90 backdrop-blur px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all disabled:bg-gray-50 disabled:border-gray-100 disabled:text-gray-400"
+                  className="flex-1 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 focus:outline-none transition-all disabled:opacity-50"
                   disabled={
                     isProcessing ||
                     isLoadingHistory ||

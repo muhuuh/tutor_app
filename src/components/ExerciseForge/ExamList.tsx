@@ -14,6 +14,7 @@ import {
 } from "@floating-ui/react";
 import { FiTrash2, FiDownload } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 interface ExamListProps {
   loading: boolean;
@@ -98,6 +99,17 @@ function ExamTooltip({
   );
 }
 
+function InfoTooltip({ content }: { content: string }) {
+  return (
+    <div className="relative group">
+      <InformationCircleIcon className="w-5 h-5 text-indigo-400 hover:text-indigo-500 cursor-help transition-colors" />
+      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm text-white text-xs rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+        {content}
+      </div>
+    </div>
+  );
+}
+
 export function ExamList({
   loading,
   exams,
@@ -109,36 +121,41 @@ export function ExamList({
   onExamDownload,
 }: ExamListProps) {
   return (
-    <div className="col-span-1 border-r pr-6">
-      <h2 className="text-lg font-medium text-gray-900 mb-4">Your Exams</h2>
+    <div className="col-span-1 pr-8">
+      <div className="flex items-center gap-2 justify-center mb-6">
+        <h2 className="text-xl font-semibold text-blue-900">Your Exams</h2>
+        <div className="-mt-1">
+          <InfoTooltip content="Overview of the exams you have uploaded and edited in the past." />
+        </div>
+      </div>
       {loading ? (
         <div className="flex items-center justify-center h-32">
-          <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-500 border-t-transparent" />
+          <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+        <div className="space-y-4 max-h-[600px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-indigo-500">
           {exams.slice(0, 5).map((exam) => (
             <ExamTooltip key={exam.id} content={exam.content} formatted>
               <div className="relative group">
                 <button
                   onClick={() => onExamSelect(exam.id)}
-                  className={`w-full text-left p-4 pr-20 rounded-lg border transition-colors ${
+                  className={`w-full text-left ml-2 p-4 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] ${
                     selectedExam?.id === exam.id
-                      ? "border-indigo-500 bg-indigo-50"
+                      ? "border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-50"
                       : newExamId === exam.id
-                      ? "border-green-200 bg-green-50"
-                      : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
+                      ? "border-emerald-500 bg-emerald-50"
+                      : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50/50"
                   }`}
                 >
                   <h3 className="font-medium text-gray-900 flex items-center gap-2">
                     {exam.title}
                     {newExamId === exam.id && (
-                      <span className="text-xs font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded-full">
+                      <span className="text-xs font-medium text-emerald-600 bg-emerald-100 px-2.5 py-0.5 rounded-full">
                         New
                       </span>
                     )}
                   </h3>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-gray-500 mt-2">
                     Last updated:{" "}
                     {new Date(exam.updated_at).toLocaleDateString("en-GB", {
                       day: "numeric",
@@ -147,13 +164,14 @@ export function ExamList({
                     })}
                   </p>
                 </button>
-                <div className="absolute right-2 top-0 bottom-0 flex flex-col justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       onExamDownload(exam.id);
                     }}
-                    className="p-2 text-gray-400 hover:text-indigo-600 transition-colors"
+                    className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
                     aria-label="Download exam"
                   >
                     <FiDownload className="w-4 h-4" />
@@ -163,7 +181,7 @@ export function ExamList({
                       e.stopPropagation();
                       onExamDelete(exam.id);
                     }}
-                    className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
                     aria-label="Delete exam"
                   >
                     <FiTrash2 className="w-4 h-4" />
@@ -173,10 +191,10 @@ export function ExamList({
             </ExamTooltip>
           ))}
           {exams.length > 5 && (
-            <div className="pt-2 border-t">
-              <div className="text-sm text-gray-500 text-center">
+            <div className="pt-4 border-t border-gray-100">
+              <p className="text-sm text-gray-500 text-center">
                 Scroll to see {exams.length - 5} more exams
-              </div>
+              </p>
             </div>
           )}
         </div>

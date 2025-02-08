@@ -59,7 +59,7 @@ export function ChatBox({
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -70,8 +70,8 @@ export function ChatBox({
                 <div
                   className={`max-w-[85%] rounded-2xl p-4 transition-all duration-200 ${
                     msg.isUser
-                      ? "bg-indigo-600 text-white shadow-sm"
-                      : "bg-gray-50 border border-gray-100 shadow-sm"
+                      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm"
+                      : "bg-gray-50/80 backdrop-blur-sm border border-gray-100 shadow-sm"
                   }`}
                 >
                   {"id" in msg ? (
@@ -107,8 +107,8 @@ export function ChatBox({
                         <div className="mt-2 flex justify-end">
                           <span
                             className={`text-xs ${
-                              msg.isUser ? "text-indigo-100" : "text-gray-500"
-                            } opacity-80`}
+                              msg.isUser ? "text-white/70" : "text-gray-500"
+                            }`}
                           >
                             {new Date(msg.timestamp).toLocaleTimeString([], {
                               hour: "2-digit",
@@ -129,7 +129,7 @@ export function ChatBox({
 
       <form
         onSubmit={onSendMessage}
-        className="border-t border-gray-100 bg-white p-4"
+        className="border-t border-gray-100 bg-white/50 backdrop-blur-sm p-4"
       >
         <div className="flex gap-3 items-center">
           <input
@@ -143,17 +143,17 @@ export function ChatBox({
                 ? "Ask about the correction..."
                 : "Ask AI anything about this exam..."
             }
-            className="flex-1 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all"
+            className="flex-1 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 focus:outline-none transition-all disabled:opacity-50"
             disabled={isSendingMessage}
           />
           <button
             type="submit"
             disabled={!message.trim() || isSendingMessage}
-            className="flex items-center justify-center h-12 w-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+            className="flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
             aria-label="Send message"
           >
             {isSendingMessage ? (
-              <div className="h-4 w-4 border-2 border-white/50 border-t-white rounded-full animate-spin" />
+              <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
