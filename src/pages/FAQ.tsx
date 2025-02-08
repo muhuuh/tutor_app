@@ -86,7 +86,7 @@ export function FAQ() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-sky-800 py-24">
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
         <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -161,18 +161,20 @@ export function FAQ() {
           </div>
 
           <div className="mt-20 text-center">
-            <div className="bg-gradient-to-br from-violet-500 via-blue-600 to-sky-600 rounded-2xl p-8 shadow-xl">
-              <h3 className="text-2xl font-bold text-white mb-4">
-                Still have questions?
-              </h3>
-              <p className="text-gray-200 mb-8 max-w-xl mx-auto">
-                Our support team is here to help you get the most out of our
-                platform
-              </p>
-              <button className="inline-flex items-center px-8 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors hover:shadow-lg">
-                Contact Support
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </button>
+            <div className="relative rounded-2xl p-8 shadow-xl overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+              <div className="relative">
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  Still have questions?
+                </h3>
+                <p className="text-gray-200 mb-8 max-w-xl mx-auto">
+                  Our support team is here to help you get the most out of our
+                  platform
+                </p>
+                <button className="inline-flex items-center px-8 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors hover:shadow-lg">
+                  Contact Support
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -14,6 +14,7 @@ import {
   FiVideo,
   FiClock,
 } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 export function Home() {
   const { user } = useAuth();
@@ -130,8 +131,12 @@ export function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-      {/* Hero Section with enhanced design */}
+    <div className="min-h-screen overflow-hidden">
+      {/* Fixed background that spans the entire page */}
+      <div className="fixed inset-0 bg-gradient-to-b from-gray-50 to-white -z-10" />
+      <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] -z-10" />
+
+      {/* Hero Section  */}
       <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900">
         {/* Animated grid background */}
         <div className="absolute inset-0 -z-10 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] opacity-30" />
@@ -195,9 +200,9 @@ export function Home() {
               <div className="relative rounded-[2.5rem] overflow-hidden transform hover:rotate-1 transition-all duration-500 hover:scale-105">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl"></div>
                 <img
-                  src="https://cdn-icons-png.flaticon.com/512/4711/4711981.png"
-                  alt="AI Education Platform"
-                  className="relative w-full h-[500px] object-contain p-8"
+                  src="/mask-icon.png"
+                  alt="AI Tutor Assistant"
+                  className="relative w-full h-[500px] object-contain p-8 opacity-90 [filter:drop-shadow(0_0_20px_rgba(59,130,246,0.5))_brightness(0.9)_hue-rotate(10deg)]"
                 />
               </div>
             </div>
@@ -205,19 +210,30 @@ export function Home() {
         </div>
       </section>
 
-      {/* Educator Challenges Section - Enhanced UI */}
+      {/* Educator Challenges Section  */}
       <section className="relative py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gray-50/90 backdrop-blur-3xl"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-24"
+          >
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-blue-100 border border-violet-200/50 text-violet-700 shadow-sm transition-all hover:shadow-md"
+            >
+              <span className="relative flex h-2 w-2 mr-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
+              </span>
               EDUCATOR CHALLENGES
-            </span>
-            <h2 className="mt-6 text-4xl font-bold text-gray-900 tracking-tight">
+            </motion.span>
+            <h2 className="mt-8 text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
               Top Tutor Pain Points
             </h2>
-          </div>
+          </motion.div>
 
           <div className="grid lg:grid-cols-3 gap-8">
             {[
@@ -276,20 +292,32 @@ export function Home() {
         </div>
       </section>
 
-      {/* Platform Features Section - Modern Design */}
-      <section className="py-32 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      {/* Modern Platform Features - Alternative Design */}
+      <section className="py-32 relative overflow-hidden">
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">
-              PLATFORM FEATURES
-            </span>
-            <h2 className="mt-6 text-4xl font-bold text-gray-900 tracking-tight">
-              Advanced Teaching Tools
+          {/* Keep the header section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-24"
+          >
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-blue-100 border border-violet-200/50 text-violet-700 shadow-sm transition-all hover:shadow-md"
+            >
+              <span className="relative flex h-2 w-2 mr-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
+              </span>
+              NEXT-GEN TEACHING TOOLS
+            </motion.span>
+            <h2 className="mt-8 text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
+              Transformative Education Technology
             </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
+          </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
             {[
               {
                 icon: <FiEdit3 className="w-6 h-6" />,
@@ -306,13 +334,13 @@ export function Home() {
                 gradient: "from-pink-600 to-rose-500",
               },
             ].map((feature, index) => (
-              <div key={index} className="relative group">
+              <div key={index} className="relative group h-full">
                 <div
-                  className={`absolute -inset-px rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-25 blur-xl transition-all duration-500 group-hover:opacity-50`}
+                  className={`absolute -inset-1 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-20 blur-sm transition-opacity group-hover:opacity-30`}
                 />
-                <div className="relative h-full bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-100/50 p-8 shadow-lg transition-all duration-500 group-hover:shadow-2xl">
+                <div className="relative h-full bg-white rounded-2xl border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-shadow">
                   <div
-                    className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center text-white shadow-lg`}
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center text-white`}
                   >
                     {feature.icon}
                   </div>
@@ -357,18 +385,30 @@ export function Home() {
         </div>
       </section>
 
-      {/* Resources Section - Enhanced Design */}
-      <section className="py-32 bg-gray-50/80 backdrop-blur-lg relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      {/* Resources Section  */}
+      <section className="py-32 relative overflow-hidden">
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-24"
+          >
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-blue-100 border border-violet-200/50 text-violet-700 shadow-sm transition-all hover:shadow-md"
+            >
+              <span className="relative flex h-2 w-2 mr-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
+              </span>
               LEARNING RESOURCES
-            </span>
-            <h2 className="mt-6 text-4xl font-bold text-gray-900 tracking-tight">
+            </motion.span>
+            <h2 className="mt-8 text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
               Guides & Tutorials
             </h2>
-          </div>
+          </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {resources.map((resource, index) => (
