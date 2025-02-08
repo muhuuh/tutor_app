@@ -473,7 +473,7 @@ export function Home() {
         </div>
       </section>
 
-      {/* Footer - Modern Design */}
+      {/* Footer  */}
       <footer className="bg-gray-900 text-gray-400 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="relative max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
@@ -491,7 +491,7 @@ export function Home() {
                 </li>
                 <li>
                   <Link
-                    to="/pricing"
+                    to="../company/pricing"
                     className="hover:text-white transition-colors"
                   >
                     Pricing
@@ -526,14 +526,6 @@ export function Home() {
                     Tutorials
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    to="/webinars"
-                    className="hover:text-white transition-colors"
-                  >
-                    Webinars
-                  </Link>
-                </li>
               </ul>
             </div>
             <div>
@@ -541,7 +533,7 @@ export function Home() {
               <ul className="space-y-3">
                 <li>
                   <Link
-                    to="/about"
+                    to="../company/about"
                     className="hover:text-white transition-colors"
                   >
                     About
@@ -557,7 +549,7 @@ export function Home() {
                 </li>
                 <li>
                   <Link
-                    to="/contact"
+                    to="../company/contact"
                     className="hover:text-white transition-colors"
                   >
                     Contact
@@ -584,20 +576,12 @@ export function Home() {
                     Terms
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    to="/security"
-                    className="hover:text-white transition-colors"
-                  >
-                    Security
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>
           <div className="mt-12 pt-8 border-t border-gray-800 text-center">
             <p className="text-gray-500">
-              &copy; 2024 EduAI. All rights reserved.
+              &copy; 2025 EduAI. All rights reserved.
             </p>
           </div>
         </div>

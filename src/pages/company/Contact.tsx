@@ -44,7 +44,7 @@ export function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white mb-16">
       <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-sky-800 py-24">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
         <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
@@ -87,7 +87,7 @@ export function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Your Name"
-                  className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm rounded-lg focus:ring-2 focus:ring-blue-500 transition-all border-0 shadow-sm"
+                  className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200/30 focus:outline-none focus:border-transparent focus:ring-1 focus:ring-blue-500/30 transition-all shadow-sm hover:shadow-md"
                 />
               </div>
               <div className="relative">
@@ -99,7 +99,7 @@ export function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Your Email"
-                  className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm rounded-lg focus:ring-2 focus:ring-blue-500 transition-all border-0 shadow-sm"
+                  className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200/30 focus:outline-none focus:border-transparent focus:ring-1 focus:ring-blue-500/30 transition-all shadow-sm hover:shadow-md"
                 />
               </div>
             </div>
@@ -113,7 +113,7 @@ export function Contact() {
                 value={formData.subject}
                 onChange={handleChange}
                 placeholder="Subject"
-                className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm rounded-lg focus:ring-2 focus:ring-blue-500 transition-all border-0 shadow-sm"
+                className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200/30 focus:outline-none focus:border-transparent focus:ring-1 focus:ring-blue-500/30 transition-all shadow-sm hover:shadow-md"
               />
             </div>
 
@@ -126,7 +126,7 @@ export function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Your Message"
-                className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm rounded-lg focus:ring-2 focus:ring-blue-500 transition-all border-0 shadow-sm"
+                className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200/30 focus:outline-none focus:border-transparent focus:ring-1 focus:ring-blue-500/30 transition-all shadow-sm hover:shadow-md"
               />
             </div>
 
@@ -136,7 +136,7 @@ export function Contact() {
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-700 transition-colors"
+                  className="text-gray-400 hover:text-blue-600 transition-colors"
                 >
                   <Facebook className="w-6 h-6" />
                 </a>
@@ -144,7 +144,7 @@ export function Contact() {
                   href="https://twitter.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sky-400 hover:text-sky-500 transition-colors"
+                  className="text-gray-400 hover:text-sky-400 transition-colors"
                 >
                   <Twitter className="w-6 h-6" />
                 </a>
@@ -152,7 +152,7 @@ export function Contact() {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-700 hover:text-blue-800 transition-colors"
+                  className="text-gray-400 hover:text-blue-700 transition-colors"
                 >
                   <Linkedin className="w-6 h-6" />
                 </a>
@@ -160,7 +160,7 @@ export function Contact() {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-pink-600 hover:text-pink-700 transition-colors"
+                  className="text-gray-400 hover:text-pink-600 transition-colors"
                 >
                   <Instagram className="w-6 h-6" />
                 </a>
@@ -169,15 +169,15 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+                className="px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl"
               >
                 {isSubmitting ? (
                   "Sending..."
                 ) : (
-                  <>
+                  <span className="flex items-center">
                     Send Message
                     <Send className="ml-2 w-5 h-5" />
-                  </>
+                  </span>
                 )}
               </button>
             </div>
