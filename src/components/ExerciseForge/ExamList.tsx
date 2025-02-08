@@ -62,7 +62,7 @@ function ExamTooltip({
   });
 
   const delay = {
-    open: 400, // 1 second delay before opening
+    open: 600, // 1 second delay before opening
     close: 200, // small delay before closing to prevent flickering
   };
 
@@ -89,9 +89,11 @@ function ExamTooltip({
             ref={refs.setFloating}
             style={floatingStyles}
             {...getFloatingProps()}
-            className="z-50 max-w-md p-3 bg-white rounded-lg shadow-lg border border-gray-200"
+            className="z-50 max-w-md p-4 bg-white/95 backdrop-blur-sm rounded-xl 
+              shadow-lg ring-1 ring-gray-100 border border-gray-100/20
+              opacity-0 animate-[fadeIn_200ms_ease-out_forwards]"
           >
-            <div className="text-xs text-gray-700">{contentPreview}</div>
+            <div className="text-sm text-gray-700">{contentPreview}</div>
           </div>
         )}
       </FloatingPortal>
@@ -133,7 +135,10 @@ export function ExamList({
           <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <div className="space-y-4 max-h-[600px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-indigo-500">
+        <div
+          className="space-y-4 max-h-[600px] overflow-y-auto pr-4"
+          style={{ scrollbarGutter: "stable" }}
+        >
           {exams.slice(0, 5).map((exam) => (
             <ExamTooltip key={exam.id} content={exam.content} formatted>
               <div className="relative group">
@@ -165,7 +170,7 @@ export function ExamList({
                   </p>
                 </button>
 
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-all ">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
