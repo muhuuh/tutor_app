@@ -100,8 +100,8 @@ function SuggestionTooltip({
 function InfoTooltip({ content }: { content: string }) {
   return (
     <div className="relative group">
-      <InformationCircleIcon className="w-5 h-5 text-gray-400 hover:text-gray-500 cursor-help" />
-      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+      <InformationCircleIcon className="w-5 h-5 text-indigo-400 hover:text-indigo-500 cursor-help transition-colors" />
+      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm text-white text-xs rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
         {content}
       </div>
     </div>
@@ -435,20 +435,20 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex gap-6">
-        <div className="w-1/3 space-y-6">
+      <div className="flex gap-8">
+        <div className="w-1/3 space-y-8">
           {/* File Upload Section */}
-          <div>
+          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-100 shadow-lg">
             <div className="mb-6">
-              <div className="flex items-center justify-center gap-2">
-                <h3 className="font-medium text-gray-800 text-lg">
+              <div className="flex items-center gap-2 justify-center">
+                <h3 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600">
                   Correction of Exercises
                 </h3>
-                <InfoTooltip content="Upload pictures of handwritten exam answers to receive a detailed correction report. The analysis will highlight mistakes, identify misunderstood concepts, and provide targeted resources and training exercises for improvement." />
+                <InfoTooltip content="Upload pictures of handwritten exam answers to receive a detailed correction report." />
               </div>
-              <p className="text-xs text-gray-500 mt-1">
-                Get a report with the correction, concepts to review, resources
-                and new exercises to train
+              <p className="text-sm text-gray-600 text-center mt-2">
+                Get instant feedback, personalized recommendations, and targeted
+                exercises
               </p>
             </div>
 
@@ -458,29 +458,23 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               setIsUploading={setIsUploading}
             />
             {pendingFiles.length > 0 && (
-              <div className="mt-4 space-y-4">
-                <div className="p-3 bg-indigo-50 rounded-lg">
-                  <p className="text-sm text-indigo-700 font-medium">
+              <div className="mt-6 space-y-4">
+                <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                  <p className="text-sm text-blue-700 font-medium">
                     {pendingFiles.length} file(s) ready to process
                   </p>
-                  <p className="text-xs text-indigo-600 mt-1">
+                  <p className="text-xs text-blue-600 mt-1">
                     Please enter a title for the report to continue
                   </p>
                 </div>
                 <div>
-                  <label
-                    htmlFor="reportTitle"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Report Title
-                  </label>
                   <input
                     type="text"
                     id="reportTitle"
                     value={reportTitle}
                     onChange={(e) => setReportTitle(e.target.value)}
-                    placeholder="Enter a title for this report"
-                    className="w-full rounded-lg border-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    placeholder="Enter report title..."
+                    className="w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white/50 backdrop-blur"
                     required
                   />
                 </div>
@@ -490,7 +484,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
           {/* Suggestions Section - Only show when student is selected and no files are pending */}
           {selectedPupilId && pendingFiles.length === 0 && (
-            <div className="flex flex-col h-full">
+            <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-100 shadow-lg">
               <div className="mb-6">
                 <div className="flex items-center justify-center gap-2">
                   <h3 className="font-medium text-gray-800 text-lg">
@@ -559,8 +553,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
         {/* Chat Section */}
         <div
-          className={`flex-1 flex flex-col rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden ${
-            messages.length === 0 ? "h-min" : "h-[500px]"
+          className={`flex-1 flex flex-col bg-white/70 backdrop-blur-sm rounded-xl border border-gray-100 shadow-lg overflow-hidden ${
+            messages.length === 0 ? "" : "h-[600px]"
           }`}
         >
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -610,8 +604,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                       <div
                         className={`max-w-[85%] rounded-2xl p-4 transition-all duration-200 ${
                           message.isUser
-                            ? "bg-indigo-600 text-white shadow-sm"
-                            : "bg-gray-50 border border-gray-100 shadow-sm"
+                            ? "bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow"
+                            : "bg-gray-50/95 backdrop-blur-sm border border-gray-100 shadow"
                         }`}
                       >
                         <div
@@ -642,8 +636,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             )}
           </div>
 
-          {/* Input Section - Updated Styling */}
-          <div className="border-t border-gray-100 bg-white p-4">
+          {/* Input Section */}
+          <div className="border-t border-gray-100 bg-white/80 backdrop-blur-sm p-4">
             <form onSubmit={handleSendMessage} className="space-y-4">
               <div className="flex gap-3 items-center">
                 <input
@@ -659,7 +653,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                         : "Please enter a title to create a report"
                       : "Type your message..."
                   }
-                  className="flex-1 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all disabled:bg-gray-50 disabled:border-gray-100 disabled:text-gray-400"
+                  className="flex-1 rounded-xl border border-gray-200 bg-white/90 backdrop-blur px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all disabled:bg-gray-50 disabled:border-gray-100 disabled:text-gray-400"
                   disabled={
                     isProcessing ||
                     isLoadingHistory ||
@@ -679,7 +673,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                     (pendingFiles.length > 0 && !reportTitle.trim()) ||
                     isUploading
                   }
-                  className="flex items-center justify-center h-12 w-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                  className="flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                   aria-label="Send message"
                 >
                   {isProcessing ? (
