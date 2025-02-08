@@ -252,8 +252,8 @@ export function ExamEditor({
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-center gap-2 mb-6">
+    <div className="space-y-6">
+      <div className="flex items-center justify-center gap-3 mb-8">
         {isEditingTitle ? (
           <input
             ref={titleInputRef}
@@ -274,17 +274,19 @@ export function ExamEditor({
                 setEditedTitle(title);
               }
             }}
-            className="text-2xl font-semibold text-center text-gray-900 w-full max-w-2xl px-4 py-1 border-b-2 border-indigo-500 focus:outline-none focus:border-indigo-600"
+            className="text-2xl font-semibold text-center text-gray-900 w-full max-w-2xl px-4 py-2 rounded-lg border-2 border-indigo-500 focus:outline-none  focus:ring-indigo-500 transition-all"
           />
         ) : (
-          <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-semibold text-gray-900">{title}</h2>
+          <div className="flex items-center gap-3">
+            <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600">
+              {title}
+            </h2>
             <button
               onClick={() => {
                 setEditedTitle(title);
                 setIsEditingTitle(true);
               }}
-              className="p-1 text-gray-400 hover:text-indigo-600 transition-colors"
+              className="p-2 text-gray-400 hover:text-indigo-600 rounded-lg transition-all hover:bg-indigo-50"
             >
               <PencilIcon className="w-5 h-5" />
             </button>
@@ -292,23 +294,23 @@ export function ExamEditor({
         )}
       </div>
       <div className="flex items-center justify-between">
-        <div className="flex rounded-lg border border-gray-200 p-1">
+        <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-1.5 border border-gray-200">
           <button
             onClick={() => setMode("edit")}
-            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+            className={`px-5 py-2.5 text-sm font-medium rounded-lg transition-all ${
               mode === "edit"
-                ? "bg-indigo-600 text-white"
-                : "text-gray-500 hover:text-indigo-600"
+                ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm"
+                : "text-gray-600 hover:text-indigo-600 hover:bg-white/50"
             }`}
           >
             Questions
           </button>
           <button
             onClick={() => setMode("correction")}
-            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+            className={`px-5 py-2.5 text-sm font-medium rounded-lg transition-all ${
               mode === "correction"
-                ? "bg-indigo-600 text-white"
-                : "text-gray-500 hover:text-indigo-600"
+                ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm"
+                : "text-gray-600 hover:text-indigo-600 hover:bg-white/50"
             }`}
           >
             Solutions
@@ -376,48 +378,50 @@ export function ExamEditor({
       </div>
 
       {mode === "correction" && !correction && !isWaitingForCorrection ? (
-        <div className="bg-white rounded-lg border border-gray-200 p-6 text-center">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No Correction Available
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Would you like to generate an AI-powered correction for this exam?
-          </p>
-          <button
-            onClick={onCreateCorrection}
-            disabled={isSendingMessage}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSendingMessage ? (
-              <>
-                <svg
-                  className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-                Generating...
-              </>
-            ) : (
-              "Generate Correction"
-            )}
-          </button>
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 p-8 text-center">
+          <div className="max-w-md mx-auto">
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              No Correction Available
+            </h3>
+            <p className="text-sm text-gray-600 mb-6">
+              Would you like to generate an AI-powered correction for this exam?
+            </p>
+            <button
+              onClick={onCreateCorrection}
+              disabled={isSendingMessage}
+              className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            >
+              {isSendingMessage ? (
+                <>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Generating...
+                </>
+              ) : (
+                "Generate Correction"
+              )}
+            </button>
+          </div>
         </div>
       ) : (
-        <div className="space-y-4">{renderCorrectionSection()}</div>
+        <div className="space-y-6">{renderCorrectionSection()}</div>
       )}
 
       {/* Preview Modal */}

@@ -44,18 +44,18 @@ export function ChatBox({
 
   return (
     <div
-      className="flex flex-col bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
+      className="flex flex-col bg-white/80 backdrop-blur-sm rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all"
       style={{ height: messages.length > 0 ? height : "auto" }}
     >
       {messages.length > 0 && (
         <>
           <div
             ref={chatResizeRef}
-            className="h-2 w-full cursor-ns-resize bg-gray-100 hover:bg-gray-200 transition-colors group relative"
+            className="h-2 w-full cursor-ns-resize bg-gray-100/50 hover:bg-gray-200/50 transition-colors group relative"
             onMouseDown={onResize}
           >
             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-center">
-              <div className="h-1 w-8 bg-gray-300 rounded-full group-hover:bg-gray-400 transition-colors" />
+              <div className="h-1 w-12 bg-gray-300/50 rounded-full group-hover:bg-gray-400/50 transition-colors" />
             </div>
           </div>
 

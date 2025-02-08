@@ -91,18 +91,22 @@ export function ChatFileUpload({
   return (
     <div
       {...getRootProps()}
-      className={`relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
+      className={`relative border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 ${
         isDragActive
-          ? "border-indigo-500 bg-indigo-50"
+          ? "border-indigo-500 bg-indigo-50/50 backdrop-blur-sm"
           : isProcessing
-          ? "border-gray-200 bg-gray-50 cursor-not-allowed"
-          : "border-gray-300 hover:border-indigo-400"
+          ? "border-gray-200 bg-gray-50/50 backdrop-blur-sm cursor-not-allowed"
+          : "border-gray-300 hover:border-indigo-400 hover:bg-indigo-50/10"
       }`}
     >
       <input {...getInputProps()} disabled={isProcessing} />
       <FiUploadCloud
-        className={`w-8 h-8 mx-auto mb-2 ${
-          isProcessing ? "text-gray-400" : "text-indigo-500"
+        className={`w-10 h-10 mx-auto mb-3 transition-colors ${
+          isProcessing
+            ? "text-gray-400"
+            : isDragActive
+            ? "text-indigo-600"
+            : "text-indigo-500"
         }`}
       />
       <h3 className="text-sm font-medium text-gray-900 mb-1">
@@ -111,7 +115,7 @@ export function ChatFileUpload({
       </h3>
 
       {isProcessing && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/80 rounded-lg">
+        <div className="absolute inset-0 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-xl">
           <div className="flex flex-col items-center gap-2">
             <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
             <p className="text-sm text-gray-600">Uploading files...</p>

@@ -575,22 +575,21 @@ export function ExerciseForge() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 ">
-      <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
-        Exam Creation
-      </h2>
-      <p className="text-lg text-gray-600 text-center mt-4 max-w-3xl mx-auto">
-        Create new personalised exams based on the latest pupil performances,
-        brainstorming insights or latest methodologies you want to apply.
-      </p>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">
-              Exercise Forge
-            </h1>
-            <div className="flex justify-between divide-x divide-gray-300 pb-8 mb-8 border-b">
-              <div className="flex-1 pr-4 flex items-stretch">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50/50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
+            Exercise Forge
+          </h2>
+          <p className="mt-4 text-lg text-gray-600">
+            Create personalized exams powered by AI, based on student
+            performance data and modern teaching methodologies.
+          </p>
+        </div>
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100">
+          <div className="p-8">
+            <div className="flex justify-between gap-8 pb-8 mb-8 border-b border-gray-200">
+              <div className="flex-1 flex items-stretch">
                 <div className="w-full">
                   <FileUpload
                     selectedPupilId=""
@@ -604,23 +603,25 @@ export function ExerciseForge() {
                   />
                 </div>
               </div>
-              <div className="flex-1 pl-4 flex items-stretch">
+              <div className="flex-1 flex items-stretch">
                 <button
                   onClick={() => handleExamSelect(null)}
-                  className={`w-full p-4 rounded-lg border transition-colors flex items-center justify-center text-center ${
+                  className={`w-full p-6 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] ${
                     isCreatingNew
-                      ? "border-indigo-500 bg-indigo-50"
-                      : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"
+                      ? "border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-50"
+                      : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50/50"
                   }`}
                 >
                   <div>
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                      <PencilSquareIcon className="w-6 h-6 text-indigo-500" />
-                      <h2 className="text-lg  font-medium text-gray-900">
+                    <div className="flex items-center justify-center gap-3 mb-3">
+                      <div className="p-2 bg-indigo-100 rounded-lg">
+                        <PencilSquareIcon className="w-6 h-6 text-indigo-600" />
+                      </div>
+                      <h2 className="text-xl font-semibold text-gray-900">
                         Create New Exam
                       </h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-gray-600">
                       Start a conversation with AI to create a new exam
                     </p>
                   </div>
@@ -628,7 +629,7 @@ export function ExerciseForge() {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 gap-8">
               <ExamList
                 loading={loading}
                 exams={exams}
@@ -640,7 +641,7 @@ export function ExerciseForge() {
                 newExamId={newExamId}
               />
 
-              <div className="col-span-2 pl-6">
+              <div className="col-span-2 pl-8 border-l border-gray-100">
                 {selectedExam || isCreatingNew ? (
                   <>
                     {!isCreatingNew && (
@@ -673,43 +674,45 @@ export function ExerciseForge() {
                     )}
 
                     {isCreatingNew && (
-                      <div className="mb-8 bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-                        <div className="flex items-center gap-3 mb-6">
-                          <div className="p-2 bg-indigo-50 rounded-lg">
-                            <PencilSquareIcon className="w-6 h-6 text-indigo-600" />
+                      <div className="mb-8 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        <div className="p-6">
+                          <div className="flex items-center gap-4 mb-6">
+                            <div className="p-3 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-xl">
+                              <PencilSquareIcon className="w-6 h-6 text-indigo-600" />
+                            </div>
+                            <div>
+                              <h2 className="text-xl font-semibold text-gray-900">
+                                Create New Exam
+                              </h2>
+                              <p className="text-sm text-gray-600 mt-1">
+                                Explain your requirements to the AI assistant
+                              </p>
+                            </div>
                           </div>
-                          <h2 className="text-xl font-semibold text-gray-900">
-                            Create New Exam
-                          </h2>
-                        </div>
 
-                        <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                          Explain to the AI what kind of exam you need. The more
-                          specific you are, the better the result will be.
-                        </p>
-
-                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                          <h3 className="text-sm font-medium text-gray-900 mb-3">
-                            Include in your request:
-                          </h3>
-                          <ul className="grid grid-cols-2 gap-3 text-sm text-gray-600">
-                            <li className="flex items-center gap-2">
-                              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
-                              Subject matter and topics
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
-                              Difficulty level
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
-                              Types of questions
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
-                              Specific requirements
-                            </li>
-                          </ul>
+                          <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-6 border border-gray-100">
+                            <h3 className="text-sm font-medium text-gray-900 mb-4">
+                              Include in your request:
+                            </h3>
+                            <ul className="grid grid-cols-2 gap-4">
+                              {[
+                                "Subject matter and topics",
+                                "Difficulty level",
+                                "Types of questions",
+                                "Specific requirements",
+                              ].map((item) => (
+                                <li
+                                  key={item}
+                                  className="flex items-center gap-3"
+                                >
+                                  <div className="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-400 to-violet-400"></div>
+                                  <span className="text-sm text-gray-600">
+                                    {item}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -729,15 +732,18 @@ export function ExerciseForge() {
                     )}
                   </>
                 ) : (
-                  <div className="flex items-center justify-center h-64 text-gray-500">
-                    Select an exam to start editing or create a new one
+                  <div className="flex flex-col items-center justify-center h-64 text-gray-500 space-y-4">
+                    <div className="p-4 rounded-full bg-gray-50">
+                      <PencilSquareIcon className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <p>Select an exam to start editing or create a new one</p>
                   </div>
                 )}
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
