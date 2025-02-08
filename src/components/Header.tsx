@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useScrollDirection } from "../hooks/useScrollDirection";
 import {
   FiChevronDown,
   FiLogOut,
@@ -19,6 +20,7 @@ export function Header() {
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const toolsRef = useRef<HTMLDivElement>(null);
   const companyRef = useRef<HTMLDivElement>(null);
+  const isVisible = useScrollDirection();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -49,7 +51,11 @@ export function Header() {
   const isActive = (path: string) => location.pathname.startsWith(path);
 
   return (
-    <nav className="bg-white backdrop-blur-lg border-b border-gray-100 relative z-50 shadow-sm">
+    <nav
+      className={`fixed w-full bg-white backdrop-blur-lg border-b border-gray-100 z-50 shadow-sm transition-transform duration-300 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo */}

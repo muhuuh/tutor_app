@@ -131,7 +131,7 @@ export function Home() {
   ];
 
   return (
-    <div className="min-h-screen overflow-hidden">
+    <div className="min-h-screen overflow-hidden pt-20">
       {/* Fixed background that spans the entire page */}
       <div className="fixed inset-0 bg-gradient-to-b from-gray-50 to-white -z-10" />
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] -z-10" />
@@ -202,7 +202,7 @@ export function Home() {
                 <img
                   src="/mask-icon.png"
                   alt="AI Tutor Assistant"
-                  className="relative w-full h-[500px] object-contain p-8 opacity-90 [filter:drop-shadow(0_0_20px_rgba(59,130,246,0.5))_brightness(0.9)_hue-rotate(10deg)]"
+                  className="relative w-full h-[500px] object-contain p-8 opacity-70 [filter:drop-shadow(0_0_20px_rgba(59,130,246,0.5))_brightness(0.9)_hue-rotate(10deg)]"
                 />
               </div>
             </div>
