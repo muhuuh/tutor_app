@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 import { Auth } from "./pages/Auth";
 import { Dashboard } from "./pages/Dashboard";
 import { ExerciseForge } from "./pages/ExerciseForge";
-import { Home } from "./pages/Home";
+import { Home } from "./pages/Landingpage/Home";
 import { Pricing } from "./pages/Pricing";
 import { Contact } from "./pages/company/Contact";
 import { Header } from "./components/Header";

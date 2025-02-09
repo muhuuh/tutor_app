@@ -13,7 +13,20 @@ export default {
           "50%": { "background-size": "400% 400%" },
         },
       },
+      backdropBlur: {
+        xs: "2px",
+        sm: "4px",
+        md: "8px",
+        glass: "12px",
+      },
+      boxShadow: {
+        glass: "0 8px 32px 0 rgba(31, 38, 135, 0.15)",
+      },
+      backgroundImage: {
+        "gradient-glass":
+          "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 100%)",
+      },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import {
   FiCheck,
   FiArrowRight,
@@ -15,6 +15,8 @@ import {
   FiClock,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
+import EducatorChallenges from "./EducatorChallenges";
+import NextGenTools from "./NextGenTools";
 
 export function Home() {
   const { user } = useAuth();
@@ -209,181 +211,9 @@ export function Home() {
           </div>
         </div>
       </section>
+      <EducatorChallenges />
 
-      {/* Educator Challenges Section  */}
-      <section className="relative py-32 overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-24"
-          >
-            <motion.span
-              whileHover={{ scale: 1.05 }}
-              className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-blue-100 border border-violet-200/50 text-violet-700 shadow-sm transition-all hover:shadow-md"
-            >
-              <span className="relative flex h-2 w-2 mr-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
-              </span>
-              EDUCATOR CHALLENGES
-            </motion.span>
-            <h2 className="mt-8 text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
-              Top Tutor Pain Points
-            </h2>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <FiClock className="w-6 h-6" />,
-                title: "Manual Grading Marathon",
-                description:
-                  "Spending 10+ hours weekly assessing handwritten STEM work with complex problem-solving steps",
-                solution:
-                  "AI that understands multi-step reasoning and provides instant assessment",
-              },
-              {
-                icon: <FiCheck className="w-6 h-6" />,
-                title: "Partial Credit Dilemma",
-                description:
-                  "Struggling to fairly evaluate conceptual understanding when students make small calculation errors",
-                solution:
-                  "Sophisticated error analysis with step-by-step credit allocation",
-              },
-              {
-                icon: <FiTrendingUp className="w-6 h-6" />,
-                title: "Personalization Overload",
-                description:
-                  "Overwhelmed creating individualized practice materials for diverse learning needs",
-                solution:
-                  "Automated generation of targeted exercises based on performance gaps",
-              },
-            ].map((point, index) => (
-              <div
-                key={index}
-                className="group relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
-              >
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
-                    {point.icon}
-                  </div>
-                  <h3 className="mt-6 text-xl font-bold text-gray-900">
-                    {point.title}
-                  </h3>
-                  <p className="mt-4 text-gray-600 leading-relaxed">
-                    {point.description}
-                  </p>
-                  <div className="mt-6 pt-6 border-t border-gray-100">
-                    <p className="text-sm font-semibold text-blue-500">
-                      Our Solution →
-                    </p>
-                    <p className="mt-2 text-gray-800 font-medium">
-                      {point.solution}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Modern Platform Features - Alternative Design */}
-      <section className="py-32 relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Keep the header section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-24"
-          >
-            <motion.span
-              whileHover={{ scale: 1.05 }}
-              className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-blue-100 border border-violet-200/50 text-violet-700 shadow-sm transition-all hover:shadow-md"
-            >
-              <span className="relative flex h-2 w-2 mr-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
-              </span>
-              NEXT-GEN TEACHING TOOLS
-            </motion.span>
-            <h2 className="mt-8 text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
-              Transformative Education Technology
-            </h2>
-          </motion.div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
-            {[
-              {
-                icon: <FiEdit3 className="w-6 h-6" />,
-                title: "AI-Powered Grading System",
-                description:
-                  "Automated assessment of handwritten STEM work with detailed error analysis and partial credit reasoning",
-                gradient: "from-purple-600 to-blue-500",
-              },
-              {
-                icon: <FiBook className="w-6 h-6" />,
-                title: "Dynamic Learning Engine",
-                description:
-                  "Real-time generation of personalized lesson plans and practice problems based on performance insights",
-                gradient: "from-pink-600 to-rose-500",
-              },
-            ].map((feature, index) => (
-              <div key={index} className="relative group h-full">
-                <div
-                  className={`absolute -inset-1 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-20 blur-sm transition-opacity group-hover:opacity-30`}
-                />
-                <div className="relative h-full bg-white rounded-2xl border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-shadow">
-                  <div
-                    className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center text-white`}
-                  >
-                    {feature.icon}
-                  </div>
-                  <h3 className="mt-6 text-2xl font-bold text-gray-900">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-4 text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </p>
-                  <div className="mt-8 pt-8 border-t border-gray-100">
-                    <ul className="space-y-4 text-gray-600">
-                      {feature.title.includes("Grading") &&
-                        [
-                          "Handwriting recognition for math/physics",
-                          "Step-by-step error analysis",
-                          "Automated partial credit allocation",
-                          "Consistency across submissions",
-                        ].map((item, i) => (
-                          <li key={i} className="flex items-center gap-3">
-                            <FiCheck className="flex-shrink-0 text-green-500" />
-                            {item}
-                          </li>
-                        ))}
-                      {feature.title.includes("Learning") &&
-                        [
-                          "Real-time performance tracking",
-                          "Automated exercise generation",
-                          "Competency gap analysis",
-                          "Adaptive learning paths",
-                        ].map((item, i) => (
-                          <li key={i} className="flex items-center gap-3">
-                            <FiCheck className="flex-shrink-0 text-green-500" />
-                            {item}
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <NextGenTools />
 
       {/* Resources Section  */}
       <section className="py-32 relative overflow-hidden">
