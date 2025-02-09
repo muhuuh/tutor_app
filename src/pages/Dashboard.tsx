@@ -26,6 +26,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import html2pdf from "html2pdf.js";
+import { AuroraBackground } from "../components/UI/aurora-background";
 
 const TABS = [
   {
@@ -512,142 +513,146 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
-            Grading and Report Creation
-          </h2>
-          <p className="text-lg text-gray-600 text-center mt-4 max-w-3xl mx-auto">
-            Get handwritten answers from your pupils corrected, and receive
-            personalised reports about concepts to focus on, resources and
-            exercice propositions, and more
-          </p>
-        </div>
+    <AuroraBackground>
+      <div className="relative w-full min-h-screen">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
+              Grading and Report Creation
+            </h2>
+            <p className="text-lg text-gray-600 text-center mt-4 max-w-3xl mx-auto">
+              Get handwritten answers from your pupils corrected, and receive
+              personalised reports about concepts to focus on, resources and
+              exercice propositions, and more
+            </p>
+          </div>
 
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100">
-          <div className="p-6">
-            <div className="flex items-center justify-center gap-6">
-              <div className="w-64 shadow-sm rounded-xl">
-                <select
-                  id="pupil"
-                  value={selectedPupilId}
-                  onChange={handlePupilChange}
-                  className="w-full rounded-xl border-gray-200 bg-white/50 backdrop-blur px-4 py-3 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors disabled:opacity-50"
-                  disabled={loadingPupils}
-                >
-                  <option value="" disabled>
-                    Select Student
-                  </option>
-                  {pupils.map((pupil) => (
-                    <option key={pupil.id} value={pupil.id}>
-                      {pupil.name}
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100">
+            <div className="p-6">
+              <div className="flex items-center justify-center gap-6">
+                <div className="w-64 shadow-sm rounded-xl">
+                  <select
+                    id="pupil"
+                    value={selectedPupilId}
+                    onChange={handlePupilChange}
+                    className="w-full rounded-xl border-gray-200 bg-white/50 backdrop-blur px-4 py-3 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors disabled:opacity-50"
+                    disabled={loadingPupils}
+                  >
+                    <option value="" disabled>
+                      Select Student
                     </option>
-                  ))}
-                </select>
+                    {pupils.map((pupil) => (
+                      <option key={pupil.id} value={pupil.id}>
+                        {pupil.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {activeTab === "reports" && selectedPupilId && (
+                  <>
+                    <div className="w-64 shadow-sm rounded-xl">
+                      <select
+                        id="report"
+                        value={currentReportId || ""}
+                        onChange={(e) => setCurrentReportId(e.target.value)}
+                        className="w-full rounded-xl border-gray-200 bg-white/50 backdrop-blur px-4 py-3 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors"
+                      >
+                        {availableReports.map((report) => (
+                          <option key={report.id} value={report.id}>
+                            {report.report_title ||
+                              new Date(
+                                report.requested_at
+                              ).toLocaleDateString()}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </>
+                )}
+
+                <button
+                  onClick={() => setShowAddPupil(true)}
+                  className="px-4 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
+                >
+                  Add New Student
+                </button>
               </div>
 
-              {activeTab === "reports" && selectedPupilId && (
-                <>
-                  <div className="w-64 shadow-sm rounded-xl">
-                    <select
-                      id="report"
-                      value={currentReportId || ""}
-                      onChange={(e) => setCurrentReportId(e.target.value)}
-                      className="w-full rounded-xl border-gray-200 bg-white/50 backdrop-blur px-4 py-3 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors"
-                    >
-                      {availableReports.map((report) => (
-                        <option key={report.id} value={report.id}>
-                          {report.report_title ||
-                            new Date(report.requested_at).toLocaleDateString()}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </>
-              )}
+              {/* Add Student Modal */}
+              <Transition appear show={showAddPupil} as={Fragment}>
+                <Dialog
+                  as="div"
+                  className="relative z-50"
+                  onClose={() => setShowAddPupil(false)}
+                >
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <div className="fixed inset-0 bg-gray-500/75" />
+                  </Transition.Child>
 
-              <button
-                onClick={() => setShowAddPupil(true)}
-                className="px-4 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
-              >
-                Add New Student
-              </button>
+                  <div className="fixed inset-0 overflow-y-auto">
+                    <div className="flex min-h-full items-center justify-center">
+                      <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                      >
+                        <Dialog.Panel className="w-full max-w-[500px] transform bg-white rounded-2xl shadow-xl transition-all">
+                          <div className="relative p-8">
+                            <div className="flex items-center justify-between mb-8">
+                              <Dialog.Title
+                                as="h2"
+                                className="text-2xl font-bold text-gray-900"
+                              >
+                                Add New Student
+                              </Dialog.Title>
+                              <button
+                                onClick={() => setShowAddPupil(false)}
+                                className="text-gray-400 hover:text-gray-500"
+                              >
+                                <XMarkIcon className="w-6 h-6" />
+                              </button>
+                            </div>
+                            <PupilForm
+                              onSuccess={() => {
+                                setShowAddPupil(false);
+                                refetchPupils();
+                              }}
+                              onClose={() => setShowAddPupil(false)}
+                            />
+                          </div>
+                        </Dialog.Panel>
+                      </Transition.Child>
+                    </div>
+                  </div>
+                </Dialog>
+              </Transition>
             </div>
 
-            {/* Add Student Modal */}
-            <Transition appear show={showAddPupil} as={Fragment}>
-              <Dialog
-                as="div"
-                className="relative z-50"
-                onClose={() => setShowAddPupil(false)}
-              >
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <div className="fixed inset-0 bg-gray-500/75" />
-                </Transition.Child>
+            <div className="px-6 border-b border-gray-100">
+              <Tabs
+                tabs={TABS}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            </div>
 
-                <div className="fixed inset-0 overflow-y-auto">
-                  <div className="flex min-h-full items-center justify-center">
-                    <Transition.Child
-                      as={Fragment}
-                      enter="ease-out duration-300"
-                      enterFrom="opacity-0 scale-95"
-                      enterTo="opacity-100 scale-100"
-                      leave="ease-in duration-200"
-                      leaveFrom="opacity-100 scale-100"
-                      leaveTo="opacity-0 scale-95"
-                    >
-                      <Dialog.Panel className="w-full max-w-[500px] transform bg-white rounded-2xl shadow-xl transition-all">
-                        <div className="relative p-8">
-                          <div className="flex items-center justify-between mb-8">
-                            <Dialog.Title
-                              as="h2"
-                              className="text-2xl font-bold text-gray-900"
-                            >
-                              Add New Student
-                            </Dialog.Title>
-                            <button
-                              onClick={() => setShowAddPupil(false)}
-                              className="text-gray-400 hover:text-gray-500"
-                            >
-                              <XMarkIcon className="w-6 h-6" />
-                            </button>
-                          </div>
-                          <PupilForm
-                            onSuccess={() => {
-                              setShowAddPupil(false);
-                              refetchPupils();
-                            }}
-                            onClose={() => setShowAddPupil(false)}
-                          />
-                        </div>
-                      </Dialog.Panel>
-                    </Transition.Child>
-                  </div>
-                </div>
-              </Dialog>
-            </Transition>
+            <div className="p-6">{renderTabContent()}</div>
           </div>
-
-          <div className="px-6 border-b border-gray-100">
-            <Tabs
-              tabs={TABS}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
-          </div>
-
-          <div className="p-6">{renderTabContent()}</div>
         </div>
       </div>
-    </div>
+    </AuroraBackground>
   );
 }
