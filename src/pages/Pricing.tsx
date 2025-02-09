@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Package, Zap, Building2, CheckCircle2, Gift } from "lucide-react";
+import { Package, Zap, Building2, Check, Gift } from "lucide-react";
 
 export function Pricing() {
   const pricingPlans = [
     {
       name: "Basic",
-      price: "$9.99",
+      price: "€9.99",
       period: "/month",
       description:
         "Perfect for individual tutors getting started with AI grading",
@@ -22,7 +22,7 @@ export function Pricing() {
     },
     {
       name: "Professional",
-      price: "$24.99",
+      price: "€19.99",
       period: "/month",
       popular: true,
       icon: Zap,
@@ -86,9 +86,14 @@ export function Pricing() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-16 bg-gradient-to-r from-blue-50 to-violet-50 rounded-2xl p-8 shadow-lg relative overflow-hidden"
+            className="mb-16 group relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 shadow-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
           >
+            {/* Grid background overlay */}
             <div className="absolute inset-0 bg-grid-blue-500/[0.02] bg-[size:20px_20px]" />
+
+            {/* Gradient overlay on hover */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
             <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl text-white">
@@ -112,17 +117,19 @@ export function Pricing() {
               </Link>
             </div>
           </motion.div>
-
           <div className="mt-24 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8">
             {pricingPlans.map((plan) => (
               <motion.div
+                key={plan.name}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                key={plan.name}
-                className={`relative p-8 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all ${
+                className={`group relative p-8 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${
                   plan.popular ? "ring-2 ring-blue-600" : ""
                 }`}
               >
+                {/* Gradient overlay on hover */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
                 {plan.popular && (
                   <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <span className="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg">
@@ -131,49 +138,53 @@ export function Pricing() {
                   </div>
                 )}
 
-                <div className="mb-8">
-                  <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-blue-600 rounded-xl flex items-center justify-center text-white mb-4">
-                    <plan.icon className="w-6 h-6" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-900">
-                    {plan.name}
-                  </h2>
-                  <p className="mt-4 text-sm text-gray-500">
-                    {plan.description}
-                  </p>
-                  <div className="mt-6">
-                    <span className="text-4xl font-bold text-gray-900">
-                      {plan.price}
-                    </span>
-                    {plan.period && (
-                      <span className="text-base font-medium text-gray-500">
-                        {plan.period}
+                <div className="relative z-10">
+                  <div className="mb-8">
+                    <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-blue-600 rounded-xl flex items-center justify-center text-white mb-4">
+                      <plan.icon className="w-6 h-6" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      {plan.name}
+                    </h2>
+                    <p className="mt-4 text-sm text-gray-500">
+                      {plan.description}
+                    </p>
+                    <div className="mt-6">
+                      <span className="text-4xl font-bold text-gray-900">
+                        {plan.price}
                       </span>
-                    )}
+                      {plan.period && (
+                        <span className="text-base font-medium text-gray-500">
+                          {plan.period}
+                        </span>
+                      )}
+                    </div>
                   </div>
+
+                  <ul className="space-y-4 flex-1">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-start group">
+                        <div className="flex-shrink-0">
+                          <Check className="h-5 w-5 stroke-2 text-emerald-500 transition-transform duration-200 group-hover:scale-110" />
+                        </div>
+                        <p className="ml-3 text-base text-gray-700">
+                          {feature}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    to="/auth"
+                    className={`relative z-10 mt-8 block w-full px-6 py-4 text-center font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow ${
+                      plan.popular
+                        ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white hover:from-violet-700 hover:to-blue-700"
+                        : "bg-gray-50 text-gray-900 hover:bg-gray-100"
+                    }`}
+                  >
+                    Get started
+                  </Link>
                 </div>
-
-                <ul className="space-y-4 flex-1">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <CheckCircle2 className="h-6 w-6 text-green-500" />
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">{feature}</p>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  to="/auth"
-                  className={`mt-8 block w-full px-6 py-4 text-center font-medium rounded-lg ${
-                    plan.popular
-                      ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white hover:from-violet-700 hover:to-blue-700"
-                      : "bg-gray-50 text-gray-900 hover:bg-gray-100"
-                  } transition-all duration-200 shadow-sm hover:shadow`}
-                >
-                  Get started
-                </Link>
               </motion.div>
             ))}
           </div>
