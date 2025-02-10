@@ -5,7 +5,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 const painPoints = [
   {
     title: "Manual Grading Marathon",
-    solution: "AI-powered instant assessment for complex problem-solving",
+    solution: "Expert instant assessment for complex problem-solving",
   },
   {
     title: "Partial Credit Dilemma",
@@ -13,19 +13,20 @@ const painPoints = [
   },
   {
     title: "Personalization Overload",
-    solution: "Automated generation of targeted practice materials",
+    solution: "Automated personalized learning paths based on performance",
   },
   {
     title: "Churn to Create New Exercises",
-    solution: "Dynamic question bank with adaptive difficulty levels",
+    solution: "Automated generation of targeted practice materials",
   },
   {
     title: "Time-Consuming Drafting of Corrections",
-    solution: "AI-generated personalized feedback templates",
+    solution: "Complete step-by-step correction and hints to help students",
   },
   {
     title: "Overwhelming Progress Tracking",
-    solution: "Real-time analytics dashboard with performance insights",
+    solution:
+      "Real-time analytics dashboard with performance insights for each student",
   },
   {
     title: "Drafting Personalized Plans",
@@ -201,6 +202,45 @@ export default function EducatorChallengesMindMap() {
             );
           })}
         </div>
+        <motion.div className="max-w-2xl mx-auto">
+          <motion.h3
+            className="text-center text-2xl md:text-3xl font-bold mt-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            Tired of these challenges?
+          </motion.h3>
+          <motion.p
+            className="text-center text-gray-600/90 mt-8 text-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            The biggest pain points for educators revolve around time-consuming
+            grading and providing personalized support for each student.
+          </motion.p>
+          <motion.p
+            className="text-center text-gray-600/90 mt-4 text-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            The more individualized attention you can provide to each student,
+            the better their chances of thriving. This is what makes being an
+            educator so fulfilling - contributing to the success of each of your
+            protégés.
+          </motion.p>
+
+          <motion.p
+            className="text-center text-xl font-semibold mt-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            We are here to help you with that.
+          </motion.p>
+        </motion.div>
       </div>
     </section>
   );
