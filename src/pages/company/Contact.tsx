@@ -45,10 +45,10 @@ export function Contact() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white mb-16">
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-sky-800 py-24">
+      <div className="relative  overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
         <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}

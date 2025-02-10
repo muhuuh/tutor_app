@@ -139,7 +139,7 @@ export default function EducatorChallengesMindMap() {
             return (
               <motion.div
                 key={index}
-                className="group absolute w-[140px] h-[140px]"
+                className="group absolute w-[140px] h-[140px] overflow-visible"
                 style={{ left, top }}
                 variants={bubbleVariants}
                 custom={index}
@@ -147,29 +147,53 @@ export default function EducatorChallengesMindMap() {
                 animate={isInView && "animate"}
                 whileHover="hover"
               >
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-100/80 to-purple-100/80 backdrop-blur-lg border-2 border-white/20 shadow-lg transition-all duration-300 group-hover:shadow-xl" />
+                {/* Bubble background */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-100/80 to-purple-100/80 backdrop-blur-lg border-2 border-white/20 shadow-lg" />
 
-                <div className="relative h-full p-4 flex flex-col justify-center items-center text-center">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300" />
+                <div className="relative h-full p-4 flex flex-col justify-center items-center text-center overflow-visible">
+                  {/* Animated overlay */}
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/15 to-purple-500/15 backdrop-blur-sm"
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                  />
 
+                  {/* Title */}
                   <motion.div
                     className="relative z-10 text-gray-800/90 font-medium text-sm leading-tight"
-                    initial={{ opacity: 1, y: 0 }}
-                    whileHover={{ opacity: 0.8, y: -10 }}
+                    initial={{ y: 0 }}
+                    whileHover={{ y: -10 }}
                   >
                     {point.title}
                   </motion.div>
 
+                  {/* Solution Card */}
                   <motion.div
-                    className="absolute bottom-4 left-0 right-0 px-4 opacity-0 group-hover:opacity-100 translate-y-0 group-hover:translate-y-2 transition-all duration-300"
-                    initial={{ opacity: 0 }}
+                    className="absolute -top-2 left-1/2 z-20 w-[160px]"
+                    style={{ x: "-50%" }}
+                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    whileHover={{
+                      opacity: 1,
+                      y: -10,
+                      scale: 1,
+                      transition: { type: "spring", stiffness: 300 },
+                    }}
                   >
-                    <p className="text-xs font-medium text-blue-600/90">
-                      <FiArrowUpRight className="inline-block mb-[2px]" />{" "}
-                      Solution
-                    </p>
-                    <div className="text-xs text-gray-700/90 mt-1">
-                      {point.solution}
+                    <div className="bg-gradient-to-br from-blue-50/95 to-purple-50/95 backdrop-blur-xl rounded-xl p-3 shadow-2xl shadow-purple-500/20 border-2 border-white/30">
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <motion.div
+                          className="shrink-0 text-blue-500"
+                          whileHover={{ rotate: 45 }}
+                        >
+                          <FiArrowUpRight className="w-4 h-4" />
+                        </motion.div>
+                        <span className="text-xs font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                          AI-Powered Solution
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-700/90 leading-tight font-medium">
+                        {point.solution}
+                      </p>
                     </div>
                   </motion.div>
                 </div>

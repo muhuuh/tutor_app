@@ -22,9 +22,9 @@ export function About() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white overflow-hidden">
       {/* Hero Section  */}
-      <div className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-sky-800">
+      <div className="relative mt-8 overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzBoLTZWMGg2djMwem0wIDBoNnYzMGgtNlYzMHoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 via-transparent to-transparent" />
+        <div className="absolute inset-0  bg-gradient-to-t from-gray-900/50 via-transparent to-transparent" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -139,58 +139,6 @@ export function About() {
                   ))}
                 </ul>
               </div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-
-      {/* Team Section with improved card design */}
-      <div className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent mb-4">
-              Meet Our Team
-            </h2>
-            <p className="text-xl text-gray-600">
-              Led by experts in education and technology
-            </p>
-          </motion.div>
-
-          <div className="max-w-md mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="backdrop-blur-xl bg-white/80 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all border border-blue-100/20"
-            >
-              <div className="relative mb-6">
-                <div className="w-32 h-32 mx-auto">
-                  <img
-                    src={team[0].image}
-                    alt={team[0].name}
-                    className="w-full h-full rounded-full object-cover border-4 border-white shadow-lg"
-                  />
-                </div>
-                <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
-                  <div className="px-4 py-1 bg-gradient-to-r from-blue-600 to-violet-600 rounded-full">
-                    <span className="text-sm text-white font-medium">
-                      Founder
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 text-center">
-                {team[0].name}
-              </h3>
-              <p className="text-violet-600 font-medium mb-4 text-center">
-                {team[0].role}
-              </p>
-              <p className="text-gray-600 text-center leading-relaxed">
-                {team[0].bio}
-              </p>
             </motion.div>
           </div>
         </div>

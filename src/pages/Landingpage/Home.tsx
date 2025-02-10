@@ -327,14 +327,6 @@ export function Home() {
                     Pricing
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    to="/blog"
-                    className="hover:text-white transition-colors"
-                  >
-                    Blog
-                  </Link>
-                </li>
               </ul>
             </div>
             <div>
@@ -369,14 +361,7 @@ export function Home() {
                     About
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    to="/careers"
-                    className="hover:text-white transition-colors"
-                  >
-                    Careers
-                  </Link>
-                </li>
+
                 <li>
                   <Link
                     to="../company/contact"
