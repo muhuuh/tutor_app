@@ -4,18 +4,12 @@ import { Users, Target, Award, TrendingUp } from "lucide-react";
 
 export function About() {
   const stats = [
-    { label: "Active Users", value: "2,000+", icon: Users },
-    { label: "Assignments Graded", value: "100,000+", icon: Target },
-    { label: "Accuracy Rate", value: "95%", icon: Award },
-    { label: "Time Saved", value: "1000+ hrs", icon: TrendingUp },
-  ];
-
-  const team = [
+    { label: "Assignments Graded", value: "1000+", icon: Target },
+    { label: "Accuracy Rate", value: "99%+", icon: Award },
     {
-      name: "Dr. Sarah Chen",
-      role: "Chief Executive Officer",
-      bio: "Former educator with 15 years of experience in STEM education and EdTech.",
-      image: "https://randomuser.me/api/portraits/women/1.jpg",
+      label: "Potential Time Savings Per Year",
+      value: "Up to 520h",
+      icon: TrendingUp,
     },
   ];
 
@@ -34,9 +28,10 @@ export function About() {
             className="space-y-6"
           >
             <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
-              Transforming <br />
+              Do More
+              <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-purple-200">
-                Education Through AI
+                With Less Effort
               </span>
             </h1>
             <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
@@ -48,16 +43,16 @@ export function About() {
       </div>
 
       {/* Stats Section with improved card design */}
-      <div className="relative -mt-20 mb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="relative -mt-14 mb-20">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="backdrop-blur-xl bg-white/90 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all border border-white/20 text-center"
+                className="backdrop-blur-xl bg-white/90 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all border border-white/20 text-center w-full max-w-sm"
               >
                 <div className="flex justify-center mb-4">
                   <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-violet-600 rounded-xl flex items-center justify-center text-white shadow-lg">
@@ -80,6 +75,7 @@ export function About() {
       <div className="py-20 bg-gradient-to-b from-white via-blue-50/30 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12">
+            {/* Mission Card */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -96,14 +92,15 @@ export function About() {
                   </h2>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
-                  To revolutionize education by providing AI-powered tools that
-                  automate administrative tasks, enabling teachers to focus on
-                  what truly matters - inspiring and guiding their students to
-                  reach their full potential.
+                  We build AI-driven solutions that reduce educators’ workloads
+                  and surface actionable insights. By removing repetitive tasks,
+                  teachers are free to focus on delivering meaningful learning
+                  experiences.
                 </p>
               </div>
             </motion.div>
 
+            {/* Values Card */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -121,10 +118,10 @@ export function About() {
                 </div>
                 <ul className="space-y-4">
                   {[
-                    "Innovation in Education",
-                    "Empowering Educators",
-                    "Accuracy and Reliability",
-                    "Continuous Improvement",
+                    "Teacher-Centered Design",
+                    "Practical Innovation",
+                    "Reliable & Transparent AI",
+                    "Continual Growth & Feedback",
                   ].map((value, index) => (
                     <motion.li
                       key={index}
