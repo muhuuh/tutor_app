@@ -8,6 +8,7 @@ export default defineConfig({
     include: ["clsx", "tailwind-merge"],
   },
   server: {
+    port: 8080,
     watch: {
       usePolling: true,
     },
