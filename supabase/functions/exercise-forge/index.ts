@@ -41,20 +41,22 @@ serve(async (req) => {
       throw new Error("Invalid token");
     }
 
-    const { messages, pupilId, teacherId } = await req.json();
+    const { examId, teacherId, message, mode, correctionId } = await req.json();
 
     // Verify that the teacherId matches the authenticated user
     if (teacherId !== user.id) {
       throw new Error("Unauthorized: Teacher ID mismatch");
     }
 
-    const response = await fetch(Deno.env.get("N8N_SUGGESTIONS_WEBHOOK_URL")!, {
+    const response = await fetch(Deno.env.get("N8N_CHAT_WEBHOOK_URL")!, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        messages,
-        pupilId,
+        examId,
         teacherId,
+        message,
+        mode,
+        correctionId,
       }),
     });
 

@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 
 const corsHeaders = {
@@ -13,11 +14,42 @@ serve(async (req) => {
   }
 
   try {
+    // Get JWT from request header
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      throw new Error("No authorization header");
+    }
+
+    // Create Supabase client
+    const supabaseClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      {
+        global: {
+          headers: { Authorization: authHeader },
+        },
+      }
+    );
+
+    // Verify the JWT token
+    const {
+      data: { user },
+      error: userError,
+    } = await supabaseClient.auth.getUser(authHeader.replace("Bearer ", ""));
+
+    if (userError || !user) {
+      throw new Error("Invalid token");
+    }
+
     const { pupilId, teacherId, imageUrls, reportTitle, timestamp } =
       await req.json();
 
-    // Forward the request to the existing webhook
-    const response = await fetch(Deno.env.get("N8N_WEBHOOK_URL"), {
+    // Verify that the teacherId matches the authenticated user
+    if (teacherId !== user.id) {
+      throw new Error("Unauthorized: Teacher ID mismatch");
+    }
+
+    const response = await fetch(Deno.env.get("N8N_REPORT_WEBHOOK_URL")!, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -35,7 +67,7 @@ serve(async (req) => {
     });
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
+      status: error.message.includes("Unauthorized") ? 401 : 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }

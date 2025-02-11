@@ -377,26 +377,17 @@ export function ExerciseForge() {
     ]);
 
     try {
-      const response = await fetch(
-        "https://arani.app.n8n.cloud/webhook/5b117600-11a7-4640-967b-e5259872c6f1/chat",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            examId: selectedExam?.id || null,
-            teacherId: user.id,
-            message: message.trim(),
-            mode: isCreatingNew ? "create" : mode,
-            correctionId: correction?.id || null,
-          }),
-        }
-      );
+      const { data, error } = await supabase.functions.invoke("chat", {
+        body: {
+          examId: selectedExam?.id || null,
+          teacherId: user.id,
+          message: message.trim(),
+          mode: isCreatingNew ? "create" : mode,
+          correctionId: correction?.id || null,
+        },
+      });
 
-      if (!response.ok) throw new Error("Failed to get AI response");
-
-      const data = await response.json();
+      if (error) throw error;
 
       setChatMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
       setChatMessages((prev) => [

@@ -207,28 +207,19 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         isUser: msg.isUser,
       }));
 
-      const response = await fetch(
-        "https://arani.app.n8n.cloud/webhook/8368aa31-c332-4dd1-99b9-83c36cb432bc",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            messages: lastMessages,
-            pupilId: selectedPupilId,
-            teacherId: user?.id,
-          }),
-        }
-      );
+      // Use Supabase function instead of direct n8n webhook
+      const { data, error } = await supabase.functions.invoke("suggestions", {
+        body: {
+          messages: lastMessages,
+          pupilId: selectedPupilId,
+          teacherId: user?.id,
+        },
+      });
 
-      if (!response.ok) throw new Error("Failed to get suggestions");
-
-      const data = await response.json();
+      if (error) throw error;
       setSuggestions(data.output || []);
     } catch (error) {
       console.error("Error getting suggestions:", error);
-      // Don't show error toast as this is a background operation
     } finally {
       setIsLoadingSuggestions(false);
     }
@@ -277,6 +268,21 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
     try {
       if (pendingFiles.length > 0) {
+        // Use generate-report function for file analysis
+        const { data, error } = await supabase.functions.invoke(
+          "generate-report",
+          {
+            body: {
+              pupilId: selectedPupilId,
+              teacherId: user?.id,
+              imageUrls: pendingFiles.map((f) => f.url),
+              reportTitle: reportTitle.trim(),
+              timestamp: Date.now(),
+            },
+          }
+        );
+
+        if (error) throw error;
         // Handle file analysis workflow
         if (!reportTitle.trim()) {
           toast.error("Please enter a title for the report");
@@ -307,22 +313,20 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
         try {
           // Fire and forget - don't wait for response
-          fetch(config.n8nWebhookUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              pupilId: selectedPupilId,
-              teacherId: user?.id,
-              imageUrls: pendingFiles.map((f) => f.url),
-              reportTitle: reportTitle.trim(),
-              timestamp: Date.now(),
-            }),
-          }).catch((error) => {
-            console.error("Error initiating report generation:", error);
-            // Don't show error to user as the process might still succeed
-          });
+          supabase.functions
+            .invoke("generate-report", {
+              body: {
+                pupilId: selectedPupilId,
+                teacherId: user?.id,
+                imageUrls: pendingFiles.map((f) => f.url),
+                reportTitle: reportTitle.trim(),
+                timestamp: Date.now(),
+              },
+            })
+            .catch((error) => {
+              console.error("Error initiating report generation:", error);
+              // Don't show error to user as the process might still succeed
+            });
 
           // Clear the files and title immediately
           setPendingFiles([]);
@@ -333,6 +337,17 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           setIsProcessing(false);
         }
       } else {
+        // Handle chat messages
+        const { data, error } = await supabase.functions.invoke("chat", {
+          body: {
+            content: content,
+            pupilId: selectedPupilId,
+            teacherId: user?.id,
+            timestamp: Date.now(),
+          },
+        });
+
+        if (error) throw error;
         // Add typing indicator
         const typingMessage: Message = {
           id: "typing",
@@ -342,35 +357,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         setMessages((prev) => [...prev, typingMessage]);
 
         // Handle interactive chat
-        const chatResponse = await fetch(config.chatWebhookUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            content: content,
-            pupilId: selectedPupilId,
-            teacherId: user?.id,
-            timestamp: Date.now(),
-          }),
-        });
-
-        console.log("chatResponse");
-        console.log(chatResponse);
-
-        if (!chatResponse.ok) {
-          console.error("Chat response not OK:", {
-            status: chatResponse.status,
-            statusText: chatResponse.statusText,
-          });
-          throw new Error(`Chat request failed: ${chatResponse.statusText}`);
-        }
-
-        const chatData = await chatResponse.json();
-        console.log("chatData", chatData);
-
-        if (!chatData || typeof chatData.output !== "string") {
+        if (!data || typeof data.output !== "string") {
           throw new Error("Invalid response format from chat service");
         }
 
@@ -378,7 +365,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         setMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
         const aiMessage: Message = {
           id: (Date.now() + 1).toString(),
-          content: chatData.output,
+          content: data.output,
           isUser: false,
         };
         const updatedMessages = [
@@ -402,7 +389,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
         // After getting the AI response, store that too
         await database.chat.insertMessage({
-          content: chatData.output,
+          content: data.output,
           type: "ai",
           session_id: selectedPupilId,
           teacher_id: user!.id,
