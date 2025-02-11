@@ -377,15 +377,18 @@ export function ExerciseForge() {
     ]);
 
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: {
-          examId: selectedExam?.id || null,
-          teacherId: user.id,
-          message: message.trim(),
-          mode: isCreatingNew ? "create" : mode,
-          correctionId: correction?.id || null,
-        },
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "exercise-forge",
+        {
+          body: {
+            examId: selectedExam?.id || null,
+            teacherId: user.id,
+            message: message.trim(),
+            mode: isCreatingNew ? "create" : mode,
+            correctionId: correction?.id || null,
+          },
+        }
+      );
 
       if (error) throw error;
 
@@ -448,7 +451,6 @@ export function ExerciseForge() {
     setIsWaitingForCorrection(true);
 
     try {
-      // Show immediate notification for submission
       toast.success(
         "Correction request submitted! Processing will begin shortly.",
         {
@@ -457,27 +459,21 @@ export function ExerciseForge() {
         }
       );
 
-      const response = await fetch(
-        "https://arani.app.n8n.cloud/webhook/5b117600-11a7-4640-967b-e5259872c6f1/chat",
+      const { data, error } = await supabase.functions.invoke(
+        "exercise-correction",
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+          body: {
             examId: selectedExam.id,
             teacherId: user.id,
             mode: "create_correction",
             message:
               "Please create a detailed correction of the exam that is helpful, with step by step explanations of the solution steps.",
-          }),
+          },
         }
       );
 
-      if (!response.ok) throw new Error("Failed to create correction");
-
-      // This notification will show when the correction is actually ready
-      // (handled by the real-time subscription)
+      if (error) throw error;
+      if (!data.ok) throw new Error("Failed to create correction");
     } catch (error) {
       console.error("Error creating correction:", error);
       toast.error("Failed to create correction");
