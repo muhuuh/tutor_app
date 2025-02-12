@@ -268,7 +268,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
     try {
       if (pendingFiles.length > 0) {
-        // Use generate-report function for file analysis
+        // Single call to generate-report
         const { data, error } = await supabase.functions.invoke(
           "generate-report",
           {
@@ -283,12 +283,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         );
 
         if (error) throw error;
-        // Handle file analysis workflow
-        if (!reportTitle.trim()) {
-          toast.error("Please enter a title for the report");
-          setIsProcessing(false);
-          return;
-        }
+
         // Add first response message after 1 second delay
         setTimeout(() => {
           const firstMessage: Message = {
@@ -311,31 +306,9 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           setMessages((prev) => [...prev, secondMessage]);
         }, 1000);
 
-        try {
-          // Fire and forget - don't wait for response
-          supabase.functions
-            .invoke("generate-report", {
-              body: {
-                pupilId: selectedPupilId,
-                teacherId: user?.id,
-                imageUrls: pendingFiles.map((f) => f.url),
-                reportTitle: reportTitle.trim(),
-                timestamp: Date.now(),
-              },
-            })
-            .catch((error) => {
-              console.error("Error initiating report generation:", error);
-              // Don't show error to user as the process might still succeed
-            });
-
-          // Clear the files and title immediately
-          setPendingFiles([]);
-          setReportTitle("");
-          setIsProcessing(false);
-        } catch (error) {
-          console.error("Error initiating report generation:", error);
-          setIsProcessing(false);
-        }
+        // Clear the files and title immediately
+        setPendingFiles([]);
+        setReportTitle("");
       } else {
         // Handle chat messages
         const { data, error } = await supabase.functions.invoke("chat", {
