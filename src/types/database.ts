@@ -39,3 +39,14 @@ export interface Correction {
   created_at: string;
   updated_at: string;
 }
+
+export interface UserSubscription {
+  id: string;
+  user_id: string;
+  max_credits: number;
+  used_credits: number;
+  subscription_type: string;
+  valid_until: string;
+  created_at: string;
+  updated_at: string;
+}

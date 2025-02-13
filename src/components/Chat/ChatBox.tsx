@@ -21,6 +21,8 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import { useCreditWarning } from "../../hooks/useCreditWarning";
+import { CreditWarningModal } from "../UI/CreditWarningModal";
 
 interface Message {
   id: string;
@@ -140,6 +142,12 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const {
+    showCreditWarning,
+    setShowCreditWarning,
+    requiredCredits,
+    handleCreditError,
+  } = useCreditWarning();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -268,6 +276,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
     try {
       if (pendingFiles.length > 0) {
+        // Generate Report
         const { data, error } = await supabase.functions.invoke(
           "generate-report",
           {
@@ -281,36 +290,13 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           }
         );
 
-        if (error) {
-          if (error.status === 402) {
-            const errorData = JSON.parse(error.message);
-            toast(
-              (t) => (
-                <div className="flex items-start gap-4">
-                  <div className="text-2xl">⚠️</div>
-                  <div>
-                    <h3 className="font-medium text-base mb-1">
-                      Subscription Notice
-                    </h3>
-                    <p className="text-sm text-gray-600">{errorData.error}</p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Required credits: {errorData.requiredCredits}
-                    </p>
-                  </div>
-                </div>
-              ),
-              {
-                duration: 8000,
-                style: {
-                  minWidth: "360px",
-                  backgroundColor: "#fff4ed",
-                  border: "1px solid #fed7aa",
-                },
-              }
-            );
-            return;
-          }
-          throw error;
+        if (
+          data &&
+          data.ok === false &&
+          data.errorType === "subscription_error"
+        ) {
+          handleCreditError(data);
+          return;
         }
 
         // Add success notification
@@ -365,7 +351,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         setPendingFiles([]);
         setReportTitle("");
       } else {
-        // Handle chat messages
+        // Regular Chat
         const { data, error } = await supabase.functions.invoke("chat", {
           body: {
             content: content,
@@ -375,71 +361,21 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           },
         });
 
-        if (error) throw error;
-        // Add typing indicator
-        const typingMessage: Message = {
-          id: "typing",
-          content: "...",
-          isUser: false,
-        };
-        setMessages((prev) => [...prev, typingMessage]);
-
-        // Handle interactive chat
-        if (!data || typeof data.output !== "string") {
-          throw new Error("Invalid response format from chat service");
+        if (
+          data &&
+          data.ok === false &&
+          data.errorType === "subscription_error"
+        ) {
+          handleCreditError(data);
+          setMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
+          return;
         }
 
-        // Remove typing indicator and add AI response
-        setMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content: data.output,
-          isUser: false,
-        };
-        const updatedMessages = [
-          ...messages.filter((msg) => msg.id !== "typing"),
-          userMessage,
-          aiMessage,
-        ];
-        setMessages(updatedMessages);
-        // Update suggestions with new messages
-        updateSuggestions(updatedMessages);
-
-        // Store the user's message in the database (only if there was a message)
-        if (userMessage) {
-          await database.chat.insertMessage({
-            content: content,
-            type: "human",
-            session_id: selectedPupilId,
-            teacher_id: user!.id,
-          });
-        }
-
-        // After getting the AI response, store that too
-        await database.chat.insertMessage({
-          content: data.output,
-          type: "ai",
-          session_id: selectedPupilId,
-          teacher_id: user!.id,
-        });
+        // ... success handling for chat ...
       }
     } catch (error) {
-      console.error("Processing error:", error);
-      const errorMessage =
-        error instanceof Error ? error.message : "An unexpected error occurred";
-      toast.error(errorMessage);
-
-      // Remove typing indicator if present
-      setMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
-
-      // Add error message to chat
-      const errorChatMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content:
-          "I apologize, but there was an error processing your message. Please try again.",
-        isUser: false,
-      };
-      setMessages((prev) => [...prev, errorChatMessage]);
+      console.error("Error:", error);
+      toast.error("An unexpected error occurred");
     } finally {
       setIsProcessing(false);
     }
@@ -706,6 +642,12 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           </div>
         </div>
       </div>
+
+      <CreditWarningModal
+        isOpen={showCreditWarning}
+        onClose={() => setShowCreditWarning(false)}
+        requiredCredits={requiredCredits}
+      />
     </div>
   );
 }

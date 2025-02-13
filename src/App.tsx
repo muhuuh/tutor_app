@@ -20,42 +20,40 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <>
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/signin" element={<Auth />} />
-          <Route path="/signup" element={<Auth />} />
-          <Route path="/auth" element={<Navigate to="/signup" replace />} />
-          <Route path="/home" element={<Home />} />
-          <Route
-            path="/tools/homework-corrections"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/tools/exercise-forge"
-            element={
-              <PrivateRoute>
-                <ExerciseForge />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/company/about" element={<About />} />
-          <Route path="/company/contact" element={<Contact />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route element={<ProtectedRoute />}>
-            {/* Your existing protected routes */}
-          </Route>
-        </Routes>
-        <Toaster position="top-right" />
-      </Router>
-    </>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/signin" element={<Auth />} />
+        <Route path="/signup" element={<Auth />} />
+        <Route path="/auth" element={<Navigate to="/signup" replace />} />
+        <Route path="/home" element={<Home />} />
+        <Route
+          path="/tools/homework-corrections"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/tools/exercise-forge"
+          element={
+            <PrivateRoute>
+              <ExerciseForge />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/company/about" element={<About />} />
+        <Route path="/company/contact" element={<Contact />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route element={<ProtectedRoute />}>
+          {/* Your existing protected routes */}
+        </Route>
+      </Routes>
+      <Toaster position="top-right" />
+    </Router>
   );
 }
 

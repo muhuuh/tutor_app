@@ -15,6 +15,8 @@ import {
   downloadWordDocument,
 } from "../lib/markdownToWord";
 import { AuroraBackground } from "../components/UI/aurora-background";
+import { CreditWarningModal } from "../components/UI/CreditWarningModal";
+import { useCreditWarning } from "../hooks/useCreditWarning";
 
 type Mode = "edit" | "correction";
 
@@ -58,6 +60,14 @@ export function ExerciseForge() {
 
   // Add new state for tracking new exam
   const [newExamId, setNewExamId] = useState<string | null>(null);
+
+  // Add state for modal
+  const {
+    showCreditWarning,
+    setShowCreditWarning,
+    requiredCredits,
+    handleCreditError,
+  } = useCreditWarning();
 
   useEffect(() => {
     if (!initialLoadComplete.current) {
@@ -377,6 +387,7 @@ export function ExerciseForge() {
     ]);
 
     try {
+      console.log("Sending request to exercise-forge...");
       const { data, error } = await supabase.functions.invoke(
         "exercise-forge",
         {
@@ -389,9 +400,19 @@ export function ExerciseForge() {
           },
         }
       );
+      console.log("Response received:", { data, error });
 
-      if (error) throw error;
+      if (
+        data &&
+        data.ok === false &&
+        data.errorType === "subscription_error"
+      ) {
+        handleCreditError(data);
+        setChatMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
+        return;
+      }
 
+      // Success handling
       setChatMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
       setChatMessages((prev) => [
         ...prev,
@@ -418,8 +439,8 @@ export function ExerciseForge() {
         await loadCorrection(mode);
       }
     } catch (error) {
-      console.error("Error sending message:", error);
-      toast.error("Failed to get AI response. Please try again.");
+      console.error("Unexpected error:", error);
+      toast.error("An unexpected error occurred");
       setChatMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
     } finally {
       setIsSendingMessage(false);
@@ -735,6 +756,12 @@ export function ExerciseForge() {
           </div>
         </div>
       </div>
+
+      <CreditWarningModal
+        isOpen={showCreditWarning}
+        onClose={() => setShowCreditWarning(false)}
+        requiredCredits={requiredCredits}
+      />
     </AuroraBackground>
   );
 }

@@ -76,8 +76,26 @@ serve(async (req) => {
       subscription.used_credits + requiredCredits >
       subscription.max_credits
     ) {
-      throw new Error(
-        `Insufficient credits. This action requires ${requiredCredits} credits`
+      console.log("Credit check:", {
+        used: subscription.used_credits,
+        required: requiredCredits,
+        max: subscription.max_credits,
+      });
+      console.log("Insufficient credits, returning error payload");
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          errorType: "subscription_error",
+          message: "Insufficient credits",
+          requiredCredits: CREDIT_COSTS.GENERATE_REPORT,
+        }),
+        {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
+        }
       );
     }
 
@@ -118,7 +136,8 @@ serve(async (req) => {
       // Continue anyway as the service was provided
     }
 
-    return new Response(JSON.stringify(webhookData), {
+    // Success case
+    return new Response(JSON.stringify({ ok: true, ...webhookData }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
