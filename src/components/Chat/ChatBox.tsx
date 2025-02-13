@@ -268,7 +268,6 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
     try {
       if (pendingFiles.length > 0) {
-        // Single call to generate-report
         const { data, error } = await supabase.functions.invoke(
           "generate-report",
           {
@@ -282,7 +281,63 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           }
         );
 
-        if (error) throw error;
+        if (error) {
+          if (error.status === 402) {
+            const errorData = JSON.parse(error.message);
+            toast(
+              (t) => (
+                <div className="flex items-start gap-4">
+                  <div className="text-2xl">⚠️</div>
+                  <div>
+                    <h3 className="font-medium text-base mb-1">
+                      Subscription Notice
+                    </h3>
+                    <p className="text-sm text-gray-600">{errorData.error}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Required credits: {errorData.requiredCredits}
+                    </p>
+                  </div>
+                </div>
+              ),
+              {
+                duration: 8000,
+                style: {
+                  minWidth: "360px",
+                  backgroundColor: "#fff4ed",
+                  border: "1px solid #fed7aa",
+                },
+              }
+            );
+            return;
+          }
+          throw error;
+        }
+
+        // Add success notification
+        toast(
+          (t) => (
+            <div className="flex items-start gap-4">
+              <div className="text-2xl">📋</div>
+              <div>
+                <h3 className="font-medium text-base mb-1">
+                  Report Submitted!
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Your report is being generated. You'll be notified when it's
+                  ready.
+                </p>
+              </div>
+            </div>
+          ),
+          {
+            duration: 6000,
+            style: {
+              minWidth: "360px",
+              backgroundColor: "#f0f9ff",
+              border: "1px solid #bae6fd",
+            },
+          }
+        );
 
         // Add first response message after 1 second delay
         setTimeout(() => {
