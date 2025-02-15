@@ -21,61 +21,6 @@ import NextGenTools from "./NextGenTools";
 export function Home() {
   const { user } = useAuth();
 
-  const painPoints = [
-    {
-      icon: <FiEdit3 className="w-6 h-6" />,
-      title: "Smart Grading",
-      description:
-        "Automated evaluation of complex STEM problems with AI-powered partial credit system",
-      solution: "Instant grading with detailed feedback",
-    },
-    {
-      icon: <FiTarget className="w-6 h-6" />,
-      title: "Consistent Evaluation",
-      description:
-        "Uniform grading standards across all students and assignments",
-      solution: "AI-assisted standardized rubrics",
-    },
-    {
-      icon: <FiBarChart2 className="w-6 h-6" />,
-      title: "Adaptive Learning",
-      description:
-        "Dynamic adjustment of teaching materials based on student performance",
-      solution: "Real-time learning analytics dashboard",
-    },
-  ];
-
-  const features = [
-    {
-      icon: <FiZap className="w-6 h-6" />,
-      title: "AI-Powered Analysis",
-      description:
-        "Advanced handwriting recognition for mathematical notations and chemical formulas",
-      gradient: "from-purple-600 to-blue-500",
-    },
-    {
-      icon: <FiTrendingUp className="w-6 h-6" />,
-      title: "Progress Tracking",
-      description:
-        "Interactive dashboards with competency mapping and skill progression",
-      gradient: "from-pink-600 to-rose-500",
-    },
-    {
-      icon: <FiBook className="w-6 h-6" />,
-      title: "Dynamic Content",
-      description:
-        "Automated generation of practice problems based on learning gaps",
-      gradient: "from-orange-600 to-amber-500",
-    },
-    {
-      icon: <FiBarChart2 className="w-6 h-6" />,
-      title: "Deep Analytics",
-      description:
-        "Concept-level performance breakdown with comparative insights",
-      gradient: "from-green-600 to-cyan-500",
-    },
-  ];
-
   const resources = [
     {
       icon: <FiFileText className="w-6 h-6" />,
