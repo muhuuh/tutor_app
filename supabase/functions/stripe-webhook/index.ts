@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import Stripe from "https://esm.sh/stripe@12.0.0";
+import Stripe from "https://esm.sh/stripe@13.11.0";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
   apiVersion: "2022-11-15",
@@ -27,48 +27,100 @@ serve(async (req) => {
   try {
     const body = await req.text();
     const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
-    const event = stripe.webhooks.constructEvent(
+    const event = await stripe.webhooks.constructEventAsync(
       body,
       signature,
       webhookSecret!
     );
+    console.log("Constructed event:", JSON.stringify(event, null, 2));
 
     switch (event.type) {
       case "checkout.session.completed": {
-        // This is the initial subscription creation
+        console.log("Received checkout.session.completed event.");
+        // This event is triggered when a checkout session completes
         const session = event.data.object as Stripe.Checkout.Session;
+        console.log(
+          "Checkout session object:",
+          JSON.stringify(session, null, 2)
+        );
         const customerId = session.customer as string;
         const subscriptionId = session.subscription as string;
+        console.log(
+          "Extracted customerId:",
+          customerId,
+          "and subscriptionId:",
+          subscriptionId
+        );
 
-        // Get subscription details to determine plan type
+        // Retrieve subscription details
         const subscription = await stripe.subscriptions.retrieve(
           subscriptionId
         );
+        console.log(
+          "Retrieved subscription:",
+          JSON.stringify(subscription, null, 2)
+        );
         const priceId = subscription.items.data[0].price.id;
+        console.log("Extracted priceId:", priceId);
 
-        // Determine plan type and credits
+        // Determine plan type and credits; log the env variable for debugging
+        console.log(
+          "Basic price id from ENV:",
+          Deno.env.get("STRIPE_BASIC_PRICE_ID")
+        );
         const planType =
           priceId === Deno.env.get("STRIPE_BASIC_PRICE_ID")
             ? "basic"
             : "professional";
         const maxCredits = planType === "basic" ? 500 : 2000;
+        console.log(
+          "Determined plan type:",
+          planType,
+          "and maxCredits:",
+          maxCredits
+        );
 
-        // Update subscription details
-        const { error: updateError } = await supabase
+        // Lookup the subscription row in Supabase
+        const { data: existingRow, error: lookupError } = await supabase
+          .from("user_subscriptions")
+          .select("*")
+          .eq("stripe_customer_id", customerId)
+          .single();
+        console.log(
+          "Supabase lookup; existingRow:",
+          JSON.stringify(existingRow, null, 2),
+          "lookupError:",
+          lookupError
+        );
+
+        if (lookupError) {
+          console.error("Error looking up subscription row:", lookupError);
+          throw lookupError;
+        }
+
+        // Update subscription details in the matched row
+        const { data: updatedData, error: updateError } = await supabase
           .from("user_subscriptions")
           .update({
             subscription_type: planType,
             max_credits: maxCredits,
             used_credits: 0,
-            valid_until: null,
+            valid_until: null, // when upgraded, valid_until becomes NULL
             updated_at: new Date().toISOString(),
           })
           .eq("stripe_customer_id", customerId);
+        console.log(
+          "Supabase update result; updatedData:",
+          JSON.stringify(updatedData, null, 2),
+          "updateError:",
+          updateError
+        );
 
         if (updateError) {
           console.error("Error updating subscription:", updateError);
           throw updateError;
         }
+
         break;
       }
 
