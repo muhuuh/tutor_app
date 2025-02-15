@@ -17,6 +17,7 @@ import { PrivateRoute } from "./components/PrivateRoute";
 import { About } from "./pages/company/About";
 import { FAQ } from "./pages/FAQ";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { SubscriptionSuccess } from "./pages/SubscriptionSuccess";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path="/company/contact" element={<Contact />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/subscription/success" element={<SubscriptionSuccess />} />
         <Route element={<ProtectedRoute />}>
           {/* Your existing protected routes */}
         </Route>

@@ -1,59 +1,141 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Package, Zap, Building2, Check, Gift } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+
+// Initialize Stripe with your publishable key
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+// Add price IDs to the pricing plans
+const pricingPlans = [
+  {
+    name: "Basic",
+    price: "€9.99",
+    period: "/month",
+    description:
+      "Perfect for individual tutors getting started with AI grading",
+    icon: Package,
+    priceId: import.meta.env.VITE_STRIPE_BASIC_PRICE_ID,
+    features: [
+      "Basic handwriting recognition",
+      "Simple exercise generation",
+      "Limited student analytics",
+      "Email support",
+      "Up to 50 corrections/month",
+    ],
+  },
+  {
+    name: "Professional",
+    price: "€19.99",
+    period: "/month",
+    popular: true,
+    icon: Zap,
+    priceId: import.meta.env.VITE_STRIPE_PRO_PRICE_ID,
+    description: "Ideal for active tutors and small teaching practices",
+    features: [
+      "Advanced handwriting analysis",
+      "Partial credit recognition",
+      "Detailed performance analytics",
+      "Custom exercise generation",
+      "Priority support",
+      "Unlimited corrections",
+    ],
+  },
+  {
+    name: "Institution",
+    price: "Custom",
+    icon: Building2,
+    description: "For schools and large educational organizations",
+    features: [
+      "All Professional features",
+      "API access",
+      "Custom integrations",
+      "Dedicated support team",
+      "Advanced reporting",
+      "Training sessions",
+    ],
+  },
+];
 
 export function Pricing() {
-  const pricingPlans = [
-    {
-      name: "Basic",
-      price: "€9.99",
-      period: "/month",
-      description:
-        "Perfect for individual tutors getting started with AI grading",
-      icon: Package,
-      features: [
-        "Basic handwriting recognition",
-        "Simple exercise generation",
-        "Limited student analytics",
-        "Email support",
-        "Up to 50 corrections/month",
-      ],
-    },
-    {
-      name: "Professional",
-      price: "€19.99",
-      period: "/month",
-      popular: true,
-      icon: Zap,
-      description: "Ideal for active tutors and small teaching practices",
-      features: [
-        "Advanced handwriting analysis",
-        "Partial credit recognition",
-        "Detailed performance analytics",
-        "Custom exercise generation",
-        "Priority support",
-        "Unlimited corrections",
-      ],
-    },
-    {
-      name: "Institution",
-      price: "Custom",
-      icon: Building2,
-      description: "For schools and large educational organizations",
-      features: [
-        "All Professional features",
-        "API access",
-        "Custom integrations",
-        "Dedicated support team",
-        "Advanced reporting",
-        "Training sessions",
-      ],
-    },
-  ];
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubscribe = async (priceId: string | undefined) => {
+    setError(null);
+
+    if (!priceId) {
+      setError("No price ID provided");
+      return;
+    }
+
+    if (!user) {
+      navigate("/signin");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_SUPABASE_URL
+        }/functions/v1/create-checkout-session`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({
+            priceId,
+            user_id: user.id,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.error || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const { sessionId } = await response.json();
+
+      if (!sessionId) {
+        throw new Error("No session ID returned");
+      }
+
+      const stripe = await stripePromise;
+      if (!stripe) {
+        throw new Error("Stripe failed to load");
+      }
+
+      const { error: redirectError } = await stripe.redirectToCheckout({
+        sessionId,
+      });
+
+      if (redirectError) {
+        throw redirectError;
+      }
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "An unknown error occurred";
+      console.error("Error handling subscription:", err);
+      setError(errorMessage);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {error && (
+        <div className="fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded z-50">
+          {error}
+        </div>
+      )}
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
@@ -109,12 +191,12 @@ export function Pricing() {
                   </p>
                 </div>
               </div>
-              <Link
-                to="/auth"
+              <button
+                onClick={() => handleSubscribe(pricingPlans[0].priceId)}
                 className="px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl"
               >
                 Start Free Trial
-              </Link>
+              </button>
             </div>
           </motion.div>
           <div className="mt-24 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8">
@@ -174,16 +256,19 @@ export function Pricing() {
                     ))}
                   </ul>
 
-                  <Link
-                    to="/auth"
+                  <button
+                    onClick={() => handleSubscribe(plan.priceId)}
                     className={`relative z-10 mt-8 block w-full px-6 py-4 text-center font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow ${
                       plan.popular
                         ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white hover:from-violet-700 hover:to-blue-700"
                         : "bg-gray-50 text-gray-900 hover:bg-gray-100"
                     }`}
+                    disabled={plan.name === "Institution"}
                   >
-                    Get started
-                  </Link>
+                    {plan.name === "Institution"
+                      ? "Contact Sales"
+                      : "Get started"}
+                  </button>
                 </div>
               </motion.div>
             ))}
