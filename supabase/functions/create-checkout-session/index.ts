@@ -19,11 +19,16 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const supabaseUrl = Deno.env.get("SUPABASE_URL");
-const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 // Initialize Supabase client with service role key
-const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
+const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false,
+  },
+});
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -31,49 +36,46 @@ serve(async (req) => {
   }
 
   try {
-    const body = await req.json();
-    console.log("Received request body:", body); // Add logging
-
-    const { priceId, user_id } = body;
+    const { priceId, user_id } = await req.json();
 
     if (!priceId || !user_id) {
-      console.log("Missing parameters:", { priceId, user_id }); // Add logging
       throw new Error("Missing required parameters: priceId and user_id");
     }
 
-    // Log Supabase connection details (without sensitive info)
-    console.log("Supabase URL exists:", !!supabaseUrl);
-    console.log("Supabase Service Key exists:", !!supabaseServiceKey);
-
-    // Create or get customer
-    let customer;
-    const { data: existingCustomer, error: customerError } = await supabase
+    // First, verify that the user has an existing row
+    const { data: existingUser, error: lookupError } = await supabase
       .from("user_subscriptions")
       .select("stripe_customer_id")
       .eq("user_id", user_id)
       .single();
 
-    console.log("Customer lookup result:", {
-      existingCustomer,
-      error: customerError?.message,
-    }); // Add logging
-
-    if (customerError && customerError.code !== "PGRST116") {
-      throw new Error(`Error fetching customer: ${customerError.message}`);
+    if (lookupError) {
+      throw new Error(`User not found: ${lookupError.message}`);
     }
 
-    if (existingCustomer?.stripe_customer_id) {
+    let customer;
+    if (existingUser?.stripe_customer_id) {
+      // Use existing Stripe customer
       customer = await stripe.customers.retrieve(
-        existingCustomer.stripe_customer_id
+        existingUser.stripe_customer_id
       );
     } else {
+      // Create new Stripe customer and update the existing row
       customer = await stripe.customers.create();
-      // Store the customer ID
-      await supabase.from("user_subscriptions").upsert({
-        user_id,
-        stripe_customer_id: customer.id,
-        subscription_type: "free",
-      });
+
+      const { error: updateError } = await supabase
+        .from("user_subscriptions")
+        .update({
+          stripe_customer_id: customer.id,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("user_id", user_id);
+
+      if (updateError) {
+        throw new Error(
+          `Error updating customer record: ${updateError.message}`
+        );
+      }
     }
 
     // Create a checkout session
@@ -89,7 +91,7 @@ serve(async (req) => {
       ],
       success_url: `${req.headers.get(
         "origin"
-      )}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+      )}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.get("origin")}/pricing`,
     });
 
@@ -98,16 +100,11 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error("Detailed error in create-checkout-session:", {
-      message: error instanceof Error ? error.message : "Unknown error",
-      error, // Log the full error object
-    });
-
+    console.error("Error in create-checkout-session:", error);
     return new Response(
       JSON.stringify({
         error:
           error instanceof Error ? error.message : "Unknown error occurred",
-        details: process.env.NODE_ENV === "development" ? error : undefined,
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

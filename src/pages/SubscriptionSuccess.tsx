@@ -11,7 +11,7 @@ export function SubscriptionSuccess() {
   const { user } = useAuth();
 
   useEffect(() => {
-    // Automatically redirect to tools page after 5 seconds
+    // Automatically redirect to homework corrections after 5 seconds
     const timer = setTimeout(() => {
       navigate("/tools/homework-corrections");
     }, 5000);

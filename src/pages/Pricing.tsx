@@ -65,6 +65,8 @@ export function Pricing() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
 
+  console.log("id user", user?.id);
+
   const handleSubscribe = async (priceId: string | undefined) => {
     setError(null);
 

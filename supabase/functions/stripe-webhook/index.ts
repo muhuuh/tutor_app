@@ -6,10 +6,16 @@ const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
   apiVersion: "2022-11-15",
 });
 
-const supabaseUrl = Deno.env.get("SUPABASE_URL");
-const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
+// Initialize Supabase client with service role key
+const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false,
+  },
+});
 
 serve(async (req) => {
   const signature = req.headers.get("stripe-signature");
@@ -28,6 +34,44 @@ serve(async (req) => {
     );
 
     switch (event.type) {
+      case "checkout.session.completed": {
+        // This is the initial subscription creation
+        const session = event.data.object as Stripe.Checkout.Session;
+        const customerId = session.customer as string;
+        const subscriptionId = session.subscription as string;
+
+        // Get subscription details to determine plan type
+        const subscription = await stripe.subscriptions.retrieve(
+          subscriptionId
+        );
+        const priceId = subscription.items.data[0].price.id;
+
+        // Determine plan type and credits
+        const planType =
+          priceId === Deno.env.get("STRIPE_BASIC_PRICE_ID")
+            ? "basic"
+            : "professional";
+        const maxCredits = planType === "basic" ? 500 : 2000;
+
+        // Update subscription details
+        const { error: updateError } = await supabase
+          .from("user_subscriptions")
+          .update({
+            subscription_type: planType,
+            max_credits: maxCredits,
+            used_credits: 0,
+            valid_until: null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("stripe_customer_id", customerId);
+
+        if (updateError) {
+          console.error("Error updating subscription:", updateError);
+          throw updateError;
+        }
+        break;
+      }
+
       case "invoice.payment_succeeded": {
         const invoice = event.data.object as Stripe.Invoice;
         const subscriptionId = invoice.subscription as string;
@@ -46,17 +90,28 @@ serve(async (req) => {
             : "professional";
         const maxCredits = planType === "basic" ? 500 : 2000;
 
-        // Update the user's subscription in Supabase
+        // First, get the user_id from the existing subscription
+        const { data: existingSubscription } = await supabase
+          .from("user_subscriptions")
+          .select("user_id")
+          .eq("stripe_customer_id", customerId)
+          .single();
+
+        if (!existingSubscription) {
+          throw new Error("No subscription found for customer");
+        }
+
+        // Update the existing subscription
         const { error } = await supabase
           .from("user_subscriptions")
           .update({
             subscription_type: planType,
             max_credits: maxCredits,
-            valid_until: null,
-            used_credits: 0,
+            valid_until: null, // Clear valid_until for paid subscriptions
+            used_credits: 0, // Reset used credits
             updated_at: new Date().toISOString(),
           })
-          .eq("stripe_customer_id", customerId);
+          .eq("user_id", existingSubscription.user_id); // Update based on user_id
 
         if (error) throw error;
         break;
@@ -111,7 +166,18 @@ serve(async (req) => {
         const subscription = event.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
 
-        // Update the user's subscription to cancelled
+        // Get the user_id from the existing subscription
+        const { data: existingSubscription } = await supabase
+          .from("user_subscriptions")
+          .select("user_id")
+          .eq("stripe_customer_id", customerId)
+          .single();
+
+        if (!existingSubscription) {
+          throw new Error("No subscription found for customer");
+        }
+
+        // Update the subscription to cancelled
         const { error } = await supabase
           .from("user_subscriptions")
           .update({
@@ -121,7 +187,7 @@ serve(async (req) => {
             valid_until: null,
             updated_at: new Date().toISOString(),
           })
-          .eq("stripe_customer_id", customerId);
+          .eq("user_id", existingSubscription.user_id);
 
         if (error) throw error;
         break;
