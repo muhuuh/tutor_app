@@ -14,8 +14,10 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthrough": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "types": ["react"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

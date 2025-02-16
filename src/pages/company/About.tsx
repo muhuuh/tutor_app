@@ -1,6 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { Users, Target, Award, TrendingUp } from "lucide-react";
+import { Target, Award, TrendingUp } from "lucide-react";
 
 export function About() {
   const stats = [
@@ -92,7 +91,7 @@ export function About() {
                   </h2>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
-                  We build AI-driven solutions that reduce educators’ workloads
+                  We build AI-driven solutions that reduce educators' workloads
                   and surface actionable insights. By removing repetitive tasks,
                   teachers are free to focus on delivering meaningful learning
                   experiences.

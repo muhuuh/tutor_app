@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect, Fragment } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useScrollDirection } from "../hooks/useScrollDirection";
 import {
   FiChevronDown,
   FiLogOut,
-  FiLogIn,
   FiTool,
   FiBox,
   FiInfo,
@@ -15,7 +14,6 @@ import {
   FiGlobe,
 } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import { Menu, Transition } from "@headlessui/react";
 import gbFlag from "../assets/flags/gb.svg";
 import deFlag from "../assets/flags/de.svg";
 import frFlag from "../assets/flags/fr.svg";

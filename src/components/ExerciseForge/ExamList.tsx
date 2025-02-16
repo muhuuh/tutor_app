@@ -10,7 +10,6 @@ import {
   useFocus,
   useInteractions,
   FloatingPortal,
-  useDelayGroup,
 } from "@floating-ui/react";
 import { FiTrash2, FiDownload } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
@@ -20,10 +19,9 @@ interface ExamListProps {
   loading: boolean;
   exams: Exam[];
   selectedExam: Exam | null;
-  isCreatingNew: boolean;
   onExamSelect: (examId: string | null) => void;
   onExamDelete: (examId: string) => void;
-  newExamId?: string;
+  newExamId?: string | null;
   onExamDownload: (examId: string) => void;
 }
 
@@ -116,7 +114,6 @@ export function ExamList({
   loading,
   exams,
   selectedExam,
-  isCreatingNew,
   onExamSelect,
   onExamDelete,
   newExamId,

@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect, Fragment } from "react";
+import { useState, useRef, useEffect, Fragment } from "react";
 import type { Exam, Correction } from "../../types/database";
 import {
   FiEye,
-  FiEyeOff,
   FiDownload,
   FiSave,
   FiTrash2,
@@ -18,7 +17,7 @@ import html2pdf from "html2pdf.js";
 import { toast } from "react-hot-toast";
 
 interface ExamEditorProps {
-  selectedExam: Exam | null;
+  selectedExam?: Exam | null;
   isCreatingNew: boolean;
   mode: "edit" | "correction";
   setMode: (mode: "edit" | "correction") => void;
@@ -30,7 +29,7 @@ interface ExamEditorProps {
   isSendingMessage: boolean;
   isLoadingContent: boolean;
   isWaitingForCorrection: boolean;
-  onDownload: () => void;
+  onDownload?: () => void;
   onCreateCorrection: () => void;
   onSave: () => void;
   onDelete: () => void;
@@ -82,8 +81,6 @@ export const processContent = (content: string) => {
 };
 
 export function ExamEditor({
-  selectedExam,
-  isCreatingNew,
   mode,
   setMode,
   showPreview,
@@ -94,12 +91,12 @@ export function ExamEditor({
   isSendingMessage,
   isLoadingContent,
   isWaitingForCorrection,
-  onDownload,
   onCreateCorrection,
   onSave,
   onDelete,
   title,
   onTitleChange,
+  isCreatingNew = false,
 }: ExamEditorProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
@@ -474,8 +471,8 @@ export function ExamEditor({
                       remarkPlugins={[remarkMath]}
                       rehypePlugins={[rehypeKatex]}
                       components={{
-                        p: ({ node, children }) => {
-                          return <p className="my-2">{children}</p>;
+                        p: ({ children }) => {
+                          return <p className="my-1">{children}</p>;
                         },
                       }}
                     >
@@ -498,8 +495,8 @@ export function ExamEditor({
               remarkPlugins={[remarkMath]}
               rehypePlugins={[rehypeKatex]}
               components={{
-                p: ({ node, children }) => {
-                  return <p className="my-2">{children}</p>;
+                p: ({ children }) => {
+                  return <p className="my-1">{children}</p>;
                 },
               }}
             >

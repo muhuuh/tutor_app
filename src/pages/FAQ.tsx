@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   BookOpen,
   Zap,
@@ -10,7 +9,8 @@ import {
 } from "lucide-react";
 
 export function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  // Remove unused state if not needed
+  // const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const faqs = [
     {

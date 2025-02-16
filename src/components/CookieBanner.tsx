@@ -1,4 +1,3 @@
-import React from "react";
 import * as CookieConsent from "react-cookie-consent";
 import { Link } from "react-router-dom";
 

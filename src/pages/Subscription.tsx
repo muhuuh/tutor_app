@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabase";
-import {
-  CreditCard,
-  Calendar,
-  Package,
-  RefreshCw,
-  Loader2,
-} from "lucide-react";
+import { CreditCard, Calendar, Package, Loader2 } from "lucide-react";
 
 //link to customer portall: https://dashboard.stripe.com/test/settings/billing/portal
 

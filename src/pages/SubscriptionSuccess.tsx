@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 export function SubscriptionSuccess() {
-  const [searchParams] = useSearchParams();
+  const {
+    /* searchParams */
+  } = useSearchParams();
   const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
-  const { user } = useAuth();
+  const [
+    ,/* error */
+    /* setError */
+  ] = useState<string | null>(null);
+  const {
+    /* user */
+  } = useAuth();
 
   useEffect(() => {
     // Automatically redirect to homework corrections after 5 seconds
@@ -36,7 +43,7 @@ export function SubscriptionSuccess() {
           Thank you for subscribing. Your account has been successfully
           upgraded.
         </p>
-        {error && <div className="text-red-500 mb-4 text-sm">{error}</div>}
+        {/* error && <div className="text-red-500 mb-4 text-sm">{error}</div> */}
         <p className="text-sm text-gray-500">
           Redirecting to homework correction tools in a few seconds...
         </p>

@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import {
-  Mail,
-  Send,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
-} from "lucide-react";
+import { Send, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);

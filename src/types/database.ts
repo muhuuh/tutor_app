@@ -20,6 +20,11 @@ export interface Report {
   teacher_id: string;
   requested_at: string;
   pupil_id: string;
+  sections: ReportSection[];
+}
+
+export interface ReportSection {
+  content: string;
 }
 
 export interface Exam {

@@ -14,10 +14,7 @@ import {
   FiMessageSquare,
   FiFileText,
 } from "react-icons/fi";
-import {
-  downloadWordDocument,
-  convertMarkdownToWord,
-} from "../lib/markdownToWord";
+
 import { PencilIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
@@ -40,11 +37,6 @@ const TABS = [
     icon: <FiFileText className="w-5 h-5" />,
   },
 ];
-
-// Add this type for the ReactMarkdown components prop
-type Components = {
-  [key: string]: React.ComponentType<any>;
-};
 
 // Add this function near the top of the file, after imports
 const processContent = (content: string) => {
@@ -83,6 +75,11 @@ const processContent = (content: string) => {
 
   return content;
 };
+
+// Add type for report sections at the top of the file
+interface ReportSection {
+  [key: string]: string;
+}
 
 export function Dashboard() {
   const { user } = useAuth();
@@ -167,7 +164,7 @@ export function Dashboard() {
 
           // Show success notification based on Supabase signal
           toast(
-            (t) => (
+            () => (
               <div className="flex items-start gap-4">
                 <div className="text-2xl">📋</div>
                 <div>
@@ -208,12 +205,13 @@ export function Dashboard() {
     if (!report || !pdfRef.current) return;
 
     try {
-      const combinedReport = report.reduce((acc, section) => {
-        const key = Object.keys(section)[0];
-        return acc + section[key] + "\n\n";
-      }, "");
-
-      const processedContent = processContent(combinedReport);
+      const combinedReportText = (report as unknown as ReportSection[]).reduce(
+        (acc: string, section: ReportSection) => {
+          const key = Object.keys(section)[0];
+          return acc + section[key] + "\n\n";
+        },
+        ""
+      );
 
       const currentReport = availableReports.find(
         (r) => r.id === currentReportId
@@ -231,6 +229,10 @@ export function Dashboard() {
         html2canvas: { scale: 2 },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       };
+
+      if (pdfRef.current) {
+        pdfRef.current.innerHTML = processContent(combinedReportText);
+      }
 
       await html2pdf().set(opt).from(pdfRef.current).save();
       toast.success("Report downloaded successfully");
@@ -344,11 +346,14 @@ export function Dashboard() {
       ).toLocaleDateString()}`;
 
     // Combine all report sections from the array of outputs
-    const combinedReport = report.reduce((acc, section) => {
-      // Get the first key (output1, output2, etc) from the section
-      const key = Object.keys(section)[0];
-      return acc + section[key] + "\n\n";
-    }, "");
+    const combinedReport = (report as unknown as ReportSection[]).reduce(
+      (acc: string, section: ReportSection) => {
+        // Get the first key (output1, output2, etc) from the section
+        const key = Object.keys(section)[0];
+        return acc + section[key] + "\n\n";
+      },
+      ""
+    );
 
     console.log("combinedReport", combinedReport);
 
@@ -421,8 +426,8 @@ export function Dashboard() {
               remarkPlugins={[remarkMath]}
               rehypePlugins={[rehypeKatex]}
               components={{
-                p: ({ node, children }) => {
-                  return <p className="my-2">{children}</p>;
+                p: ({ children }) => {
+                  return <p className="my-1">{children}</p>;
                 },
               }}
             >
@@ -447,7 +452,7 @@ export function Dashboard() {
                 rehypePlugins={[rehypeKatex]}
                 components={{
                   // Handle paragraphs with page break control
-                  p: ({ node, children }) => {
+                  p: ({ children }) => {
                     return (
                       <p
                         className="my-2"

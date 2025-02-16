@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Package, Zap, Building2, Check, Gift, Loader2 } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -62,7 +60,6 @@ const pricingPlans = [
 
 export function Pricing() {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<string | null>(null);
 

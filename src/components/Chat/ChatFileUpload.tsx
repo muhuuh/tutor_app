@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { supabase } from "../../lib/supabase";
 import toast from "react-hot-toast";
@@ -38,7 +38,7 @@ export function ChatFileUpload({
           const filePath = `${selectedPupilId}/${fileName}`;
 
           // Upload file to Supabase Storage
-          const { error: uploadError, data } = await supabase.storage
+          const { error: uploadError } = await supabase.storage
             .from("assignments")
             .upload(filePath, file, {
               cacheControl: "3600",

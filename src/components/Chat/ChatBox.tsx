@@ -1,19 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { config } from "../../lib/config";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 import toast from "react-hot-toast";
-import {
-  useFloating,
-  autoUpdate,
-  offset,
-  flip,
-  shift,
-  useHover,
-  useFocus,
-  useInteractions,
-  FloatingPortal,
-} from "@floating-ui/react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { ChatFileUpload } from "./ChatFileUpload";
 import { database } from "../../lib/database";
@@ -28,6 +16,7 @@ import { ReportSubmissionModal } from "../UI/ReportSubmissionModal";
 interface Message {
   id: string;
   content: string;
+  role: "user" | "assistant";
   isUser: boolean;
 }
 
@@ -41,60 +30,10 @@ interface SuggestionBox {
   prompt: string;
 }
 
-function SuggestionTooltip({
-  content,
-  children,
-}: {
+interface Suggestion {
+  title: string;
   content: string;
-  children: React.ReactNode;
-}) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const { refs, floatingStyles, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [offset(10), flip(), shift()],
-    whileElementsMounted: autoUpdate,
-  });
-
-  const delay = {
-    open: 400,
-    close: 200, // small delay before closing to prevent flickering
-  };
-
-  const hover = useHover(context, {
-    delay,
-    move: false, // Disable moving to prevent unwanted triggers
-    handleClose: null, // Use default close handling
-  });
-
-  const focus = useFocus(context);
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-    focus,
-  ]);
-
-  return (
-    <>
-      <div ref={refs.setReference} {...getReferenceProps()}>
-        {children}
-      </div>
-      <FloatingPortal>
-        {isOpen && (
-          <div
-            ref={refs.setFloating}
-            style={floatingStyles}
-            {...getFloatingProps()}
-            className="z-50 max-w-md p-4 bg-white rounded-lg shadow-lg border border-gray-200"
-          >
-            <div className="text-sm text-gray-700 whitespace-pre-wrap">
-              {content}
-            </div>
-          </div>
-        )}
-      </FloatingPortal>
-    </>
-  );
+  prompt?: string;
 }
 
 function InfoTooltip({ content }: { content: string }) {
@@ -125,8 +64,6 @@ const DEFAULT_SUGGESTIONS = [
       "Please give me a summary of the latest report and clear next steps that were defined",
   },
 ];
-
-const REPORT_CREATION_TIMEOUT = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const { user } = useAuth();
@@ -179,11 +116,16 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
         if (error) throw error;
 
-        const formattedMessages = data.map((item) => ({
-          id: crypto.randomUUID(),
-          content: item.message.content,
-          isUser: item.message.type === "human",
-        }));
+        const formattedMessages = data.map((item) => {
+          const messageRole =
+            item.message.type === "human" ? "user" : "assistant";
+          return {
+            id: crypto.randomUUID(),
+            content: item.message.content,
+            role: messageRole as "user" | "assistant",
+            isUser: item.message.type === "human",
+          };
+        });
 
         setMessages(formattedMessages);
         // Get initial suggestions based on loaded history
@@ -219,7 +161,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
       }));
 
       // Use Supabase function instead of direct n8n webhook
-      const { data, error } = await supabase.functions.invoke("suggestions", {
+      const { data } = await supabase.functions.invoke("suggestions", {
         body: {
           messages: lastMessages,
           pupilId: selectedPupilId,
@@ -227,7 +169,6 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         },
       });
 
-      if (error) throw error;
       setSuggestions(data.output || []);
     } catch (error) {
       console.error("Error getting suggestions:", error);
@@ -272,9 +213,14 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
       userMessage = {
         id: Date.now().toString(),
         content,
+        role: "user",
         isUser: true,
       };
-      setMessages((prev) => [...prev, userMessage]);
+      setMessages((prev) =>
+        [...prev, userMessage].filter(
+          (msg): msg is Message => msg !== undefined
+        )
+      );
     }
 
     try {
@@ -283,18 +229,15 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         setShowReportSubmissionModal(true);
 
         // Generate Report
-        const { data, error } = await supabase.functions.invoke(
-          "generate-report",
-          {
-            body: {
-              pupilId: selectedPupilId,
-              teacherId: user?.id,
-              imageUrls: pendingFiles.map((f) => f.url),
-              reportTitle: reportTitle.trim(),
-              timestamp: Date.now(),
-            },
-          }
-        );
+        const { data } = await supabase.functions.invoke("generate-report", {
+          body: {
+            pupilId: selectedPupilId,
+            teacherId: user?.id,
+            imageUrls: pendingFiles.map((f) => f.url),
+            reportTitle: reportTitle.trim(),
+            timestamp: Date.now(),
+          },
+        });
 
         if (
           data &&
@@ -313,6 +256,10 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         // We'll keep the modal visible until the user is redirected to the report
         // The redirect will happen automatically when the report is ready
         // through the existing notification system
+
+        if (data && !data.ok === false) {
+          onReportGenerated(data.reportId);
+        }
       } else {
         // ---- Regular Chat Branch ----
 
@@ -320,6 +267,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         const typingMessage: Message = {
           id: "typing",
           content: "...",
+          role: "assistant",
           isUser: false,
         };
         setMessages((prev) => [...prev, typingMessage]);
@@ -358,6 +306,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             .concat({
               id: (Date.now() + 1).toString(),
               content: chatData.output,
+              role: "assistant",
               isUser: false,
             });
           updateSuggestions(newMessages);
@@ -395,6 +344,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         id: (Date.now() + 1).toString(),
         content:
           "I apologize, but there was an error processing your message. Please try again.",
+        role: "assistant",
         isUser: false,
       };
       setMessages((prev) => [...prev, errorChatMessage]);
@@ -485,12 +435,12 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                       (messages.length === 0
                         ? DEFAULT_SUGGESTIONS
                         : suggestions || DEFAULT_SUGGESTIONS)
-                    ).map((suggestion, index) => (
+                    ).map((suggestion: Suggestion, index: number) => (
                       <div key={index} className="relative group w-full">
                         <button
                           onClick={() =>
                             handleSuggestionClick(
-                              suggestion.content || suggestion.prompt
+                              suggestion.content || suggestion.prompt || ""
                             )
                           }
                           className="w-full text-left px-4 py-3 text-sm text-gray-600 bg-gray-50/50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-all hover:border-gray-300 shadow-sm hover:shadow-md"
@@ -513,7 +463,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                           </div>
                         </button>
                         <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                          {suggestion.content || suggestion.prompt}
+                          {suggestion.content || suggestion.prompt || ""}
                         </div>
                       </div>
                     ))}

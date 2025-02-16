@@ -331,7 +331,7 @@ export function ExerciseForge() {
         mode === "edit"
           ? selectedExam.title
           : `${selectedExam.title} - Correction`;
-      const wordBlob = await convertMarkdownToWord(editableContent, title);
+      const wordBlob = await convertMarkdownToWord(editableContent);
       downloadWordDocument(wordBlob, title);
     } catch (error) {
       console.error("Error downloading document:", error);
@@ -644,7 +644,6 @@ export function ExerciseForge() {
                   loading={loading}
                   exams={exams}
                   selectedExam={selectedExam}
-                  isCreatingNew={isCreatingNew}
                   onExamSelect={handleExamSelect}
                   onExamDelete={handleExamDelete}
                   onExamDownload={handleDownload}

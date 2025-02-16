@@ -1,8 +1,10 @@
-import { Document } from 'docx';
-import TurndownService from 'turndown';
-import mammoth from 'mammoth';
+// import { Document } from 'docx';
+import TurndownService from "turndown";
+import mammoth from "mammoth";
 
-export async function convertWordToMarkdown(file: File): Promise<{ title: string; content: string }> {
+export async function convertWordToMarkdown(
+  file: File
+): Promise<{ title: string; content: string }> {
   try {
     // Use mammoth to convert docx to HTML
     const arrayBuffer = await file.arrayBuffer();
@@ -10,28 +12,31 @@ export async function convertWordToMarkdown(file: File): Promise<{ title: string
 
     // Convert HTML to markdown using Turndown
     const turndownService = new TurndownService({
-      headingStyle: 'atx',
-      codeBlockStyle: 'fenced',
-      bulletListMarker: '-'
+      headingStyle: "atx",
+      codeBlockStyle: "fenced",
+      bulletListMarker: "-",
     });
-    
+
     // Configure Turndown to handle Word-specific elements better
-    turndownService.addRule('preserveLineBreaks', {
-      filter: 'p',
-      replacement: (content) => content + '\n\n'
+    turndownService.addRule("preserveLineBreaks", {
+      filter: "p",
+      replacement: (content) => content + "\n\n",
     });
 
     const markdown = turndownService.turndown(html);
 
     // Use the file name (without extension) as the title
-    const title = file.name.replace(/\.(docx|doc)$/, '').trim() || 'Untitled Document';
+    const title =
+      file.name.replace(/\.(docx|doc)$/, "").trim() || "Untitled Document";
 
     return {
       title,
-      content: markdown
+      content: markdown,
     };
   } catch (error) {
-    console.error('Error converting Word to Markdown:', error);
-    throw new Error('Failed to convert Word document to Markdown. Please make sure you uploaded a valid Word document.');
+    console.error("Error converting Word to Markdown:", error);
+    throw new Error(
+      "Failed to convert Word document to Markdown. Please make sure you uploaded a valid Word document."
+    );
   }
 }

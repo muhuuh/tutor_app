@@ -18,10 +18,7 @@ function convertLatexToMathML(
   }
 }
 
-export async function convertMarkdownToWord(
-  markdown: string,
-  title: string
-): Promise<Blob> {
+export async function convertMarkdownToWord(markdown: string): Promise<Blob> {
   try {
     const lines = markdown.split("\n");
     const paragraphs = [];
@@ -34,18 +31,15 @@ export async function convertMarkdownToWord(
     // Helper function to process LaTeX content
     const processLatex = (text: string) => {
       // Handle display math mode \[ ... \]
-      text = text.replace(/\\\[(.*?)\\\]/g, (match, latex) => {
+      text = text.replace(/\\\[(.*?)\\\]/g, (_, latex) => {
         return convertLatexToMathML(latex, { display: "block" });
       });
 
       // Handle inline math mode \( ... \) or $ ... $
-      text = text.replace(
-        /\\\((.*?)\\\)|\$(.*?)\$/g,
-        (match, latex1, latex2) => {
-          const latex = latex1 || latex2;
-          return convertLatexToMathML(latex, { display: "inline" });
-        }
-      );
+      text = text.replace(/\\\((.*?)\\\)|\$(.*?)\$/g, (_, latex1, latex2) => {
+        const latex = latex1 || latex2;
+        return convertLatexToMathML(latex, { display: "inline" });
+      });
 
       return text;
     };
@@ -64,9 +58,7 @@ export async function convertMarkdownToWord(
             children: [
               new TextRun({
                 text: processedLine,
-                math: {
-                  type: "ooxml", // Use Office Open XML math format
-                },
+                math: true,
               }),
             ],
           })
@@ -76,12 +68,14 @@ export async function convertMarkdownToWord(
 
       // Handle headings
       if (line.startsWith("#")) {
-        const level = line.match(/^#+/)[0].length;
+        const level = line.match(/^#+/)?.[0]?.length ?? 1;
         const text = line.replace(/^#+\s/, "");
+        const headingType = `HEADING_${level}` as keyof typeof HeadingLevel;
+        const heading = HeadingLevel[headingType];
         paragraphs.push(
           new Paragraph({
             text,
-            heading: HeadingLevel[`HEADING_${level}`],
+            heading: heading,
           })
         );
         continue;

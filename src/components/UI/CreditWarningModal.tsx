@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 interface CreditWarningModalProps {
   isOpen: boolean;
   onClose: () => void;
+  requiredCredits: number;
 }
 
 export const CreditWarningModal = memo(function CreditWarningModal({

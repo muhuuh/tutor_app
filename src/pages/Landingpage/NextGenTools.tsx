@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { FiCheck, FiEdit3, FiBook, FiUserCheck } from "react-icons/fi";
 

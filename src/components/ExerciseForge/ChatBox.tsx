@@ -95,8 +95,8 @@ export function ChatBox({
                           remarkPlugins={[remarkMath]}
                           rehypePlugins={[rehypeKatex]}
                           components={{
-                            p: ({ node, children }) => {
-                              return <p className="my-2">{children}</p>;
+                            p: ({ children }) => {
+                              return <p className="my-1">{children}</p>;
                             },
                           }}
                         >

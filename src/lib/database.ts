@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import type { Pupil, Report, Exam, Correction } from "../types/database";
+import type { Pupil, Report } from "../types/database";
 
 interface ChatMessage {
   content: string;

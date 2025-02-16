@@ -1,19 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import {
-  FiCheck,
-  FiArrowRight,
-  FiBook,
-  FiZap,
-  FiTrendingUp,
-  FiTarget,
-  FiEdit3,
-  FiBarChart2,
-  FiFileText,
-  FiVideo,
-  FiClock,
-} from "react-icons/fi";
+import { FiArrowRight, FiFileText, FiVideo } from "react-icons/fi";
 import { motion } from "framer-motion";
 import EducatorChallenges from "./EducatorChallenges";
 import NextGenTools from "./NextGenTools";
@@ -43,38 +30,6 @@ export function Home() {
       category: "eBook",
       link: "/resources/stem-guide",
       image: "https://cdn-icons-png.flaticon.com/512/4711/4711976.png",
-    },
-  ];
-
-  const pricingPlans = [
-    {
-      name: "Starter",
-      price: "$9",
-      period: "/month",
-      description: "For individual educators",
-      features: ["50 submissions/month", "Basic analytics", "Email support"],
-      gradient: "from-purple-600/5 to-blue-500/5",
-    },
-    {
-      name: "Professional",
-      price: "$29",
-      period: "/month",
-      popular: true,
-      description: "For teaching teams",
-      features: [
-        "Unlimited submissions",
-        "Advanced analytics",
-        "Priority support",
-        "Custom rubrics",
-      ],
-      gradient: "from-pink-600/5 to-rose-500/5",
-    },
-    {
-      name: "Enterprise",
-      price: "Custom",
-      description: "For institutions",
-      features: ["SAML SSO", "API access", "Dedicated support", "Custom SLAs"],
-      gradient: "from-green-600/5 to-cyan-500/5",
     },
   ];
 
