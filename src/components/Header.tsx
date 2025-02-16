@@ -10,6 +10,8 @@ import {
   FiBox,
   FiInfo,
   FiMail,
+  FiUser,
+  FiCreditCard,
 } from "react-icons/fi";
 
 export function Header() {
@@ -18,8 +20,10 @@ export function Header() {
   const navigate = useNavigate();
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const toolsRef = useRef<HTMLDivElement>(null);
   const companyRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const isVisible = useScrollDirection();
 
   useEffect(() => {
@@ -35,6 +39,12 @@ export function Header() {
         !companyRef.current.contains(event.target as Node)
       ) {
         setIsCompanyOpen(false);
+      }
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsUserMenuOpen(false);
       }
     }
 
@@ -191,15 +201,43 @@ export function Header() {
             {/* Auth Section - Pushed to right */}
             <div className="ml-auto flex items-center gap-4">
               {user ? (
-                <>
+                <div className="relative ml-4" ref={userMenuRef}>
                   <button
-                    onClick={handleSignOut}
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                     className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                   >
-                    <FiLogOut className="w-4 h-4" />
-                    Sign Out
+                    <FiUser className="w-5 h-5" />
+
+                    <FiChevronDown
+                      className={`w-4 h-4 transition-transform ${
+                        isUserMenuOpen ? "rotate-180" : ""
+                      }`}
+                    />
                   </button>
-                </>
+
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                      <Link
+                        to="/subscription"
+                        className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <FiCreditCard className="w-4 h-4" />
+                        Subscription
+                      </Link>
+                      <button
+                        onClick={() => {
+                          handleSignOut();
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-gray-50 transition-colors"
+                      >
+                        <FiLogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <Link
                   to="/auth"

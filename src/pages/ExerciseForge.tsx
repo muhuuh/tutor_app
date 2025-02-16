@@ -559,7 +559,6 @@ export function ExerciseForge() {
     }
   };
 
-  // Add a new function to handle correction deletion
   const handleCorrectionDelete = async (correctionId: string) => {
     if (!window.confirm("Are you sure you want to delete this correction?")) {
       return;

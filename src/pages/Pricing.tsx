@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Package, Zap, Building2, Check, Gift } from "lucide-react";
+import { Package, Zap, Building2, Check, Gift, Loader2 } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -64,22 +64,14 @@ export function Pricing() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<string | null>(null);
 
   console.log("id user", user?.id);
 
   const handleSubscribe = async (priceId: string | undefined) => {
-    setError(null);
+    if (!priceId) return;
 
-    if (!priceId) {
-      setError("No price ID provided");
-      return;
-    }
-
-    if (!user) {
-      navigate("/signin");
-      return;
-    }
-
+    setIsLoading(priceId);
     try {
       const response = await fetch(
         `${
@@ -93,41 +85,21 @@ export function Pricing() {
           },
           body: JSON.stringify({
             priceId,
-            user_id: user.id,
+            user_id: user?.id,
           }),
         }
       );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.error || `HTTP error! status: ${response.status}`
-        );
-      }
-
-      const { sessionId } = await response.json();
-
-      if (!sessionId) {
-        throw new Error("No session ID returned");
-      }
+      const { sessionId, error: checkoutError } = await response.json();
+      if (checkoutError) throw new Error(checkoutError);
 
       const stripe = await stripePromise;
-      if (!stripe) {
-        throw new Error("Stripe failed to load");
-      }
-
-      const { error: redirectError } = await stripe.redirectToCheckout({
-        sessionId,
-      });
-
-      if (redirectError) {
-        throw redirectError;
-      }
+      const { error } = await stripe!.redirectToCheckout({ sessionId });
+      if (error) throw error;
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "An unknown error occurred";
-      console.error("Error handling subscription:", err);
-      setError(errorMessage);
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsLoading(null);
     }
   };
 
@@ -260,16 +232,25 @@ export function Pricing() {
 
                   <button
                     onClick={() => handleSubscribe(plan.priceId)}
-                    className={`relative z-10 mt-8 block w-full px-6 py-4 text-center font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow ${
+                    className={`relative w-full mt-8 px-6 py-3 text-sm font-medium rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
                       plan.popular
                         ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white hover:from-violet-700 hover:to-blue-700"
                         : "bg-gray-50 text-gray-900 hover:bg-gray-100"
                     }`}
-                    disabled={plan.name === "Institution"}
+                    disabled={
+                      plan.name === "Institution" || isLoading === plan.priceId
+                    }
                   >
-                    {plan.name === "Institution"
-                      ? "Contact Sales"
-                      : "Get started"}
+                    {isLoading === plan.priceId ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Processing...</span>
+                      </div>
+                    ) : plan.name === "Institution" ? (
+                      "Contact Sales"
+                    ) : (
+                      "Get Started"
+                    )}
                   </button>
                 </div>
               </motion.div>

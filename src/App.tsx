@@ -18,6 +18,7 @@ import { About } from "./pages/company/About";
 import { FAQ } from "./pages/FAQ";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { SubscriptionSuccess } from "./pages/SubscriptionSuccess";
+import { Subscription } from "./pages/Subscription";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/subscription/success" element={<SubscriptionSuccess />} />
+        <Route path="/subscription" element={<Subscription />} />
         <Route element={<ProtectedRoute />}>
           {/* Your existing protected routes */}
         </Route>
