@@ -23,6 +23,7 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { useCreditWarning } from "../../hooks/useCreditWarning";
 import { CreditWarningModal } from "../UI/CreditWarningModal";
+import { ReportSubmissionModal } from "../UI/ReportSubmissionModal";
 
 interface Message {
   id: string;
@@ -148,6 +149,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
     requiredCredits,
     handleCreditError,
   } = useCreditWarning();
+  const [showReportSubmissionModal, setShowReportSubmissionModal] =
+    useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -276,6 +279,9 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
     try {
       if (pendingFiles.length > 0) {
+        // Show the modal immediately when files are submitted
+        setShowReportSubmissionModal(true);
+
         // Generate Report
         const { data, error } = await supabase.functions.invoke(
           "generate-report",
@@ -296,60 +302,17 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           data.errorType === "subscription_error"
         ) {
           handleCreditError(data);
+          setShowReportSubmissionModal(false);
           return;
         }
-
-        // Add success notification
-        toast(
-          (t) => (
-            <div className="flex items-start gap-4">
-              <div className="text-2xl">📋</div>
-              <div>
-                <h3 className="font-medium text-base mb-1">
-                  Report Submitted!
-                </h3>
-                <p className="text-sm text-gray-600">
-                  Your report is being generated. You'll be notified when it's
-                  ready.
-                </p>
-              </div>
-            </div>
-          ),
-          {
-            duration: 6000,
-            style: {
-              minWidth: "360px",
-              backgroundColor: "#f0f9ff",
-              border: "1px solid #bae6fd",
-            },
-          }
-        );
-
-        // Add first response message after 1 second delay
-        setTimeout(() => {
-          const firstMessage: Message = {
-            id: Date.now().toString(),
-            content:
-              "Thanks for sharing the files! I'm analysing them, it might take up to 2 mins",
-            isUser: false,
-          };
-          setMessages((prev) => [...prev, firstMessage]);
-        }, 1000);
-
-        // Add second message after 1 second delay
-        setTimeout(() => {
-          const secondMessage: Message = {
-            id: (Date.now() + 1).toString(),
-            content:
-              "Feel free to continue chatting or switch to other tabs, You'll receive a notification when the report is ready.",
-            isUser: false,
-          };
-          setMessages((prev) => [...prev, secondMessage]);
-        }, 1000);
 
         // Clear the files and title immediately
         setPendingFiles([]);
         setReportTitle("");
+
+        // We'll keep the modal visible until the user is redirected to the report
+        // The redirect will happen automatically when the report is ready
+        // through the existing notification system
       } else {
         // ---- Regular Chat Branch ----
 
@@ -709,6 +672,11 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         isOpen={showCreditWarning}
         onClose={() => setShowCreditWarning(false)}
         requiredCredits={requiredCredits}
+      />
+
+      <ReportSubmissionModal
+        isOpen={showReportSubmissionModal}
+        onClose={() => setShowReportSubmissionModal(false)}
       />
     </div>
   );
