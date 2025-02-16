@@ -105,7 +105,9 @@ serve(async (req) => {
             subscription_type: planType,
             max_credits: maxCredits,
             used_credits: 0,
-            valid_until: null, // when upgraded, valid_until becomes NULL
+            valid_until: new Date(
+              Date.now() + 30 * 24 * 60 * 60 * 1000
+            ).toISOString(), // 1 month from now
             updated_at: new Date().toISOString(),
           })
           .eq("stripe_customer_id", customerId);
@@ -159,7 +161,9 @@ serve(async (req) => {
           .update({
             subscription_type: planType,
             max_credits: maxCredits,
-            valid_until: null, // Clear valid_until for paid subscriptions
+            valid_until: new Date(
+              Date.now() + 30 * 24 * 60 * 60 * 1000
+            ).toISOString(), // 1 month from now
             used_credits: 0, // Reset used credits
             updated_at: new Date().toISOString(),
           })
@@ -187,7 +191,9 @@ serve(async (req) => {
           .update({
             subscription_type: planType,
             max_credits: maxCredits,
-            valid_until: null,
+            valid_until: new Date(
+              Date.now() + 30 * 24 * 60 * 60 * 1000
+            ).toISOString(), // 1 month from now
             used_credits: 0,
             updated_at: new Date().toISOString(),
           })

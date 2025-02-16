@@ -263,8 +263,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
     setIsProcessing(true);
     setCurrentPrompt("");
 
-    // Declare userMessage outside the if block so it's accessible throughout the function
-    let userMessage: Message | null = null;
+    // Make sure the user message is defined (avoiding null values)
+    let userMessage: Message | undefined;
     if (content) {
       userMessage = {
         id: Date.now().toString(),
@@ -351,31 +351,90 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         setPendingFiles([]);
         setReportTitle("");
       } else {
-        // Regular Chat
-        const { data, error } = await supabase.functions.invoke("chat", {
-          body: {
-            content: content,
-            pupilId: selectedPupilId,
-            teacherId: user?.id,
-            timestamp: Date.now(),
-          },
-        });
+        // ---- Regular Chat Branch ----
+
+        // Add typing indicator
+        const typingMessage: Message = {
+          id: "typing",
+          content: "...",
+          isUser: false,
+        };
+        setMessages((prev) => [...prev, typingMessage]);
+
+        // Invoke the edge function "chat" instead of using the direct webhook URL
+        const { data: chatData, error: chatError } =
+          await supabase.functions.invoke("chat", {
+            body: {
+              content: content,
+              pupilId: selectedPupilId,
+              teacherId: user?.id,
+              timestamp: Date.now(),
+            },
+          });
 
         if (
-          data &&
-          data.ok === false &&
-          data.errorType === "subscription_error"
+          chatData &&
+          chatData.ok === false &&
+          chatData.errorType === "subscription_error"
         ) {
-          handleCreditError(data);
+          handleCreditError(chatData);
           setMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
           return;
         }
+        if (chatError) {
+          throw new Error(`Chat request failed: ${chatError.message}`);
+        }
+        if (!chatData || typeof chatData.output !== "string") {
+          throw new Error("Invalid response format from chat service");
+        }
 
-        // ... success handling for chat ...
+        // Remove typing indicator and add AI response
+        setMessages((prev) => {
+          const newMessages = prev
+            .filter((msg) => msg.id !== "typing")
+            .concat({
+              id: (Date.now() + 1).toString(),
+              content: chatData.output,
+              isUser: false,
+            });
+          updateSuggestions(newMessages);
+          return newMessages;
+        });
+
+        // Store the user's message in the database (if it was sent)
+        if (userMessage) {
+          await database.chat.insertMessage({
+            content: content,
+            type: "human",
+            session_id: selectedPupilId,
+            teacher_id: user!.id,
+          });
+        }
+        // After getting the AI response, store that too
+        await database.chat.insertMessage({
+          content: chatData.output,
+          type: "ai",
+          session_id: selectedPupilId,
+          teacher_id: user!.id,
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error("An unexpected error occurred");
+      toast.error(
+        error instanceof Error ? error.message : "An unexpected error occurred"
+      );
+
+      // Remove typing indicator if present
+      setMessages((prev) => prev.filter((msg) => msg.id !== "typing"));
+
+      // Add error message to chat
+      const errorChatMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content:
+          "I apologize, but there was an error processing your message. Please try again.",
+        isUser: false,
+      };
+      setMessages((prev) => [...prev, errorChatMessage]);
     } finally {
       setIsProcessing(false);
     }
@@ -454,12 +513,15 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                   style={{ maxHeight: messages.length > 0 ? "424px" : "auto" }}
                 >
                   <div className="grid grid-cols-1 gap-2 w-full relative">
-                    {(messages.length > 0 &&
-                    messages[messages.length - 1].content?.suggestions
-                      ? messages[messages.length - 1].content.suggestions
-                      : messages.length === 0
-                      ? DEFAULT_SUGGESTIONS
-                      : suggestions || DEFAULT_SUGGESTIONS
+                    {(
+                      (messages.length > 0 &&
+                        typeof messages[messages.length - 1].content !==
+                          "string" &&
+                        (messages[messages.length - 1].content as any)
+                          .suggestions) ||
+                      (messages.length === 0
+                        ? DEFAULT_SUGGESTIONS
+                        : suggestions || DEFAULT_SUGGESTIONS)
                     ).map((suggestion, index) => (
                       <div key={index} className="relative group w-full">
                         <button
