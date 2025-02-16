@@ -1,0 +1,215 @@
+1. Overview and Legal Context
+Goal:
+Allow users to give or withdraw consent for non‑essential cookies (e.g. analytics) in a way that complies with German law. In Germany the consent must be:
+
+Prior and explicit: Non‑essential cookies must not load before consent.
+Informed: The banner must explain what is being set (e.g. “analytics cookies for usage tracking”).
+Granular (if possible): Even if you implement a simple “accept all non‑essential cookies” option, you must provide clear information.
+Easy to withdraw: Users must be able to change or revoke their consent at any time.
+2. Functional Requirements
+Consent Banner:
+Display a banner on first visit that informs users about non‑essential cookies. It should include a brief description, a link to the full privacy policy, and two buttons (“Accept” and “Decline”).
+
+Persistent Storage:
+When a user clicks “Accept” or “Decline,” the decision is stored in a persistent cookie (using react‑cookie‑consent’s built‑in mechanism).
+Example: Store a cookie named "CookieConsent" with value "accepted" or "declined" that expires in 365 days.
+
+Easy Withdrawal:
+A “Manage Cookie Preferences” (or “Change Settings”) link must be available (for example, in the footer) that:
+
+Resets the stored consent decision (using resetCookieConsentValue())
+Causes the banner to reappear so the user can choose again
+Privacy Information:
+The banner text must include a concise explanation of which cookies are used (non‑essential only) and provide a link to a full privacy or cookie policy page.
+Sample text:
+
+“We use cookies to improve your experience. By clicking ‘Accept,’ you consent to the use of non‑essential cookies (such as analytics). For more information, please read our Privacy Policy.”
+
+3. Non‑Functional Requirements
+Accessibility:
+The banner and withdrawal link must be keyboard‑navigable and include appropriate ARIA labels (e.g., aria‑labels on buttons).
+
+Responsiveness:
+The banner should display correctly on both desktop and mobile devices.
+
+Security:
+Use a persistent cookie (with a specified path) to store the consent decision so it is available on every page load.
+
+4. Implementation Details (Step-by-Step)
+Step 1: Install and Import react‑cookie‑consent
+Installation (via npm or yarn):
+
+bash
+Copy
+npm install react-cookie-consent
+# or
+yarn add react-cookie-consent
+Import the component in your main app file (e.g., App.jsx):
+
+jsx
+Copy
+import React from 'react';
+import CookieConsent, { resetCookieConsentValue } from 'react-cookie-consent';
+Step 2: Implement the Cookie Consent Banner
+Create a Banner component (e.g., CookieBanner.jsx) with the following code:
+
+jsx
+Copy
+// CookieBanner.jsx
+import React from 'react';
+import CookieConsent from 'react-cookie-consent';
+
+const CookieBanner = () => {
+  return (
+    <CookieConsent
+      location="bottom"
+      buttonText="Accept"
+      declineButtonText="Decline"
+      enableDeclineButton
+      cookieName="CookieConsent"            // Name of the consent cookie
+      expires={365}                         // Consent persists for 365 days
+      style={{ background: "#2B373B", fontSize: "14px" }}
+      buttonStyle={{ background: "#4CAF50", color: "#fff", fontSize: "14px" }}
+      declineButtonStyle={{ background: "#c0392b", color: "#fff", fontSize: "14px" }}
+      ariaAcceptLabel="Accept cookies"
+      ariaDeclineLabel="Decline cookies"
+      onAccept={() => {
+        console.log("User accepted non-essential cookies");
+        // (Optional) Initialize analytics or other non-essential scripts here
+      }}
+      onDecline={() => {
+        console.log("User declined non-essential cookies");
+        // Ensure non-essential scripts are not loaded
+      }}
+    >
+      We use cookies to improve your experience. By clicking “Accept,” you consent
+      to the use of non-essential cookies (e.g. analytics). Read our&nbsp;
+      <a href="/privacy-policy" style={{ color: "#f5e042", textDecoration: "underline" }}>
+        Privacy Policy
+      </a>
+      &nbsp;for details.
+    </CookieConsent>
+  );
+};
+
+export default CookieBanner;
+Notes:
+
+The cookieName is set to "CookieConsent", and the decision is automatically stored as "true" (accepted) or "false" (declined) by the library.
+The expires prop ensures the cookie persists (here, for one year).
+The text inside the banner explains the use of non‑essential cookies and provides a link to your full privacy policy.
+Step 3: Integrate the Banner into Your Application Layout
+For example, in App.jsx:
+
+jsx
+Copy
+// App.jsx
+import React from 'react';
+import CookieBanner from './CookieBanner';
+import Footer from './Footer';  // Your app's footer component
+
+function App() {
+  return (
+    <div>
+      {/* Other components go here */}
+      <main>
+        {/* Your main app content */}
+      </main>
+      {/* Cookie consent banner */}
+      <CookieBanner />
+      {/* Footer that includes the Manage Cookie Preferences link */}
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
+Step 4: Implement Easy Withdrawal (Manage Cookie Preferences)
+Create a Footer component that includes a “Manage Cookie Preferences” button:
+
+jsx
+Copy
+// Footer.jsx
+import React from 'react';
+import { resetCookieConsentValue } from 'react-cookie-consent';
+
+const Footer = () => {
+  const handleManageCookies = () => {
+    // Remove the stored consent cookie
+    resetCookieConsentValue();
+    // Optionally force a page reload so that the consent banner is displayed again
+    window.location.reload();
+  };
+
+  return (
+    <footer style={{ padding: "1rem", textAlign: "center", background: "#f2f2f2" }}>
+      <p>
+        © 2025 Your Company Name. All rights reserved.
+      </p>
+      <button
+        onClick={handleManageCookies}
+        style={{
+          padding: "0.5rem 1rem",
+          fontSize: "14px",
+          cursor: "pointer",
+          background: "#007bff",
+          color: "#fff",
+          border: "none",
+          borderRadius: "4px",
+          marginTop: "0.5rem"
+        }}
+        aria-label="Manage Cookie Preferences"
+      >
+        Manage Cookie Preferences
+      </button>
+    </footer>
+  );
+};
+
+export default Footer;
+Explanation:
+
+When the user clicks the button, the resetCookieConsentValue() function clears the stored consent cookie.
+A page reload is triggered so that the cookie consent banner reappears, giving the user an opportunity to change their choice.
+This approach meets the “easy withdrawal” requirement of German law.
+Step 5: Prepare Your Privacy Policy Content
+Your privacy policy page (e.g., /privacy-policy) should include at least the following text:
+
+Cookie Usage
+We use cookies to enhance your experience, analyze site traffic, and for personalized advertising.
+
+Types of Cookies:
+
+Strictly Necessary Cookies: These cookies are essential for the website to function and cannot be switched off.
+Non‑Essential Cookies: These include analytics and marketing cookies. They are only activated after you give your consent.
+Your Consent:
+On your first visit, you will be asked to consent to the use of non‑essential cookies. You may accept or decline.
+
+Withdrawal:
+You can change or withdraw your consent at any time by clicking the “Manage Cookie Preferences” link at the bottom of our website. When you withdraw consent, non‑essential cookies will be disabled, and you may notice changes in website functionality.
+
+Retention:
+Your cookie preferences are stored for 365 days. If you do not change your settings, your choice will remain in effect until the cookie expires.
+
+For more detailed information on our data practices, please read our full Privacy Policy.
+
+5. Testing and Verification
+Initial Load:
+Clear your browser’s cookies, then load your site. The consent banner should appear.
+
+Accept/Decline Flow:
+Click “Accept” or “Decline” and verify (using your browser’s developer tools) that a cookie named "CookieConsent" is created with the corresponding value and a 365-day expiration.
+
+Withdrawal Flow:
+Click the “Manage Cookie Preferences” button in the footer. The stored consent cookie should be removed, and on reload, the banner should appear again.
+
+Accessibility and Responsiveness:
+Verify that both the banner and withdrawal button are accessible (tab navigation, ARIA labels) and render properly on different screen sizes.
+
+6. Summary
+By following these steps, you will have a cookie consent system that:
+
+Displays a clear, compliant banner on first visit.
+Stores the user’s consent decision in a persistent cookie.
+Provides a simple “Manage Cookie Preferences” option so users can withdraw or change their consent at any time.
+Meets German legal requirements (informed consent, freely given consent, easy withdrawal, and transparency).

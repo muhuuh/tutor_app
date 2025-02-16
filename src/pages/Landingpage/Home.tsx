@@ -17,6 +17,7 @@ import {
 import { motion } from "framer-motion";
 import EducatorChallenges from "./EducatorChallenges";
 import NextGenTools from "./NextGenTools";
+import * as CookieConsent from "react-cookie-consent";
 
 export function Home() {
   const { user } = useAuth();
@@ -76,6 +77,11 @@ export function Home() {
       gradient: "from-green-600/5 to-cyan-500/5",
     },
   ];
+
+  const handleManageCookies = () => {
+    CookieConsent.resetCookieConsentValue();
+    window.location.reload();
+  };
 
   return (
     <div className="min-h-screen overflow-hidden pt-20">
@@ -335,6 +341,15 @@ export function Home() {
                   >
                     Terms
                   </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={handleManageCookies}
+                    className="hover:text-white transition-colors"
+                    aria-label="Manage Cookie Preferences"
+                  >
+                    Cookie Settings
+                  </button>
                 </li>
               </ul>
             </div>
