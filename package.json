@@ -43,6 +43,9 @@
     "turndown": "^7.1.2",
     "zustand": "^4.4.7"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "latest"
+  },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
     "@types/katex": "^0.16.7",
