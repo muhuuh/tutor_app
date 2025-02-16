@@ -1,0 +1,19 @@
+{
+  "common": {
+    "welcome": "Welcome to AI Chat Assistant",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
+  "cookieBanner": {
+    "message": "We use cookies to improve your experience. Read our Privacy Policy for more details.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "chat": {
+    "placeholder": "Type your message here...",
+    "send": "Send",
+    "clear": "Clear Chat"
+  }
+}

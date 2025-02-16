@@ -21,6 +21,7 @@ import { SubscriptionSuccess } from "./pages/SubscriptionSuccess";
 import { Subscription } from "./pages/Subscription";
 import CookieBanner from "./components/CookieBanner";
 import { Privacy } from "./pages/Privacy";
+import "./i18n";
 
 function App() {
   return (

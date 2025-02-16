@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Fragment } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useScrollDirection } from "../hooks/useScrollDirection";
@@ -12,7 +12,13 @@ import {
   FiMail,
   FiUser,
   FiCreditCard,
+  FiGlobe,
 } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
+import { Menu, Transition } from "@headlessui/react";
+import gbFlag from "../assets/flags/gb.svg";
+import deFlag from "../assets/flags/de.svg";
+import frFlag from "../assets/flags/fr.svg";
 
 export function Header() {
   const { user, signOut } = useAuth();
@@ -21,10 +27,12 @@ export function Header() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const toolsRef = useRef<HTMLDivElement>(null);
   const companyRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const isVisible = useScrollDirection();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -225,6 +233,80 @@ export function Header() {
                         <FiCreditCard className="w-4 h-4" />
                         Subscription
                       </Link>
+
+                      {/* Language Menu Item */}
+                      <div className="relative">
+                        {!isLanguageOpen ? (
+                          <button
+                            onClick={() => setIsLanguageOpen(true)}
+                            className="w-full flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          >
+                            <FiGlobe className="w-4 h-4" />
+                            Language
+                          </button>
+                        ) : (
+                          <div className="py-1">
+                            <button
+                              onClick={() => {
+                                i18n.changeLanguage("en");
+                                setIsLanguageOpen(false);
+                                setIsUserMenuOpen(false);
+                              }}
+                              className={`w-full flex items-center gap-2 px-4 py-2 text-sm ${
+                                i18n.language === "en"
+                                  ? "text-blue-500"
+                                  : "text-gray-700"
+                              } hover:bg-gray-50 transition-colors`}
+                            >
+                              <img
+                                src={gbFlag}
+                                alt="GB flag"
+                                className="w-5 h-4"
+                              />
+                              English
+                            </button>
+                            <button
+                              onClick={() => {
+                                i18n.changeLanguage("de");
+                                setIsLanguageOpen(false);
+                                setIsUserMenuOpen(false);
+                              }}
+                              className={`w-full flex items-center gap-2 px-4 py-2 text-sm ${
+                                i18n.language === "de"
+                                  ? "text-blue-500"
+                                  : "text-gray-700"
+                              } hover:bg-gray-50 transition-colors`}
+                            >
+                              <img
+                                src={deFlag}
+                                alt="DE flag"
+                                className="w-5 h-4"
+                              />
+                              Deutsch
+                            </button>
+                            <button
+                              onClick={() => {
+                                i18n.changeLanguage("fr");
+                                setIsLanguageOpen(false);
+                                setIsUserMenuOpen(false);
+                              }}
+                              className={`w-full flex items-center gap-2 px-4 py-2 text-sm ${
+                                i18n.language === "fr"
+                                  ? "text-blue-500"
+                                  : "text-gray-700"
+                              } hover:bg-gray-50 transition-colors`}
+                            >
+                              <img
+                                src={frFlag}
+                                alt="FR flag"
+                                className="w-5 h-4"
+                              />
+                              Français
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
                       <button
                         onClick={() => {
                           handleSignOut();
