@@ -1,71 +1,74 @@
 import { motion } from "framer-motion";
-import { FiCheck, FiEdit3, FiBook, FiUserCheck } from "react-icons/fi";
+import {
+  FiCheck,
+  FiEdit3,
+  FiBook,
+  FiUserCheck,
+  FiArrowRight,
+} from "react-icons/fi";
 
 export default function NextGenTools() {
-  // Data structure for the 3 main tools
   const tools = [
     {
       title: "Exercise Corrections",
       icon: <FiEdit3 className="w-6 h-6" />,
       description: `Save hours of grading time - just snap a photo of any handwritten work and get 
-                    complete correction reports in seconds. No more wrestling with partial credits or 
-                    writing detailed explanations - our AI handles it all, providing fair grades with 
-                    clear reasoning. Best of all, it automatically identifies knowledge gaps, finds 
-                    relevant teaching resources, and creates practice exercises, so you can focus on 
-                    what matters: helping your students improve.`,
+                    complete correction reports in seconds.`,
+      longDescription: `No more wrestling with partial credits or writing detailed explanations - our AI handles it all, 
+                       providing fair grades with clear reasoning. Best of all, it automatically identifies knowledge gaps, 
+                       finds relevant teaching resources, and creates practice exercises.`,
       benefits: [
         "Grade any handwritten work in seconds, not hours",
         "Get fair partial credit with explained reasoning",
         "Receive instant concept mastery analysis",
-        "Access auto-curated and exactly fitting learning resources and videos",
+        "Access auto-curated learning resources",
         "Generate targeted practice exercises",
-        "Track recurring misconceptions across assignments",
+        "Track recurring misconceptions",
       ],
-      gradient: "from-blue-500 to-purple-500",
+      accent: "blue",
     },
     {
       title: "Personalized Tutoring",
       icon: <FiUserCheck className="w-6 h-6" />,
-      description: `See exactly how your students are performing with our smart dashboard that does the 
-                    heavy lifting for you. Instantly spot when a student starts struggling with a concept, 
-                    celebrate their improvements, and get AI-suggested study plans tailored to each student. 
-                    No more guesswork - know exactly which topics need attention and get ready-made materials 
-                    to help your students succeed. Plus, consult our AI anytime about specific students - 
-                    it knows their complete learning history and can provide personalized insights and 
-                    recommendations on demand.`,
+      description: `See exactly how your students are performing with our smart dashboard that does the heavy lifting for you.`,
+      longDescription: `Instantly spot when a student starts struggling with a concept, celebrate their improvements, 
+                       and get AI-suggested study plans tailored to each student. No more guesswork - know exactly which 
+                       topics need attention and get ready-made materials to help your students succeed.`,
       benefits: [
-        "Save hours with performance summaries over all concepts and progress reports",
-        "Get instant access to materials and exercises exactly matching to student needs",
-        "Track improvement across all concepts and students with easy-to-read visual timelines",
-        "Share detailed progress updates with parents",
-        "Get instant alerts when performances drop in specific topics",
-        "Discuss any student with AI for personalized guidance and recommendations",
+        "Performance summaries over all concepts",
+        "Access to matching learning materials",
+        "Track improvement with visual timelines",
+        "Share detailed progress updates",
+        "Get instant performance alerts",
+        "AI-powered personalized guidance",
       ],
-      gradient: "from-teal-500 to-green-500",
+      accent: "violet",
     },
     {
       title: "Exercise Forge",
       icon: <FiBook className="w-6 h-6" />,
-      description: `Create perfect practice materials in minutes. Upload existing exams for instant 
-                    variations, or brainstorm with our AI to design custom exercises that match your 
-                    exact teaching goals. Every exercise comes with detailed step-by-step solutions 
-                    and customizable hints, giving you everything needed to support student learning. 
-                    Save hours of prep time while delivering perfectly tailored content.`,
+      description: `Create perfect practice materials in minutes. Upload existing exams for instant variations.`,
+      longDescription: `Brainstorm with our AI to design custom exercises that match your exact teaching goals. 
+                       Every exercise comes with detailed step-by-step solutions and customizable hints, giving you 
+                       everything needed to support student learning.`,
       benefits: [
-        "Generate variations of existing exams instantly",
-        "Design custom exercises through AI collaboration",
-        "Get complete solutions and student hints",
-        "Adjust difficulty levels to match student needs",
-        "Create entire practice sets in minutes",
-        "Share materials with detailed guidance",
+        "Generate exam variations instantly",
+        "Design custom exercises with AI",
+        "Get complete solutions and hints",
+        "Adjust difficulty levels easily",
+        "Create practice sets in minutes",
+        "Share guided materials",
       ],
-      gradient: "from-pink-500 to-rose-500",
+      accent: "rose",
     },
   ];
 
   return (
-    <section className="py-32 relative overflow-hidden">
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+    <section className="py-2 md:py-32 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-white/80 backdrop-blur-3xl" />
+
+      {/* Decorative grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -73,11 +76,11 @@ export default function NextGenTools() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-16"
+          className="text-center space-y-4"
         >
           <motion.span
             whileHover={{ scale: 1.05 }}
-            className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-blue-100 border border-violet-200/50 text-violet-700 shadow-sm transition-all hover:shadow-md"
+            className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/80 border border-gray-200/50 text-gray-600 shadow-sm transition-all hover:shadow-md backdrop-blur-sm"
           >
             <span className="relative flex h-2 w-2 mr-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
@@ -85,78 +88,73 @@ export default function NextGenTools() {
             </span>
             NEXT-GEN TEACHING TOOLS
           </motion.span>
-          <h2 className="mt-8 text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
-            Transformative Education Technology
+
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
+            Transformative Education
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">
+              Technology
+            </span>
           </h2>
-          <p className="mt-4 text-xl text-gray-600/90 max-w-2xl mx-auto">
+
+          <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Imagine being able to spend most of your time on what truly matters:
             helping your students thrive.
           </p>
-
-          <p className="mt-4 text-lg text-gray-600/90 max-w-2xl mx-auto">
-            Our AI-powered tools create detailed student reports in seconds,
-            providing insights into concept mastery, personalized learning
-            resources, and tailored study plans - everything you need to
-            maximize your impact.
-          </p>
-
-          <p className="mt-4 text-lg text-gray-600/90 max-w-2xl mx-auto">
-            Track progress over time, identify focus areas, and automatically
-            generate targeted practice materials. Let technology handle the
-            routine tasks while you focus on what matters most - inspiring and
-            guiding your students.
-          </p>
         </motion.div>
 
-        <motion.h3
-          className="text-center text-2xl font-semibold mt-16 mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          Our Suite of Tools
-        </motion.h3>
-        {/* Vertical Stacked Boxes */}
-        <div className="space-y-12">
+        {/* Tools Grid */}
+        <div className="mt-24 grid gap-8 lg:grid-cols-3">
           {tools.map((tool, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              className="group relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.2 }}
+              className="group relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500"
             >
-              {/* Gradient overlay on hover */}
+              {/* Hover gradient effect */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
+              {/* Content */}
               <div className="relative z-10">
-                {/* Icon in a gradient circle */}
                 <div
-                  className={`w-12 h-12 bg-gradient-to-r ${tool.gradient} rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/25`}
+                  className={`w-12 h-12 flex items-center justify-center rounded-xl bg-${tool.accent}-50 text-${tool.accent}-600`}
                 >
                   {tool.icon}
                 </div>
-
-                <h3 className="mt-6 text-2xl font-bold text-gray-900">
+                <h3 className="mt-6 text-xl font-semibold text-gray-900">
                   {tool.title}
                 </h3>
-                <p className="mt-4 text-gray-600 leading-relaxed">
-                  {tool.description}
-                </p>
+                <p className="mt-2 text-gray-600">{tool.description}</p>
 
-                {/* Bullet points */}
-                <div className="mt-6 pt-6 border-t border-gray-100">
-                  <ul className="space-y-3">
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    {tool.longDescription}
+                  </p>
+
+                  <ul className="mt-6 space-y-3">
                     {tool.benefits.map((benefit, i) => (
-                      <li
+                      <motion.li
                         key={i}
-                        className="flex items-center gap-3 text-gray-700"
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="flex items-start gap-3 text-gray-600 text-sm"
                       >
-                        <FiCheck className="flex-shrink-0 text-green-500" />
-                        {benefit}
-                      </li>
+                        <FiCheck className="mt-1 flex-shrink-0 text-green-500" />
+                        <span>{benefit}</span>
+                      </motion.li>
                     ))}
                   </ul>
+
+                  <motion.div
+                    className="mt-8 flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors group/link"
+                    whileHover={{ x: 4 }}
+                  >
+                    Learn more
+                    <FiArrowRight className="ml-2 w-4 h-4 transition-transform group-hover/link:translate-x-1" />
+                  </motion.div>
                 </div>
               </div>
             </motion.div>

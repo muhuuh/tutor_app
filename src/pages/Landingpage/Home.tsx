@@ -78,7 +78,7 @@ export function Home() {
                 {user ? (
                   <Link
                     to="/tools/homework-corrections"
-                    className="group inline-flex items-center px-8 py-4 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25"
+                    className="group inline-flex items-center justify-center px-8 py-4 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25 w-full sm:w-auto"
                   >
                     Let's start
                     <FiArrowRight className="ml-3 transition-transform group-hover:translate-x-1" />
@@ -103,15 +103,22 @@ export function Home() {
               </div>
             </div>
 
-            <div className="relative lg:block animate-fade-in [--animate-delay:1000ms]">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-[2.5rem] blur opacity-30 animate-pulse"></div>
-              <div className="relative rounded-[2.5rem] overflow-hidden transform hover:rotate-1 transition-all duration-500 hover:scale-105">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl"></div>
-                <img
-                  src="/mask-icon.png"
-                  alt="AI Tutor Assistant"
-                  className="relative w-full h-[500px] object-contain p-8 opacity-70 [filter:drop-shadow(0_0_20px_rgba(59,130,246,0.5))_brightness(0.9)_hue-rotate(10deg)]"
-                />
+            <div className="hidden lg:block relative animate-fade-in [--animate-delay:1000ms]">
+              <div className="relative">
+                {/* Glow effect - desktop only */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-[2.5rem] blur opacity-30 animate-pulse"></div>
+
+                {/* Image container */}
+                <div className="relative rounded-[2.5rem] overflow-hidden transform hover:rotate-1 transition-all duration-500 hover:scale-105">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl"></div>
+                  <div className="relative h-auto flex items-center justify-center">
+                    <img
+                      src="/mask-icon.png"
+                      alt="AI Tutor Assistant"
+                      className="relative w-full h-[500px] object-contain p-8 opacity-70 [filter:drop-shadow(0_0_20px_rgba(59,130,246,0.5))_brightness(0.9)_hue-rotate(10deg)]"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -209,18 +216,22 @@ export function Home() {
         </div>
       </section>
 
-      {/* Footer  */}
+      {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="relative max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-white font-semibold mb-4">Product</h3>
-              <ul className="space-y-3">
+        <div className="relative max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+          {/* Grid Container */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            {/* Product */}
+            <div className="col-span-1">
+              <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
+                Product
+              </h3>
+              <ul className="space-y-2">
                 <li>
                   <Link
                     to="/features"
-                    className="hover:text-white transition-colors"
+                    className="text-sm hover:text-white transition-colors block py-1"
                   >
                     Features
                   </Link>
@@ -228,20 +239,24 @@ export function Home() {
                 <li>
                   <Link
                     to="../company/pricing"
-                    className="hover:text-white transition-colors"
+                    className="text-sm hover:text-white transition-colors block py-1"
                   >
                     Pricing
                   </Link>
                 </li>
               </ul>
             </div>
-            <div>
-              <h3 className="text-white font-semibold mb-4">Resources</h3>
-              <ul className="space-y-3">
+
+            {/* Resources */}
+            <div className="col-span-1">
+              <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
+                Resources
+              </h3>
+              <ul className="space-y-2">
                 <li>
                   <Link
                     to="/docs"
-                    className="hover:text-white transition-colors"
+                    className="text-sm hover:text-white transition-colors block py-1"
                   >
                     Documentation
                   </Link>
@@ -249,42 +264,49 @@ export function Home() {
                 <li>
                   <Link
                     to="/tutorials"
-                    className="hover:text-white transition-colors"
+                    className="text-sm hover:text-white transition-colors block py-1"
                   >
                     Tutorials
                   </Link>
                 </li>
               </ul>
             </div>
-            <div>
-              <h3 className="text-white font-semibold mb-4">Company</h3>
-              <ul className="space-y-3">
+
+            {/* Company - Full width on mobile */}
+            <div className="col-span-2 md:col-span-1 mt-8 md:mt-0">
+              <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
+                Company
+              </h3>
+              <ul className="space-y-2 grid grid-cols-2 md:block gap-2">
                 <li>
                   <Link
                     to="../company/about"
-                    className="hover:text-white transition-colors"
+                    className="text-sm hover:text-white transition-colors block py-1"
                   >
                     About
                   </Link>
                 </li>
-
                 <li>
                   <Link
                     to="../company/contact"
-                    className="hover:text-white transition-colors"
+                    className="text-sm hover:text-white transition-colors block py-1"
                   >
                     Contact
                   </Link>
                 </li>
               </ul>
             </div>
-            <div>
-              <h3 className="text-white font-semibold mb-4">Legal</h3>
-              <ul className="space-y-3">
+
+            {/* Legal - Full width on mobile */}
+            <div className="col-span-2 md:col-span-1 mt-8 md:mt-0">
+              <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
+                Legal
+              </h3>
+              <ul className="space-y-2 grid grid-cols-2 md:block gap-2">
                 <li>
                   <Link
                     to="/privacy"
-                    className="hover:text-white transition-colors"
+                    className="text-sm hover:text-white transition-colors block py-1"
                   >
                     Privacy
                   </Link>
@@ -292,15 +314,15 @@ export function Home() {
                 <li>
                   <Link
                     to="/terms"
-                    className="hover:text-white transition-colors"
+                    className="text-sm hover:text-white transition-colors block py-1"
                   >
                     Terms
                   </Link>
                 </li>
-                <li>
+                <li className="col-span-2 md:col-span-1">
                   <button
                     onClick={handleManageCookies}
-                    className="hover:text-white transition-colors"
+                    className="text-sm hover:text-white transition-colors block py-1 text-left w-full"
                     aria-label="Manage Cookie Preferences"
                   >
                     Cookie Settings
@@ -309,8 +331,10 @@ export function Home() {
               </ul>
             </div>
           </div>
-          <div className="mt-12 pt-8 border-t border-gray-800 text-center">
-            <p className="text-gray-500">
+
+          {/* Copyright - Separated with border */}
+          <div className="mt-12 pt-8 border-t border-gray-800">
+            <p className="text-center text-sm text-gray-500">
               &copy; 2025 EduAI. All rights reserved.
             </p>
           </div>

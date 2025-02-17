@@ -20,6 +20,8 @@
     "@tailwindcss/typography": "^0.5.10",
     "clsx": "^2.1.1",
     "docx": "^8.5.0",
+    "embla-carousel-autoplay": "^8.5.2",
+    "embla-carousel-react": "^8.5.2",
     "framer-motion": "^12.4.1",
     "html2pdf.js": "^0.10.2",
     "i18next": "^24.2.2",
