@@ -14,26 +14,26 @@ export function About() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-      {/* Hero Section  */}
-      <div className="relative mt-8 overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-16 sm:py-24 pt-28">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzBoLTZWMGg2djMwem0wIDBoNnYzMGgtNlYzMHoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-10" />
-        <div className="absolute inset-0  bg-gradient-to-t from-gray-900/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 via-transparent to-transparent" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="space-y-6"
+            className="space-y-4 sm:space-y-6 pb-6 sm:pb-8"
           >
-            <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
               Do More
               <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-purple-200">
                 With Less Effort
               </span>
             </h1>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed px-4 sm:px-0">
               Empowering educators with cutting-edge AI tools to make education
               more efficient, personalized, and effective for everyone.
             </p>
@@ -41,10 +41,10 @@ export function About() {
         </div>
       </div>
 
-      {/* Stats Section with improved card design */}
-      <div className="relative -mt-14 mb-20">
+      {/* Stats Section - Adjusted margin top */}
+      <div className="relative -mt-10 sm:-mt-12 mb-12 sm:mb-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}

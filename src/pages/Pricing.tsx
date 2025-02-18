@@ -107,16 +107,16 @@ export function Pricing() {
           {error}
         </div>
       )}
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
+      {/* Hero Section - Added pt-20 for header offset */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 pb-10 sm:py-24 pt-28">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
         <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
-        <div className="relative pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl"
+              className="text-3xl font-bold text-white sm:text-5xl lg:text-6xl"
             >
               Simple, transparent pricing
             </motion.h1>
@@ -124,7 +124,7 @@ export function Pricing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-6 text-xl text-gray-200 max-w-3xl mx-auto"
+              className="mt-4 sm:mt-6 text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto px-4 sm:px-0"
             >
               Choose the plan that's right for you
             </motion.p>
@@ -133,13 +133,13 @@ export function Pricing() {
       </div>
 
       {/* Pricing Cards Section */}
-      <section className="pt-12 pb-24">
+      <section className="pt-8 sm:pt-12 pb-16 sm:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Free Trial Banner */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-16 group relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 shadow-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+            className="mb-12 sm:mb-16 group relative bg-white rounded-2xl p-4 sm:p-8 shadow-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
           >
             {/* Grid background overlay */}
             <div className="absolute inset-0 bg-grid-blue-500/[0.02] bg-[size:20px_20px]" />
@@ -147,36 +147,36 @@ export function Pricing() {
             {/* Gradient overlay on hover */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl text-white">
-                  <Gift className="w-6 h-6" />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between relative z-10 gap-4 sm:gap-8">
+              <div className="flex items-start sm:items-center space-x-4">
+                <div className="p-2 sm:p-3 bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl text-white shrink-0">
+                  <Gift className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
                     Try it Free for 7 Days
                   </h3>
-                  <p className="text-gray-600 mt-1">
-                    Sign up now and get full access to all Basic plan features,
-                    no credit card required
+                  <p className="text-sm sm:text-base text-gray-600 mt-1">
+                    Sign up now and get full access to all Basic plan features
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => handleSubscribe(pricingPlans[0].priceId)}
-                className="px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl"
+                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl text-sm sm:text-base font-medium"
               >
                 Start Free Trial
               </button>
             </div>
           </motion.div>
-          <div className="mt-24 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8">
-            {pricingPlans.map((plan) => (
+          <div className="mt-12 sm:mt-24 space-y-8 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
+            {pricingPlans.map((plan, index) => (
               <motion.div
                 key={plan.name}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`group relative p-8 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${
+                transition={{ delay: index * 0.1 }}
+                className={`group relative p-6 sm:p-8 bg-white border border-gray-200 rounded-2xl shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${
                   plan.popular ? "ring-2 ring-blue-600" : ""
                 }`}
               >

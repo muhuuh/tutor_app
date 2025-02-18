@@ -37,16 +37,16 @@ export function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white mb-16">
-      <div className="relative  overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white mb-8 sm:mb-16">
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-16 sm:py-24 pt-28">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
         <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
-        <div className="relative pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center pb-6 sm:pb-8">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl"
+              className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white"
             >
               Get in Touch
             </motion.h1>
@@ -54,7 +54,7 @@ export function Contact() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-6 text-xl text-gray-200 max-w-3xl mx-auto"
+              className="mt-4 sm:mt-6 text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto px-4 sm:px-0"
             >
               Have a question or feedback? We'd love to hear from you.
             </motion.p>
@@ -62,12 +62,12 @@ export function Contact() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-14 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl p-8 sm:p-12"
+          className="bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl p-6 sm:p-12"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -123,7 +123,7 @@ export function Contact() {
               />
             </div>
 
-            <div className="flex items-center justify-between pt-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-4">
               <div className="flex items-center space-x-6">
                 <a
                   href="https://facebook.com"
@@ -162,7 +162,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl"
+                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl"
               >
                 {isSubmitting ? (
                   "Sending..."

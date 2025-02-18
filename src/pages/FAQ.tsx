@@ -86,15 +86,15 @@ export function FAQ() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 pb-10 sm:py-24 pt-28">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
         <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
-        <div className="relative pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl"
+              className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white"
             >
               Frequently Asked Questions
             </motion.h1>
@@ -102,7 +102,7 @@ export function FAQ() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-6 text-xl text-gray-200 max-w-3xl mx-auto"
+              className="mt-4 sm:mt-6 text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto px-4 sm:px-0"
             >
               Everything you need to know about our platform
             </motion.p>
@@ -110,9 +110,9 @@ export function FAQ() {
         </div>
       </div>
 
-      <section className="py-24">
+      <section className="py-12 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mt-16 space-y-20">
+          <div className="mt-8 sm:mt-16 space-y-12 sm:space-y-20">
             {faqs.map((category, categoryIndex) => (
               <motion.div
                 key={categoryIndex}
@@ -120,12 +120,12 @@ export function FAQ() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: categoryIndex * 0.1 }}
               >
-                <div className="mb-12">
-                  <div className="inline-flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-blue-600 rounded-xl flex items-center justify-center text-white">
-                      <category.icon className="w-6 h-6" />
+                <div className="mb-8 sm:mb-12">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-violet-500 to-blue-600 rounded-xl flex items-center justify-center text-white">
+                      <category.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <h2 className="text-3xl font-bold text-gray-900">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
                       {category.category}
                     </h2>
                   </div>
@@ -160,19 +160,19 @@ export function FAQ() {
             ))}
           </div>
 
-          <div className="mt-20 text-center">
-            <div className="relative rounded-2xl p-8 shadow-xl overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+          <div className="mt-12 sm:mt-20 px-4 sm:px-0">
+            <div className="relative rounded-2xl p-6 sm:p-8 shadow-xl overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
               <div className="relative">
-                <h3 className="text-2xl font-bold text-white mb-4">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
                   Still have questions?
                 </h3>
-                <p className="text-gray-200 mb-8 max-w-xl mx-auto">
+                <p className="text-sm sm:text-base text-gray-200 mb-6 sm:mb-8 max-w-xl mx-auto">
                   Our support team is here to help you get the most out of our
                   platform
                 </p>
-                <button className="inline-flex items-center px-8 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors hover:shadow-lg">
+                <button className="inline-flex items-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors hover:shadow-lg text-sm sm:text-base">
                   Contact Support
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
             </div>
