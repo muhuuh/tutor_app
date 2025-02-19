@@ -354,19 +354,20 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex gap-8">
-        <div className="w-1/3 space-y-8">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col lg:flex-row gap-4 sm:gap-8">
+        {/* Left Column - File Upload & Suggestions */}
+        <div className="w-full lg:w-1/3 space-y-4 sm:space-y-8">
           {/* File Upload Section */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-100 shadow-lg">
-            <div className="mb-6">
+          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-gray-100 shadow-lg">
+            <div className="mb-4 sm:mb-6">
               <div className="flex items-center gap-2 justify-center">
-                <h3 className="text-lg font-semibold text-blue-900">
+                <h3 className="text-base sm:text-lg font-semibold text-blue-900">
                   Correction of Exercises
                 </h3>
                 <InfoTooltip content="Upload pictures of handwritten exam answers to receive a detailed correction report." />
               </div>
-              <p className="text-sm text-gray-600 text-center mt-2">
+              <p className="text-xs sm:text-sm text-gray-600 text-center mt-2">
                 Get instant feedback, personalized recommendations, and targeted
                 exercises
               </p>
@@ -377,9 +378,10 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               onUploadComplete={handleFilesUploaded}
               setIsUploading={setIsUploading}
             />
+
             {pendingFiles.length > 0 && (
-              <div className="mt-6 space-y-4">
-                <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
+              <div className="mt-4 space-y-3">
+                <div className="p-3 sm:p-4 bg-blue-50 rounded-xl border border-blue-100">
                   <p className="text-sm text-blue-700 font-medium">
                     {pendingFiles.length} file(s) ready to process
                   </p>
@@ -394,7 +396,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                     value={reportTitle}
                     onChange={(e) => setReportTitle(e.target.value)}
                     placeholder="Enter report title..."
-                    className="w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white/50 backdrop-blur"
+                    className="w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white/50 backdrop-blur text-sm"
                     required
                   />
                 </div>
@@ -404,15 +406,15 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
           {/* Suggestions Section - Only show when student is selected and no files are pending */}
           {selectedPupilId && pendingFiles.length === 0 && (
-            <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-100 shadow-lg">
-              <div className="mb-6">
+            <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-gray-100 shadow-lg">
+              <div className="mb-4 sm:mb-6">
                 <div className="flex items-center justify-center gap-2">
-                  <h3 className="text-lg font-semibold text-blue-900">
+                  <h3 className="text-base sm:text-lg font-semibold text-blue-900">
                     Suggestions How to Continue
                   </h3>
                   <InfoTooltip content="Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant." />
                 </div>
-                <p className="text-sm text-gray-600 text-center mt-2">
+                <p className="text-xs sm:text-sm text-gray-600 text-center mt-2">
                   Click on any suggestion to quickly start a conversation
                 </p>
               </div>
@@ -477,10 +479,10 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         {/* Chat Section */}
         <div
           className={`flex-1 flex flex-col bg-white/70 backdrop-blur-sm rounded-xl border border-gray-100 shadow-lg overflow-hidden ${
-            messages.length === 0 ? "" : "h-[600px]"
+            messages.length === 0 ? "h-auto" : "h-[500px] sm:h-[600px]"
           }`}
         >
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
             {isLoadingHistory ? (
               <div className="flex items-center justify-center py-8">
                 <div className="flex flex-col items-center gap-2">
@@ -560,9 +562,9 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           </div>
 
           {/* Input Section */}
-          <div className="border-t border-gray-100 bg-white/80 backdrop-blur-sm p-4">
+          <div className="border-t border-gray-100 bg-white/80 backdrop-blur-sm p-3 sm:p-4">
             <form onSubmit={handleSendMessage} className="space-y-4">
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-2 sm:gap-3 items-center">
                 <input
                   type="text"
                   value={currentPrompt}
@@ -576,7 +578,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                         : "Please enter a title to create a report"
                       : "Type your message..."
                   }
-                  className="flex-1 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 focus:outline-none transition-all disabled:opacity-50"
+                  className="flex-1 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-4 py-2.5 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 focus:outline-none transition-all disabled:opacity-50"
                   disabled={
                     isProcessing ||
                     isLoadingHistory ||
@@ -596,7 +598,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                     (pendingFiles.length > 0 && !reportTitle.trim()) ||
                     isUploading
                   }
-                  className="flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                  className="flex-shrink-0 flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                   aria-label="Send message"
                 >
                   {isProcessing ? (

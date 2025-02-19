@@ -91,7 +91,7 @@ export function ChatFileUpload({
   return (
     <div
       {...getRootProps()}
-      className={`relative border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 ${
+      className={`relative border-2 border-dashed rounded-xl p-4 sm:p-6 text-center cursor-pointer transition-all duration-200 ${
         isDragActive
           ? "border-indigo-500 bg-indigo-50/50 backdrop-blur-sm"
           : isProcessing
@@ -101,7 +101,7 @@ export function ChatFileUpload({
     >
       <input {...getInputProps()} disabled={isProcessing} />
       <FiUploadCloud
-        className={`w-10 h-10 mx-auto mb-3 transition-colors ${
+        className={`w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 sm:mb-3 transition-colors ${
           isProcessing
             ? "text-gray-400"
             : isDragActive
@@ -109,7 +109,7 @@ export function ChatFileUpload({
             : "text-indigo-500"
         }`}
       />
-      <h3 className="text-sm font-medium text-gray-900 mb-1">
+      <h3 className="text-xs sm:text-sm font-medium text-gray-900 mb-1">
         Upload Foto of Exam and Answers{" "}
         <span className="font-normal">(jpeg, png)</span>
       </h3>
@@ -117,8 +117,10 @@ export function ChatFileUpload({
       {isProcessing && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-xl">
           <div className="flex flex-col items-center gap-2">
-            <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-sm text-gray-600">Uploading files...</p>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-xs sm:text-sm text-gray-600">
+              Uploading files...
+            </p>
           </div>
         </div>
       )}

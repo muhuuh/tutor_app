@@ -335,7 +335,7 @@ export function Home() {
           {/* Copyright - Separated with border */}
           <div className="mt-12 pt-8 border-t border-gray-800">
             <p className="text-center text-sm text-gray-500">
-              &copy; 2025 EduAI. All rights reserved.
+              &copy; 2025 RobinAgent. All rights reserved.
             </p>
           </div>
         </div>

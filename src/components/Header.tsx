@@ -82,7 +82,7 @@ export function Header() {
             to="/home"
             className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent hover:opacity-90 transition-opacity"
           >
-            EduAI
+            RobinA
           </Link>
 
           {/* Desktop Navigation */}
