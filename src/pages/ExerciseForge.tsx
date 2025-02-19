@@ -18,6 +18,7 @@ import { AuroraBackground } from "../components/UI/aurora-background";
 import { CreditWarningModal } from "../components/UI/CreditWarningModal";
 import { useCreditWarning } from "../hooks/useCreditWarning";
 import { InfoTooltip } from "../components/UI/InfoTooltip";
+import { Tabs } from "../components/Tabs/Tabs";
 
 type Mode = "edit" | "correction";
 
@@ -69,6 +70,35 @@ export function ExerciseForge() {
     requiredCredits,
     handleCreditError,
   } = useCreditWarning();
+
+  // Add mobile tab state
+  const [mobileTab, setMobileTab] = useState<"list" | "create">("list");
+
+  // Add handler for mobile tab changes
+  const handleMobileTabChange = (tab: string) => {
+    if (tab === "list") {
+      // When switching to exam list, clear creation states
+      if (isCreatingNew) {
+        setIsCreatingNew(false);
+        setChatMessages([]);
+        setMessage("");
+      }
+    } else if (tab === "create") {
+      // When switching to create tab, clear selected exam states
+      if (selectedExam) {
+        setSelectedExam(null);
+        setExamContent("");
+        setCorrectionContent("");
+        setCorrection(null);
+        setEditableContent("");
+        setChatMessages([]);
+        setMessage("");
+        setMode("edit");
+      }
+    }
+
+    setMobileTab(tab as "list" | "create");
+  };
 
   useEffect(() => {
     if (!initialLoadComplete.current) {
@@ -587,6 +617,7 @@ export function ExerciseForge() {
     <AuroraBackground>
       <div className="relative w-full min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+          {/* Hero Section */}
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-4xl font-bold text-blue-900 text-center pt-12 tracking-wide">
               Exercise Forge
@@ -597,31 +628,47 @@ export function ExerciseForge() {
             </p>
           </div>
 
+          {/* Mobile Tabs - Only visible on mobile */}
+          <div className="sm:hidden mb-4">
+            <Tabs
+              tabs={[
+                { id: "list", label: "Your Exams" },
+                { id: "create", label: "Create & Upload" },
+              ]}
+              activeTab={mobileTab}
+              onTabChange={handleMobileTabChange}
+              variant="full-width"
+            />
+          </div>
+
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100">
             <div className="p-4 sm:p-8">
-              <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-8 pb-6 sm:pb-8 mb-6 sm:mb-8 border-b border-gray-200">
-                <div className="flex-1">
-                  <FileUpload
-                    selectedPupilId=""
-                    onUploadComplete={handleFilesUploaded}
-                    showPupilSelect={false}
-                    acceptedFileTypes={{
-                      "application/msword": [".doc"],
-                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                        [".docx"],
-                    }}
-                  />
-                </div>
+              {/* Upload and Create Section - Full width on desktop */}
+              <div
+                className={`${mobileTab === "list" ? "hidden sm:block" : ""}`}
+              >
+                <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-8 pb-6 sm:pb-8 mb-6 sm:mb-8 border-b border-gray-200">
+                  <div className="flex-1">
+                    <FileUpload
+                      selectedPupilId=""
+                      onUploadComplete={handleFilesUploaded}
+                      showPupilSelect={false}
+                      acceptedFileTypes={{
+                        "application/msword": [".doc"],
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                          [".docx"],
+                      }}
+                    />
+                  </div>
 
-                <button
-                  onClick={() => handleExamSelect(null)}
-                  className={`flex-1 p-4 sm:p-6 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] ${
-                    isCreatingNew
-                      ? "border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-50"
-                      : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50/50"
-                  }`}
-                >
-                  <div>
+                  <button
+                    onClick={() => handleExamSelect(null)}
+                    className={`flex-1 p-4 sm:p-6 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] ${
+                      isCreatingNew
+                        ? "border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-50"
+                        : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50/50"
+                    }`}
+                  >
                     <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                       <div className="p-1.5 sm:p-2 bg-indigo-100 rounded-lg">
                         <PencilSquareIcon className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
@@ -633,14 +680,21 @@ export function ExerciseForge() {
                     <p className="text-xs sm:text-sm text-gray-600">
                       Start a conversation with AI to create a new exam
                     </p>
-                  </div>
-                </button>
+                  </button>
+                </div>
               </div>
 
+              {/* Main Content Area */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-                <div className="lg:col-span-1 order-2 lg:order-1">
+                {/* Left Column - Exam List */}
+                <div
+                  className={`lg:col-span-1 ${
+                    mobileTab === "create" ? "hidden sm:block" : ""
+                  }`}
+                >
                   <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-gray-100 shadow-lg p-4 sm:p-6">
-                    <div className="flex items-center gap-2 mb-4 sm:mb-6">
+                    {/* Only show title on desktop */}
+                    <div className="hidden sm:flex items-center gap-2 mb-4 sm:mb-6">
                       <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
                         Your Exams
                       </h3>
@@ -658,7 +712,8 @@ export function ExerciseForge() {
                   </div>
                 </div>
 
-                <div className="lg:col-span-2 order-1 lg:order-2">
+                {/* Right Column - Editor Section */}
+                <div className="lg:col-span-2">
                   {selectedExam || isCreatingNew ? (
                     <div className="space-y-4 sm:space-y-6">
                       {!isCreatingNew && (
