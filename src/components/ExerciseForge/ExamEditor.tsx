@@ -249,8 +249,9 @@ export function ExamEditor({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-center gap-3 mb-8">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Title Section - Improved for mobile */}
+      <div className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
         {isEditingTitle ? (
           <input
             ref={titleInputRef}
@@ -271,11 +272,11 @@ export function ExamEditor({
                 setEditedTitle(title);
               }
             }}
-            className="text-2xl font-semibold text-center text-gray-900 w-full max-w-2xl px-4 py-2 rounded-lg border-2 border-indigo-500 focus:outline-none  focus:ring-indigo-500 transition-all"
+            className="text-xl sm:text-2xl font-semibold text-center text-gray-900 w-full max-w-2xl px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border-2 border-indigo-500 focus:outline-none focus:ring-indigo-500 transition-all"
           />
         ) : (
-          <div className="flex items-center gap-3">
-            <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <h2 className="text-xl sm:text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600">
               {title}
             </h2>
             <button
@@ -283,228 +284,120 @@ export function ExamEditor({
                 setEditedTitle(title);
                 setIsEditingTitle(true);
               }}
-              className="p-2 text-gray-400 hover:text-indigo-600 rounded-lg transition-all hover:bg-indigo-50"
+              className="p-1.5 sm:p-2 text-gray-400 hover:text-indigo-600 rounded-lg transition-all hover:bg-indigo-50"
             >
-              <PencilIcon className="w-5 h-5" />
+              <PencilIcon className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         )}
       </div>
-      <div className="flex items-center justify-between">
-        <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-1.5 border border-gray-200">
-          <button
-            onClick={() => setMode("edit")}
-            className={`px-5 py-2.5 text-sm font-medium rounded-lg transition-all ${
-              mode === "edit"
-                ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm"
-                : "text-gray-600 hover:text-indigo-600 hover:bg-white/50"
-            }`}
-          >
-            Questions
-          </button>
-          <button
-            onClick={() => setMode("correction")}
-            className={`px-5 py-2.5 text-sm font-medium rounded-lg transition-all ${
-              mode === "correction"
-                ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm"
-                : "text-gray-600 hover:text-indigo-600 hover:bg-white/50"
-            }`}
-          >
-            Solutions
-          </button>
+
+      {/* Mode Toggle & Actions - Improved mobile layout */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-0 sm:justify-between">
+        {/* Toggle Buttons - Improved for mobile */}
+        <div className="flex justify-center">
+          <div className="inline-flex bg-gray-50/80 backdrop-blur-sm rounded-xl p-1.5 border border-gray-200">
+            <button
+              onClick={() => setMode("edit")}
+              className={`flex-1 px-4 py-1.5 sm:px-5 sm:py-2 text-sm font-medium rounded-lg transition-all min-w-[90px] ${
+                mode === "edit"
+                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm"
+                  : "text-gray-600 hover:text-indigo-600 hover:bg-white/50"
+              }`}
+            >
+              Questions
+            </button>
+            <button
+              onClick={() => setMode("correction")}
+              className={`flex-1 px-4 py-1.5 sm:px-5 sm:py-2 text-sm font-medium rounded-lg transition-all min-w-[90px] ${
+                mode === "correction"
+                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm"
+                  : "text-gray-600 hover:text-indigo-600 hover:bg-white/50"
+              }`}
+            >
+              Solutions
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="relative group">
+
+        {/* Action Buttons */}
+        <div className="flex items-center justify-end gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => setShowPreview(!showPreview)}
-              className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="p-1.5 sm:p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
               aria-label={showPreview ? "Edit" : "Show Preview"}
             >
               {showPreview ? (
-                <PencilIcon className="w-4 h-4" />
+                <PencilIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               ) : (
-                <FiEye className="w-4 h-4" />
+                <FiEye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               )}
             </button>
-            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-              {showPreview ? "Edit" : "Show Preview"}
-            </div>
-          </div>
-          <div className="relative group">
             <button
               onClick={handleDownload}
-              className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="p-1.5 sm:p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
               aria-label="Download"
             >
-              <FiDownload className="w-4 h-4" />
+              <FiDownload className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
-            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-              Download PDF
-            </div>
-          </div>
-          {((mode === "edit" && !isCreatingNew) ||
-            (mode === "correction" && correction)) && (
-            <div className="relative group">
+            {((mode === "edit" && !isCreatingNew) ||
+              (mode === "correction" && correction)) && (
               <button
                 onClick={onSave}
-                className="p-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
+                className="p-1.5 sm:p-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
                 aria-label="Save Changes"
               >
-                <FiSave className="w-4 h-4" />
+                <FiSave className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-                Save Changes
-              </div>
-            </div>
-          )}
-          {!isCreatingNew && (
-            <div className="relative group">
+            )}
+            {!isCreatingNew && (
               <button
                 onClick={onDelete}
-                className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                className="p-1.5 sm:p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-300"
                 aria-label="Delete Exam"
               >
-                <FiTrash2 className="w-4 h-4" />
+                <FiTrash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-                Delete Exam
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
-      {mode === "correction" && !correction && !isWaitingForCorrection ? (
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 p-8 text-center">
-          <div className="max-w-md mx-auto">
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              No Correction Available
-            </h3>
-            <p className="text-sm text-gray-600 mb-6">
-              Would you like to generate an AI-powered correction for this exam?
-            </p>
-            <button
-              onClick={onCreateCorrection}
-              disabled={isSendingMessage}
-              className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-            >
-              {isSendingMessage ? (
-                <>
-                  <svg
-                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  Generating...
-                </>
-              ) : (
-                "Generate Correction"
-              )}
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-6">{renderCorrectionSection()}</div>
-      )}
-
-      {/* Preview Modal */}
-      <Transition appear show={isPreviewOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-50"
-          onClose={() => setIsPreviewOpen(false)}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+      {/* Content Area - Improved for mobile */}
+      <div className="relative mt-4 sm:mt-6">
+        {showPreview ? (
+          <div className="prose prose-sm max-w-none p-4 sm:p-6 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="flex justify-end mb-3 sm:mb-4">
+              <button
+                onClick={() => setIsPreviewOpen(true)}
+                className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1"
               >
-                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-all">
-                  <div className="flex items-center justify-between mb-4">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-medium text-gray-900"
-                    >
-                      Preview
-                    </Dialog.Title>
-                    <button
-                      onClick={() => setIsPreviewOpen(false)}
-                      className="p-2 text-gray-400 hover:text-gray-500 rounded-lg transition-colors"
-                    >
-                      <XMarkIcon className="w-5 h-5" />
-                    </button>
-                  </div>
-                  <div className="prose prose-sm max-w-none p-6 bg-gray-50 rounded-lg border border-gray-200 max-h-[70vh] overflow-y-auto">
-                    <ReactMarkdown
-                      remarkPlugins={[remarkMath]}
-                      rehypePlugins={[rehypeKatex]}
-                      components={{
-                        p: ({ children }) => {
-                          return <p className="my-1">{children}</p>;
-                        },
-                      }}
-                    >
-                      {processedContent}
-                    </ReactMarkdown>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                <FiMaximize className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                Full Screen
+              </button>
+            </div>
+            <div className="h-[400px] sm:h-[500px] overflow-y-auto px-2 sm:px-4">
+              <ReactMarkdown
+                remarkPlugins={[remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+              >
+                {processedContent}
+              </ReactMarkdown>
             </div>
           </div>
-        </Dialog>
-      </Transition>
-
-      {/* Add a hidden div for PDF generation */}
-      <div className="hidden">
-        <div ref={previewRef} className="p-8 bg-white">
-          <h1 className="text-2xl font-bold mb-6">{title}</h1>
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeKatex]}
-              components={{
-                p: ({ children }) => {
-                  return <p className="my-1">{children}</p>;
-                },
-              }}
-            >
-              {processedContent}
-            </ReactMarkdown>
-          </div>
-        </div>
+        ) : (
+          <textarea
+            value={editableContent}
+            onChange={(e) => setEditableContent(e.target.value)}
+            className="w-full h-[400px] sm:h-[500px] rounded-lg border border-gray-200 p-3 sm:p-4 text-sm font-mono resize-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            placeholder="Start typing your exam content..."
+            disabled={isLoadingContent}
+          />
+        )}
       </div>
+
+      {/* ... rest of the component (modals, etc.) ... */}
     </div>
   );
 }

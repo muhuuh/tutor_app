@@ -17,6 +17,7 @@ import {
 import { AuroraBackground } from "../components/UI/aurora-background";
 import { CreditWarningModal } from "../components/UI/CreditWarningModal";
 import { useCreditWarning } from "../hooks/useCreditWarning";
+import { InfoTooltip } from "../components/UI/InfoTooltip";
 
 type Mode = "edit" | "correction";
 
@@ -585,74 +586,81 @@ export function ExerciseForge() {
   return (
     <AuroraBackground>
       <div className="relative w-full min-h-screen">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-4xl font-bold text-blue-900 text-center pt-10 tracking-wide">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-4xl font-bold text-blue-900 text-center pt-12 tracking-wide">
               Exercise Forge
             </h2>
-            <p className="mt-4 text-lg text-gray-600">
+            <p className="mt-3 sm:mt-4 text-base sm:text-lg text-gray-600 px-2 sm:px-0">
               Create personalized exams powered by AI, based on student
               performance data and modern teaching methodologies.
             </p>
           </div>
 
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100">
-            <div className="p-8">
-              <div className="flex justify-between gap-8 pb-8 mb-8 border-b border-gray-200">
-                <div className="flex-1 flex items-stretch">
-                  <div className="w-full">
-                    <FileUpload
-                      selectedPupilId=""
-                      onUploadComplete={handleFilesUploaded}
-                      showPupilSelect={false}
-                      acceptedFileTypes={{
-                        "application/msword": [".doc"],
-                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                          [".docx"],
-                      }}
+            <div className="p-4 sm:p-8">
+              <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-8 pb-6 sm:pb-8 mb-6 sm:mb-8 border-b border-gray-200">
+                <div className="flex-1">
+                  <FileUpload
+                    selectedPupilId=""
+                    onUploadComplete={handleFilesUploaded}
+                    showPupilSelect={false}
+                    acceptedFileTypes={{
+                      "application/msword": [".doc"],
+                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                        [".docx"],
+                    }}
+                  />
+                </div>
+
+                <button
+                  onClick={() => handleExamSelect(null)}
+                  className={`flex-1 p-4 sm:p-6 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] ${
+                    isCreatingNew
+                      ? "border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-50"
+                      : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50/50"
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                      <div className="p-1.5 sm:p-2 bg-indigo-100 rounded-lg">
+                        <PencilSquareIcon className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
+                      </div>
+                      <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+                        Create New Exam
+                      </h2>
+                    </div>
+                    <p className="text-xs sm:text-sm text-gray-600">
+                      Start a conversation with AI to create a new exam
+                    </p>
+                  </div>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="lg:col-span-1 order-2 lg:order-1">
+                  <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-gray-100 shadow-lg p-4 sm:p-6">
+                    <div className="flex items-center gap-2 mb-4 sm:mb-6">
+                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
+                        Your Exams
+                      </h3>
+                      <InfoTooltip content="List of all your created exams" />
+                    </div>
+                    <ExamList
+                      loading={loading}
+                      exams={exams}
+                      selectedExam={selectedExam}
+                      onExamSelect={handleExamSelect}
+                      onExamDelete={handleExamDelete}
+                      onExamDownload={handleDownload}
+                      newExamId={newExamId}
                     />
                   </div>
                 </div>
-                <div className="flex-1 flex items-stretch">
-                  <button
-                    onClick={() => handleExamSelect(null)}
-                    className={`w-full p-6 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] ${
-                      isCreatingNew
-                        ? "border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-50"
-                        : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50/50"
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-center gap-3 mb-3">
-                        <div className="p-2 bg-indigo-100 rounded-lg">
-                          <PencilSquareIcon className="w-6 h-6 text-indigo-600" />
-                        </div>
-                        <h2 className="text-xl font-semibold text-gray-900">
-                          Create New Exam
-                        </h2>
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        Start a conversation with AI to create a new exam
-                      </p>
-                    </div>
-                  </button>
-                </div>
-              </div>
 
-              <div className="grid grid-cols-3 gap-8">
-                <ExamList
-                  loading={loading}
-                  exams={exams}
-                  selectedExam={selectedExam}
-                  onExamSelect={handleExamSelect}
-                  onExamDelete={handleExamDelete}
-                  onExamDownload={handleDownload}
-                  newExamId={newExamId}
-                />
-
-                <div className="col-span-2 pl-8 border-l border-gray-100">
+                <div className="lg:col-span-2 order-1 lg:order-2">
                   {selectedExam || isCreatingNew ? (
-                    <>
+                    <div className="space-y-4 sm:space-y-6">
                       {!isCreatingNew && (
                         <ExamEditor
                           selectedExam={selectedExam}
@@ -683,27 +691,27 @@ export function ExerciseForge() {
                       )}
 
                       {isCreatingNew && (
-                        <div className="mb-8 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                          <div className="p-6">
-                            <div className="flex items-center gap-4 mb-6">
-                              <div className="p-3 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-xl">
-                                <PencilSquareIcon className="w-6 h-6 text-indigo-600" />
+                        <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-lg overflow-hidden">
+                          <div className="p-4 sm:p-6">
+                            <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                              <div className="p-2 sm:p-3 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-xl">
+                                <PencilSquareIcon className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
                               </div>
                               <div>
-                                <h2 className="text-xl font-semibold text-gray-900">
+                                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
                                   Create New Exam
                                 </h2>
-                                <p className="text-sm text-gray-600 mt-1">
+                                <p className="text-xs sm:text-sm text-gray-600 mt-1">
                                   Explain your requirements to the AI assistant
                                 </p>
                               </div>
                             </div>
 
-                            <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-6 border border-gray-100">
-                              <h3 className="text-sm font-medium text-gray-900 mb-4">
+                            <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-gray-100">
+                              <h3 className="text-sm font-medium text-gray-900 mb-3 sm:mb-4">
                                 Include in your request:
                               </h3>
-                              <ul className="grid grid-cols-2 gap-4">
+                              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 {[
                                   "Subject matter and topics",
                                   "Difficulty level",
@@ -712,10 +720,10 @@ export function ExerciseForge() {
                                 ].map((item) => (
                                   <li
                                     key={item}
-                                    className="flex items-center gap-3"
+                                    className="flex items-center gap-2 sm:gap-3"
                                   >
-                                    <div className="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-400 to-violet-400"></div>
-                                    <span className="text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-gradient-to-r from-indigo-400 to-violet-400"></div>
+                                    <span className="text-xs sm:text-sm text-gray-600">
                                       {item}
                                     </span>
                                   </li>
@@ -739,13 +747,15 @@ export function ExerciseForge() {
                           mode={mode}
                         />
                       )}
-                    </>
+                    </div>
                   ) : (
-                    <div className="flex flex-col items-center justify-center h-64 text-gray-500 space-y-4">
-                      <div className="p-4 rounded-full bg-gray-50">
-                        <PencilSquareIcon className="w-8 h-8 text-gray-400" />
+                    <div className="flex flex-col items-center justify-center h-48 sm:h-64 text-gray-500 space-y-3 sm:space-y-4">
+                      <div className="p-3 sm:p-4 rounded-full bg-gray-50">
+                        <PencilSquareIcon className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" />
                       </div>
-                      <p>Select an exam to start editing or create a new one</p>
+                      <p className="text-sm sm:text-base">
+                        Select an exam to start editing or create a new one
+                      </p>
                     </div>
                   )}
                 </div>

@@ -120,20 +120,22 @@ export function ExamList({
   onExamDownload,
 }: ExamListProps) {
   return (
-    <div className="col-span-1 ">
-      <div className="flex items-center gap-2 justify-center mb-6">
-        <h2 className="text-xl font-semibold text-blue-900">Your Exams</h2>
-        <div className="-mt-1">
+    <div className="col-span-1">
+      <div className="flex items-center gap-2 justify-center mb-4 sm:mb-6">
+        <h2 className="text-lg sm:text-xl font-semibold text-blue-900">
+          Your Exams
+        </h2>
+        <div className="-mt-0.5 sm:-mt-1">
           <InfoTooltip content="Overview of the exams you have uploaded and edited in the past." />
         </div>
       </div>
       {loading ? (
-        <div className="flex items-center justify-center h-32">
-          <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+        <div className="flex items-center justify-center h-24 sm:h-32">
+          <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
         <div
-          className="space-y-4 max-h-[600px] overflow-y-auto pr-4"
+          className="space-y-3 sm:space-y-4 max-h-[400px] sm:max-h-[600px] overflow-y-auto pr-2 sm:pr-4"
           style={{ scrollbarGutter: "stable" }}
         >
           {exams.slice(0, 5).map((exam) => (
@@ -141,7 +143,7 @@ export function ExamList({
               <div className="relative group">
                 <button
                   onClick={() => onExamSelect(exam.id)}
-                  className={`w-full text-left ml-2 p-4 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] ${
+                  className={`w-full text-left p-3 sm:p-4 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] ${
                     selectedExam?.id === exam.id
                       ? "border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-50"
                       : newExamId === exam.id
@@ -149,15 +151,15 @@ export function ExamList({
                       : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50/50"
                   }`}
                 >
-                  <h3 className="font-medium text-gray-900 flex items-center gap-2">
+                  <h3 className="font-medium text-sm sm:text-base text-gray-900 flex items-center gap-2">
                     {exam.title}
                     {newExamId === exam.id && (
-                      <span className="text-xs font-medium text-emerald-600 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                      <span className="text-xs font-medium text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full">
                         New
                       </span>
                     )}
                   </h3>
-                  <p className="text-sm text-gray-500 mt-2">
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">
                     Last updated:{" "}
                     {new Date(exam.updated_at).toLocaleDateString("en-GB", {
                       day: "numeric",
@@ -167,34 +169,34 @@ export function ExamList({
                   </p>
                 </button>
 
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-all ">
+                <div className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-all">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       onExamDownload(exam.id);
                     }}
-                    className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                    className="p-1.5 sm:p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
                     aria-label="Download exam"
                   >
-                    <FiDownload className="w-4 h-4" />
+                    <FiDownload className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       onExamDelete(exam.id);
                     }}
-                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                    className="p-1.5 sm:p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
                     aria-label="Delete exam"
                   >
-                    <FiTrash2 className="w-4 h-4" />
+                    <FiTrash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                 </div>
               </div>
             </ExamTooltip>
           ))}
           {exams.length > 5 && (
-            <div className="pt-4 border-t border-gray-100">
-              <p className="text-sm text-gray-500 text-center">
+            <div className="pt-3 sm:pt-4 border-t border-gray-100">
+              <p className="text-xs sm:text-sm text-gray-500 text-center">
                 Scroll to see {exams.length - 5} more exams
               </p>
             </div>

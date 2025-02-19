@@ -51,7 +51,7 @@ export function ChatBox({
         <>
           <div
             ref={chatResizeRef}
-            className="h-2 w-full cursor-ns-resize bg-gray-100/50 hover:bg-gray-200/50 transition-colors group relative"
+            className="h-3 sm:h-2 w-full cursor-ns-resize bg-gray-100/50 hover:bg-gray-200/50 transition-colors group relative"
             onMouseDown={onResize}
           >
             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-center">
@@ -59,7 +59,7 @@ export function ChatBox({
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -68,18 +68,18 @@ export function ChatBox({
                 }`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl p-4 transition-all duration-200 ${
+                  className={`max-w-[90%] sm:max-w-[85%] rounded-2xl p-3 sm:p-4 transition-all duration-200 ${
                     msg.isUser
                       ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm"
                       : "bg-gray-50/80 backdrop-blur-sm border border-gray-100 shadow-sm"
                   }`}
                 >
                   {"id" in msg ? (
-                    <div className="flex gap-2 py-1">
+                    <div className="flex gap-1.5 sm:gap-2 py-1">
                       {[...Array(3)].map((_, i) => (
                         <div
                           key={i}
-                          className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"
+                          className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-400 rounded-full animate-pulse"
                           style={{ animationDelay: `${i * 150}ms` }}
                         />
                       ))}
@@ -89,7 +89,7 @@ export function ChatBox({
                       <div
                         className={`prose prose-sm ${
                           msg.isUser ? "prose-invert" : ""
-                        } max-w-none`}
+                        } max-w-none [&>p]:text-sm [&>p]:leading-relaxed`}
                       >
                         <ReactMarkdown
                           remarkPlugins={[remarkMath]}
@@ -104,9 +104,9 @@ export function ChatBox({
                         </ReactMarkdown>
                       </div>
                       {msg.timestamp && (
-                        <div className="mt-2 flex justify-end">
+                        <div className="mt-1.5 sm:mt-2 flex justify-end">
                           <span
-                            className={`text-xs ${
+                            className={`text-[10px] sm:text-xs ${
                               msg.isUser ? "text-white/70" : "text-gray-500"
                             }`}
                           >
@@ -129,9 +129,9 @@ export function ChatBox({
 
       <form
         onSubmit={onSendMessage}
-        className="border-t border-gray-100 bg-white/50 backdrop-blur-sm p-4"
+        className="border-t border-gray-100 bg-white/50 backdrop-blur-sm p-3 sm:p-4"
       >
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 sm:gap-3 items-center">
           <input
             type="text"
             value={message}
@@ -143,21 +143,21 @@ export function ChatBox({
                 ? "Ask about the correction..."
                 : "Ask AI anything about this exam..."
             }
-            className="flex-1 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-5 py-3 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 focus:outline-none transition-all disabled:opacity-50"
+            className="flex-1 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-3 sm:px-4 py-2 sm:py-2.5 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 focus:outline-none transition-all disabled:opacity-50"
             disabled={isSendingMessage}
           />
           <button
             type="submit"
             disabled={!message.trim() || isSendingMessage}
-            className="flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+            className="flex-shrink-0 flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
             aria-label="Send message"
           >
             {isSendingMessage ? (
-              <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <div className="h-3 w-3 sm:h-4 sm:w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-white"
+                className="h-4 w-4 sm:h-5 sm:w-5 text-white"
                 viewBox="0 0 24 24"
                 fill="currentColor"
               >

@@ -55,7 +55,7 @@ export function FileUpload({
     <div
       {...getRootProps()}
       className={`
-        bg-white rounded-lg p-4 text-center border-2 border-dashed transition-all duration-200 cursor-pointer
+        bg-white rounded-lg p-3 sm:p-4 text-center border-2 border-dashed transition-all duration-200 cursor-pointer
         ${
           isDragActive
             ? "border-indigo-500 bg-indigo-50"
@@ -69,10 +69,10 @@ export function FileUpload({
       `}
     >
       <input {...getInputProps()} />
-      <div className="space-y-2">
-        <div className="flex items-center justify-center gap-2">
-          <FiUploadCloud className="w-6 h-6 text-indigo-500" />
-          <p className="text-lg font-medium text-gray-900">
+      <div className="space-y-2 sm:space-y-3">
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2">
+          <FiUploadCloud className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-500" />
+          <p className="text-base sm:text-lg font-medium text-gray-900">
             {uploading
               ? "Uploading..."
               : isDragActive
@@ -81,10 +81,10 @@ export function FileUpload({
           </p>
         </div>
         <div className="text-center">
-          <p className="text-gray-600 text-sm mb-2">
+          <p className="text-gray-600 text-xs sm:text-sm mb-1 sm:mb-2">
             Get AI suggestions for improving exercises and generating solutions
           </p>
-          <p className="text-gray-600 text-sm font-light italic mb-4">
+          <p className="text-gray-600 text-xs font-light italic mb-3 sm:mb-4">
             (Format: .docx)
           </p>
         </div>
