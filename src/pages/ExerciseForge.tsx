@@ -56,7 +56,7 @@ export function ExerciseForge() {
   >([]);
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const [message, setMessage] = useState("");
-  const [chatHeight, setChatHeight] = useState(300);
+  const [chatHeight, setChatHeight] = useState(800);
   const startResizeY = useRef<number>(0);
   const startHeight = useRef<number>(0);
 

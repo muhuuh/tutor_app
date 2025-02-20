@@ -503,6 +503,7 @@ export function Dashboard() {
       case "chat":
         return (
           <ChatBox
+            height={800}
             selectedPupilId={selectedPupilId}
             onReportGenerated={(reportId) => {
               setCurrentReportId(reportId);
@@ -534,9 +535,9 @@ export function Dashboard() {
           </div>
 
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100">
-            {/* Controls Section - Improved mobile layout */}
+            {/* Controls Section - Centered layout */}
             <div className="p-4 sm:p-6">
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                 <div className="w-full sm:w-64 shadow-sm rounded-xl">
                   <select
                     id="pupil"
@@ -556,6 +557,13 @@ export function Dashboard() {
                   </select>
                 </div>
 
+                <button
+                  onClick={() => setShowAddPupil(true)}
+                  className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
+                >
+                  Add New Student
+                </button>
+
                 {activeTab === "reports" && selectedPupilId && (
                   <div className="w-full sm:w-64 shadow-sm rounded-xl">
                     <select
@@ -573,13 +581,6 @@ export function Dashboard() {
                     </select>
                   </div>
                 )}
-
-                <button
-                  onClick={() => setShowAddPupil(true)}
-                  className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
-                >
-                  Add New Student
-                </button>
               </div>
             </div>
 

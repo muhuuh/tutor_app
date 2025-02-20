@@ -22,6 +22,7 @@ interface Message {
 }
 
 interface ChatBoxProps {
+  height: number;
   selectedPupilId: string;
   onReportGenerated: (reportId: string) => void;
 }
@@ -30,12 +31,6 @@ interface SuggestionBox {
   title: string;
   content: string;
   prompt: string;
-}
-
-interface Suggestion {
-  title: string;
-  content: string;
-  prompt?: string;
 }
 
 function InfoTooltip({ content }: { content: string }) {
@@ -67,7 +62,11 @@ const DEFAULT_SUGGESTIONS = [
   },
 ];
 
-export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
+export function ChatBox({
+  height,
+  selectedPupilId,
+  onReportGenerated,
+}: ChatBoxProps) {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -359,7 +358,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col lg:flex-row gap-4 sm:gap-8">
         {/* Left Column - File Upload & Suggestions */}
-        <div className="w-full lg:w-1/3 space-y-4 sm:space-y-8">
+        <div className="w-full lg:w-1/3 space-y-4 sm:space-y-8 lg:h-[800px] flex flex-col">
           {/* File Upload Section */}
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-gray-100 shadow-lg">
             <div className="mb-4 sm:mb-6">
@@ -405,14 +404,23 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               </div>
             )}
           </div>
+
+          {/* Desktop Suggestions - Hidden on mobile */}
+          <div className="hidden lg:block flex-1 overflow-y-auto overflow-x-hidden">
+            {selectedPupilId && pendingFiles.length === 0 && (
+              <ChatSuggestions
+                isLoadingSuggestions={isLoadingSuggestions}
+                suggestions={suggestions}
+                messages={messages}
+                handleSuggestionClick={handleSuggestionClick}
+                DEFAULT_SUGGESTIONS={DEFAULT_SUGGESTIONS}
+              />
+            )}
+          </div>
         </div>
 
         {/* Chat Section */}
-        <div
-          className={`flex-1 flex flex-col bg-white/70 backdrop-blur-sm rounded-xl border border-gray-100 shadow-lg overflow-hidden ${
-            messages.length === 0 ? "h-auto" : "max-h-[400px] sm:h-[600px]"
-          }`}
-        >
+        <div className="flex-1 flex flex-col bg-white/70 backdrop-blur-sm rounded-xl border border-gray-100 shadow-lg overflow-hidden max-h-[400px] lg:max-h-none lg:h-[800px]">
           <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
             {isLoadingHistory ? (
               <div className="flex items-center justify-center py-8">
@@ -551,21 +559,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
         </div>
       </div>
 
-      {/* Suggestions Section - Moved outside the flex container for mobile */}
-      <div className="lg:hidden">
-        {selectedPupilId && pendingFiles.length === 0 && (
-          <ChatSuggestions
-            isLoadingSuggestions={isLoadingSuggestions}
-            suggestions={suggestions}
-            messages={messages}
-            handleSuggestionClick={handleSuggestionClick}
-            DEFAULT_SUGGESTIONS={DEFAULT_SUGGESTIONS}
-          />
-        )}
-      </div>
-
-      {/* Desktop Suggestions - Hidden on mobile */}
-      <div className="hidden lg:block lg:absolute lg:left-0 lg:top-0 lg:w-1/3">
+      {/* Mobile Suggestions - Hidden on desktop */}
+      <div className="lg:hidden overflow-x-hidden">
         {selectedPupilId && pendingFiles.length === 0 && (
           <ChatSuggestions
             isLoadingSuggestions={isLoadingSuggestions}
