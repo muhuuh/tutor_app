@@ -14,10 +14,7 @@ interface CollapsibleSectionProps {
   isExpanded?: boolean;
 }
 
-export function CollapsibleSection({
-  section,
-  isExpanded = false,
-}: CollapsibleSectionProps) {
+export function CollapsibleSection({ section }: CollapsibleSectionProps) {
   const [isOpen, setIsOpen] = useState(false); // Default all sections to closed
 
   return (

@@ -513,12 +513,15 @@ export function Dashboard() {
                   </select>
                 </div>
 
-                <button
-                  onClick={() => setShowAddPupil(true)}
-                  className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
-                >
-                  Add New Student
-                </button>
+                {/* Only show Add New Student button when on Chat tab */}
+                {activeTab === "chat" && (
+                  <button
+                    onClick={() => setShowAddPupil(true)}
+                    className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
+                  >
+                    Add New Student
+                  </button>
+                )}
 
                 {activeTab === "reports" && selectedPupilId && (
                   <div className="w-full sm:w-64 shadow-sm rounded-xl">
