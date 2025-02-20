@@ -24,6 +24,8 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import html2pdf from "html2pdf.js";
 import { AuroraBackground } from "../components/UI/aurora-background";
+import { CollapsibleSection } from "../components/Report/CollapsibleSection";
+import { parseMarkdownSections } from "../utils/markdown";
 
 const TABS = [
   {
@@ -357,6 +359,8 @@ export function Dashboard() {
 
     console.log("combinedReport", combinedReport);
 
+    const sections = parseMarkdownSections(combinedReport);
+
     return (
       <div className="space-y-8">
         <div className="flex items-center justify-between mb-6">
@@ -420,74 +424,26 @@ export function Dashboard() {
         </div>
 
         {/* Report content */}
-        <div className="space-y-6 bg-white max-w-[21cm] mx-auto px-12 py-16 shadow-[0_-1px_3px_rgba(0,0,0,0.1)] min-h-screen">
-          <div className="prose prose-sm max-w-none">
-            <ReactMarkdown
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeKatex]}
-              components={{
-                p: ({ children }) => {
-                  return <p className="my-1">{children}</p>;
-                },
-              }}
-            >
-              {processContent(combinedReport)}
-            </ReactMarkdown>
+        <div className="space-y-6 bg-white max-w-[21cm] mx-auto shadow-[0_-1px_3px_rgba(0,0,0,0.1)] rounded-xl overflow-hidden">
+          <div className="divide-y divide-gray-200">
+            {sections.map((section, index) => (
+              <CollapsibleSection
+                key={index}
+                section={section}
+                isExpanded={index === 0} // Optionally expand first section by default
+              />
+            ))}
           </div>
         </div>
 
-        {/* Add this hidden div for PDF generation */}
+        {/* Keep the hidden PDF generation div */}
         <div className="hidden">
           <div ref={pdfRef} className="p-8 bg-white">
             <h1 className="text-2xl font-bold mb-6">{reportTitle}</h1>
-            <div
-              className="prose prose-sm max-w-none"
-              style={{
-                pageBreakInside: "avoid",
-                breakInside: "avoid",
-              }}
-            >
+            <div className="prose prose-sm max-w-none">
               <ReactMarkdown
                 remarkPlugins={[remarkMath]}
                 rehypePlugins={[rehypeKatex]}
-                components={{
-                  // Handle paragraphs with page break control
-                  p: ({ children }) => {
-                    return (
-                      <p
-                        className="my-2"
-                        style={{
-                          pageBreakInside: "avoid",
-                          breakInside: "avoid",
-                        }}
-                      >
-                        {children}
-                      </p>
-                    );
-                  },
-                  // Handle headings with page break control
-                  h1: ({ children }) => (
-                    <h1
-                      style={{
-                        pageBreakBefore: "always",
-                        pageBreakAfter: "avoid",
-                        breakAfter: "avoid",
-                      }}
-                    >
-                      {children}
-                    </h1>
-                  ),
-                  h2: ({ children }) => (
-                    <h2
-                      style={{
-                        pageBreakAfter: "avoid",
-                        breakAfter: "avoid",
-                      }}
-                    >
-                      {children}
-                    </h2>
-                  ),
-                }}
               >
                 {processContent(combinedReport)}
               </ReactMarkdown>

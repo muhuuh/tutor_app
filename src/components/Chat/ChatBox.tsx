@@ -62,11 +62,7 @@ const DEFAULT_SUGGESTIONS = [
   },
 ];
 
-export function ChatBox({
-  height,
-  selectedPupilId,
-  onReportGenerated,
-}: ChatBoxProps) {
+export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
