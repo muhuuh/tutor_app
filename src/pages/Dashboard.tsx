@@ -628,20 +628,20 @@ export function Dashboard() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[500px] transform bg-white rounded-2xl shadow-xl transition-all mx-4 sm:mx-auto">
-                  <div className="relative p-6 sm:p-8">
-                    <div className="flex items-center justify-between mb-6 sm:mb-8">
+                <Dialog.Panel className="w-full max-w-[400px] transform bg-white rounded-2xl shadow-xl transition-all mx-4 sm:mx-auto my-8">
+                  <div className="relative p-4">
+                    <div className="flex items-center justify-between mb-4">
                       <Dialog.Title
                         as="h2"
-                        className="text-xl sm:text-2xl font-bold text-gray-900"
+                        className="text-lg font-bold text-blue-900"
                       >
                         Add New Student
                       </Dialog.Title>
                       <button
                         onClick={() => setShowAddPupil(false)}
-                        className="text-gray-400 hover:text-gray-500 p-2"
+                        className="text-gray-400 hover:text-gray-500 p-1"
                       >
-                        <XMarkIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <XMarkIcon className="w-5 h-5" />
                       </button>
                     </div>
                     <PupilForm
