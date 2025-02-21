@@ -460,6 +460,20 @@ export function Dashboard() {
 
         {/* Keep the hidden PDF generation div */}
         <div className="hidden">
+          <style>
+            {`
+      .prose h1,
+      .prose h2,
+      .prose h3,
+      .prose li {
+        page-break-inside: avoid;
+      }
+      .prose p {
+        orphans: 2;
+        widows: 2;
+      }
+    `}
+          </style>
           <div ref={pdfRef} className="p-8 bg-white">
             <h1 className="text-2xl font-bold mb-6">{reportTitle}</h1>
             <div className="prose prose-sm max-w-none">
