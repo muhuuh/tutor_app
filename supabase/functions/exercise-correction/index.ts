@@ -74,7 +74,25 @@ serve(async (req) => {
     const now = new Date();
     const validUntil = new Date(subscription.valid_until);
     if (validUntil < now) {
-      throw new Error("Your subscription has expired");
+      console.log("Subscription expired:", {
+        validUntil: validUntil.toISOString(),
+        now: now.toISOString(),
+      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          errorType: "subscription_error",
+          message: "Your subscription has expired",
+          requiredCredits: CREDIT_COSTS.EXERCISE_CORRECTION,
+        }),
+        {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
+        }
+      );
     }
 
     // Check if user has enough credits

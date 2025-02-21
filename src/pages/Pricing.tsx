@@ -1,8 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Package, Zap, Building2, Check, Gift, Loader2 } from "lucide-react";
+import {
+  Package,
+  Zap,
+  Building2,
+  Check,
+  Gift,
+  Loader2,
+  Info,
+} from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "../hooks/useAuth";
+import { supabase } from "../lib/supabase";
 
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -62,6 +71,32 @@ export function Pricing() {
   const { user } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<string | null>(null);
+  const [currentSubscription, setCurrentSubscription] = useState<string | null>(
+    null
+  );
+  const [showDowngradeInfo, setShowDowngradeInfo] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchSubscription() {
+      if (!user) return;
+
+      try {
+        const { data, error } = await supabase
+          .from("user_subscriptions")
+          .select("subscription_type")
+          .eq("user_id", user.id)
+          .single();
+
+        if (error) throw error;
+        setCurrentSubscription(data?.subscription_type?.toLowerCase() || null);
+      } catch (err) {
+        console.error("Error fetching subscription:", err);
+      }
+    }
+
+    fetchSubscription();
+  }, [user]);
 
   console.log("id user", user?.id);
 
@@ -98,6 +133,31 @@ export function Pricing() {
     } finally {
       setIsLoading(null);
     }
+  };
+
+  const isSubscriptionDisabled = (planName: string) => {
+    if (!currentSubscription) return false;
+
+    // Prevent subscribing to Basic when on Professional
+    if (
+      planName.toLowerCase() === "basic" &&
+      currentSubscription === "professional"
+    ) {
+      return true;
+    }
+
+    // Prevent subscribing to the current plan
+    return planName.toLowerCase() === currentSubscription;
+  };
+
+  const getButtonText = (planName: string) => {
+    if (planName === "Institution") return "Contact Sales";
+    if (isSubscriptionDisabled(planName)) {
+      return currentSubscription === planName.toLowerCase()
+        ? "Current Plan"
+        : "Downgrade Available After Cancellation";
+    }
+    return "Get Started";
   };
 
   return (
@@ -228,14 +288,26 @@ export function Pricing() {
                   </ul>
 
                   <button
-                    onClick={() => handleSubscribe(plan.priceId)}
+                    onClick={() => {
+                      if (
+                        isSubscriptionDisabled(plan.name) &&
+                        plan.name.toLowerCase() === "basic"
+                      ) {
+                        setSelectedPlan(plan.name.toLowerCase());
+                        setShowDowngradeInfo(true);
+                        return;
+                      }
+                      handleSubscribe(plan.priceId);
+                    }}
                     className={`relative w-full mt-8 px-6 py-3 text-sm font-medium rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
                       plan.popular
                         ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white hover:from-violet-700 hover:to-blue-700"
                         : "bg-gray-50 text-gray-900 hover:bg-gray-100"
                     }`}
                     disabled={
-                      plan.name === "Institution" || isLoading === plan.priceId
+                      plan.name === "Institution" ||
+                      isLoading === plan.priceId ||
+                      isSubscriptionDisabled(plan.name)
                     }
                   >
                     {isLoading === plan.priceId ? (
@@ -243,18 +315,128 @@ export function Pricing() {
                         <Loader2 className="w-4 h-4 animate-spin" />
                         <span>Processing...</span>
                       </div>
-                    ) : plan.name === "Institution" ? (
-                      "Contact Sales"
                     ) : (
-                      "Get Started"
+                      getButtonText(plan.name)
                     )}
                   </button>
+
+                  {/* Add info icon for current plan and disabled Basic plan */}
+                  {(isSubscriptionDisabled(plan.name) &&
+                    plan.name.toLowerCase() === "basic") ||
+                  (isSubscriptionDisabled(plan.name) &&
+                    plan.name.toLowerCase() === currentSubscription) ? (
+                    <div className="mt-2 flex items-center justify-center">
+                      <button
+                        onClick={() => {
+                          setSelectedPlan(plan.name.toLowerCase());
+                          setShowDowngradeInfo(true);
+                        }}
+                        className="text-gray-500 hover:text-gray-700"
+                      >
+                        <Info className="w-5 h-5" />
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Downgrade Info Modal */}
+      {showDowngradeInfo && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowDowngradeInfo(false);
+            }
+          }}
+        >
+          <div className="bg-white rounded-xl p-6 max-w-md w-full">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              {currentSubscription === "basic"
+                ? "Manage Your Subscription"
+                : currentSubscription === "professional" &&
+                  selectedPlan === "basic"
+                ? "How to Downgrade Your Plan"
+                : "Manage Your Subscription"}
+            </h3>
+            <p className="text-gray-600 mb-4">
+              {currentSubscription === "basic" ? (
+                <>
+                  <div className="mb-4">
+                    <strong className="text-gray-900">Want to upgrade?</strong>
+                    <p className="mt-2">
+                      You can upgrade to the Professional plan directly! This
+                      will automatically replace your Basic subscription and
+                      give you immediate access to advanced features like
+                      unlimited corrections, detailed analytics, and priority
+                      support.
+                    </p>
+                  </div>
+                  <div>
+                    <strong className="text-gray-900">Want to cancel?</strong>
+                    <ol className="list-decimal ml-4 mt-2 space-y-2">
+                      <li>Go to your Subscription page</li>
+                      <li>
+                        Click on "Manage Billing" to access the billing portal
+                      </li>
+                      <li>Cancel your Basic subscription</li>
+                      <li>
+                        Your Basic features will remain active until the end of
+                        your billing period
+                      </li>
+                    </ol>
+                  </div>
+                </>
+              ) : currentSubscription === "professional" &&
+                selectedPlan === "basic" ? (
+                <>
+                  To downgrade to the Basic plan:
+                  <ol className="list-decimal ml-4 mt-2 space-y-2">
+                    <li>Go to your Subscription page</li>
+                    <li>
+                      Click on "Manage Billing" to access the billing portal
+                    </li>
+                    <li>Cancel your current Professional subscription</li>
+                    <li>
+                      Your Professional features will remain active until the
+                      end of your billing period
+                    </li>
+                    <li>
+                      After your Professional subscription expires, you can
+                      subscribe to the Basic plan
+                    </li>
+                  </ol>
+                </>
+              ) : (
+                <>
+                  To cancel your {currentSubscription} subscription:
+                  <ol className="list-decimal ml-4 mt-2 space-y-2">
+                    <li>Go to your Subscription page</li>
+                    <li>
+                      Click on "Manage Billing" to access the billing portal
+                    </li>
+                    <li>Cancel your subscription</li>
+                    <li>
+                      Your {currentSubscription} features will remain active
+                      until the end of your billing period
+                    </li>
+                  </ol>
+                </>
+              )}
+            </p>
+            <button
+              onClick={() => setShowDowngradeInfo(false)}
+              className="w-full mt-4 px-4 py-2 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

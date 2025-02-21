@@ -99,22 +99,29 @@ serve(async (req) => {
         }
 
         // Update subscription details in the matched row
+        const validUntil = new Date(
+          Date.now() + 30 * 24 * 60 * 60 * 1000
+        ).toISOString();
+        console.log(
+          "About to update subscription with valid_until:",
+          validUntil
+        );
+
         const { data: updatedData, error: updateError } = await supabase
           .from("user_subscriptions")
           .update({
             subscription_type: planType,
             max_credits: maxCredits,
             used_credits: 0,
-            valid_until: new Date(
-              Date.now() + 30 * 24 * 60 * 60 * 1000
-            ).toISOString(), // 1 month from now
+            valid_until: validUntil,
             updated_at: new Date().toISOString(),
           })
           .eq("stripe_customer_id", customerId);
+
         console.log(
-          "Supabase update result; updatedData:",
-          JSON.stringify(updatedData, null, 2),
-          "updateError:",
+          "Supabase update complete. Row affected:",
+          updatedData ? "yes" : "no",
+          "Error:",
           updateError
         );
 
