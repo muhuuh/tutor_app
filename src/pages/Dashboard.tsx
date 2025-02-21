@@ -26,6 +26,7 @@ import html2pdf from "html2pdf.js";
 import { AuroraBackground } from "../components/UI/aurora-background";
 import { CollapsibleSection } from "../components/Report/CollapsibleSection";
 import { parseMarkdownSections } from "../utils/markdown";
+import ReactDOM from "react-dom/client";
 
 const TABS = [
   {
@@ -232,12 +233,33 @@ export function Dashboard() {
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       };
 
+      // Create a temporary div for rendering markdown
+      const tempDiv = document.createElement("div");
+      const root = ReactDOM.createRoot(tempDiv);
+      root.render(
+        <div className="prose prose-sm max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeKatex]}
+          >
+            {processContent(combinedReportText)}
+          </ReactMarkdown>
+        </div>
+      );
+
+      // Wait for rendering to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Update the PDF ref with the rendered content
       if (pdfRef.current) {
-        pdfRef.current.innerHTML = processContent(combinedReportText);
+        pdfRef.current.innerHTML = tempDiv.innerHTML;
       }
 
       await html2pdf().set(opt).from(pdfRef.current).save();
       toast.success("Report downloaded successfully");
+
+      // Clean up
+      root.unmount();
     } catch (error) {
       console.error("Error downloading report:", error);
       toast.error("Failed to download report");
