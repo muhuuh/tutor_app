@@ -109,7 +109,8 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           .select("message")
           .eq("session_id", selectedPupilId)
           .or(`teacher_id.eq.${user.id},teacher_id.is.null`)
-          .order("id", { ascending: true });
+          .order("id", { ascending: true })
+          .limit(10);
 
         if (error) throw error;
 
