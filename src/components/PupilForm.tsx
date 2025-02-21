@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { database } from "../lib/database";
 import toast from "react-hot-toast";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 
 interface PupilFormProps {
   onSuccess: () => void;

@@ -13,6 +13,7 @@ import {
   FiTrash2,
   FiMessageSquare,
   FiFileText,
+  FiMaximize,
 } from "react-icons/fi";
 
 import { PencilIcon } from "@heroicons/react/24/outline";
@@ -90,6 +91,7 @@ export function Dashboard() {
   const [selectedPupilId, setSelectedPupilId] = useState("");
   const [currentReportId, setCurrentReportId] = useState<string | null>(null);
   const [showAddPupil, setShowAddPupil] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [availableReports, setAvailableReports] = useState<
     Array<{ id: string; requested_at: string; report_title: string }>
   >([]);
@@ -379,7 +381,7 @@ export function Dashboard() {
       ""
     );
 
-    console.log("combinedReport", combinedReport);
+    //console.log("combinedReport", combinedReport);
 
     const sections = parseMarkdownSections(combinedReport);
 
@@ -428,6 +430,13 @@ export function Dashboard() {
             )}
           </div>
           <div className="flex gap-2">
+            <button
+              onClick={() => setIsPreviewOpen(true)}
+              className="p-2 text-gray-700 hover:text-indigo-600 transition-colors"
+              aria-label="Full Screen Preview"
+            >
+              <FiMaximize className="w-5 h-5" />
+            </button>
             <button
               onClick={handleDownloadReport}
               className="p-2 text-gray-700 hover:text-indigo-600 transition-colors"
@@ -486,6 +495,70 @@ export function Dashboard() {
             </div>
           </div>
         </div>
+
+        <Transition appear show={isPreviewOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="relative z-50"
+            onClose={() => setIsPreviewOpen(false)}
+          >
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-all">
+                    <div className="flex items-center justify-between mb-4">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium text-gray-900"
+                      >
+                        {reportTitle}
+                      </Dialog.Title>
+                      <button
+                        onClick={() => setIsPreviewOpen(false)}
+                        className="p-2 text-gray-400 hover:text-gray-500 rounded-lg transition-colors"
+                      >
+                        <XMarkIcon className="w-5 h-5" />
+                      </button>
+                    </div>
+                    <div className="prose prose-sm max-w-none p-6 bg-gray-50 rounded-lg border border-gray-200 max-h-[70vh] overflow-y-auto">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkMath]}
+                        rehypePlugins={[rehypeKatex]}
+                        components={{
+                          p: ({ children }) => {
+                            return <p className="my-1">{children}</p>;
+                          },
+                        }}
+                      >
+                        {processContent(combinedReport)}
+                      </ReactMarkdown>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
       </div>
     );
   };
