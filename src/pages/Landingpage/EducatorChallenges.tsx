@@ -129,10 +129,10 @@ export default function EducatorChallengesMindMap() {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden">
+    <section className="py-16 md:py-20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Heading */}
-        <div className="text-center mb-12 lg:mb-20">
+        <div className="text-center mb-8 lg:mb-16">
           <motion.span
             className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100/80 to-blue-100/80 border border-violet-200/20 text-violet-700 shadow-sm backdrop-blur-sm hover:backdrop-blur transition-all duration-300"
             initial={{ opacity: 0, y: 10 }}
@@ -145,7 +145,7 @@ export default function EducatorChallengesMindMap() {
             EDUCATOR CHALLENGES
           </motion.span>
           <motion.h2
-            className="mt-6 text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight"
+            className="mt-6 text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight leading-[1.2] md:leading-[1.2] pb-1"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -346,7 +346,7 @@ export default function EducatorChallengesMindMap() {
             ))}
           </div>
         </div>
-        <motion.div className="max-w-2xl mx-auto">
+        <motion.div className="max-w-2xl mx-auto mt-8">
           <motion.h3
             className="text-center text-2xl md:text-3xl font-bold mt-16"
             initial={{ opacity: 0, y: 20 }}

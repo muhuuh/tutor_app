@@ -44,18 +44,18 @@ export function Home() {
   };
 
   return (
-    <div className="min-h-screen overflow-hidden pt-20">
+    <div className="min-h-screen overflow-hidden pt-16">
       {/* Fixed background that spans the entire page */}
       <div className="fixed inset-0 bg-gradient-to-b from-gray-50 to-white -z-10" />
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] -z-10" />
 
       {/* Hero Section  */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900">
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900">
         {/* Animated grid background */}
         <div className="absolute inset-0 -z-10 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] opacity-30" />
         <div className="absolute inset-0 -z-10 opacity-10 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="text-center lg:text-left space-y-8 relative z-10">
               <div className="animate-fade-in [--animate-delay:200ms]">
@@ -129,126 +129,128 @@ export function Home() {
           </div>
         </div>
       </section>
-      <EducatorChallenges />
 
-      <NextGenTools />
+      <div className="space-y-8">
+        <EducatorChallenges />
+        <NextGenTools />
 
-      {/* Resources Section  */}
-      <section className="py-32 relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-24"
-          >
-            <motion.span
-              whileHover={{ scale: 1.05 }}
-              className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-blue-100 border border-violet-200/50 text-violet-700 shadow-sm transition-all hover:shadow-md"
+        {/* Resources Section  */}
+        <section className="py-16 relative overflow-hidden">
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="text-center mb-16"
             >
-              <span className="relative flex h-2 w-2 mr-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
-              </span>
-              LEARNING RESOURCES
-            </motion.span>
-            <h2 className="mt-8 text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
-              Guides & Tutorials
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {resources.map((resource, index) => (
-              <article
-                key={index}
-                className="group relative bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1"
+              <motion.span
+                whileHover={{ scale: 1.05 }}
+                className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-blue-100 border border-violet-200/50 text-violet-700 shadow-sm transition-all hover:shadow-md"
               >
-                {resource.isLoomVideo ? (
-                  <>
-                    <div className="aspect-video w-full">
-                      <iframe
-                        src={`https://www.loom.com/embed/${resource.videoId}?autoplay=0&hideEmbedTopBar=true&hide_owner=true&hide_share=true&hide_title=true`}
-                        frameBorder="0"
-                        allow="fullscreen"
-                        allowFullScreen
-                        className="w-full h-full"
-                      />
-                    </div>
-                    <div className="p-8 bg-gradient-to-r from-blue-50 to-purple-50">
-                      <div className="flex items-center gap-2 text-blue-500">
-                        {resource.icon}
-                        <span className="text-sm font-medium">
-                          {resource.category}
-                        </span>
-                      </div>
-                      <h3 className="mt-4 text-xl font-semibold text-gray-900">
-                        {resource.title}
-                      </h3>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="h-48 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-center relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <img
-                        src={resource.image}
-                        alt=""
-                        className="h-32 w-32 object-contain opacity-90 transition-transform duration-500 group-hover:scale-110"
-                      />
-                    </div>
-                    <div className="p-8">
-                      <div className="flex items-center gap-2 text-blue-500">
-                        {resource.icon}
-                        <span className="text-sm font-medium">
-                          {resource.category}
-                        </span>
-                      </div>
-                      <h3 className="mt-4 text-xl font-semibold text-gray-900">
-                        {resource.title}
-                      </h3>
-                      {resource.link && (
-                        <Link
-                          to={resource.link}
-                          className="mt-6 inline-flex items-center text-blue-500 font-medium hover:text-blue-600 transition-colors group"
-                        >
-                          Learn More
-                          <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                      )}
-                    </div>
-                  </>
-                )}
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+                <span className="relative flex h-2 w-2 mr-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
+                </span>
+                LEARNING RESOURCES
+              </motion.span>
+              <h2 className="mt-8 text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
+                Guides & Tutorials
+              </h2>
+            </motion.div>
 
-      {/* CTA Section - Enhanced Design */}
-      <section className="relative py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Transform Your Teaching Today
-          </h2>
-          <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-            Join thousands of educators enhancing their STEM instruction with
-            AI-powered tools
-          </p>
-          <div className="flex justify-center gap-4">
-            <Link
-              to="/signup"
-              className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-white/25 hover:scale-105"
-            >
-              Start Free Trial
-              <FiArrowRight className="ml-2 inline-block transition-transform group-hover:translate-x-1" />
-            </Link>
+            <div className="grid md:grid-cols-2 gap-6">
+              {resources.map((resource, index) => (
+                <article
+                  key={index}
+                  className="group relative bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 flex flex-col"
+                >
+                  {resource.isLoomVideo ? (
+                    <>
+                      <div className="aspect-video w-full">
+                        <iframe
+                          src={`https://www.loom.com/embed/${resource.videoId}?autoplay=0&hideEmbedTopBar=true&hide_owner=true&hide_share=true&hide_title=true`}
+                          frameBorder="0"
+                          allow="fullscreen"
+                          allowFullScreen
+                          className="w-full h-full"
+                        />
+                      </div>
+                      <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 flex-grow">
+                        <div className="flex items-center gap-2 text-blue-500">
+                          {resource.icon}
+                          <span className="text-sm font-medium">
+                            {resource.category}
+                          </span>
+                        </div>
+                        <h3 className="mt-2 text-xl font-semibold text-gray-900 line-clamp-2">
+                          {resource.title}
+                        </h3>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="h-48 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-center relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <img
+                          src={resource.image}
+                          alt=""
+                          className="h-32 w-32 object-contain opacity-90 transition-transform duration-500 group-hover:scale-110"
+                        />
+                      </div>
+                      <div className="p-6 flex-grow">
+                        <div className="flex items-center gap-2 text-blue-500">
+                          {resource.icon}
+                          <span className="text-sm font-medium">
+                            {resource.category}
+                          </span>
+                        </div>
+                        <h3 className="mt-2 text-xl font-semibold text-gray-900 line-clamp-2">
+                          {resource.title}
+                        </h3>
+                        {resource.link && (
+                          <Link
+                            to={resource.link}
+                            className="mt-4 inline-flex items-center text-blue-500 font-medium hover:text-blue-600 transition-colors group"
+                          >
+                            Learn More
+                            <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                          </Link>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </article>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* CTA Section - Enhanced Design */}
+        <section className="relative py-16 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+          </div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Transform Your Teaching Today
+            </h2>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              Join thousands of educators enhancing their STEM instruction with
+              AI-powered tools
+            </p>
+            <div className="flex justify-center gap-4">
+              <Link
+                to="/signup"
+                className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-white/25 hover:scale-105"
+              >
+                Start Free Trial
+                <FiArrowRight className="ml-2 inline-block transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      </div>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 relative overflow-hidden">

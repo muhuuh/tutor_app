@@ -64,7 +64,7 @@ export default function NextGenTools() {
   ];
 
   return (
-    <section className="py-2 md:py-32 relative overflow-hidden">
+    <section className="py-16 md:py-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-white/80 backdrop-blur-3xl" />
 
       {/* Decorative grid */}
@@ -76,7 +76,7 @@ export default function NextGenTools() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="text-center space-y-4"
+          className="text-center space-y-6"
         >
           <motion.span
             whileHover={{ scale: 1.05 }}
@@ -89,21 +89,21 @@ export default function NextGenTools() {
             NEXT-GEN TEACHING TOOLS
           </motion.span>
 
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-[1.2] md:leading-[1.2] pb-1">
             Transformative Education
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">
+            <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600 leading-[1.2] pb-1">
               Technology
             </span>
           </h2>
 
-          <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Imagine being able to spend most of your time on what truly matters:
             helping your students thrive.
           </p>
         </motion.div>
 
         {/* Tools Grid */}
-        <div className="mt-24 grid gap-8 lg:grid-cols-3">
+        <div className="mt-16 grid gap-6 lg:grid-cols-3">
           {tools.map((tool, index) => (
             <motion.div
               key={index}
@@ -111,7 +111,7 @@ export default function NextGenTools() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
-              className="group relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500"
+              className="group relative bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-500"
             >
               {/* Hover gradient effect */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -123,7 +123,7 @@ export default function NextGenTools() {
                 >
                   {tool.icon}
                 </div>
-                <h3 className="mt-6 text-xl font-semibold text-gray-900">
+                <h3 className="mt-6 text-xl font-semibold text-gray-900 leading-tight">
                   {tool.title}
                 </h3>
                 <p className="mt-2 text-gray-600">{tool.description}</p>

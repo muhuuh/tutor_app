@@ -20,6 +20,7 @@ import { SubscriptionSuccess } from "./pages/SubscriptionSuccess";
 import { Subscription } from "./pages/Subscription";
 import CookieBanner from "./components/CookieBanner";
 import { Privacy } from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import "./i18n";
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path="/subscription/success" element={<SubscriptionSuccess />} />
         <Route path="/subscription" element={<Subscription />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
         <Route element={<ProtectedRoute />}>
           {/* Your existing protected routes */}
         </Route>

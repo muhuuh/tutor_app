@@ -67,6 +67,7 @@ const pricingPlans = [
     ],
   },
 ];
+console.log("pricingPlans", pricingPlans);
 
 export function Pricing() {
   const { user } = useAuth();
