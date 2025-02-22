@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { FiArrowRight, FiFileText, FiVideo } from "react-icons/fi";
+import { FiArrowRight, FiVideo } from "react-icons/fi";
 import { motion } from "framer-motion";
 import EducatorChallenges from "./EducatorChallenges";
 import NextGenTools from "./NextGenTools";
@@ -21,26 +21,20 @@ export function Home() {
 
   const resources: Resource[] = [
     {
-      icon: <FiFileText className="w-6 h-6" />,
-      title: "Mastering AI Grading",
-      category: "Blog Post",
-      link: "/blog/ai-grading",
-      image: "https://cdn-icons-png.flaticon.com/512/4711/4711987.png",
-    },
-    {
       icon: <FiVideo className="w-6 h-6" />,
-      title: "Personalized Learning Paths",
+      title: "Tool 1: AI-Powered Correction with Tailored Resources",
       category: "Video Tutorial",
       isLoomVideo: true,
       videoId: "e6c2ca4d96e947cbab8095db19b7f79f",
       image: "https://cdn-icons-png.flaticon.com/512/4711/4711999.png",
     },
     {
-      icon: <FiFileText className="w-6 h-6" />,
-      title: "STEM Assessment Guide",
-      category: "eBook",
-      link: "/resources/stem-guide",
-      image: "https://cdn-icons-png.flaticon.com/512/4711/4711976.png",
+      icon: <FiVideo className="w-6 h-6" />,
+      title: "Tool 2: AI-Powered & Tailored Exercise Creation",
+      category: "Video Tutorial",
+      isLoomVideo: true,
+      videoId: "26cf28ab1b84491da5d413d9a9765240",
+      image: "https://cdn-icons-png.flaticon.com/512/4711/4711999.png",
     },
   ];
 
@@ -164,7 +158,7 @@ export function Home() {
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {resources.map((resource, index) => (
               <article
                 key={index}

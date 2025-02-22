@@ -8,7 +8,6 @@ const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-
 // Initialize Supabase client with service role key
 const supabase = createClient(supabaseUrl, supabaseServiceKey, {
   auth: {

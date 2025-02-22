@@ -38,6 +38,14 @@ serve(async (req) => {
   try {
     const { priceId, user_id } = await req.json();
 
+    // Add debug logging
+    console.log("Environment:", {
+      priceId,
+      stripeKey: Deno.env.get("STRIPE_SECRET_KEY")?.substring(0, 8) + "...", // Log first 8 chars of key
+      basicPriceId: Deno.env.get("STRIPE_BASIC_PRICE_ID"),
+      professionalPriceId: Deno.env.get("STRIPE_PRO_PRICE_ID"),
+    });
+
     if (!priceId || !user_id) {
       throw new Error("Missing required parameters: priceId and user_id");
     }
