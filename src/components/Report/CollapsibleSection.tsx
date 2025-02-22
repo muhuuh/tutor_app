@@ -1,10 +1,9 @@
-import React, { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
-
+import { useState } from "react";
 // Import the processContent function
 const processContent = (content: string) => {
   // Convert \[ ... \] to $$ ... $$

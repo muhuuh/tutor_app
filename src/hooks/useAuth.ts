@@ -1,6 +1,5 @@
 import { createClient, User } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
