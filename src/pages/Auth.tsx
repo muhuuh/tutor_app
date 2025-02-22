@@ -3,6 +3,7 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import { AuroraBackground } from "../components/UI/aurora-background";
+import { supabase } from "../lib/supabase";
 
 export function Auth() {
   const { user, signIn, signUp } = useAuth();
@@ -28,13 +29,45 @@ export function Auth() {
 
     try {
       if (isSignUp) {
-        await signUp(email, password);
-        toast.success("Account created! Please check your email to confirm.");
+        console.log("Starting signup process for:", email);
+        const response = await signUp(email, password);
+
+        console.log("Signup response:", response);
+        if (response.user?.identities?.length === 0) {
+          toast.error("An account with this email already exists.");
+          return;
+        }
+
+        toast.success(
+          "Account created! Please check your email to confirm your account before signing in. Check your spam folder if you don't see it.",
+          { duration: 8000 }
+        );
+        setIsSignUp(false);
       } else {
-        await signIn(email, password);
+        console.log("Starting signin process for:", email);
+        const response = await signIn(email, password);
+        const currentUser = response.user;
+
+        console.log("Current user:", currentUser);
+        console.log(
+          "Email confirmation status:",
+          currentUser?.email_confirmed_at
+        );
+
+        if (!currentUser?.email_confirmed_at) {
+          console.log("Email not verified, signing out user");
+          await supabase.auth.signOut();
+          toast.error(
+            "Please verify your email before signing in. Check your spam folder if you haven't received the verification email.",
+            { duration: 6000 }
+          );
+          return;
+        }
+
         toast.success("Welcome back!");
       }
     } catch (error) {
+      console.error("Authentication error:", error);
       toast.error(
         error instanceof Error ? error.message : "Authentication failed"
       );

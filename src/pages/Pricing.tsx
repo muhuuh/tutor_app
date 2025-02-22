@@ -12,6 +12,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabase";
+import { useNavigate } from "react-router-dom";
 
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -69,6 +70,7 @@ const pricingPlans = [
 
 export function Pricing() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<string | null>(null);
   const [currentSubscription, setCurrentSubscription] = useState<string | null>(
@@ -101,6 +103,11 @@ export function Pricing() {
   console.log("id user", user?.id);
 
   const handleSubscribe = async (priceId: string | undefined) => {
+    if (!user) {
+      navigate("/signup");
+      return;
+    }
+
     if (!priceId) return;
 
     setIsLoading(priceId);
@@ -117,7 +124,7 @@ export function Pricing() {
           },
           body: JSON.stringify({
             priceId,
-            user_id: user?.id,
+            user_id: user.id,
           }),
         }
       );
@@ -195,40 +202,42 @@ export function Pricing() {
       {/* Pricing Cards Section */}
       <section className="pt-8 sm:pt-12 pb-16 sm:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Free Trial Banner */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-12 sm:mb-16 group relative bg-white rounded-2xl p-4 sm:p-8 shadow-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
-          >
-            {/* Grid background overlay */}
-            <div className="absolute inset-0 bg-grid-blue-500/[0.02] bg-[size:20px_20px]" />
+          {/* Free Trial Banner - Only show for non-authenticated users */}
+          {!user && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-12 sm:mb-16 group relative bg-white rounded-2xl p-4 sm:p-8 shadow-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+            >
+              {/* Grid background overlay */}
+              <div className="absolute inset-0 bg-grid-blue-500/[0.02] bg-[size:20px_20px]" />
 
-            {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Gradient overlay on hover */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between relative z-10 gap-4 sm:gap-8">
-              <div className="flex items-start sm:items-center space-x-4">
-                <div className="p-2 sm:p-3 bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl text-white shrink-0">
-                  <Gift className="w-5 h-5 sm:w-6 sm:h-6" />
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between relative z-10 gap-4 sm:gap-8">
+                <div className="flex items-start sm:items-center space-x-4">
+                  <div className="p-2 sm:p-3 bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl text-white shrink-0">
+                    <Gift className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
+                      Try it Free for 7 Days
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-600 mt-1">
+                      Sign up now and get full access to all Basic plan features
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
-                    Try it Free for 7 Days
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-600 mt-1">
-                    Sign up now and get full access to all Basic plan features
-                  </p>
-                </div>
+                <button
+                  onClick={() => handleSubscribe(pricingPlans[0].priceId)}
+                  className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl text-sm sm:text-base font-medium"
+                >
+                  Start Free Trial
+                </button>
               </div>
-              <button
-                onClick={() => handleSubscribe(pricingPlans[0].priceId)}
-                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl text-sm sm:text-base font-medium"
-              >
-                Start Free Trial
-              </button>
-            </div>
-          </motion.div>
+            </motion.div>
+          )}
           <div className="mt-12 sm:mt-24 space-y-8 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
             {pricingPlans.map((plan, index) => (
               <motion.div
