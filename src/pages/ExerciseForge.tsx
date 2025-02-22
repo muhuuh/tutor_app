@@ -155,20 +155,20 @@ export function ExerciseForge() {
         },
         async (payload) => {
           if (payload.new.teacher_id === user?.id) {
-            // Fetch the complete exam data
-            const { data: newExam } = await supabase
-              .from("exams")
-              .select("*")
-              .eq("id", payload.new.id)
-              .single();
+            // Check if exam already exists in the list
+            setExams((prev) => {
+              // If exam already exists, don't add it again
+              if (prev.some((exam) => exam.id === payload.new.id)) {
+                return prev;
+              }
+              // Otherwise add it
+              return [payload.new as Exam, ...prev];
+            });
 
-            if (newExam) {
-              // Add to cache and list
-              examContentCache.current[newExam.id] = newExam.content;
-              setExams((prev) => [newExam, ...prev]);
-              // Mark as new
-              setNewExamId(newExam.id);
-            }
+            // Cache the content
+            examContentCache.current[payload.new.id] = payload.new.content;
+            // Mark as new
+            setNewExamId(payload.new.id);
           }
         }
       )
@@ -387,8 +387,8 @@ export function ExerciseForge() {
         });
         // Cache the new exam content
         examContentCache.current[exam.id] = content;
-        // Add to list without full reload
-        addExamToList(exam);
+        // Add to list immediately
+        setExams((prev) => [exam, ...prev]);
       }
 
       toast.success("Files processed successfully", { id: toastId });

@@ -6,10 +6,20 @@ import EducatorChallenges from "./EducatorChallenges";
 import NextGenTools from "./NextGenTools";
 import * as CookieConsent from "react-cookie-consent";
 
+interface Resource {
+  icon: JSX.Element;
+  title: string;
+  category: string;
+  link?: string;
+  isLoomVideo?: boolean;
+  videoId?: string;
+  image: string;
+}
+
 export function Home() {
   const { user } = useAuth();
 
-  const resources = [
+  const resources: Resource[] = [
     {
       icon: <FiFileText className="w-6 h-6" />,
       title: "Mastering AI Grading",
@@ -21,7 +31,8 @@ export function Home() {
       icon: <FiVideo className="w-6 h-6" />,
       title: "Personalized Learning Paths",
       category: "Video Tutorial",
-      link: "/tutorials/learning-paths",
+      isLoomVideo: true,
+      videoId: "e6c2ca4d96e947cbab8095db19b7f79f",
       image: "https://cdn-icons-png.flaticon.com/512/4711/4711999.png",
     },
     {
@@ -159,32 +170,61 @@ export function Home() {
                 key={index}
                 className="group relative bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1"
               >
-                <div className="h-48 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <img
-                    src={resource.image}
-                    alt=""
-                    className="h-32 w-32 object-contain opacity-90 transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-8">
-                  <div className="flex items-center gap-2 text-blue-500">
-                    {resource.icon}
-                    <span className="text-sm font-medium">
-                      {resource.category}
-                    </span>
-                  </div>
-                  <h3 className="mt-4 text-xl font-semibold text-gray-900">
-                    {resource.title}
-                  </h3>
-                  <Link
-                    to={resource.link}
-                    className="mt-6 inline-flex items-center text-blue-500 font-medium hover:text-blue-600 transition-colors group"
-                  >
-                    Learn More
-                    <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </div>
+                {resource.isLoomVideo ? (
+                  <>
+                    <div className="aspect-video w-full">
+                      <iframe
+                        src={`https://www.loom.com/embed/${resource.videoId}?autoplay=0&hideEmbedTopBar=true&hide_owner=true&hide_share=true&hide_title=true`}
+                        frameBorder="0"
+                        allow="fullscreen"
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <div className="p-8 bg-gradient-to-r from-blue-50 to-purple-50">
+                      <div className="flex items-center gap-2 text-blue-500">
+                        {resource.icon}
+                        <span className="text-sm font-medium">
+                          {resource.category}
+                        </span>
+                      </div>
+                      <h3 className="mt-4 text-xl font-semibold text-gray-900">
+                        {resource.title}
+                      </h3>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="h-48 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-center relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <img
+                        src={resource.image}
+                        alt=""
+                        className="h-32 w-32 object-contain opacity-90 transition-transform duration-500 group-hover:scale-110"
+                      />
+                    </div>
+                    <div className="p-8">
+                      <div className="flex items-center gap-2 text-blue-500">
+                        {resource.icon}
+                        <span className="text-sm font-medium">
+                          {resource.category}
+                        </span>
+                      </div>
+                      <h3 className="mt-4 text-xl font-semibold text-gray-900">
+                        {resource.title}
+                      </h3>
+                      {resource.link && (
+                        <Link
+                          to={resource.link}
+                          className="mt-6 inline-flex items-center text-blue-500 font-medium hover:text-blue-600 transition-colors group"
+                        >
+                          Learn More
+                          <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                      )}
+                    </div>
+                  </>
+                )}
               </article>
             ))}
           </div>
