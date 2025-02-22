@@ -1,8 +1,47 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import "katex/dist/katex.min.css";
+
+// Import the processContent function
+const processContent = (content: string) => {
+  // Convert \[ ... \] to $$ ... $$
+  content = content.replace(/\\\[(.*?)\\\]/g, (_, match) => `$$${match}$$`);
+
+  // Convert \( ... \) to $ ... $
+  content = content.replace(/\\\((.*?)\\\)/g, (_, match) => `$${match}$`);
+
+  // Convert scientific notation (e.g., 6.674×10^-11)
+  content = content.replace(
+    /(\d+\.?\d*)\s*[×x]\s*10\^(-?\d+)/g,
+    (_, base, exp) => `$${base} \\times 10^{${exp}}$`
+  );
+
+  // Convert simple exponential notation (e.g., 10^24)
+  content = content.replace(
+    /(\d+)\^(-?\d+)/g,
+    (_, base, exp) => `$${base}^{${exp}}$`
+  );
+
+  // Convert units with superscripts (e.g., m²)
+  content = content.replace(/([a-zA-Z])²/g, (_, unit) => `$${unit}^2$`);
+  content = content.replace(/([a-zA-Z])³/g, (_, unit) => `$${unit}^3$`);
+
+  // Convert compound units (e.g., N·m²/kg²)
+  content = content.replace(/([A-Z]·[a-zA-Z²³]+\/[a-zA-Z²³]+)/g, (match) => {
+    return `$\\text{${match
+      .replace("·", "\\cdot ")
+      .replace("²", "^2")
+      .replace("³", "^3")}$`;
+  });
+
+  // Convert single capital letters that likely represent variables
+  content = content.replace(/\s([A-Z])\s/g, (_, letter) => ` $${letter}$ `);
+
+  return content;
+};
 
 interface Section {
   title: string;
@@ -14,8 +53,11 @@ interface CollapsibleSectionProps {
   isExpanded?: boolean;
 }
 
-export function CollapsibleSection({ section }: CollapsibleSectionProps) {
-  const [isOpen, setIsOpen] = useState(false); // Default all sections to closed
+export function CollapsibleSection({
+  section,
+  isExpanded = false,
+}: CollapsibleSectionProps) {
+  const [isOpen, setIsOpen] = useState(isExpanded);
 
   return (
     <div className="group relative border-b border-gray-200/50 last:border-b-0 overflow-hidden">
@@ -59,7 +101,7 @@ export function CollapsibleSection({ section }: CollapsibleSectionProps) {
                 ),
               }}
             >
-              {section.content}
+              {processContent(section.content)}
             </ReactMarkdown>
           </div>
         </div>
