@@ -8,6 +8,7 @@ import {
   Gift,
   Loader2,
   Info,
+  HelpCircle,
 } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "../hooks/useAuth";
@@ -17,28 +18,38 @@ import { useNavigate } from "react-router-dom";
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-// Add price IDs to the pricing plans
+// Example credit costs data
+const CREDIT_COSTS = [
+  { feature: "Generate Report", cost: 10 },
+  { feature: "Exercise Correction", cost: 5 },
+  { feature: "Chat", cost: 2 },
+  { feature: "Suggestions", cost: 1 },
+];
+
+// Add price IDs and AI credits to the pricing plans
 const pricingPlans = [
   {
     name: "Basic",
     price: "€9.99",
     period: "/month",
-    description:
-      "Perfect for individual tutors getting started with AI grading",
+    credits: 500, // ADD: AI credits for Basic
+    description: "Perfect for individual tutors getting started with AI",
     icon: Package,
     priceId: import.meta.env.VITE_STRIPE_BASIC_PRICE_ID,
     features: [
-      "Basic handwriting recognition",
-      "Simple exercise generation",
-      "Limited student analytics",
-      "Email support",
-      "Up to 50 corrections/month",
+      "Advanced handwriting analysis",
+      "Partial credit recognition",
+      "Detailed performance analytics",
+      "Tailored resources search",
+      "Custom exercise generation",
+      "Up to 5 student profiles",
     ],
   },
   {
     name: "Professional",
     price: "€19.99",
     period: "/month",
+    credits: 2000, // ADD: AI credits for Pro
     popular: true,
     icon: Zap,
     priceId: import.meta.env.VITE_STRIPE_PRO_PRICE_ID,
@@ -47,27 +58,26 @@ const pricingPlans = [
       "Advanced handwriting analysis",
       "Partial credit recognition",
       "Detailed performance analytics",
+      "Tailored resources search",
       "Custom exercise generation",
-      "Priority support",
-      "Unlimited corrections",
+      "Unlimited student profiles",
+      "Early access to new features",
     ],
   },
   {
     name: "Institution",
     price: "Custom",
+    credits: "Custom",
     icon: Building2,
     description: "For schools and large educational organizations",
     features: [
       "All Professional features",
-      "API access",
       "Custom integrations",
       "Dedicated support team",
-      "Advanced reporting",
       "Training sessions",
     ],
   },
 ];
-console.log("pricingPlans", pricingPlans);
 
 export function Pricing() {
   const { user } = useAuth();
@@ -79,6 +89,9 @@ export function Pricing() {
   );
   const [showDowngradeInfo, setShowDowngradeInfo] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+
+  // NEW: State to show/hide AI credit usage modal
+  const [showCreditBreakdown, setShowCreditBreakdown] = useState(false);
 
   useEffect(() => {
     async function fetchSubscription() {
@@ -100,8 +113,6 @@ export function Pricing() {
 
     fetchSubscription();
   }, [user]);
-
-  console.log("id user", user?.id);
 
   const handleSubscribe = async (priceId: string | undefined) => {
     if (!user) {
@@ -145,7 +156,6 @@ export function Pricing() {
 
   const isSubscriptionDisabled = (planName: string) => {
     if (!currentSubscription) return false;
-
     // Prevent subscribing to Basic when on Professional
     if (
       planName.toLowerCase() === "basic" &&
@@ -153,7 +163,6 @@ export function Pricing() {
     ) {
       return true;
     }
-
     // Prevent subscribing to the current plan
     return planName.toLowerCase() === currentSubscription;
   };
@@ -175,6 +184,7 @@ export function Pricing() {
           {error}
         </div>
       )}
+
       {/* Hero Section - Added pt-20 for header offset */}
       <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 pb-10 sm:py-24 pt-28">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
@@ -239,6 +249,8 @@ export function Pricing() {
               </div>
             </motion.div>
           )}
+
+          {/* Pricing Cards */}
           <div className="mt-12 sm:mt-24 space-y-8 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
             {pricingPlans.map((plan, index) => (
               <motion.div
@@ -261,7 +273,8 @@ export function Pricing() {
                   </div>
                 )}
 
-                <div className="relative z-10">
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Plan Header */}
                   <div className="mb-8">
                     <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-blue-600 rounded-xl flex items-center justify-center text-white mb-4">
                       <plan.icon className="w-6 h-6" />
@@ -273,6 +286,7 @@ export function Pricing() {
                       {plan.description}
                     </p>
                     <div className="mt-6">
+                      {/* Price */}
                       <span className="text-4xl font-bold text-gray-900">
                         {plan.price}
                       </span>
@@ -284,9 +298,28 @@ export function Pricing() {
                     </div>
                   </div>
 
+                  {/* AI Credits */}
+                  {plan.credits && (
+                    <div className="flex items-center mb-6">
+                      <span className="text-lg font-semibold text-gray-900 mr-2">
+                        {plan.credits === "Custom"
+                          ? "Custom AI Credits"
+                          : `${plan.credits} AI Credits / mo`}
+                      </span>
+                      {/* Updated Info Icon + Tooltip/Modal Trigger */}
+                      <button
+                        onClick={() => setShowCreditBreakdown(true)}
+                        className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                      >
+                        <Info className="w-3.5 h-3.5 text-gray-600" />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Features */}
                   <ul className="space-y-4 flex-1">
-                    {plan.features.map((feature, index) => (
-                      <li key={index} className="flex items-start group">
+                    {plan.features.map((feature, i) => (
+                      <li key={i} className="flex items-start group">
                         <div className="flex-shrink-0">
                           <Check className="h-5 w-5 stroke-2 text-emerald-500 transition-transform duration-200 group-hover:scale-110" />
                         </div>
@@ -297,6 +330,7 @@ export function Pricing() {
                     ))}
                   </ul>
 
+                  {/* CTA Button */}
                   <button
                     onClick={() => {
                       if (
@@ -330,7 +364,7 @@ export function Pricing() {
                     )}
                   </button>
 
-                  {/* Add info icon for current plan and disabled Basic plan */}
+                  {/* Info icon for current plan or forced downgrade */}
                   {(isSubscriptionDisabled(plan.name) &&
                     plan.name.toLowerCase() === "basic") ||
                   (isSubscriptionDisabled(plan.name) &&
@@ -380,23 +414,18 @@ export function Pricing() {
                     <strong className="text-gray-900">Want to upgrade?</strong>
                     <p className="mt-2">
                       You can upgrade to the Professional plan directly! This
-                      will automatically replace your Basic subscription and
-                      give you immediate access to advanced features like
-                      unlimited corrections, detailed analytics, and priority
-                      support.
+                      will automatically replace your Basic subscription.
                     </p>
                   </div>
                   <div>
                     <strong className="text-gray-900">Want to cancel?</strong>
                     <ol className="list-decimal ml-4 mt-2 space-y-2">
                       <li>Go to your Subscription page</li>
-                      <li>
-                        Click on "Manage Billing" to access the billing portal
-                      </li>
+                      <li>Click on "Manage Billing"</li>
                       <li>Cancel your Basic subscription</li>
                       <li>
-                        Your Basic features will remain active until the end of
-                        your billing period
+                        Your Basic features remain active until the end of your
+                        billing period
                       </li>
                     </ol>
                   </div>
@@ -407,18 +436,12 @@ export function Pricing() {
                   To downgrade to the Basic plan:
                   <ol className="list-decimal ml-4 mt-2 space-y-2">
                     <li>Go to your Subscription page</li>
-                    <li>
-                      Click on "Manage Billing" to access the billing portal
-                    </li>
+                    <li>Click on "Manage Billing"</li>
                     <li>Cancel your current Professional subscription</li>
                     <li>
-                      Your Professional features will remain active until the
-                      end of your billing period
+                      You keep Pro features until the end of your billing period
                     </li>
-                    <li>
-                      After your Professional subscription expires, you can
-                      subscribe to the Basic plan
-                    </li>
+                    <li>After it expires, you can subscribe to Basic</li>
                   </ol>
                 </>
               ) : (
@@ -426,13 +449,11 @@ export function Pricing() {
                   To cancel your {currentSubscription} subscription:
                   <ol className="list-decimal ml-4 mt-2 space-y-2">
                     <li>Go to your Subscription page</li>
-                    <li>
-                      Click on "Manage Billing" to access the billing portal
-                    </li>
+                    <li>Click on "Manage Billing"</li>
                     <li>Cancel your subscription</li>
                     <li>
-                      Your {currentSubscription} features will remain active
-                      until the end of your billing period
+                      You keep {currentSubscription} features until end of your
+                      billing period
                     </li>
                   </ol>
                 </>
@@ -447,6 +468,186 @@ export function Pricing() {
           </div>
         </div>
       )}
+
+      {/* AI Credits Breakdown Modal */}
+      {showCreditBreakdown && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowCreditBreakdown(false);
+            }
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="bg-white rounded-xl p-4 max-w-sm w-full shadow-xl relative overflow-hidden"
+          >
+            {/* Background grid pattern */}
+            <div className="absolute inset-0 bg-grid-blue-500/[0.02] bg-[size:20px_20px]" />
+
+            <div className="relative z-10">
+              <div className="flex flex-col mb-4">
+                <div className="flex items-center space-x-2 mb-2">
+                  <div className="p-1.5 bg-gradient-to-br from-violet-500 to-blue-500 rounded-lg text-white">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    AI Credit Breakdown
+                  </h3>
+                </div>
+                <p className="text-sm text-gray-600">
+                  See how many credits each feature uses per interaction
+                </p>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                {CREDIT_COSTS.map((item, index) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    key={item.feature}
+                    className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  >
+                    <span className="text-sm text-gray-700">
+                      {item.feature}
+                    </span>
+                    <span className="text-sm font-medium text-gray-900 bg-white px-2 py-0.5 rounded-md shadow-sm">
+                      {item.cost}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setShowCreditBreakdown(false)}
+                className="w-full px-3 py-2 bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow hover:shadow-md font-medium"
+              >
+                Got it
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Comparison Table Section */}
+      <section className="pb-16 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-white pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Compare Plan Features
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Get a detailed overview of what's included in each plan to make
+              the best choice for your needs
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="overflow-x-auto rounded-2xl shadow-lg border border-gray-200"
+          >
+            <table className="w-full text-left bg-white">
+              <thead>
+                <tr className="bg-gradient-to-r from-gray-50 to-gray-100">
+                  <th className="p-4 text-sm font-medium text-gray-600 border-b"></th>
+                  {pricingPlans.map((plan) => (
+                    <th
+                      key={plan.name}
+                      className={`p-4 text-sm font-medium border-b ${
+                        plan.popular ? "text-blue-600" : "text-gray-600"
+                      }`}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <plan.icon className="w-4 h-4" />
+                        <span>{plan.name}</span>
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {/* Price Row */}
+                <tr className="border-b">
+                  <td className="p-4 font-medium text-gray-700 bg-gray-50">
+                    Price
+                  </td>
+                  {pricingPlans.map((plan) => (
+                    <td key={plan.name} className="p-4 text-gray-700">
+                      <span className="font-semibold">{plan.price}</span>
+                      <span className="text-gray-500">{plan.period || ""}</span>
+                    </td>
+                  ))}
+                </tr>
+                {/* AI Credits Row */}
+                <tr className="border-b">
+                  <td className="p-4 font-medium text-gray-700 bg-gray-50">
+                    AI Credits
+                  </td>
+                  {pricingPlans.map((plan) => (
+                    <td key={plan.name} className="p-4">
+                      <span
+                        className={`inline-flex px-2 py-1 rounded-lg text-sm ${
+                          typeof plan.credits === "number"
+                            ? "bg-blue-50 text-blue-700"
+                            : "bg-gray-100 text-gray-700"
+                        }`}
+                      >
+                        {typeof plan.credits === "number"
+                          ? `${plan.credits.toLocaleString()} / mo`
+                          : plan.credits}
+                      </span>
+                    </td>
+                  ))}
+                </tr>
+                {/* Student Profiles Row */}
+                <tr className="border-b">
+                  <td className="p-4 font-medium text-gray-700 bg-gray-50">
+                    Student Profiles
+                  </td>
+                  <td className="p-4 text-gray-700">Up to 5</td>
+                  <td className="p-4 text-gray-700">
+                    <span className="inline-flex items-center text-emerald-700">
+                      <Check className="w-4 h-4 mr-1" />
+                      Unlimited
+                    </span>
+                  </td>
+                  <td className="p-4 text-gray-700">
+                    <span className="inline-flex items-center text-emerald-700">
+                      <Check className="w-4 h-4 mr-1" />
+                      Unlimited
+                    </span>
+                  </td>
+                </tr>
+                {/* Early Access Row */}
+                <tr className="border-b">
+                  <td className="p-4 font-medium text-gray-700 bg-gray-50">
+                    Early Access
+                  </td>
+                  <td className="p-4 text-gray-500">—</td>
+                  <td className="p-4">
+                    <Check className="w-5 h-5 text-emerald-500" />
+                  </td>
+                  <td className="p-4">
+                    <Check className="w-5 h-5 text-emerald-500" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }
