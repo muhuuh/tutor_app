@@ -4,6 +4,8 @@ import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import { AuroraBackground } from "../components/UI/aurora-background";
 import { supabase } from "../lib/supabase";
+import { motion } from "framer-motion";
+import { Gift } from "lucide-react";
 
 export function Auth() {
   const { user, signIn, signUp } = useAuth();
@@ -77,9 +79,9 @@ export function Auth() {
   };
 
   return (
-    <AuroraBackground>
-      <div className="min-h-screen flex items-center justify-center pb-8 pt-24 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-[480px] space-y-6">
+    <AuroraBackground className="min-h-screen pb-10">
+      <div className="min-h-screen flex items-center justify-center pb-0 pt-32 sm:pt-28 px-4 sm:px-6 lg:px-8">
+        <div className="w-full sm:min-w-[440px] max-w-[480px] space-y-4">
           <div className="text-center space-y-4">
             <div className="flex justify-center">
               <div className="relative">
@@ -99,14 +101,40 @@ export function Auth() {
                 {isSignUp ? "Create your account" : "Welcome back"}
               </h2>
               <p className="text-base text-gray-600">
-                {isSignUp
-                  ? "Start your journey with us"
-                  : "Sign in to continue"}
+                {isSignUp ? "" : "Sign in to continue"}
               </p>
             </div>
+
+            {isSignUp && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4 relative group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-500/20 to-blue-500/20 rounded-xl blur-xl transform group-hover:scale-105 transition-transform" />
+                <div className="relative bg-white/80 backdrop-blur-sm border border-violet-100 rounded-xl p-3 shadow-lg">
+                  <div className="flex items-start gap-3">
+                    <div className="p-1.5 bg-gradient-to-br from-violet-500 to-blue-500 rounded-lg text-white shrink-0">
+                      <Gift className="w-4 h-4" />
+                    </div>
+                    <div className="text-left">
+                      <h3 className="font-semibold text-gray-900 flex flex-col sm:flex-row sm:items-center gap-1">
+                        <span className="text-base">
+                          7-Day Free Trial Included
+                        </span>
+                        <span className="text-blue-600 font-medium bg-blue-50 px-1.5 py-0.5 rounded-full text-xs inline-flex items-center">
+                          <span className="mr-0.5">✨</span>
+                          No credit card required
+                        </span>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </div>
 
-          <div className="backdrop-blur-xl bg-white/70 rounded-2xl p-8 shadow-xl border border-white/20">
+          <div className="backdrop-blur-xl bg-white/70 rounded-2xl p-8 shadow-xl border border-white/20 w-full">
             <form className="space-y-5" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>

@@ -361,8 +361,9 @@ export default function EducatorChallengesMindMap() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            The biggest pain points for educators revolve around time-consuming
-            grading and providing personalized support for each student.
+            The biggest pain points for STEM educators revolve around
+            time-consuming grading and providing personalized support for each
+            student.
           </motion.p>
           <motion.p
             className="text-center text-gray-600/90 mt-4 text-lg"

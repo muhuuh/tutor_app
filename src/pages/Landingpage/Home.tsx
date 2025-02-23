@@ -70,13 +70,13 @@ export function Home() {
 
               <h1 className="text-5xl md:text-7xl font-bold leading-tight animate-fade-in [--animate-delay:400ms]">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-200 to-purple-300">
-                  Your Personal AI Tutor Assistant
+                  Your Personal AI STEM Tutor Assistant
                 </span>
               </h1>
 
               <p className="text-xl text-gray-300 max-w-2xl animate-fade-in [--animate-delay:600ms] leading-relaxed">
-                Boost your tutoring with personalized insights and smart tools.
-                Focus on what truly matters - inspiring your students.
+                Boost your STEM tutoring with personalized insights and smart
+                tools. Focus on what truly matters - inspiring your students.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start relative z-20 animate-fade-in [--animate-delay:800ms]">

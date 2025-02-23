@@ -69,6 +69,17 @@ export function Contact() {
           transition={{ delay: 0.3 }}
           className="bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl p-6 sm:p-12"
         >
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+              Drop Us a Line, We're All Ears
+            </h2>
+            <p className="text-gray-600">
+              Whether you have feedback, encountered an issue, or have a great
+              idea for a new feature -
+            </p>
+            <p className="text-gray-600 text-center">Let us know!</p>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="relative">

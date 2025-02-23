@@ -7,8 +7,11 @@ import {
   MessageSquare,
   ArrowRight,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function FAQ() {
+  const navigate = useNavigate();
+
   // Remove unused state if not needed
   // const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -20,12 +23,12 @@ export function FAQ() {
         {
           question: "How does the correction limit work",
           answer:
-            "The Basic plan includes 50 homework corrections per month. Each submission counts as one correction. Unused corrections don't roll over to the next month.",
+            "Each feature uses a specific number of AI credits. For example, exercise corrections use 5 credits, while generating reports uses 10 credits. The Basic plan includes 500 credits per month, while the Professional plan includes 2000 credits. Unused credits don't roll over to the next month.",
         },
         {
           question: "Can I upgrade or downgrade my plan",
           answer:
-            "Yes, you can change your plan at any time. Changes take effect at the start of your next billing cycle.",
+            "Yes, you can change your plan at any time. Changes take effect at the start of your next billing cycle. Please have a look at the Pricing page for further details.",
         },
       ],
     },
@@ -43,6 +46,12 @@ export function FAQ() {
           answer:
             "Our advanced AI achieves over 95% accuracy in recognizing handwritten mathematical expressions and text, especially when the writing is reasonably clear.",
         },
+        {
+          question:
+            "Can I use this for non-STEM subjects like languages or history?",
+          answer:
+            "Currently, our platform is specifically designed for STEM subjects (Science, Technology, Engineering, Mathematics) and doesn't support subjects like languages, history, or geography. This specialization allows us to provide highly accurate assessment and feedback for mathematical equations, scientific notation, and technical diagrams.",
+        },
       ],
     },
     {
@@ -50,19 +59,24 @@ export function FAQ() {
       icon: Users,
       questions: [
         {
-          question: "How does the correction limit work?",
+          question: "How do AI credits work?",
           answer:
-            "The Basic plan includes 50 homework corrections per month. Each submission counts as one correction. Unused corrections don't roll over to the next month.",
+            "Each feature uses a specific number of AI credits. For example, exercise corrections use 5 credits, while generating reports uses 10 credits. The Basic plan includes 500 credits per month, while the Professional plan includes 2000 credits. Unused credits don't roll over to the next month.",
+        },
+        {
+          question: "What's the difference between Basic and Pro subscription?",
+          answer:
+            "The Basic plan (€9.99/month) includes 500 AI credits and supports up to 5 student profiles. The Professional plan (€19.99/month) includes 2000 AI credits, unlimited student profiles, and early access to new features. Both plans include core features like handwriting analysis and exercise generation.",
         },
         {
           question: "Can I upgrade or downgrade my plan?",
           answer:
-            "Yes, you can change your plan at any time. Changes take effect at the start of your next billing cycle.",
+            "Yes, you can upgrade to Professional at any time. To downgrade from Professional to Basic, you'll need to cancel your current subscription and resubscribe once it expires. Changes take effect at the start of your next billing cycle.",
         },
         {
-          question: "What's included in the Institution plan?",
+          question: "Is there a free trial available?",
           answer:
-            "The Institution plan is customized to your organization's needs. It includes everything in Professional, plus custom integrations, dedicated support, and special training for your staff.",
+            "Yes, new users can try all Basic plan features free for 7 days. No credit card is required for the trial period.",
         },
       ],
     },
@@ -71,9 +85,9 @@ export function FAQ() {
       icon: MessageSquare,
       questions: [
         {
-          question: "What support is included in each plan",
+          question: "What are your support response times?",
           answer:
-            "Basic plans include email support with 24-hour response time. Professional plans include priority support with 4-hour response time. Institution plans get dedicated support teams.",
+            "We aim to respond to technical issues within 24 hours and to general feedback within 2 business days. For feature requests, we provide detailed feedback within a week, including whether it can be incorporated into our development pipeline.",
         },
         {
           question: "What's included in the Institution plan",
@@ -162,15 +176,18 @@ export function FAQ() {
 
           <div className="mt-12 sm:mt-20 px-4 sm:px-0">
             <div className="relative rounded-2xl p-6 sm:p-8 shadow-xl overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-              <div className="relative">
+              <div className="relative text-center">
                 <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
                   Still have questions?
                 </h3>
-                <p className="text-sm sm:text-base text-gray-200 mb-6 sm:mb-8 max-w-xl mx-auto">
+                <p className="text-sm sm:text-base text-gray-200 mb-6 sm:mb-8">
                   Our support team is here to help you get the most out of our
                   platform
                 </p>
-                <button className="inline-flex items-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors hover:shadow-lg text-sm sm:text-base">
+                <button
+                  onClick={() => navigate("/company/contact")}
+                  className="inline-flex items-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors hover:shadow-lg text-sm sm:text-base"
+                >
                   Contact Support
                   <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                 </button>

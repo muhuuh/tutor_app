@@ -8,7 +8,6 @@ import {
   Gift,
   Loader2,
   Info,
-  HelpCircle,
 } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "../hooks/useAuth";
@@ -225,7 +224,6 @@ export function Pricing() {
 
               {/* Gradient overlay on hover */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between relative z-10 gap-4 sm:gap-8">
                 <div className="flex items-start sm:items-center space-x-4">
                   <div className="p-2 sm:p-3 bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl text-white shrink-0">
@@ -236,7 +234,8 @@ export function Pricing() {
                       Try it Free for 7 Days
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600 mt-1">
-                      Sign up now and get full access to all Basic plan features
+                      Sign up now and get full access to all Basic plan
+                      features. No credit card required!
                     </p>
                   </div>
                 </div>
