@@ -14,6 +14,8 @@ import {
   FiGlobe,
   FiMenu,
   FiX,
+  FiHome,
+  FiHelpCircle,
 } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import gbFlag from "../assets/flags/gb.svg";
@@ -78,53 +80,80 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo */}
-          <Link
-            to="/home"
-            className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent hover:opacity-90 transition-opacity"
-          >
-            RobinA
+          <Link to="/home" className="flex items-center gap-2 group">
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-15 group-hover:opacity-30 transition duration-200" />
+              <div className="relative text-2xl font-bold tracking-tight">
+                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                  Robin
+                </span>
+                <span className="bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
+                  A
+                </span>
+              </div>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center justify-center gap-3">
+            {/* Home */}
             <Link
               to="/home"
-              className={`relative text-sm font-medium hover:text-gray-900 transition-colors ${
-                isActive("/home") ? "text-gray-900" : ""
+              className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                isActive("/home") ? "text-gray-900" : "hover:bg-gray-50"
               }`}
             >
-              {isActive("/home") && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400" />
-              )}
-              Home
+              <div
+                className={`p-1.5 rounded-lg ${
+                  isActive("/home")
+                    ? "bg-gradient-to-r from-blue-500 to-purple-500"
+                    : ""
+                }`}
+              >
+                <FiHome
+                  className={`w-3.5 h-3.5 ${
+                    isActive("/home") ? "text-white" : "text-gray-600"
+                  }`}
+                />
+              </div>
+              <span>Home</span>
             </Link>
 
             {/* Tools Dropdown */}
             <div className="relative" ref={toolsRef}>
               <button
                 onClick={() => setIsToolsOpen(!isToolsOpen)}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-medium ${
-                  isActive("/tools")
-                    ? "text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg transition-shadow"
-                    : "text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg transition-shadow"
+                className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  isActive("/tools") ? "text-gray-900" : "hover:bg-gray-50"
                 }`}
               >
-                <FiTool className="text-white" />
-                Tools
-                <FiChevronDown
-                  className={`transition-transform text-white ${
-                    isToolsOpen ? "rotate-180" : ""
-                  }`}
-                />
+                <div className="flex items-center gap-2">
+                  <div
+                    className={`p-1.5 rounded-lg ${
+                      isActive("/tools")
+                        ? "bg-gradient-to-r from-blue-500 to-purple-500"
+                        : "bg-gradient-to-r from-blue-500/10 to-purple-500/10"
+                    }`}
+                  >
+                    <FiTool
+                      className={`w-3.5 h-3.5 ${
+                        isActive("/tools") ? "text-white" : "text-gray-600"
+                      }`}
+                    />
+                  </div>
+                  <span>Tools</span>
+                  <FiChevronDown
+                    className={`w-4 h-4 transition-transform duration-200 ${
+                      isToolsOpen ? "rotate-180" : ""
+                    } ${
+                      isActive("/tools") ? "text-gray-900" : "text-gray-400"
+                    }`}
+                  />
+                </div>
               </button>
 
               {isToolsOpen && (
-                <div
-                  className={`${
-                    // For desktop: absolute; for mobile: relative and full width.
-                    "lg:absolute right-0 mt-4"
-                  } w-full lg:w-56 bg-white backdrop-blur-lg rounded-xl shadow-2xl border border-gray-100 overflow-hidden`}
-                >
+                <div className="lg:absolute right-0 mt-2 w-56 bg-white backdrop-blur-lg rounded-xl shadow-lg border border-gray-100 overflow-hidden">
                   <Link
                     to="/tools/homework-corrections"
                     className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
@@ -155,18 +184,33 @@ export function Header() {
             <div className="relative" ref={companyRef}>
               <button
                 onClick={() => setIsCompanyOpen(!isCompanyOpen)}
-                className={`flex items-center gap-2 text-sm font-medium ${
-                  isActive("/company")
-                    ? "text-gray-900 bg-blue-50 px-4 py-2 rounded-lg"
-                    : "hover:text-gray-900 transition-colors"
+                className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  isActive("/company") ? "text-gray-900" : "hover:bg-gray-50"
                 }`}
               >
-                Company
-                <FiChevronDown
-                  className={`transition-transform ${
-                    isCompanyOpen ? "rotate-180" : ""
-                  }`}
-                />
+                <div className="flex items-center gap-2">
+                  <div
+                    className={`p-1.5 rounded-lg ${
+                      isActive("/company")
+                        ? "bg-gradient-to-r from-blue-500 to-purple-500"
+                        : ""
+                    }`}
+                  >
+                    <FiInfo
+                      className={`w-3.5 h-3.5 ${
+                        isActive("/company") ? "text-white" : "text-gray-600"
+                      }`}
+                    />
+                  </div>
+                  <span>Company</span>
+                  <FiChevronDown
+                    className={`w-4 h-4 transition-transform duration-200 ${
+                      isCompanyOpen ? "rotate-180" : ""
+                    } ${
+                      isActive("/company") ? "text-gray-900" : "text-gray-400"
+                    }`}
+                  />
+                </div>
               </button>
 
               {isCompanyOpen && (
@@ -199,28 +243,50 @@ export function Header() {
               )}
             </div>
 
+            {/* Pricing */}
             <Link
               to="/pricing"
-              className={`relative text-sm font-medium hover:text-gray-900 transition-colors ${
-                isActive("/pricing") ? "text-gray-900" : ""
+              className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                isActive("/pricing") ? "text-gray-900" : "hover:bg-gray-50"
               }`}
             >
-              {isActive("/pricing") && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400" />
-              )}
-              Pricing
+              <div
+                className={`p-1.5 rounded-lg ${
+                  isActive("/pricing")
+                    ? "bg-gradient-to-r from-blue-500 to-purple-500"
+                    : ""
+                }`}
+              >
+                <FiCreditCard
+                  className={`w-3.5 h-3.5 ${
+                    isActive("/pricing") ? "text-white" : "text-gray-600"
+                  }`}
+                />
+              </div>
+              <span>Pricing</span>
             </Link>
 
+            {/* FAQ */}
             <Link
               to="/faq"
-              className={`relative text-sm font-medium hover:text-gray-900 transition-colors ${
-                isActive("/faq") ? "text-gray-900" : ""
+              className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                isActive("/faq") ? "text-gray-900" : "hover:bg-gray-50"
               }`}
             >
-              {isActive("/faq") && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400" />
-              )}
-              FAQ
+              <div
+                className={`p-1.5 rounded-lg ${
+                  isActive("/faq")
+                    ? "bg-gradient-to-r from-blue-500 to-purple-500"
+                    : ""
+                }`}
+              >
+                <FiHelpCircle
+                  className={`w-3.5 h-3.5 ${
+                    isActive("/faq") ? "text-white" : "text-gray-600"
+                  }`}
+                />
+              </div>
+              <span>FAQ</span>
             </Link>
           </div>
 
