@@ -144,13 +144,21 @@ export default function EducatorChallengesMindMap() {
             </span>
             EDUCATOR CHALLENGES
           </motion.span>
-          <motion.h2
-            className="mt-6 text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight leading-[1.2] md:leading-[1.2] pb-1"
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-8 mb-16"
           >
-            Transforming Teaching Challenges
-          </motion.h2>
+            <motion.h2
+              className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent pb-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              Transforming Teaching Challenges
+            </motion.h2>
+          </motion.div>
         </div>
 
         {/* Desktop Mind Map Container */}
@@ -264,6 +272,24 @@ export default function EducatorChallengesMindMap() {
           </div>
         </div>
 
+        {/* AI Solution Banner - Above carousel */}
+        <div className="md:hidden mb-8 text-center">
+          <div className="inline-block px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-100/20">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+              </span>
+              <span className="text-sm font-medium text-blue-700">
+                All challenges solved with AI-Powered Solutions
+              </span>
+            </div>
+            <p className="text-xs text-gray-600">
+              Smart automation and personalized insights for every teaching need
+            </p>
+          </div>
+        </div>
+
         {/* Updated Mobile Version - Modern Carousel */}
         <div className="md:hidden relative px-4">
           <div className="overflow-hidden" ref={emblaRef}>
@@ -276,7 +302,7 @@ export default function EducatorChallengesMindMap() {
                     className="flex-[0_0_85%] min-w-0 relative pl-4"
                   >
                     <motion.div
-                      className={`relative transition-all duration-300 h-[360px] ${
+                      className={`relative transition-all duration-300 ${
                         isSelected
                           ? "scale-100 opacity-100"
                           : "scale-90 opacity-50"
@@ -286,41 +312,25 @@ export default function EducatorChallengesMindMap() {
                       transition={{ delay: index * 0.1 }}
                     >
                       {/* Card Container */}
-                      <div className="h-full bg-white/95 backdrop-blur-lg rounded-2xl shadow-[0_0_15px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden ring-1 ring-purple-100/20">
-                        {/* Card Header - Adjusted for title overflow */}
-                        <div className="relative h-24 bg-gradient-to-br from-blue-100 to-purple-100 p-6">
-                          <div className="absolute inset-0 bg-white/40" />
-                          <div className="relative flex items-center gap-4">
-                            <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white shadow-md">
+                      <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-lg border border-gray-100/50 overflow-hidden">
+                        {/* Card Header */}
+                        <div className="relative p-6 bg-gradient-to-br from-blue-50 to-purple-50">
+                          <div className="flex items-center gap-4">
+                            <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center text-blue-600">
                               {getIconForTitle(point.title)}
                             </div>
-                            <h3 className="font-bold text-lg bg-gradient-to-br from-blue-700 to-purple-700 bg-clip-text text-transparent line-clamp-2">
+                            <h3 className="font-semibold text-lg text-gray-900">
                               {point.title}
                             </h3>
                           </div>
                         </div>
 
-                        {/* Card Content - Optimized spacing */}
-                        <div className="p-6 flex flex-col h-[calc(100%-6rem)]">
-                          {/* AI Solution Badge */}
-                          <div className="mb-4">
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-blue-700">
-                              <span className="relative flex h-2 w-2">
-                                <span className="absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75 animate-ping" />
-                                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
-                              </span>
-                              AI-Powered Solution
-                            </span>
-                          </div>
-
-                          {/* Solution Content */}
-                          <div className="relative rounded-xl p-5 bg-gradient-to-br from-blue-500/[0.02] to-purple-500/[0.02] flex-1">
-                            <div className="absolute inset-0 bg-blue-500/[0.01] rounded-xl border border-purple-100/30" />
-                            <div className="relative">
-                              <p className="text-gray-600 leading-relaxed text-base">
-                                {point.solution}
-                              </p>
-                            </div>
+                        {/* Card Content */}
+                        <div className="p-6">
+                          <div className="prose prose-sm">
+                            <p className="text-gray-600 leading-relaxed">
+                              {point.solution}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -331,60 +341,86 @@ export default function EducatorChallengesMindMap() {
             </div>
           </div>
 
-          {/* Carousel Dots - Updated style */}
-          <div className="flex justify-center gap-2 mt-8">
-            {painPoints.map((_, index) => (
-              <button
-                key={index}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  selectedIndex === index
-                    ? "w-8 bg-gradient-to-r from-blue-500 to-purple-500"
-                    : "w-2 bg-gray-200"
-                }`}
-                onClick={() => emblaApi?.scrollTo(index)}
-              />
-            ))}
+          {/* Improved Carousel Navigation */}
+          <div className="mt-8 flex flex-col items-center gap-4">
+            {/* Dots */}
+            <div className="flex justify-center gap-2">
+              {painPoints.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => emblaApi?.scrollTo(index)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    selectedIndex === index
+                      ? "w-6 bg-gradient-to-r from-blue-500 to-purple-500"
+                      : "w-1.5 bg-gray-200"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Current/Total Indicator */}
+            <div className="text-sm text-gray-500">
+              <span className="font-medium text-blue-600">
+                {selectedIndex + 1}
+              </span>
+              <span className="mx-1">/</span>
+              <span>{painPoints.length}</span>
+            </div>
           </div>
         </div>
-        <motion.div className="max-w-2xl mx-auto mt-8">
-          <motion.h3
-            className="text-center text-2xl md:text-3xl font-bold mt-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            Tired of these challenges?
-          </motion.h3>
-          <motion.p
-            className="text-center text-gray-600/90 mt-8 text-lg"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            The biggest pain points for STEM educators revolve around
-            time-consuming grading and providing personalized support for each
-            student.
-          </motion.p>
-          <motion.p
-            className="text-center text-gray-600/90 mt-4 text-lg"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            The more individualized attention you can provide to each student,
-            the better their chances of thriving. This is what makes being an
-            educator so fulfilling - contributing to the success of each of your
-            protégés.
-          </motion.p>
 
-          <motion.p
-            className="text-center text-xl font-semibold mt-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+        {/* Text Section after Carousel */}
+        <motion.div className="max-w-2xl mx-auto mt-16 px-4">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center space-y-8"
           >
-            We are here to help you with that.
-          </motion.p>
+            <motion.h3
+              className="text-3xl sm:text-4xl font-bold text-gray-900"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              Tired of these challenges?
+            </motion.h3>
+
+            <div className="space-y-6">
+              <motion.p
+                className="text-gray-600 text-lg leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                The biggest pain points for STEM educators revolve around
+                time-consuming grading and providing personalized support for
+                each student.
+              </motion.p>
+
+              <motion.p
+                className="text-gray-600 text-lg leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                The more individualized attention you can provide to each
+                student, the better their chances of thriving. This is what
+                makes being an educator so fulfilling - contributing to the
+                success of each of your protégés.
+              </motion.p>
+
+              <motion.p
+                className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                We are here to help you with that.
+              </motion.p>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

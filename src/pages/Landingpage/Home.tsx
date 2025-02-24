@@ -130,35 +130,42 @@ export function Home() {
         </div>
       </section>
 
-      <div className="space-y-8">
+      <div className="space-y-16">
         <EducatorChallenges />
         <NextGenTools />
 
-        {/* Resources Section  */}
-        <section className="py-16 relative overflow-hidden">
-          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Resources Section */}
+        <section id="guides-tutorials" className="relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="text-center mb-16"
+              viewport={{ once: true }}
+              className="text-center space-y-6 mb-16"
             >
               <motion.span
                 whileHover={{ scale: 1.05 }}
-                className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-blue-100 border border-violet-200/50 text-violet-700 shadow-sm transition-all hover:shadow-md"
+                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium bg-gradient-to-r from-violet-100/80 to-blue-100/80 border border-violet-200/20 text-violet-700"
               >
-                <span className="relative flex h-2 w-2 mr-2">
+                <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
                 </span>
                 LEARNING RESOURCES
               </motion.span>
-              <h2 className="mt-8 text-5xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
+
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent pb-1">
                 Guides & Tutorials
               </h2>
+
+              <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
+                Watch our comprehensive tutorials to learn how to leverage all
+                features and maximize your teaching efficiency with our
+                AI-powered tools.
+              </p>
             </motion.div>
 
+            {/* Resources Grid */}
             <div className="grid md:grid-cols-2 gap-6">
               {resources.map((resource, index) => (
                 <article
@@ -226,14 +233,12 @@ export function Home() {
           </div>
         </section>
 
-        {/* CTA Section - Enhanced Design */}
-        <section className="relative py-16 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-          </div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Transform Your Teaching Today
+        <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
+          <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
+          <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
+          <div className="relative max-w-7xl mx-auto px-4 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Ready to Transform Your Teaching?
             </h2>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               Join thousands of educators enhancing their STEM instruction with
@@ -252,13 +257,10 @@ export function Home() {
         </section>
       </div>
 
-      {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="relative max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-          {/* Grid Container */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            {/* Product */}
             <div className="col-span-1">
               <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
                 Product
@@ -283,7 +285,6 @@ export function Home() {
               </ul>
             </div>
 
-            {/* Resources */}
             <div className="col-span-1">
               <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
                 Resources
@@ -308,7 +309,6 @@ export function Home() {
               </ul>
             </div>
 
-            {/* Company - Full width on mobile */}
             <div className="col-span-2 md:col-span-1 mt-8 md:mt-0">
               <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
                 Company
@@ -333,7 +333,6 @@ export function Home() {
               </ul>
             </div>
 
-            {/* Legal - Full width on mobile */}
             <div className="col-span-2 md:col-span-1 mt-8 md:mt-0">
               <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
                 Legal
@@ -368,7 +367,6 @@ export function Home() {
             </div>
           </div>
 
-          {/* Copyright - Separated with border */}
           <div className="mt-12 pt-8 border-t border-gray-800">
             <p className="text-center text-sm text-gray-500">
               &copy; 2025 RobinAgent. All rights reserved.
