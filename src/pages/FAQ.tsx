@@ -100,7 +100,7 @@ export function FAQ() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 pb-10 sm:py-24 pt-28">
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 pb-10 sm:pt-32 sm:pb-16 pt-28">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
         <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -124,7 +124,7 @@ export function FAQ() {
         </div>
       </div>
 
-      <section className="py-12 sm:py-24">
+      <section className="py-4 sm:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mt-8 sm:mt-16 space-y-12 sm:space-y-20">
             {faqs.map((category, categoryIndex) => (
@@ -185,7 +185,7 @@ export function FAQ() {
                   platform
                 </p>
                 <button
-                  onClick={() => navigate("/company/contact")}
+                  onClick={() => navigate("/contact")}
                   className="inline-flex items-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors hover:shadow-lg text-sm sm:text-base"
                 >
                   Contact Support

@@ -185,7 +185,7 @@ export function Pricing() {
       )}
 
       {/* Hero Section - Added pt-20 for header offset */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 pb-10 sm:py-24 pt-28">
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 pb-10 sm:pt-32 sm:pb-16 pt-28">
         <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
         <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -210,7 +210,7 @@ export function Pricing() {
       </div>
 
       {/* Pricing Cards Section */}
-      <section className="pt-8 sm:pt-12 pb-16 sm:pb-24">
+      <section className="pt-2 sm:pt-2 pb-16 sm:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Free Trial Banner - Only show for non-authenticated users */}
           {!user && (
