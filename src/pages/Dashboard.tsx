@@ -123,7 +123,6 @@ export function Dashboard() {
         return;
       }
 
-      console.log("Reports fetched:", data);
       setAvailableReports(data || []);
 
       if (data && data.length > 0 && !currentReportId) {
@@ -158,9 +157,18 @@ export function Dashboard() {
         async (payload) => {
           console.log("New report detected:", payload);
 
-          // Update available reports list
-          console.log("Fetching updated reports for pupil:", selectedPupilId);
-          await fetchReports(selectedPupilId);
+          // Get the pupil_id from the new report
+          const newReportPupilId = payload.new.pupil_id;
+
+          // If the new report is for a different pupil, select that pupil first
+          if (newReportPupilId !== selectedPupilId) {
+            console.log("Setting selected pupil to:", newReportPupilId);
+            setSelectedPupilId(newReportPupilId);
+          }
+
+          // Update available reports list for the pupil of the new report
+          console.log("Fetching updated reports for pupil:", newReportPupilId);
+          await fetchReports(newReportPupilId);
 
           // Set the current report ID and update the UI
           console.log("Setting current report ID:", payload.new.id);
@@ -200,7 +208,7 @@ export function Dashboard() {
       console.log("Cleaning up Supabase subscription");
       supabase.removeChannel(channel);
     };
-  }, [user?.id, selectedPupilId]);
+  }, [user?.id]);
 
   const handlePupilChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPupilId(e.target.value);
