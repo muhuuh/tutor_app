@@ -49,85 +49,148 @@ export function Home() {
       <div className="fixed inset-0 bg-gradient-to-b from-gray-50 to-white -z-10" />
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] -z-10" />
 
-      {/* Hero Section  */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900">
-        {/* Animated grid background */}
-        <div className="absolute inset-0 -z-10 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] opacity-30" />
-        <div className="absolute inset-0 -z-10 opacity-10 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+      {/* Enhanced Hero Section */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        {/* Improved background with more engaging gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-950 to-indigo-900">
+          {/* Animated gradient overlay */}
+          <div className="absolute inset-0 opacity-30 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
+
+          {/* Enhanced grid pattern */}
+          <div className="absolute inset-0 opacity-10 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+
+          {/* Decorative blurred circles */}
+          <div className="absolute left-1/4 top-1/4 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500 opacity-20 rounded-full blur-[80px] animate-pulse"></div>
+          <div className="absolute right-1/4 bottom-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 bg-purple-500 opacity-20 rounded-full blur-[100px] animate-pulse [animation-delay:2s]"></div>
+        </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="text-center lg:text-left space-y-8 relative z-10">
-              <div className="animate-fade-in [--animate-delay:200ms]">
-                <span className="inline-flex items-center gap-2 rounded-full px-4 py-1 text-sm bg-blue-500/10 text-blue-300 ring-1 ring-blue-500/20">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
-                  </span>
-                  AI-Powered Education Platform
+              {/* Badge with enhanced animation */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm bg-blue-500/20 text-blue-300 ring-1 ring-blue-500/30 border border-blue-400/20 backdrop-blur-sm"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
                 </span>
-              </div>
+                AI-Powered Education Platform
+              </motion.div>
 
-              <h1 className="text-5xl md:text-7xl font-bold leading-tight animate-fade-in [--animate-delay:400ms]">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-200 to-purple-300">
+              {/* Main heading with enhanced animation and styling */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
+              >
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-200 to-purple-300 drop-shadow-sm">
                   Your Personal AI STEM Tutor Assistant
                 </span>
-              </h1>
+              </motion.h1>
 
-              <p className="text-xl text-gray-300 max-w-2xl animate-fade-in [--animate-delay:600ms] leading-relaxed">
+              {/* Subheading with enhanced animation */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-xl text-gray-300/90 max-w-2xl leading-relaxed"
+              >
                 Boost your STEM tutoring with personalized insights and smart
                 tools. Focus on what truly matters - inspiring your students.
-              </p>
+              </motion.p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start relative z-20 animate-fade-in [--animate-delay:800ms]">
+              {/* CTA buttons with enhanced styling and animations */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start relative z-20"
+              >
                 {user ? (
-                  <Link
-                    to="/tools/homework-corrections"
-                    className="group inline-flex items-center justify-center px-8 py-4 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25 w-full sm:w-auto"
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    Let's start
-                    <FiArrowRight className="ml-3 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                ) : (
-                  <>
                     <Link
-                      to="/auth"
-                      className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/25"
+                      to="/tools/homework-corrections"
+                      className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-600/30 w-full sm:w-auto backdrop-blur-sm"
                     >
-                      Start Free Trial
+                      Let's start
                       <FiArrowRight className="ml-3 transition-transform group-hover:translate-x-1" />
                     </Link>
-                    <Link
-                      to="/auth"
-                      className="inline-flex items-center px-8 py-4 bg-gray-800/50 text-gray-100 rounded-xl font-semibold hover:bg-gray-800 transition-all duration-300 backdrop-blur-sm border border-gray-700"
+                  </motion.div>
+                ) : (
+                  <>
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      Educator Login
-                    </Link>
+                      <Link
+                        to="/auth"
+                        className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium shadow-lg shadow-blue-600/20 hover:shadow-xl hover:shadow-purple-600/30 transition-all duration-300"
+                      >
+                        Start Free Trial
+                        <FiArrowRight className="ml-3 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Link
+                        to="/auth"
+                        className="inline-flex items-center px-8 py-4 bg-gray-800/60 text-gray-100 rounded-xl font-medium hover:bg-gray-800/80 transition-all duration-300 backdrop-blur-sm border border-gray-700/50 shadow-lg shadow-gray-900/20"
+                      >
+                        Educator Login
+                      </Link>
+                    </motion.div>
                   </>
                 )}
-              </div>
+              </motion.div>
             </div>
 
-            <div className="hidden lg:block relative animate-fade-in [--animate-delay:1000ms]">
+            {/* Enhanced image container */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="hidden lg:block relative"
+            >
               <div className="relative">
-                {/* Glow effect - desktop only */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-[2.5rem] blur opacity-30 animate-pulse"></div>
+                {/* Enhanced glow effect with animation */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-[2.5rem] blur-xl opacity-50 animate-pulse group-hover:opacity-75"></div>
 
-                {/* Image container */}
-                <div className="relative rounded-[2.5rem] overflow-hidden transform hover:rotate-1 transition-all duration-500 hover:scale-105">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl"></div>
+                {/* Enhanced image container with better effects */}
+                <div className="relative rounded-[2.5rem] overflow-hidden transform hover:rotate-2 transition-all duration-500 hover:scale-105 border border-white/10 shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 backdrop-blur-xl"></div>
                   <div className="relative h-auto flex items-center justify-center">
-                    <img
+                    <motion.img
+                      animate={{
+                        y: [0, -10, 0],
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 5,
+                        ease: "easeInOut",
+                      }}
                       src="/mask-icon.png"
                       alt="AI Tutor Assistant"
-                      className="relative w-full h-[500px] object-contain p-8 opacity-70 [filter:drop-shadow(0_0_20px_rgba(59,130,246,0.5))_brightness(0.9)_hue-rotate(10deg)]"
+                      className="relative w-full h-[500px] object-contain p-8 opacity-80 [filter:drop-shadow(0_0_30px_rgba(59,130,246,0.6))_brightness(1.1)_hue-rotate(5deg)]"
                     />
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
+
+        {/* Optional: Subtle wave pattern at the bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
       </section>
 
       <div className="space-y-16">
