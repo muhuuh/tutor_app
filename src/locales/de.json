@@ -173,5 +173,140 @@
       "description": "Schauen Sie sich unsere umfassenden Tutorials an, um zu lernen, wie Sie alle Funktionen nutzen und Ihre Lehreffizienz mit unseren KI-gestützten Tools maximieren können.",
       "learnMore": "Mehr erfahren"
     }
+  },
+  "faq": {
+    "heading": "Häufig gestellte Fragen",
+    "subtitle": "Alles, was Sie über unsere Plattform wissen müssen",
+    "categories": {
+      "gettingStarted": {
+        "title": "Erste Schritte",
+        "faqs": [
+          {
+            "question": "Wie funktioniert das Korrekturlimit?",
+            "answer": "Jede Funktion verwendet eine bestimmte Anzahl an KI-Credits. Zum Beispiel verbraucht das Korrigieren von Aufgaben 5 Credits, während die Berichtserstellung 10 Credits benötigt. Im Basistarif sind 500 Credits pro Monat enthalten, im Profitarif 2000 Credits. Nicht verwendete Credits werden nicht in den nächsten Monat übertragen."
+          },
+          {
+            "question": "Kann ich mein Abonnement upgraden oder downgraden?",
+            "answer": "Ja, Sie können Ihren Tarif jederzeit ändern. Die Änderungen treten zu Beginn Ihres nächsten Abrechnungszeitraums in Kraft. Weitere Details finden Sie auf der Preisseite."
+          }
+        ]
+      },
+      "features": {
+        "title": "Funktionen & Fähigkeiten",
+        "faqs": [
+          {
+            "question": "Welche Arten von Aufgaben können benotet werden?",
+            "answer": "Unsere KI kann eine Vielzahl von MINT-Aufgaben (Mathematik, Physik, Chemie) bewerten. Sie verarbeitet sowohl numerische Aufgaben als auch schrittweise Lösungen."
+          },
+          {
+            "question": "Wie genau ist die Handschrifterkennung?",
+            "answer": "Unsere fortschrittliche KI erreicht eine Genauigkeit von über 95 % bei der Erkennung von handschriftlichen mathematischen Ausdrücken und Text, insbesondere wenn die Schrift einigermaßen klar ist."
+          },
+          {
+            "question": "Kann ich die Plattform auch für nicht-MINT-Fächer wie Sprachen oder Geschichte nutzen?",
+            "answer": "Derzeit ist unsere Plattform speziell auf MINT-Fächer (Mathematik, Informatik, Naturwissenschaften, Technik) ausgerichtet und unterstützt keine geisteswissenschaftlichen Fächer wie Sprachen, Geschichte oder Geografie. Diese Spezialisierung ermöglicht uns eine besonders genaue Bewertung und Rückmeldung bei mathematischen Gleichungen, wissenschaftlicher Notation und technischen Diagrammen."
+          }
+        ]
+      },
+      "pricing": {
+        "title": "Preise",
+        "faqs": [
+          {
+            "question": "Wie funktionieren KI-Credits?",
+            "answer": "Jede Funktion benötigt eine bestimmte Anzahl an KI-Credits. Zum Beispiel verbraucht das Korrigieren von Aufgaben 5 Credits und das Erstellen von Berichten 10 Credits. Der Basistarif enthält 500 Credits pro Monat, der Profitarif 2000 Credits. Nicht verbrauchte Credits werden nicht in den nächsten Monat übertragen."
+          },
+          {
+            "question": "Was ist der Unterschied zwischen Basic und Pro-Abonnement?",
+            "answer": "Der Basistarif (9,99 €/Monat) enthält 500 KI-Credits und unterstützt bis zu 5 Schülerprofile. Der Profitarif (19,99 €/Monat) umfasst 2000 KI-Credits, unbegrenzte Schülerprofile und frühzeitigen Zugriff auf neue Funktionen. Beide Tarife bieten Kernfunktionen wie Handschrifterkennung und Übungserstellung."
+          },
+          {
+            "question": "Kann ich mein Abonnement upgraden oder downgraden?",
+            "answer": "Ja, Sie können jederzeit zum Profitarif wechseln. Um vom Profitarif zum Basistarif zu wechseln, müssen Sie zunächst Ihr aktuelles Abonnement kündigen und nach Ablauf erneut den Basistarif buchen. Änderungen werden zu Beginn Ihres nächsten Abrechnungszeitraums wirksam."
+          },
+          {
+            "question": "Gibt es eine kostenlose Testphase?",
+            "answer": "Ja, neue Benutzer können alle Funktionen des Basistarifs 7 Tage lang kostenlos testen. Für die Testphase ist keine Kreditkarte erforderlich."
+          }
+        ]
+      },
+      "technicalSupport": {
+        "title": "Technischer Support",
+        "faqs": [
+          {
+            "question": "Wie sind Ihre Support-Antwortzeiten?",
+            "answer": "Wir bemühen uns, auf technische Probleme innerhalb von 24 Stunden zu reagieren und auf allgemeines Feedback innerhalb von 2 Werktagen. Bei Funktionswünschen erhalten Sie innerhalb einer Woche eine ausführliche Rückmeldung, ob diese in unsere Entwicklungsplanung aufgenommen werden können."
+          },
+          {
+            "question": "Was beinhaltet der Institution-Tarif?",
+            "answer": "Der Institution-Tarif wird individuell an die Bedürfnisse Ihrer Organisation angepasst. Er enthält alle Funktionen des Profitarifs, plus benutzerdefinierte Integrationen, dedizierten Support und spezielle Schulungen für Ihr Team."
+          }
+        ]
+      }
+    },
+    "contactSupport": {
+      "heading": "Noch Fragen?",
+      "description": "Unser Support-Team hilft Ihnen gerne, das Beste aus unserer Plattform herauszuholen",
+      "button": "Support kontaktieren"
+    }
+  },
+
+  "pricing": {
+    "heroTitle": "Einfache, transparente Preise",
+    "heroSubtitle": "Wählen Sie den Tarif, der zu Ihnen passt",
+    "freeTrialBannerTitle": "7 Tage kostenlos testen",
+    "freeTrialBannerText": "Melden Sie sich jetzt an und erhalten Sie vollen Zugriff auf alle Funktionen des Basistarifs. Keine Kreditkarte erforderlich!",
+    "freeTrialBannerButton": "Kostenlose Testphase starten",
+    "mostPopular": "Am beliebtesten",
+    "btnProcessing": "Verarbeite...",
+    "planLabels": {
+      "basic": {
+        "name": "Basic",
+        "price": "9,99 €",
+        "period": "/Monat",
+        "description": "Perfekt für einzelne Tutoren, die mit KI beginnen"
+      },
+      "professional": {
+        "name": "Professional",
+        "price": "19,99 €",
+        "period": "/Monat",
+        "description": "Ideal für aktive Tutoren und kleinere Lehrpraxen"
+      },
+      "institution": {
+        "name": "Institution",
+        "price": "Individuell",
+        "description": "Für Schulen und größere Bildungseinrichtungen"
+      }
+    },
+    "manageSubscriptionModal": {
+      "title": "Abonnement verwalten",
+      "upgradeTitle": "Möchten Sie upgraden?",
+      "upgradeText": "Sie können direkt auf den Profitarif wechseln! Dies ersetzt automatisch Ihr Basic-Abonnement.",
+      "cancelTitle": "Möchten Sie kündigen?",
+      "cancelSteps": [
+        "Gehen Sie zu Ihrer Abonnementseite",
+        "Klicken Sie auf „Abrechnung verwalten“",
+        "Kündigen Sie Ihr Basic-Abonnement",
+        "Ihre Basic-Funktionen bleiben bis zum Ende Ihres Abrechnungszeitraums aktiv"
+      ],
+      "howToDowngradeTitle": "So downgraden Sie Ihren Tarif",
+      "howToDowngradeSteps": [
+        "Gehen Sie zu Ihrer Abonnementseite",
+        "Klicken Sie auf „Abrechnung verwalten“",
+        "Kündigen Sie Ihr aktuelles Pro-Abonnement",
+        "Sie behalten Pro-Funktionen bis zum Ende Ihres Abrechnungszeitraums",
+        "Nach Ablauf können Sie das Basistarif buchen"
+      ],
+      "closeButton": "Schließen"
+    },
+    "comparePlanFeatures": {
+      "heading": "Tarif-Funktionen im Vergleich",
+      "subtitle": "Erhalten Sie einen detaillierten Überblick über die Leistungen in jedem Tarif, um die beste Wahl für Ihre Bedürfnisse zu treffen",
+      "tableHeaders": {
+        "price": "Preis",
+        "aiCredits": "KI-Credits",
+        "studentProfiles": "Schülerprofile",
+        "earlyAccess": "Früher Zugriff"
+      }
+    }
   }
 }

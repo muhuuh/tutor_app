@@ -173,5 +173,140 @@
       "description": "Regardez nos tutoriels complets pour apprendre à utiliser toutes les fonctionnalités et maximiser votre efficacité pédagogique avec nos outils alimentés par l'IA.",
       "learnMore": "En savoir plus"
     }
+  },
+  "faq": {
+    "heading": "Foire aux questions",
+    "subtitle": "Tout ce que vous devez savoir sur notre plateforme",
+    "categories": {
+      "gettingStarted": {
+        "title": "Bien commencer",
+        "faqs": [
+          {
+            "question": "Comment fonctionne la limite de correction",
+            "answer": "Chaque fonctionnalité utilise un nombre spécifique de crédits IA. Par exemple, la correction d'exercices coûte 5 crédits, tandis que la génération de rapports en coûte 10. Le forfait Basic inclut 500 crédits par mois, tandis que le forfait Professional inclut 2000 crédits. Les crédits non utilisés ne sont pas reportés au mois suivant."
+          },
+          {
+            "question": "Puis-je passer à un forfait supérieur ou inférieur",
+            "answer": "Oui, vous pouvez modifier votre forfait à tout moment. Les changements prennent effet au début de votre prochain cycle de facturation. Veuillez consulter la page Tarifs pour plus de détails."
+          }
+        ]
+      },
+      "features": {
+        "title": "Fonctionnalités & Capacités",
+        "faqs": [
+          {
+            "question": "Quels types d’exercices peuvent être évalués",
+            "answer": "Notre IA peut noter un large éventail d’exercices STEM, notamment en mathématiques, physique et chimie. Elle gère à la fois les problèmes numériques et les solutions détaillées étape par étape."
+          },
+          {
+            "question": "Quel est le niveau de précision de la reconnaissance d’écriture",
+            "answer": "Notre IA avancée atteint plus de 95 % de précision dans la reconnaissance des expressions mathématiques et du texte manuscrits, en particulier lorsque l’écriture est suffisamment lisible."
+          },
+          {
+            "question": "Puis-je l’utiliser pour des matières non-STEM comme les langues ou l’histoire ?",
+            "answer": "Actuellement, notre plateforme est spécifiquement conçue pour les matières STEM (Sciences, Technologie, Ingénierie, Mathématiques) et ne prend pas en charge les matières comme les langues, l’histoire ou la géographie. Cette spécialisation nous permet d’offrir une évaluation et un retour d’information très précis pour les équations mathématiques, la notation scientifique et les diagrammes techniques."
+          }
+        ]
+      },
+      "pricing": {
+        "title": "Tarifs",
+        "faqs": [
+          {
+            "question": "Comment fonctionnent les crédits IA ?",
+            "answer": "Chaque fonctionnalité utilise un nombre spécifique de crédits IA. Par exemple, la correction d’exercices coûte 5 crédits, tandis que la génération de rapports en coûte 10. Le forfait Basic inclut 500 crédits par mois, tandis que le forfait Professional inclut 2000 crédits. Les crédits non utilisés ne sont pas reportés au mois suivant."
+          },
+          {
+            "question": "Quelle est la différence entre l’abonnement Basic et Pro ?",
+            "answer": "Le forfait Basic (9,99 €/mois) inclut 500 crédits IA et prend en charge jusqu’à 5 profils d’étudiants. Le forfait Professional (19,99 €/mois) inclut 2000 crédits IA, un nombre illimité de profils et un accès anticipé aux nouvelles fonctionnalités. Les deux forfaits incluent les principales fonctions telles que l’analyse de l’écriture manuscrite et la génération d’exercices."
+          },
+          {
+            "question": "Puis-je passer à un forfait supérieur ou inférieur ?",
+            "answer": "Oui, vous pouvez passer à Professional à tout moment. Pour passer de Professional à Basic, vous devez d’abord annuler votre abonnement actuel et vous réabonner une fois qu’il expire. Les changements prennent effet au début de votre prochain cycle de facturation."
+          },
+          {
+            "question": "Une période d’essai gratuit est-elle disponible ?",
+            "answer": "Oui, les nouveaux utilisateurs peuvent essayer toutes les fonctionnalités du forfait Basic gratuitement pendant 7 jours. Aucune carte de crédit n’est requise pour la période d’essai."
+          }
+        ]
+      },
+      "technicalSupport": {
+        "title": "Support technique",
+        "faqs": [
+          {
+            "question": "Quels sont vos délais de réponse pour l’assistance ?",
+            "answer": "Nous visons à répondre aux problèmes techniques sous 24 heures et aux commentaires généraux sous 2 jours ouvrables. Pour les demandes de fonctionnalités, nous fournissons un retour détaillé sous une semaine, y compris s’il est possible de les intégrer à notre feuille de route."
+          },
+          {
+            "question": "Que comprend le forfait Institution",
+            "answer": "Le forfait Institution est personnalisé selon les besoins de votre organisation. Il inclut toutes les fonctionnalités du forfait Professional, plus des intégrations sur mesure, un support dédié et une formation spéciale pour votre personnel."
+          }
+        ]
+      }
+    },
+    "contactSupport": {
+      "heading": "Encore des questions ?",
+      "description": "Notre équipe de support est là pour vous aider à tirer le meilleur parti de notre plateforme",
+      "button": "Contacter le support"
+    }
+  },
+
+  "pricing": {
+    "heroTitle": "Une tarification simple et transparente",
+    "heroSubtitle": "Choisissez le forfait qui vous convient",
+    "freeTrialBannerTitle": "Essayez gratuitement pendant 7 jours",
+    "freeTrialBannerText": "Inscrivez-vous maintenant et bénéficiez d’un accès complet à toutes les fonctionnalités du forfait Basic. Aucune carte de crédit requise !",
+    "freeTrialBannerButton": "Commencer l’essai gratuit",
+    "mostPopular": "Le plus populaire",
+    "btnProcessing": "Traitement…",
+    "planLabels": {
+      "basic": {
+        "name": "Basic",
+        "price": "9,99 €",
+        "period": "/mois",
+        "description": "Parfait pour les tuteurs indépendants qui découvrent l’IA"
+      },
+      "professional": {
+        "name": "Professional",
+        "price": "19,99 €",
+        "period": "/mois",
+        "description": "Idéal pour les tuteurs actifs et les petites structures d’enseignement"
+      },
+      "institution": {
+        "name": "Institution",
+        "price": "Personnalisé",
+        "description": "Pour les écoles et les grandes organisations éducatives"
+      }
+    },
+    "manageSubscriptionModal": {
+      "title": "Gérer votre abonnement",
+      "upgradeTitle": "Vous souhaitez effectuer une mise à niveau ?",
+      "upgradeText": "Vous pouvez passer directement au forfait Professional ! Cela remplacera automatiquement votre abonnement Basic.",
+      "cancelTitle": "Vous souhaitez résilier ?",
+      "cancelSteps": [
+        "Rendez-vous sur la page d’Abonnement",
+        "Cliquez sur « Gérer la facturation »",
+        "Annulez votre abonnement Basic",
+        "Vous conservez les fonctionnalités Basic jusqu’à la fin de votre période de facturation"
+      ],
+      "howToDowngradeTitle": "Comment repasser à un forfait inférieur",
+      "howToDowngradeSteps": [
+        "Rendez-vous sur la page d’Abonnement",
+        "Cliquez sur « Gérer la facturation »",
+        "Annulez votre abonnement Professional en cours",
+        "Vous conservez les fonctionnalités Professional jusqu’à la fin de votre période de facturation",
+        "Après expiration, vous pouvez souscrire au forfait Basic"
+      ],
+      "closeButton": "Fermer"
+    },
+    "comparePlanFeatures": {
+      "heading": "Comparer les fonctionnalités des forfaits",
+      "subtitle": "Obtenez une vue détaillée de ce qui est inclus dans chaque forfait pour faire le meilleur choix selon vos besoins",
+      "tableHeaders": {
+        "price": "Tarif",
+        "aiCredits": "Crédits IA",
+        "studentProfiles": "Profils étudiants",
+        "earlyAccess": "Accès anticipé"
+      }
+    }
   }
 }

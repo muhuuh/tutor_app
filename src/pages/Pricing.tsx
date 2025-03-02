@@ -13,6 +13,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabase";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { ComponentType } from "react";
 
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -25,16 +27,23 @@ const CREDIT_COSTS = [
   { feature: "Suggestions", cost: 1 },
 ];
 
-// Add price IDs and AI credits to the pricing plans
-const pricingPlans = [
+// Add interface for pricing plans
+interface PricingPlan {
+  name: string;
+  icon: ComponentType<{ className?: string }>;
+  priceId?: string;
+  credits: number | "custom";
+  features: string[];
+  popular?: boolean;
+}
+
+// Update the pricing plans array
+const pricingPlans: PricingPlan[] = [
   {
-    name: "Basic",
-    price: "€9.99",
-    period: "/month",
-    credits: 500, // ADD: AI credits for Basic
-    description: "Perfect for individual tutors getting started with AI",
+    name: "basic",
     icon: Package,
     priceId: import.meta.env.VITE_STRIPE_BASIC_PRICE_ID,
+    credits: 500,
     features: [
       "Advanced handwriting analysis",
       "Partial credit recognition",
@@ -45,14 +54,11 @@ const pricingPlans = [
     ],
   },
   {
-    name: "Professional",
-    price: "€19.99",
-    period: "/month",
-    credits: 2000, // ADD: AI credits for Pro
+    name: "professional",
     popular: true,
     icon: Zap,
     priceId: import.meta.env.VITE_STRIPE_PRO_PRICE_ID,
-    description: "Ideal for active tutors and small teaching practices",
+    credits: 2000,
     features: [
       "Advanced handwriting analysis",
       "Partial credit recognition",
@@ -64,11 +70,9 @@ const pricingPlans = [
     ],
   },
   {
-    name: "Institution",
-    price: "Custom",
-    credits: "Custom",
+    name: "institution",
     icon: Building2,
-    description: "For schools and large educational organizations",
+    credits: "custom",
     features: [
       "All Professional features",
       "Custom integrations",
@@ -91,6 +95,8 @@ export function Pricing() {
 
   // NEW: State to show/hide AI credit usage modal
   const [showCreditBreakdown, setShowCreditBreakdown] = useState(false);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchSubscription() {
@@ -167,7 +173,7 @@ export function Pricing() {
   };
 
   const getButtonText = (planName: string) => {
-    if (planName === "Institution") return "Contact Sales";
+    if (planName === "institution") return "Contact Sales";
     if (isSubscriptionDisabled(planName)) {
       return currentSubscription === planName.toLowerCase()
         ? "Current Plan"
@@ -195,7 +201,7 @@ export function Pricing() {
               animate={{ opacity: 1, y: 0 }}
               className="text-3xl font-bold text-white sm:text-5xl lg:text-6xl"
             >
-              Simple, transparent pricing
+              {t("pricing.heroTitle")}
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -203,52 +209,51 @@ export function Pricing() {
               transition={{ delay: 0.2 }}
               className="mt-4 sm:mt-6 text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto px-4 sm:px-0"
             >
-              Choose the plan that's right for you
+              {t("pricing.heroSubtitle")}
             </motion.p>
           </div>
         </div>
       </div>
 
+      {/* Free Trial Banner - Only show for non-authenticated users */}
+      {!user && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-12 sm:mb-16 group relative bg-white rounded-2xl p-4 sm:p-8 shadow-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+        >
+          {/* Grid background overlay */}
+          <div className="absolute inset-0 bg-grid-blue-500/[0.02] bg-[size:20px_20px]" />
+
+          {/* Gradient overlay on hover */}
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between relative z-10 gap-4 sm:gap-8">
+            <div className="flex items-start sm:items-center space-x-4">
+              <div className="p-2 sm:p-3 bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl text-white shrink-0">
+                <Gift className="w-5 h-5 sm:w-6 sm:h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
+                  {t("pricing.freeTrialBannerTitle")}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-600 mt-1">
+                  {t("pricing.freeTrialBannerText")}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => handleSubscribe(pricingPlans[0].priceId)}
+              className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl text-sm sm:text-base font-medium"
+            >
+              {t("pricing.freeTrialBannerButton")}
+            </button>
+          </div>
+        </motion.div>
+      )}
+
       {/* Pricing Cards Section */}
       <section className="pt-2 sm:pt-2 pb-16 sm:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Free Trial Banner - Only show for non-authenticated users */}
-          {!user && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-12 sm:mb-16 group relative bg-white rounded-2xl p-4 sm:p-8 shadow-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
-            >
-              {/* Grid background overlay */}
-              <div className="absolute inset-0 bg-grid-blue-500/[0.02] bg-[size:20px_20px]" />
-
-              {/* Gradient overlay on hover */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between relative z-10 gap-4 sm:gap-8">
-                <div className="flex items-start sm:items-center space-x-4">
-                  <div className="p-2 sm:p-3 bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl text-white shrink-0">
-                    <Gift className="w-5 h-5 sm:w-6 sm:h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
-                      Try it Free for 7 Days
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-600 mt-1">
-                      Sign up now and get full access to all Basic plan
-                      features. No credit card required!
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => handleSubscribe(pricingPlans[0].priceId)}
-                  className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl text-sm sm:text-base font-medium"
-                >
-                  Start Free Trial
-                </button>
-              </div>
-            </motion.div>
-          )}
-
           {/* Pricing Cards */}
           <div className="mt-12 sm:mt-24 space-y-8 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
             {pricingPlans.map((plan, index) => (
@@ -267,7 +272,7 @@ export function Pricing() {
                 {plan.popular && (
                   <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <span className="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg">
-                      Most Popular
+                      {t("pricing.mostPopular")}
                     </span>
                   </div>
                 )}
@@ -279,19 +284,20 @@ export function Pricing() {
                       <plan.icon className="w-6 h-6" />
                     </div>
                     <h2 className="text-2xl font-bold text-gray-900">
-                      {plan.name}
+                      {t(`pricing.planLabels.${plan.name.toLowerCase()}.name`)}
                     </h2>
                     <p className="mt-4 text-sm text-gray-500">
-                      {plan.description}
+                      {t(
+                        `pricing.planLabels.${plan.name.toLowerCase()}.description`
+                      )}
                     </p>
                     <div className="mt-6">
-                      {/* Price */}
                       <span className="text-4xl font-bold text-gray-900">
-                        {plan.price}
+                        {t(`pricing.planLabels.${plan.name}.price`)}
                       </span>
-                      {plan.period && (
+                      {plan.name !== "institution" && (
                         <span className="text-base font-medium text-gray-500">
-                          {plan.period}
+                          {t(`pricing.planLabels.${plan.name}.period`)}
                         </span>
                       )}
                     </div>
@@ -301,7 +307,7 @@ export function Pricing() {
                   {plan.credits && (
                     <div className="flex items-center mb-6">
                       <span className="text-lg font-semibold text-gray-900 mr-2">
-                        {plan.credits === "Custom"
+                        {plan.credits === "custom"
                           ? "Custom AI Credits"
                           : `${plan.credits} AI Credits / mo`}
                       </span>
@@ -348,7 +354,7 @@ export function Pricing() {
                         : "bg-gray-50 text-gray-900 hover:bg-gray-100"
                     }`}
                     disabled={
-                      plan.name === "Institution" ||
+                      plan.name === "institution" ||
                       isLoading === plan.priceId ||
                       isSubscriptionDisabled(plan.name)
                     }
@@ -543,11 +549,10 @@ export function Pricing() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Compare Plan Features
+              {t("pricing.comparePlanFeatures.heading")}
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Get a detailed overview of what's included in each plan to make
-              the best choice for your needs
+              {t("pricing.comparePlanFeatures.subtitle")}
             </p>
           </motion.div>
 
@@ -570,7 +575,11 @@ export function Pricing() {
                     >
                       <div className="flex items-center space-x-2">
                         <plan.icon className="w-4 h-4" />
-                        <span>{plan.name}</span>
+                        <span>
+                          {t(
+                            `pricing.planLabels.${plan.name.toLowerCase()}.name`
+                          )}
+                        </span>
                       </div>
                     </th>
                   ))}
@@ -580,19 +589,25 @@ export function Pricing() {
                 {/* Price Row */}
                 <tr className="border-b">
                   <td className="p-4 font-medium text-gray-700 bg-gray-50">
-                    Price
+                    {t("pricing.comparePlanFeatures.tableHeaders.price")}
                   </td>
                   {pricingPlans.map((plan) => (
                     <td key={plan.name} className="p-4 text-gray-700">
-                      <span className="font-semibold">{plan.price}</span>
-                      <span className="text-gray-500">{plan.period || ""}</span>
+                      <span className="font-semibold">
+                        {t(`pricing.planLabels.${plan.name}.price`)}
+                      </span>
+                      {plan.name !== "institution" && (
+                        <span className="text-gray-500">
+                          {t(`pricing.planLabels.${plan.name}.period`)}
+                        </span>
+                      )}
                     </td>
                   ))}
                 </tr>
                 {/* AI Credits Row */}
                 <tr className="border-b">
                   <td className="p-4 font-medium text-gray-700 bg-gray-50">
-                    AI Credits
+                    {t("pricing.comparePlanFeatures.tableHeaders.aiCredits")}
                   </td>
                   {pricingPlans.map((plan) => (
                     <td key={plan.name} className="p-4">
@@ -613,7 +628,9 @@ export function Pricing() {
                 {/* Student Profiles Row */}
                 <tr className="border-b">
                   <td className="p-4 font-medium text-gray-700 bg-gray-50">
-                    Student Profiles
+                    {t(
+                      "pricing.comparePlanFeatures.tableHeaders.studentProfiles"
+                    )}
                   </td>
                   <td className="p-4 text-gray-700">Up to 5</td>
                   <td className="p-4 text-gray-700">
@@ -632,7 +649,7 @@ export function Pricing() {
                 {/* Early Access Row */}
                 <tr className="border-b">
                   <td className="p-4 font-medium text-gray-700 bg-gray-50">
-                    Early Access
+                    {t("pricing.comparePlanFeatures.tableHeaders.earlyAccess")}
                   </td>
                   <td className="p-4 text-gray-500">—</td>
                   <td className="p-4">

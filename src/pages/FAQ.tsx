@@ -8,93 +8,56 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import type { ComponentType } from "react";
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface CategoryItem {
+  category: string;
+  icon: ComponentType<{ className?: string }>;
+  questions: FAQItem[];
+}
 
 export function FAQ() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   // Remove unused state if not needed
   // const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const faqs = [
+  // Use translations for FAQ categories
+  const faqs: CategoryItem[] = [
     {
-      category: "Getting Started",
+      category: t("faq.categories.gettingStarted.title"),
       icon: BookOpen,
-      questions: [
-        {
-          question: "How does the correction limit work",
-          answer:
-            "Each feature uses a specific number of AI credits. For example, exercise corrections use 5 credits, while generating reports uses 10 credits. The Basic plan includes 500 credits per month, while the Professional plan includes 2000 credits. Unused credits don't roll over to the next month.",
-        },
-        {
-          question: "Can I upgrade or downgrade my plan",
-          answer:
-            "Yes, you can change your plan at any time. Changes take effect at the start of your next billing cycle. Please have a look at the Pricing page for further details.",
-        },
-      ],
+      questions: t("faq.categories.gettingStarted.faqs", {
+        returnObjects: true,
+      }) as FAQItem[],
     },
     {
-      category: "Features & Capabilities",
+      category: t("faq.categories.features.title"),
       icon: Zap,
-      questions: [
-        {
-          question: "What types of assignments can be graded",
-          answer:
-            "Our AI can grade a wide range of STEM assignments, including mathematics, physics, and chemistry. It handles both numerical problems and step-by-step solutions.",
-        },
-        {
-          question: "How accurate is the handwriting recognition",
-          answer:
-            "Our advanced AI achieves over 95% accuracy in recognizing handwritten mathematical expressions and text, especially when the writing is reasonably clear.",
-        },
-        {
-          question:
-            "Can I use this for non-STEM subjects like languages or history?",
-          answer:
-            "Currently, our platform is specifically designed for STEM subjects (Science, Technology, Engineering, Mathematics) and doesn't support subjects like languages, history, or geography. This specialization allows us to provide highly accurate assessment and feedback for mathematical equations, scientific notation, and technical diagrams.",
-        },
-      ],
+      questions: t("faq.categories.features.faqs", {
+        returnObjects: true,
+      }) as FAQItem[],
     },
     {
-      category: "Pricing",
+      category: t("faq.categories.pricing.title"),
       icon: Users,
-      questions: [
-        {
-          question: "How do AI credits work?",
-          answer:
-            "Each feature uses a specific number of AI credits. For example, exercise corrections use 5 credits, while generating reports uses 10 credits. The Basic plan includes 500 credits per month, while the Professional plan includes 2000 credits. Unused credits don't roll over to the next month.",
-        },
-        {
-          question: "What's the difference between Basic and Pro subscription?",
-          answer:
-            "The Basic plan (€9.99/month) includes 500 AI credits and supports up to 5 student profiles. The Professional plan (€19.99/month) includes 2000 AI credits, unlimited student profiles, and early access to new features. Both plans include core features like handwriting analysis and exercise generation.",
-        },
-        {
-          question: "Can I upgrade or downgrade my plan?",
-          answer:
-            "Yes, you can upgrade to Professional at any time. To downgrade from Professional to Basic, you'll need to cancel your current subscription and resubscribe once it expires. Changes take effect at the start of your next billing cycle.",
-        },
-        {
-          question: "Is there a free trial available?",
-          answer:
-            "Yes, new users can try all Basic plan features free for 7 days. No credit card is required for the trial period.",
-        },
-      ],
+      questions: t("faq.categories.pricing.faqs", {
+        returnObjects: true,
+      }) as FAQItem[],
     },
     {
-      category: "Technical Support",
+      category: t("faq.categories.technicalSupport.title"),
       icon: MessageSquare,
-      questions: [
-        {
-          question: "What are your support response times?",
-          answer:
-            "We aim to respond to technical issues within 24 hours and to general feedback within 2 business days. For feature requests, we provide detailed feedback within a week, including whether it can be incorporated into our development pipeline.",
-        },
-        {
-          question: "What's included in the Institution plan",
-          answer:
-            "The Institution plan is customized to your organization's needs. It includes everything in Professional, plus custom integrations, dedicated support, and special training for your staff.",
-        },
-      ],
+      questions: t("faq.categories.technicalSupport.faqs", {
+        returnObjects: true,
+      }) as FAQItem[],
     },
   ];
 
@@ -110,7 +73,7 @@ export function FAQ() {
               animate={{ opacity: 1, y: 0 }}
               className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white"
             >
-              Frequently Asked Questions
+              {t("faq.heading")}
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -118,7 +81,7 @@ export function FAQ() {
               transition={{ delay: 0.2 }}
               className="mt-4 sm:mt-6 text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto px-4 sm:px-0"
             >
-              Everything you need to know about our platform
+              {t("faq.subtitle")}
             </motion.p>
           </div>
         </div>
@@ -178,17 +141,16 @@ export function FAQ() {
             <div className="relative rounded-2xl p-6 sm:p-8 shadow-xl overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
               <div className="relative text-center">
                 <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
-                  Still have questions?
+                  {t("faq.contactSupport.heading")}
                 </h3>
                 <p className="text-sm sm:text-base text-gray-200 mb-6 sm:mb-8">
-                  Our support team is here to help you get the most out of our
-                  platform
+                  {t("faq.contactSupport.description")}
                 </p>
                 <button
-                  onClick={() => navigate("/contact")}
+                  onClick={() => navigate("/company/contact")}
                   className="inline-flex items-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors hover:shadow-lg text-sm sm:text-base"
                 >
-                  Contact Support
+                  {t("faq.contactSupport.button")}
                   <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>

@@ -171,5 +171,140 @@
       "description": "Watch our comprehensive tutorials to learn how to leverage all features and maximize your teaching efficiency with our AI-powered tools.",
       "learnMore": "Learn More"
     }
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our platform",
+    "categories": {
+      "gettingStarted": {
+        "title": "Getting Started",
+        "faqs": [
+          {
+            "question": "How does the correction limit work",
+            "answer": "Each feature uses a specific number of AI credits. For example, exercise corrections use 5 credits, while generating reports uses 10 credits. The Basic plan includes 500 credits per month, while the Professional plan includes 2000 credits. Unused credits don't roll over to the next month."
+          },
+          {
+            "question": "Can I upgrade or downgrade my plan",
+            "answer": "Yes, you can change your plan at any time. Changes take effect at the start of your next billing cycle. Please have a look at the Pricing page for further details."
+          }
+        ]
+      },
+      "features": {
+        "title": "Features & Capabilities",
+        "faqs": [
+          {
+            "question": "What types of assignments can be graded",
+            "answer": "Our AI can grade a wide range of STEM assignments, including mathematics, physics, and chemistry. It handles both numerical problems and step-by-step solutions."
+          },
+          {
+            "question": "How accurate is the handwriting recognition",
+            "answer": "Our advanced AI achieves over 95% accuracy in recognizing handwritten mathematical expressions and text, especially when the writing is reasonably clear."
+          },
+          {
+            "question": "Can I use this for non-STEM subjects like languages or history?",
+            "answer": "Currently, our platform is specifically designed for STEM subjects (Science, Technology, Engineering, Mathematics) and doesn't support subjects like languages, history, or geography. This specialization allows us to provide highly accurate assessment and feedback for mathematical equations, scientific notation, and technical diagrams."
+          }
+        ]
+      },
+      "pricing": {
+        "title": "Pricing",
+        "faqs": [
+          {
+            "question": "How do AI credits work?",
+            "answer": "Each feature uses a specific number of AI credits. For example, exercise corrections use 5 credits, while generating reports uses 10 credits. The Basic plan includes 500 credits per month, while the Professional plan includes 2000 credits. Unused credits don't roll over to the next month."
+          },
+          {
+            "question": "What's the difference between Basic and Pro subscription?",
+            "answer": "The Basic plan (€9.99/month) includes 500 AI credits and supports up to 5 student profiles. The Professional plan (€19.99/month) includes 2000 AI credits, unlimited student profiles, and early access to new features. Both plans include core features like handwriting analysis and exercise generation."
+          },
+          {
+            "question": "Can I upgrade or downgrade my plan?",
+            "answer": "Yes, you can upgrade to Professional at any time. To downgrade from Professional to Basic, you'll need to cancel your current subscription and resubscribe once it expires. Changes take effect at the start of your next billing cycle."
+          },
+          {
+            "question": "Is there a free trial available?",
+            "answer": "Yes, new users can try all Basic plan features free for 7 days. No credit card is required for the trial period."
+          }
+        ]
+      },
+      "technicalSupport": {
+        "title": "Technical Support",
+        "faqs": [
+          {
+            "question": "What are your support response times?",
+            "answer": "We aim to respond to technical issues within 24 hours and to general feedback within 2 business days. For feature requests, we provide detailed feedback within a week, including whether it can be incorporated into our development pipeline."
+          },
+          {
+            "question": "What's included in the Institution plan",
+            "answer": "The Institution plan is customized to your organization's needs. It includes everything in Professional, plus custom integrations, dedicated support, and special training for your staff."
+          }
+        ]
+      }
+    },
+    "contactSupport": {
+      "heading": "Still have questions?",
+      "description": "Our support team is here to help you get the most out of our platform",
+      "button": "Contact Support"
+    }
+  },
+
+  "pricing": {
+    "heroTitle": "Simple, transparent pricing",
+    "heroSubtitle": "Choose the plan that's right for you",
+    "freeTrialBannerTitle": "Try it Free for 7 Days",
+    "freeTrialBannerText": "Sign up now and get full access to all Basic plan features. No credit card required!",
+    "freeTrialBannerButton": "Start Free Trial",
+    "mostPopular": "Most Popular",
+    "btnProcessing": "Processing...",
+    "planLabels": {
+      "basic": {
+        "name": "Basic",
+        "price": "€9.99",
+        "period": "/month",
+        "description": "Perfect for individual tutors getting started with AI"
+      },
+      "professional": {
+        "name": "Professional",
+        "price": "€19.99",
+        "period": "/month",
+        "description": "Ideal for active tutors and small teaching practices"
+      },
+      "institution": {
+        "name": "Institution",
+        "price": "Custom",
+        "description": "For schools and large educational organizations"
+      }
+    },
+    "manageSubscriptionModal": {
+      "title": "Manage Your Subscription",
+      "upgradeTitle": "Want to upgrade?",
+      "upgradeText": "You can upgrade to the Professional plan directly! This will automatically replace your Basic subscription.",
+      "cancelTitle": "Want to cancel?",
+      "cancelSteps": [
+        "Go to your Subscription page",
+        "Click on \"Manage Billing\"",
+        "Cancel your Basic subscription",
+        "Your Basic features remain active until the end of your billing period"
+      ],
+      "howToDowngradeTitle": "How to Downgrade Your Plan",
+      "howToDowngradeSteps": [
+        "Go to your Subscription page",
+        "Click on \"Manage Billing\"",
+        "Cancel your current Professional subscription",
+        "You keep Pro features until the end of your billing period",
+        "After it expires, you can subscribe to Basic"
+      ],
+      "closeButton": "Close"
+    },
+    "comparePlanFeatures": {
+      "heading": "Compare Plan Features",
+      "subtitle": "Get a detailed overview of what's included in each plan to make the best choice for your needs",
+      "tableHeaders": {
+        "price": "Price",
+        "aiCredits": "AI Credits",
+        "studentProfiles": "Student Profiles",
+        "earlyAccess": "Early Access"
+      }
+    }
   }
 }
