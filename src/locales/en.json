@@ -15,5 +15,27 @@
     "placeholder": "Type your message here...",
     "send": "Send",
     "clear": "Clear Chat"
+  },
+  "home": {
+    "hero": {
+      "badge": "AI-Powered Education Platform",
+      "title": "Your Personal AI STEM Tutor Assistant",
+      "subtitle": "Boost your STEM tutoring with personalized insights and smart tools. Focus on what truly matters - inspiring your students.",
+      "cta": {
+        "start": "Let's start",
+        "trial": "Start Free Trial",
+        "login": "Educator Login"
+      }
+    },
+    "resources": {
+      "tool1": {
+        "title": "Tool 1: AI-Powered Correction with Tailored Resources",
+        "category": "Video Tutorial"
+      },
+      "tool2": {
+        "title": "Tool 2: AI-Powered & Tailored Exercise Creation",
+        "category": "Video Tutorial"
+      }
+    }
   }
 }

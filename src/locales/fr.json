@@ -1,19 +1,41 @@
 {
   "common": {
-    "welcome": "Welcome to AI Chat Assistant",
-    "loading": "Loading...",
-    "error": "An error occurred",
-    "submit": "Submit",
-    "cancel": "Cancel"
+    "welcome": "Bienvenue sur l'Assistant de Chat IA",
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "submit": "Envoyer",
+    "cancel": "Annuler"
   },
   "cookieBanner": {
-    "message": "We use cookies to improve your experience. Read our Privacy Policy for more details.",
-    "accept": "Accept",
-    "decline": "Decline"
+    "message": "Nous utilisons des cookies pour améliorer votre expérience. Lisez notre politique de confidentialité pour plus de détails.",
+    "accept": "Accepter",
+    "decline": "Refuser"
   },
   "chat": {
-    "placeholder": "Type your message here...",
-    "send": "Send",
-    "clear": "Clear Chat"
+    "placeholder": "Tapez votre message ici...",
+    "send": "Envoyer",
+    "clear": "Effacer le chat"
+  },
+  "home": {
+    "hero": {
+      "badge": "Plateforme éducative alimentée par l'IA",
+      "title": "Votre Assistant Tuteur STEM IA Personnel",
+      "subtitle": "Améliorez votre tutorat STEM avec des insights personnalisés et des outils intelligents. Concentrez-vous sur l'essentiel - inspirer vos étudiants.",
+      "cta": {
+        "start": "Commencer",
+        "trial": "Essai gratuit",
+        "login": "Connexion Enseignant"
+      }
+    },
+    "resources": {
+      "tool1": {
+        "title": "Outil 1: Correction alimentée par l'IA avec ressources personnalisées",
+        "category": "Tutoriel vidéo"
+      },
+      "tool2": {
+        "title": "Outil 2: Création d'exercices personnalisés alimentée par l'IA",
+        "category": "Tutoriel vidéo"
+      }
+    }
   }
 }

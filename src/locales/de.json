@@ -1,19 +1,41 @@
 {
   "common": {
-    "welcome": "Welcome to AI Chat Assistant",
-    "loading": "Loading...",
-    "error": "An error occurred",
-    "submit": "Submit",
-    "cancel": "Cancel"
+    "welcome": "Willkommen beim KI-Chat-Assistenten",
+    "loading": "Wird geladen...",
+    "error": "Ein Fehler ist aufgetreten",
+    "submit": "Absenden",
+    "cancel": "Abbrechen"
   },
   "cookieBanner": {
-    "message": "We use cookies to improve your experience. Read our Privacy Policy for more details.",
-    "accept": "Accept",
-    "decline": "Decline"
+    "message": "Wir verwenden Cookies, um Ihre Erfahrung zu verbessern. Lesen Sie unsere Datenschutzrichtlinie für weitere Details.",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen"
   },
   "chat": {
-    "placeholder": "Type your message here...",
-    "send": "Send",
-    "clear": "Clear Chat"
+    "placeholder": "Geben Sie hier Ihre Nachricht ein...",
+    "send": "Senden",
+    "clear": "Chat löschen"
+  },
+  "home": {
+    "hero": {
+      "badge": "KI-gestützte Bildungsplattform",
+      "title": "Ihr persönlicher KI-MINT-Tutor-Assistent",
+      "subtitle": "Verbessern Sie Ihr MINT-Tutoring mit personalisierten Einblicken und intelligenten Tools. Konzentrieren Sie sich auf das Wesentliche - Ihre Schüler zu inspirieren.",
+      "cta": {
+        "start": "Los geht's",
+        "trial": "Kostenlose Testversion starten",
+        "login": "Lehrer-Login"
+      }
+    },
+    "resources": {
+      "tool1": {
+        "title": "Tool 1: KI-gestützte Korrektur mit maßgeschneiderten Ressourcen",
+        "category": "Video-Tutorial"
+      },
+      "tool2": {
+        "title": "Tool 2: KI-gestützte & maßgeschneiderte Übungserstellung",
+        "category": "Video-Tutorial"
+      }
+    }
   }
 }

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import EducatorChallenges from "./EducatorChallenges";
 import NextGenTools from "./NextGenTools";
 import * as CookieConsent from "react-cookie-consent";
+import { useTranslation } from "react-i18next";
 
 interface Resource {
   icon: JSX.Element;
@@ -18,20 +19,21 @@ interface Resource {
 
 export function Home() {
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   const resources: Resource[] = [
     {
       icon: <FiVideo className="w-6 h-6" />,
-      title: "Tool 1: AI-Powered Correction with Tailored Resources",
-      category: "Video Tutorial",
+      title: t("home.resources.tool1.title"),
+      category: t("home.resources.tool1.category"),
       isLoomVideo: true,
       videoId: "e6c2ca4d96e947cbab8095db19b7f79f",
       image: "https://cdn-icons-png.flaticon.com/512/4711/4711999.png",
     },
     {
       icon: <FiVideo className="w-6 h-6" />,
-      title: "Tool 2: AI-Powered & Tailored Exercise Creation",
-      category: "Video Tutorial",
+      title: t("home.resources.tool2.title"),
+      category: t("home.resources.tool2.category"),
       isLoomVideo: true,
       videoId: "26cf28ab1b84491da5d413d9a9765240",
       image: "https://cdn-icons-png.flaticon.com/512/4711/4711999.png",
@@ -78,7 +80,7 @@ export function Home() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
                 </span>
-                AI-Powered Education Platform
+                {t("home.hero.badge")}
               </motion.div>
 
               {/* Main heading with enhanced animation and styling */}
@@ -89,7 +91,7 @@ export function Home() {
                 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
               >
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-200 to-purple-300 drop-shadow-sm">
-                  Your Personal AI STEM Tutor Assistant
+                  {t("home.hero.title")}
                 </span>
               </motion.h1>
 
@@ -100,8 +102,7 @@ export function Home() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="text-xl text-gray-300/90 max-w-2xl leading-relaxed"
               >
-                Boost your STEM tutoring with personalized insights and smart
-                tools. Focus on what truly matters - inspiring your students.
+                {t("home.hero.subtitle")}
               </motion.p>
 
               {/* CTA buttons with enhanced styling and animations */}
@@ -120,7 +121,7 @@ export function Home() {
                       to="/tools/homework-corrections"
                       className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-600/30 w-full sm:w-auto backdrop-blur-sm"
                     >
-                      Let's start
+                      {t("home.hero.cta.start")}
                       <FiArrowRight className="ml-3 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </motion.div>
@@ -134,7 +135,7 @@ export function Home() {
                         to="/auth"
                         className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium shadow-lg shadow-blue-600/20 hover:shadow-xl hover:shadow-purple-600/30 transition-all duration-300"
                       >
-                        Start Free Trial
+                        {t("home.hero.cta.trial")}
                         <FiArrowRight className="ml-3 transition-transform group-hover:translate-x-1" />
                       </Link>
                     </motion.div>
@@ -146,7 +147,7 @@ export function Home() {
                         to="/auth"
                         className="inline-flex items-center px-8 py-4 bg-gray-800/60 text-gray-100 rounded-xl font-medium hover:bg-gray-800/80 transition-all duration-300 backdrop-blur-sm border border-gray-700/50 shadow-lg shadow-gray-900/20"
                       >
-                        Educator Login
+                        {t("home.hero.cta.login")}
                       </Link>
                     </motion.div>
                   </>
