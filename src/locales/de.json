@@ -36,6 +36,142 @@
         "title": "Tool 2: KI-gestützte & maßgeschneiderte Übungserstellung",
         "category": "Video-Tutorial"
       }
+    },
+
+    "nextGenTools": {
+      "badge": "NÄCHSTE-GENERATION LEHREN-TOOLS",
+      "title": "Transformative Bildung",
+      "title2": "Technologie",
+      "subtitle": "Stellen Sie sich vor, Sie könnten den Großteil Ihrer Zeit damit verbringen, was wirklich zählt: Ihren Schülern zum Erfolg zu verhelfen.",
+      "tools": {
+        "exerciseCorrections": {
+          "title": "Übungskorrekturen",
+          "description": "Sparen Sie Stunden an Korrekturarbeit – machen Sie einfach ein Foto von handgeschriebenen Arbeiten und erhalten Sie in Sekundenschnelle komplette Korrekturberichte.",
+          "longDescription": "Kein mühsames Herumhantieren mit Teilpunkten oder ausführlichen Erklärungen mehr – unsere KI übernimmt das und liefert faire Noten mit klarer Begründung. Außerdem erkennt sie automatisch Wissenslücken, findet relevante Unterrichtsmaterialien und erstellt Übungsaufgaben.",
+          "benefits": [
+            "Benotung handgeschriebener Arbeiten in Sekunden statt Stunden",
+            "Faire Teilpunkte mit verständlichen Erklärungen",
+            "Sofortige Analyse des Konzeptverständnisses",
+            "Automatisch kuratierte Lernressourcen",
+            "Gezielte Übungsaufgaben generieren",
+            "Wiederkehrende Missverständnisse verfolgen"
+          ]
+        },
+        "personalizedTutoring": {
+          "title": "Personalisierte Nachhilfe",
+          "description": "Erhalten Sie einen genauen Überblick über den Leistungsstand Ihrer Schüler mit unserem smarten Dashboard, das Ihnen viel Arbeit abnimmt.",
+          "longDescription": "Erkennen Sie sofort, wenn ein Schüler anfängt, mit einem Konzept zu kämpfen, feiern Sie seine Fortschritte und bekommen Sie KI-basierte Lernpläne, die an jeden Schüler angepasst sind. Keine Vermutungen mehr – wissen Sie genau, welche Themen Aufmerksamkeit benötigen und erhalten Sie sofort einsatzbereite Materialien.",
+          "benefits": [
+            "Leistungsübersichten für alle Konzepte",
+            "Zugriff auf passende Lernmaterialien",
+            "Fortschritt mit visuellen Zeitverläufen verfolgen",
+            "Ausführliche Fortschrittsberichte teilen",
+            "Sofortige Leistungswarnungen",
+            "KI-gestützte persönliche Betreuung"
+          ]
+        },
+        "exerciseForge": {
+          "title": "Übungs-Schmiede",
+          "description": "Erstellen Sie perfekte Übungsmaterialien in wenigen Minuten. Laden Sie vorhandene Prüfungen für sofortige Varianten hoch.",
+          "longDescription": "Nutzen Sie unsere KI, um maßgeschneiderte Übungen zu entwerfen, die genau Ihren Lehrzielen entsprechen. Jede Aufgabe wird mit detaillierten, schrittweisen Lösungen und anpassbaren Hinweisen geliefert – alles, was Sie zur Unterstützung Ihrer Schüler benötigen.",
+          "benefits": [
+            "Prüfungsvarianten sofort erzeugen",
+            "Individuelle Übungen mit KI entwerfen",
+            "Vollständige Lösungen und Hinweise erhalten",
+            "Schwierigkeitsgrad leicht anpassen",
+            "Übungssets in Minuten erstellen",
+            "Ausgearbeitete Materialien teilen"
+          ]
+        }
+      },
+      "learnMoreBtn": "Mehr erfahren"
+    },
+    "callToAction": {
+      "heading": "Bereit, Ihren Unterricht zu transformieren?",
+      "subheading": "Schließen Sie sich Tausenden von Lehrkräften an, die ihren MINT-Unterricht mit KI-gestützten Tools verbessern",
+      "button": "Kostenlose Testversion starten"
+    },
+
+    "footer": {
+      "columns": {
+        "product": {
+          "title": "Produkt",
+          "links": {
+            "features": "Funktionen",
+            "pricing": "Preise"
+          }
+        },
+        "resources": {
+          "title": "Ressourcen",
+          "links": {
+            "docs": "Dokumentation",
+            "tutorials": "Tutorials"
+          }
+        },
+        "company": {
+          "title": "Unternehmen",
+          "links": {
+            "about": "Über uns",
+            "contact": "Kontakt"
+          }
+        },
+        "legal": {
+          "title": "Rechtliches",
+          "links": {
+            "privacy": "Datenschutz",
+            "terms": "Nutzungsbedingungen",
+            "cookieSettings": "Cookie-Einstellungen"
+          }
+        }
+      },
+      "copyright": "© 2025 RobinAgent. Alle Rechte vorbehalten."
+    },
+
+    "educatorChallenges": {
+      "badge": "HERAUSFORDERUNGEN FÜR LEHRKRÄFTE",
+      "heading": "Unterrichtsherausforderungen transformieren",
+      "allChallengesBanner": "Alle Herausforderungen gelöst mit KI-gestützten Lösungen",
+      "allChallengesBannerSub": "Intelligente Automatisierung und personalisierte Einblicke für jeden Unterrichtsbedarf",
+      "tiredHeading": "Müde von diesen Herausforderungen?",
+      "p1": "Die größten Herausforderungen für MINT-Lehrkräfte drehen sich um zeitaufwändige Bewertungen und eine personalisierte Unterstützung für jeden Schüler.",
+      "p2": "Je mehr individuelle Betreuung Sie jedem Schüler bieten können, desto größer sind seine Erfolgschancen. Das ist es, was den Beruf des Lehrers so erfüllend macht – zum Erfolg jedes Schützlings beizutragen.",
+      "p3": "Wir sind hier, um Ihnen dabei zu helfen.",
+      "painPoints": {
+        "manual": {
+          "title": "Aufwändige manuelle Bewertung",
+          "solution": "Experten-Sofortbewertung für komplexe Problemstellungen"
+        },
+        "partialCredit": {
+          "title": "Problem der Teilpunkte",
+          "solution": "Schrittweise Fehleranalyse mit intelligenter Punkteverteilung"
+        },
+        "personalization": {
+          "title": "Überlastung durch Individualisierung",
+          "solution": "Automatisierte personalisierte Lernwege basierend auf der Leistung"
+        },
+        "churn": {
+          "title": "Aufwand für neue Übungserstellung",
+          "solution": "Automatisierte Erstellung gezielter Übungsmaterialien"
+        },
+        "timeConsuming": {
+          "title": "Zeitaufwendige Erstellung von Korrekturen",
+          "solution": "Vollständige, schrittweise Korrektur mit Hinweisen zur Unterstützung der Lernenden"
+        },
+        "overwhelmingProgress": {
+          "title": "Überwältigende Fortschrittsverfolgung",
+          "solution": "Echtzeit-Analyse-Dashboard mit Leistungsübersicht für jeden Schüler"
+        },
+        "draftingPersonalized": {
+          "title": "Entwurf personalisierter Pläne",
+          "solution": "Intelligenter Lernweg-Generator basierend auf Wissenslücken"
+        }
+      }
+    },
+    "learningResources": {
+      "badge": "LERNRESSOURCEN",
+      "title": "Anleitungen & Tutorials",
+      "description": "Schauen Sie sich unsere umfassenden Tutorials an, um zu lernen, wie Sie alle Funktionen nutzen und Ihre Lehreffizienz mit unseren KI-gestützten Tools maximieren können.",
+      "learnMore": "Mehr erfahren"
     }
   }
 }

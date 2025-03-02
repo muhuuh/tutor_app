@@ -36,6 +36,140 @@
         "title": "Tool 2: AI-Powered & Tailored Exercise Creation",
         "category": "Video Tutorial"
       }
+    },
+
+    "nextGenTools": {
+      "badge": "NEXT-GEN TEACHING TOOLS",
+      "title": "Transformative Education",
+      "title2": "Technology",
+      "subtitle": "Imagine being able to spend most of your time on what truly matters: helping your students thrive.",
+      "tools": {
+        "exerciseCorrections": {
+          "title": "Exercise Corrections",
+          "description": "Save hours of grading time - just snap a photo of any handwritten work and get complete correction reports in seconds.",
+          "longDescription": "No more wrestling with partial credits or writing detailed explanations - our AI handles it all, providing fair grades with clear reasoning. Best of all, it automatically identifies knowledge gaps, finds relevant teaching resources, and creates practice exercises.",
+          "benefits": [
+            "Grade any handwritten work in seconds, not hours",
+            "Get fair partial credit with explained reasoning",
+            "Receive instant concept mastery analysis",
+            "Access auto-curated learning resources",
+            "Generate targeted practice exercises",
+            "Track recurring misconceptions"
+          ]
+        },
+        "personalizedTutoring": {
+          "title": "Personalized Tutoring",
+          "description": "See exactly how your students are performing with our smart dashboard that does the heavy lifting for you.",
+          "longDescription": "Instantly spot when a student starts struggling with a concept, celebrate their improvements, and get AI-suggested study plans tailored to each student. No more guesswork - know exactly which topics need attention and get ready-made materials to help your students succeed.",
+          "benefits": [
+            "Performance summaries over all concepts",
+            "Access to matching learning materials",
+            "Track improvement with visual timelines",
+            "Share detailed progress updates",
+            "Get instant performance alerts",
+            "AI-powered personalized guidance"
+          ]
+        },
+        "exerciseForge": {
+          "title": "Exercise Forge",
+          "description": "Create perfect practice materials in minutes. Upload existing exams for instant variations.",
+          "longDescription": "Brainstorm with our AI to design custom exercises that match your exact teaching goals. Every exercise comes with detailed step-by-step solutions and customizable hints, giving you everything needed to support student learning.",
+          "benefits": [
+            "Generate exam variations instantly",
+            "Design custom exercises with AI",
+            "Get complete solutions and hints",
+            "Adjust difficulty levels easily",
+            "Create practice sets in minutes",
+            "Share guided materials"
+          ]
+        }
+      },
+      "learnMoreBtn": "Learn more"
+    },
+    "callToAction": {
+      "heading": "Ready to Transform Your Teaching?",
+      "subheading": "Join thousands of educators enhancing their STEM instruction with AI-powered tools",
+      "button": "Start Free Trial"
+    },
+    "footer": {
+      "columns": {
+        "product": {
+          "title": "Product",
+          "links": {
+            "features": "Features",
+            "pricing": "Pricing"
+          }
+        },
+        "resources": {
+          "title": "Resources",
+          "links": {
+            "docs": "Documentation",
+            "tutorials": "Tutorials"
+          }
+        },
+        "company": {
+          "title": "Company",
+          "links": {
+            "about": "About",
+            "contact": "Contact"
+          }
+        },
+        "legal": {
+          "title": "Legal",
+          "links": {
+            "privacy": "Privacy",
+            "terms": "Terms",
+            "cookieSettings": "Cookie Settings"
+          }
+        }
+      },
+      "copyright": "© 2025 RobinAgent. All rights reserved."
+    },
+    "educatorChallenges": {
+      "badge": "EDUCATOR CHALLENGES",
+      "heading": "Transforming Teaching Challenges",
+      "allChallengesBanner": "All challenges solved with AI-Powered Solutions",
+      "allChallengesBannerSub": "Smart automation and personalized insights for every teaching need",
+      "tiredHeading": "Tired of these challenges?",
+      "p1": "The biggest pain points for STEM educators revolve around time-consuming grading and providing personalized support for each student.",
+      "p2": "The more individualized attention you can provide to each student, the better their chances of thriving. This is what makes being an educator so fulfilling – contributing to the success of each of your protégés.",
+      "p3": "We are here to help you with that.",
+      "painPoints": {
+        "manual": {
+          "title": "Manual Grading Marathon",
+          "solution": "Expert instant assessment for complex problem-solving"
+        },
+        "partialCredit": {
+          "title": "Partial Credit Dilemma",
+          "solution": "Step-by-step error analysis with intelligent credit allocation"
+        },
+        "personalization": {
+          "title": "Personalization Overload",
+          "solution": "Automated personalized learning paths based on performance"
+        },
+        "churn": {
+          "title": "Churn to Create New Exercises",
+          "solution": "Automated generation of targeted practice materials"
+        },
+        "timeConsuming": {
+          "title": "Time-Consuming Drafting of Corrections",
+          "solution": "Complete step-by-step correction and hints to help students"
+        },
+        "overwhelmingProgress": {
+          "title": "Overwhelming Progress Tracking",
+          "solution": "Real-time analytics dashboard with performance insights for each student"
+        },
+        "draftingPersonalized": {
+          "title": "Drafting Personalized Plans",
+          "solution": "Smart learning path generator based on student gaps"
+        }
+      }
+    },
+    "learningResources": {
+      "badge": "LEARNING RESOURCES",
+      "title": "Guides & Tutorials",
+      "description": "Watch our comprehensive tutorials to learn how to leverage all features and maximize your teaching efficiency with our AI-powered tools.",
+      "learnMore": "Learn More"
     }
   }
 }

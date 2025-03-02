@@ -18,8 +18,8 @@ interface Resource {
 }
 
 export function Home() {
-  const { user } = useAuth();
   const { t } = useTranslation();
+  const { user } = useAuth();
 
   const resources: Resource[] = [
     {
@@ -51,25 +51,16 @@ export function Home() {
       <div className="fixed inset-0 bg-gradient-to-b from-gray-50 to-white -z-10" />
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] -z-10" />
 
-      {/* Enhanced Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Improved background with more engaging gradients */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-950 to-indigo-900">
-          {/* Animated gradient overlay */}
           <div className="absolute inset-0 opacity-30 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
-
-          {/* Enhanced grid pattern */}
           <div className="absolute inset-0 opacity-10 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
-
-          {/* Decorative blurred circles */}
           <div className="absolute left-1/4 top-1/4 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500 opacity-20 rounded-full blur-[80px] animate-pulse"></div>
           <div className="absolute right-1/4 bottom-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 bg-purple-500 opacity-20 rounded-full blur-[100px] animate-pulse [animation-delay:2s]"></div>
         </div>
-
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="text-center lg:text-left space-y-8 relative z-10">
-              {/* Badge with enhanced animation */}
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -82,7 +73,6 @@ export function Home() {
                 </span>
                 {t("home.hero.badge")}
               </motion.div>
-
               {/* Main heading with enhanced animation and styling */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -215,17 +205,15 @@ export function Home() {
                   <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
                 </span>
-                LEARNING RESOURCES
+                {t("home.learningResources.badge")}
               </motion.span>
 
               <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent pb-1">
-                Guides & Tutorials
+                {t("home.learningResources.title")}
               </h2>
 
               <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
-                Watch our comprehensive tutorials to learn how to leverage all
-                features and maximize your teaching efficiency with our
-                AI-powered tools.
+                {t("home.learningResources.description")}
               </p>
             </motion.div>
 
@@ -284,7 +272,7 @@ export function Home() {
                             to={resource.link}
                             className="mt-4 inline-flex items-center text-blue-500 font-medium hover:text-blue-600 transition-colors group"
                           >
-                            Learn More
+                            {t("home.learningResources.learnMore")}
                             <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
                           </Link>
                         )}
@@ -302,18 +290,17 @@ export function Home() {
           <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
           <div className="relative max-w-7xl mx-auto px-4 text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Transform Your Teaching?
+              {t("home.callToAction.heading")}
             </h2>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join thousands of educators enhancing their STEM instruction with
-              AI-powered tools
+              {t("home.callToAction.subheading")}
             </p>
             <div className="flex justify-center gap-4">
               <Link
                 to="/signup"
                 className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-white/25 hover:scale-105"
               >
-                Start Free Trial
+                {t("home.callToAction.button")}
                 <FiArrowRight className="ml-2 inline-block transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
@@ -327,7 +314,7 @@ export function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             <div className="col-span-1">
               <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
-                Product
+                {t("home.footer.columns.product.title")}
               </h3>
               <ul className="space-y-2">
                 <li>
@@ -335,15 +322,15 @@ export function Home() {
                     to="/features"
                     className="text-sm hover:text-white transition-colors block py-1"
                   >
-                    Features
+                    {t("home.footer.columns.product.links.features")}
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="../company/pricing"
+                    to="../pricing"
                     className="text-sm hover:text-white transition-colors block py-1"
                   >
-                    Pricing
+                    {t("home.footer.columns.product.links.pricing")}
                   </Link>
                 </li>
               </ul>
@@ -351,7 +338,7 @@ export function Home() {
 
             <div className="col-span-1">
               <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
-                Resources
+                {t("home.footer.columns.resources.title")}
               </h3>
               <ul className="space-y-2">
                 <li>
@@ -359,7 +346,7 @@ export function Home() {
                     to="/docs"
                     className="text-sm hover:text-white transition-colors block py-1"
                   >
-                    Documentation
+                    {t("home.footer.columns.resources.links.docs")}
                   </Link>
                 </li>
                 <li>
@@ -367,7 +354,7 @@ export function Home() {
                     to="/tutorials"
                     className="text-sm hover:text-white transition-colors block py-1"
                   >
-                    Tutorials
+                    {t("home.footer.columns.resources.links.tutorials")}
                   </Link>
                 </li>
               </ul>
@@ -375,7 +362,7 @@ export function Home() {
 
             <div className="col-span-2 md:col-span-1 mt-8 md:mt-0">
               <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
-                Company
+                {t("home.footer.columns.company.title")}
               </h3>
               <ul className="space-y-2 grid grid-cols-2 md:block gap-2">
                 <li>
@@ -383,7 +370,7 @@ export function Home() {
                     to="../company/about"
                     className="text-sm hover:text-white transition-colors block py-1"
                   >
-                    About
+                    {t("home.footer.columns.company.links.about")}
                   </Link>
                 </li>
                 <li>
@@ -391,7 +378,7 @@ export function Home() {
                     to="../company/contact"
                     className="text-sm hover:text-white transition-colors block py-1"
                   >
-                    Contact
+                    {t("home.footer.columns.company.links.contact")}
                   </Link>
                 </li>
               </ul>
@@ -399,7 +386,7 @@ export function Home() {
 
             <div className="col-span-2 md:col-span-1 mt-8 md:mt-0">
               <h3 className="text-white font-semibold mb-3 text-sm md:text-base">
-                Legal
+                {t("home.footer.columns.legal.title")}
               </h3>
               <ul className="space-y-2 grid grid-cols-2 md:block gap-2">
                 <li>
@@ -407,7 +394,7 @@ export function Home() {
                     to="/privacy"
                     className="text-sm hover:text-white transition-colors block py-1"
                   >
-                    Privacy
+                    {t("home.footer.columns.legal.links.privacy")}
                   </Link>
                 </li>
                 <li>
@@ -415,7 +402,7 @@ export function Home() {
                     to="/terms"
                     className="text-sm hover:text-white transition-colors block py-1"
                   >
-                    Terms
+                    {t("home.footer.columns.legal.links.terms")}
                   </Link>
                 </li>
                 <li className="col-span-2 md:col-span-1">
@@ -424,7 +411,7 @@ export function Home() {
                     className="text-sm hover:text-white transition-colors block py-1 text-left w-full"
                     aria-label="Manage Cookie Preferences"
                   >
-                    Cookie Settings
+                    {t("home.footer.columns.legal.links.cookieSettings")}
                   </button>
                 </li>
               </ul>
@@ -433,7 +420,7 @@ export function Home() {
 
           <div className="mt-12 pt-8 border-t border-gray-800">
             <p className="text-center text-sm text-gray-500">
-              &copy; 2025 RobinAgent. All rights reserved.
+              {t("home.footer.copyright")}
             </p>
           </div>
         </div>

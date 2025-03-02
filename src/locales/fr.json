@@ -36,6 +36,142 @@
         "title": "Outil 2: Création d'exercices personnalisés alimentée par l'IA",
         "category": "Tutoriel vidéo"
       }
+    },
+
+    "nextGenTools": {
+      "badge": "OUTILS DE FORMATION NOUVELLE GÉNÉRATION",
+      "title": "Éducation Transformante",
+      "title2": "Technologie",
+      "subtitle": "Imaginez pouvoir consacrer la majeure partie de votre temps à ce qui compte vraiment : aider vos étudiants à réussir.",
+      "tools": {
+        "exerciseCorrections": {
+          "title": "Corrections d'Exercices",
+          "description": "Gagnez des heures de correction – photographiez simplement n'importe quel travail manuscrit et recevez des rapports de correction complets en quelques secondes.",
+          "longDescription": "Fini les problèmes de points partiels ou d'explications détaillées – notre IA s'occupe de tout, en fournissant des notes équitables et des justifications claires. Mieux encore, elle identifie automatiquement les lacunes de connaissances, trouve des ressources pédagogiques pertinentes et crée des exercices pratiques.",
+          "benefits": [
+            "Corrigez des travaux manuscrits en quelques secondes, pas en heures",
+            "Accordez des points partiels équitables avec explications",
+            "Obtenez une analyse instantanée de la maîtrise des concepts",
+            "Accédez à des ressources d'apprentissage sélectionnées automatiquement",
+            "Générez des exercices ciblés",
+            "Suivez les incompréhensions récurrentes"
+          ]
+        },
+        "personalizedTutoring": {
+          "title": "Tutorat Personnalisé",
+          "description": "Voyez exactement comment vos étudiants progressent grâce à notre tableau de bord intelligent qui fait tout le travail pour vous.",
+          "longDescription": "Repérez instantanément lorsqu'un étudiant commence à avoir des difficultés avec un concept, célébrez ses améliorations et obtenez des plans d'étude suggérés par l'IA, adaptés à chaque étudiant. Plus besoin de supposer : sachez précisément quels sujets nécessitent une attention et profitez de matériels prêts à l'emploi pour aider vos étudiants à réussir.",
+          "benefits": [
+            "Récapitulatifs de performance pour tous les concepts",
+            "Accès à des ressources d'apprentissage adaptées",
+            "Suivi des progrès avec des chronologies visuelles",
+            "Partage de rapports de progrès détaillés",
+            "Alertes de performance instantanées",
+            "Guidage personnalisé alimenté par l'IA"
+          ]
+        },
+        "exerciseForge": {
+          "title": "Forge d'Exercices",
+          "description": "Créez des ressources d'entraînement parfaites en quelques minutes. Téléversez des examens existants pour générer rapidement des variantes.",
+          "longDescription": "Collaborez avec notre IA pour concevoir des exercices personnalisés répondant à vos objectifs pédagogiques. Chaque exercice comprend des solutions détaillées étape par étape et des indices personnalisables, vous offrant tout le nécessaire pour soutenir l'apprentissage de vos étudiants.",
+          "benefits": [
+            "Générez instantanément des variantes d'examen",
+            "Concevez des exercices personnalisés avec l'IA",
+            "Obtenez des solutions complètes et des indices",
+            "Ajustez facilement les niveaux de difficulté",
+            "Créez des ensembles d'exercices en quelques minutes",
+            "Partagez du matériel guidé"
+          ]
+        }
+      },
+      "learnMoreBtn": "En savoir plus"
+    },
+    "callToAction": {
+      "heading": "Prêt à transformer votre enseignement ?",
+      "subheading": "Rejoignez des milliers d'enseignants qui améliorent leur enseignement STEM avec des outils alimentés par l'IA",
+      "button": "Commencer l'essai gratuit"
+    },
+
+    "footer": {
+      "columns": {
+        "product": {
+          "title": "Produit",
+          "links": {
+            "features": "Fonctionnalités",
+            "pricing": "Tarifs"
+          }
+        },
+        "resources": {
+          "title": "Ressources",
+          "links": {
+            "docs": "Documentation",
+            "tutorials": "Tutoriels"
+          }
+        },
+        "company": {
+          "title": "Entreprise",
+          "links": {
+            "about": "À propos",
+            "contact": "Contact"
+          }
+        },
+        "legal": {
+          "title": "Légal",
+          "links": {
+            "privacy": "Confidentialité",
+            "terms": "Conditions",
+            "cookieSettings": "Paramètres de cookies"
+          }
+        }
+      },
+      "copyright": "© 2025 RobinAgent. Tous droits réservés."
+    },
+
+    "educatorChallenges": {
+      "badge": "DÉFIS POUR LES ÉDUCATEURS",
+      "heading": "Transformer les défis de l'enseignement",
+      "allChallengesBanner": "Tous les défis résolus avec des solutions alimentées par l'IA",
+      "allChallengesBannerSub": "Automatisation intelligente et analyses personnalisées pour chaque besoin d'enseignement",
+      "tiredHeading": "Fatigué de ces défis ?",
+      "p1": "Les plus grands problèmes pour les enseignants STEM tournent autour d'une correction chronophage et d'un accompagnement personnalisé pour chaque étudiant.",
+      "p2": "Plus vous pouvez offrir une attention individualisée à chaque étudiant, plus ils ont de chances de réussir. C'est ce qui rend la profession d'enseignant si gratifiante : contribuer à la réussite de chacun de vos protégés.",
+      "p3": "Nous sommes là pour vous aider.",
+      "painPoints": {
+        "manual": {
+          "title": "Marathon de correction manuelle",
+          "solution": "Évaluation instantanée experte pour la résolution de problèmes complexes"
+        },
+        "partialCredit": {
+          "title": "Dilemme des points partiels",
+          "solution": "Analyse d'erreur étape par étape avec attribution intelligente des points"
+        },
+        "personalization": {
+          "title": "Surcharge de personnalisation",
+          "solution": "Parcours d'apprentissage personnalisés automatisés basés sur la performance"
+        },
+        "churn": {
+          "title": "Création laborieuse de nouveaux exercices",
+          "solution": "Génération automatisée de supports d'entraînement ciblés"
+        },
+        "timeConsuming": {
+          "title": "Rédaction chronophage des corrections",
+          "solution": "Correction détaillée étape par étape et indices pour aider les étudiants"
+        },
+        "overwhelmingProgress": {
+          "title": "Suivi des progrès accablant",
+          "solution": "Tableau de bord analytique en temps réel avec des informations de performance pour chaque étudiant"
+        },
+        "draftingPersonalized": {
+          "title": "Élaboration de plans personnalisés",
+          "solution": "Générateur de parcours d'apprentissage intelligent basé sur les lacunes des étudiants"
+        }
+      }
+    },
+    "learningResources": {
+      "badge": "RESSOURCES D'APPRENTISSAGE",
+      "title": "Guides et Tutoriels",
+      "description": "Regardez nos tutoriels complets pour apprendre à utiliser toutes les fonctionnalités et maximiser votre efficacité pédagogique avec nos outils alimentés par l'IA.",
+      "learnMore": "En savoir plus"
     }
   }
 }

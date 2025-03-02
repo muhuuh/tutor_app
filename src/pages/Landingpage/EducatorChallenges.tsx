@@ -12,36 +12,78 @@ import {
 } from "react-icons/fi";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoPlay from "embla-carousel-autoplay";
+import { useTranslation } from "react-i18next";
 
-const painPoints = [
+const getPainPoints = (t: any) => [
   {
-    title: "Manual Grading Marathon",
-    solution: "Expert instant assessment for complex problem-solving",
+    title: t(
+      "home.educatorChallenges.painPoints.manual.title",
+      "Manual Grading Marathon"
+    ),
+    solution: t(
+      "home.educatorChallenges.painPoints.manual.solution",
+      "Expert instant assessment for complex problem-solving"
+    ),
   },
   {
-    title: "Partial Credit Dilemma",
-    solution: "Step-by-step error analysis with intelligent credit allocation",
+    title: t(
+      "home.educatorChallenges.painPoints.partialCredit.title",
+      "Partial Credit Dilemma"
+    ),
+    solution: t(
+      "home.educatorChallenges.painPoints.partialCredit.solution",
+      "Step-by-step error analysis with intelligent credit allocation"
+    ),
   },
   {
-    title: "Personalization Overload",
-    solution: "Automated personalized learning paths based on performance",
+    title: t(
+      "home.educatorChallenges.painPoints.personalization.title",
+      "Personalization Overload"
+    ),
+    solution: t(
+      "home.educatorChallenges.painPoints.personalization.solution",
+      "Automated personalized learning paths based on performance"
+    ),
   },
   {
-    title: "Churn to Create New Exercises",
-    solution: "Automated generation of targeted practice materials",
+    title: t(
+      "home.educatorChallenges.painPoints.churn.title",
+      "Churn to Create New Exercises"
+    ),
+    solution: t(
+      "home.educatorChallenges.painPoints.churn.solution",
+      "Automated generation of targeted practice materials"
+    ),
   },
   {
-    title: "Time-Consuming Drafting of Corrections",
-    solution: "Complete step-by-step correction and hints to help students",
+    title: t(
+      "home.educatorChallenges.painPoints.timeConsuming.title",
+      "Time-Consuming Drafting of Corrections"
+    ),
+    solution: t(
+      "home.educatorChallenges.painPoints.timeConsuming.solution",
+      "Complete step-by-step correction and hints to help students"
+    ),
   },
   {
-    title: "Overwhelming Progress Tracking",
-    solution:
-      "Real-time analytics dashboard with performance insights for each student",
+    title: t(
+      "home.educatorChallenges.painPoints.overwhelmingProgress.title",
+      "Overwhelming Progress Tracking"
+    ),
+    solution: t(
+      "home.educatorChallenges.painPoints.overwhelmingProgress.solution",
+      "Real-time analytics dashboard with performance insights for each student"
+    ),
   },
   {
-    title: "Drafting Personalized Plans",
-    solution: "Smart learning path generator based on student gaps",
+    title: t(
+      "home.educatorChallenges.painPoints.draftingPersonalized.title",
+      "Drafting Personalized Plans"
+    ),
+    solution: t(
+      "home.educatorChallenges.painPoints.draftingPersonalized.solution",
+      "Smart learning path generator based on student gaps"
+    ),
   },
 ];
 
@@ -93,6 +135,8 @@ const getIconForTitle = (title: string) => {
 };
 
 export default function EducatorChallengesMindMap() {
+  const { t } = useTranslation();
+  const painPoints = getPainPoints(t);
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "0px" });
   const containerWidth = 800;
@@ -142,7 +186,7 @@ export default function EducatorChallengesMindMap() {
               <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
             </span>
-            EDUCATOR CHALLENGES
+            {t("home.educatorChallenges.badge")}
           </motion.span>
 
           <motion.div
@@ -156,7 +200,7 @@ export default function EducatorChallengesMindMap() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              Transforming Teaching Challenges
+              {t("home.educatorChallenges.heading")}
             </motion.h2>
           </motion.div>
         </div>
@@ -276,16 +320,12 @@ export default function EducatorChallengesMindMap() {
         <div className="md:hidden mb-8 text-center">
           <div className="inline-block px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-100/20">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
-              </span>
               <span className="text-sm font-medium text-blue-700">
-                All challenges solved with AI-Powered Solutions
+                {t("home.educatorChallenges.allChallengesBanner")}
               </span>
             </div>
             <p className="text-xs text-gray-600">
-              Smart automation and personalized insights for every teaching need
+              {t("home.educatorChallenges.allChallengesBannerSub")}
             </p>
           </div>
         </div>
@@ -372,52 +412,22 @@ export default function EducatorChallengesMindMap() {
 
         {/* Text Section after Carousel */}
         <motion.div className="max-w-2xl mx-auto mt-16 px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center space-y-8"
-          >
-            <motion.h3
-              className="text-3xl sm:text-4xl font-bold text-gray-900"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              Tired of these challenges?
+          <motion.div className="text-center space-y-8">
+            <motion.h3 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              {t("home.educatorChallenges.tiredHeading")}
             </motion.h3>
 
             <div className="space-y-6">
-              <motion.p
-                className="text-gray-600 text-lg leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                The biggest pain points for STEM educators revolve around
-                time-consuming grading and providing personalized support for
-                each student.
+              <motion.p className="text-gray-600 text-lg leading-relaxed">
+                {t("home.educatorChallenges.p1")}
               </motion.p>
 
-              <motion.p
-                className="text-gray-600 text-lg leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                The more individualized attention you can provide to each
-                student, the better their chances of thriving. This is what
-                makes being an educator so fulfilling - contributing to the
-                success of each of your protégés.
+              <motion.p className="text-gray-600 text-lg leading-relaxed">
+                {t("home.educatorChallenges.p2")}
               </motion.p>
 
-              <motion.p
-                className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mt-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                We are here to help you with that.
+              <motion.p className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mt-8">
+                {t("home.educatorChallenges.p3")}
               </motion.p>
             </div>
           </motion.div>

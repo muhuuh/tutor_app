@@ -6,8 +6,11 @@ import {
   FiUserCheck,
   FiArrowRight,
 } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 export default function NextGenTools() {
+  const { t } = useTranslation();
+
   // Function to scroll to Guides & Tutorials section
   const scrollToGuides = () => {
     const guidesSection = document.querySelector("#guides-tutorials");
@@ -16,57 +19,44 @@ export default function NextGenTools() {
     }
   };
 
+  // We reference your translation JSON instead of hard-coded text
   const tools = [
     {
-      title: "Exercise Corrections",
+      title: t("home.nextGenTools.tools.exerciseCorrections.title"),
       icon: <FiEdit3 className="w-6 h-6" />,
-      description: `Save hours of grading time - just snap a photo of any handwritten work and get 
-                    complete correction reports in seconds.`,
-      longDescription: `No more wrestling with partial credits or writing detailed explanations - our AI handles it all, 
-                       providing fair grades with clear reasoning. Best of all, it automatically identifies knowledge gaps, 
-                       finds relevant teaching resources, and creates practice exercises.`,
-      benefits: [
-        "Grade any handwritten work in seconds, not hours",
-        "Get fair partial credit with explained reasoning",
-        "Receive instant concept mastery analysis",
-        "Access auto-curated learning resources",
-        "Generate targeted practice exercises",
-        "Track recurring misconceptions",
-      ],
+      description: t("home.nextGenTools.tools.exerciseCorrections.description"),
+      longDescription: t(
+        "home.nextGenTools.tools.exerciseCorrections.longDescription"
+      ),
+      benefits: t("home.nextGenTools.tools.exerciseCorrections.benefits", {
+        returnObjects: true,
+      }) as string[],
       accent: "blue",
     },
     {
-      title: "Personalized Tutoring",
+      title: t("home.nextGenTools.tools.personalizedTutoring.title"),
       icon: <FiUserCheck className="w-6 h-6" />,
-      description: `See exactly how your students are performing with our smart dashboard that does the heavy lifting for you.`,
-      longDescription: `Instantly spot when a student starts struggling with a concept, celebrate their improvements, 
-                       and get AI-suggested study plans tailored to each student. No more guesswork - know exactly which 
-                       topics need attention and get ready-made materials to help your students succeed.`,
-      benefits: [
-        "Performance summaries over all concepts",
-        "Access to matching learning materials",
-        "Track improvement with visual timelines",
-        "Share detailed progress updates",
-        "Get instant performance alerts",
-        "AI-powered personalized guidance",
-      ],
+      description: t(
+        "home.nextGenTools.tools.personalizedTutoring.description"
+      ),
+      longDescription: t(
+        "home.nextGenTools.tools.personalizedTutoring.longDescription"
+      ),
+      benefits: t("home.nextGenTools.tools.personalizedTutoring.benefits", {
+        returnObjects: true,
+      }) as string[],
       accent: "violet",
     },
     {
-      title: "Exercise Forge",
+      title: t("home.nextGenTools.tools.exerciseForge.title"),
       icon: <FiBook className="w-6 h-6" />,
-      description: `Create perfect practice materials in minutes. Upload existing exams for instant variations.`,
-      longDescription: `Brainstorm with our AI to design custom exercises that match your exact teaching goals. 
-                       Every exercise comes with detailed step-by-step solutions and customizable hints, giving you 
-                       everything needed to support student learning.`,
-      benefits: [
-        "Generate exam variations instantly",
-        "Design custom exercises with AI",
-        "Get complete solutions and hints",
-        "Adjust difficulty levels easily",
-        "Create practice sets in minutes",
-        "Share guided materials",
-      ],
+      description: t("home.nextGenTools.tools.exerciseForge.description"),
+      longDescription: t(
+        "home.nextGenTools.tools.exerciseForge.longDescription"
+      ),
+      benefits: t("home.nextGenTools.tools.exerciseForge.benefits", {
+        returnObjects: true,
+      }) as string[],
       accent: "rose",
     },
   ];
@@ -89,19 +79,21 @@ export default function NextGenTools() {
               <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
             </span>
-            NEXT-GEN TEACHING TOOLS
+            {/* Translated badge */}
+            {t("home.nextGenTools.badge")}
           </motion.span>
 
+          {/* Title with gradient */}
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent pb-1">
-            Transformative Education
+            {t("home.nextGenTools.title")}
             <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600 pb-1">
-              Technology
+              {t("home.nextGenTools.title2")}
             </span>
           </h2>
 
+          {/* Subtitle */}
           <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
-            Imagine being able to spend most of your time on what truly matters:
-            helping your students thrive.
+            {t("home.nextGenTools.subtitle")}
           </p>
         </motion.div>
 
@@ -151,13 +143,13 @@ export default function NextGenTools() {
                     ))}
                   </ul>
 
-                  {/* Learn More button - now at bottom */}
+                  {/* Learn More button */}
                   <motion.button
                     onClick={scrollToGuides}
                     className="mt-auto pt-8 flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors group/link"
                     whileHover={{ x: 4 }}
                   >
-                    Learn more
+                    {t("home.nextGenTools.learnMoreBtn")}
                     <FiArrowRight className="ml-2 w-4 h-4 transition-transform group-hover/link:translate-x-1" />
                   </motion.button>
                 </div>
