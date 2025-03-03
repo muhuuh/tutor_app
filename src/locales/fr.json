@@ -606,5 +606,64 @@
     "fullScreenPreviewAriaLabel": "Aperçu en plein écran",
     "downloadAriaLabel": "Télécharger le rapport",
     "deleteAriaLabel": "Supprimer le rapport"
+  },
+  "chatBox": {
+    "defaultSuggestions": [
+      {
+        "title": "Que savez-vous sur cet élève ?",
+        "content": "Veuillez me dire si vous avez des informations sur cet élève, basées sur les données stockées (rapport, notes, informations de l’élève, etc.)."
+      },
+      {
+        "title": "Informations générales sur mes élèves",
+        "content": "Parlez-moi davantage des élèves que j’ai actuellement (combien, quelle classe, etc.) et plus particulièrement des notions qui semblent les plus mal comprises selon les derniers rapports."
+      },
+      {
+        "title": "Résumé du dernier rapport",
+        "content": "Veuillez me donner un résumé du dernier rapport ainsi que les prochaines étapes à suivre."
+      }
+    ],
+    "infoTooltipFileUpload": "Téléversez des photos de réponses manuscrites pour obtenir un rapport de correction détaillé.",
+    "infoTooltipFileUploadSubtitle": "Obtenez un retour immédiat, des recommandations personnalisées et des exercices ciblés",
+    "fileQueueToast": "{count} fichier(s) ajouté(s) à la file d’attente",
+    "reportTitlePlaceholder": "Saisissez le titre du rapport...",
+    "selectStudentFirstError": "Veuillez d’abord sélectionner un élève",
+    "loadingHistory": "Chargement de l’historique du chat...",
+    "noMessagesSelectStudent": "Sélectionnez un élève pour commencer à discuter",
+    "noMessagesYet": "Aucun message pour le moment. Lancez la conversation !",
+    "assistantError": "Désolé, une erreur s’est produite lors du traitement de votre message. Veuillez réessayer.",
+    "reportCreationLabel": "Correction des exercices",
+    "reportCreationHelp": "Téléversez des images de réponses manuscrites pour obtenir un rapport de correction détaillé.",
+    "filesInQueue": "{count} fichier(s) prêt(s) à être traité(s)",
+    "reportTitlePrompt": "Veuillez saisir un titre pour le rapport afin de continuer",
+    "inputPlaceholder": "Tapez votre message...",
+    "sendFilesToCreateReport": "Envoyer des fichiers pour créer un rapport",
+    "pleaseEnterTitleForReport": "Veuillez saisir un titre pour créer un rapport"
+  },
+  "chatFileUpload": {
+    "uploadLabel": "Téléverser une photo de l’examen et des réponses (jpeg, png)",
+    "uploadError": "Échec du téléversement de {fileName}",
+    "uploading": "Téléversement en cours...",
+    "selectStudentFirstError": "Veuillez d’abord sélectionner un élève",
+    "cameraButtonAria": "Prendre une photo"
+  },
+  "pupilForm": {
+    "headingAddStudent": "Ajouter un nouvel élève",
+    "studentAddedSuccess": "Élève ajouté avec succès !",
+    "studentAddedError": "Échec de l’ajout de l’élève",
+    "fullNameLabel": "Nom complet",
+    "fullNamePlaceholder": "Saisissez le nom complet de l’élève",
+    "studentLevelLabel": "Niveau de l’élève",
+    "studentLevelPlaceholder": "ex. Classe de Seconde, Avancé",
+    "teacherNotesLabel": "Notes de l’enseignant",
+    "teacherNotesPlaceholder": "Ajoutez des remarques pertinentes sur l’élève",
+    "cancelButton": "Annuler",
+    "addButtonIdle": "Ajouter l’élève",
+    "addButtonProgress": "Ajout en cours..."
+  },
+  "chatSuggestions": {
+    "title": "Suggestions pour continuer la conversation",
+    "tooltipInfo": "D’après votre discussion, voici quelques questions et sujets recommandés à explorer avec l’assistant IA.",
+    "subtitle": "Cliquez sur une suggestion pour rapidement commencer la discussion",
+    "loading": "Chargement des suggestions..."
   }
 }

@@ -606,5 +606,64 @@
     "fullScreenPreviewAriaLabel": "Vollbildvorschau",
     "downloadAriaLabel": "Bericht herunterladen",
     "deleteAriaLabel": "Bericht löschen"
+  },
+  "chatBox": {
+    "defaultSuggestions": [
+      {
+        "title": "Was wissen Sie über diesen Schüler?",
+        "content": "Bitte teilen Sie mir mit, ob Sie etwas über diesen Schüler wissen, basierend auf den gespeicherten Informationen (Bericht, Notizen, Schülerdaten usw.)."
+      },
+      {
+        "title": "Allgemeine Informationen über meine Schüler",
+        "content": "Erzählen Sie mir mehr über die Schüler, die ich derzeit habe (wie viele, welche Klasse, usw.) und insbesondere über die Themen, die laut den neuesten Berichten am häufigsten missverstanden werden."
+      },
+      {
+        "title": "Zusammenfassung des neuesten Berichts",
+        "content": "Bitte geben Sie mir eine Zusammenfassung des neuesten Berichts und klar definierte nächste Schritte."
+      }
+    ],
+    "infoTooltipFileUpload": "Laden Sie Fotos von handgeschriebenen Klausurlösungen hoch, um einen detaillierten Korrekturbericht zu erhalten.",
+    "infoTooltipFileUploadSubtitle": "Erhalten Sie sofort Feedback, personalisierte Empfehlungen und gezielte Übungen",
+    "fileQueueToast": "{count} Datei(en) zur Warteschlange hinzugefügt",
+    "reportTitlePlaceholder": "Berichtstitel eingeben...",
+    "selectStudentFirstError": "Bitte wählen Sie zuerst einen Schüler aus",
+    "loadingHistory": "Chatverlauf wird geladen...",
+    "noMessagesSelectStudent": "Wählen Sie einen Schüler aus, um zu chatten",
+    "noMessagesYet": "Noch keine Nachrichten. Beginnen Sie das Gespräch!",
+    "assistantError": "Entschuldigung, es gab einen Fehler bei der Verarbeitung Ihrer Nachricht. Bitte versuchen Sie es erneut.",
+    "reportCreationLabel": "Korrektur von Aufgaben",
+    "reportCreationHelp": "Laden Sie Bilder von handschriftlichen Antworten hoch, um einen detaillierten Korrekturbericht zu erhalten.",
+    "filesInQueue": "{count} Datei(en) bereit zur Verarbeitung",
+    "reportTitlePrompt": "Bitte geben Sie einen Titel für den Bericht ein, um fortzufahren",
+    "inputPlaceholder": "Tippen Sie Ihre Nachricht...",
+    "sendFilesToCreateReport": "Dateien senden, um Bericht zu erstellen",
+    "pleaseEnterTitleForReport": "Bitte geben Sie einen Titel ein, um einen Bericht zu erstellen"
+  },
+  "chatFileUpload": {
+    "uploadLabel": "Foto von Klausur und Antworten hochladen (jpeg, png)",
+    "uploadError": "Fehler beim Hochladen von {fileName}",
+    "uploading": "Dateien werden hochgeladen...",
+    "selectStudentFirstError": "Bitte wählen Sie zuerst einen Schüler aus",
+    "cameraButtonAria": "Ein Foto machen"
+  },
+  "pupilForm": {
+    "headingAddStudent": "Neuen Schüler hinzufügen",
+    "studentAddedSuccess": "Schüler erfolgreich hinzugefügt!",
+    "studentAddedError": "Fehler beim Hinzufügen des Schülers",
+    "fullNameLabel": "Vollständiger Name",
+    "fullNamePlaceholder": "Vollständigen Namen des Schülers eingeben",
+    "studentLevelLabel": "Schülerstufe",
+    "studentLevelPlaceholder": "z.B. Klasse 10, Fortgeschritten",
+    "teacherNotesLabel": "Lehrernotizen",
+    "teacherNotesPlaceholder": "Fügen Sie relevante Notizen über den Schüler hinzu",
+    "cancelButton": "Abbrechen",
+    "addButtonIdle": "Schüler hinzufügen",
+    "addButtonProgress": "Wird hinzugefügt..."
+  },
+  "chatSuggestions": {
+    "title": "Vorschläge für die weitere Unterhaltung",
+    "tooltipInfo": "Basierend auf Ihrem Gespräch finden Sie hier einige empfohlene Fragen und Themen, die Sie mit dem KI-Assistenten besprechen könnten.",
+    "subtitle": "Klicken Sie auf einen Vorschlag, um das Gespräch fortzusetzen",
+    "loading": "Vorschläge werden geladen..."
   }
 }

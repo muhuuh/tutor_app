@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabase";
 import toast from "react-hot-toast";
-import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { ChatFileUpload } from "./ChatFileUpload";
 import { database } from "../../lib/database";
 import ReactMarkdown from "react-markdown";
@@ -13,6 +12,8 @@ import { useCreditWarning } from "../../hooks/useCreditWarning";
 import { CreditWarningModal } from "../UI/CreditWarningModal";
 import { ReportSubmissionModal } from "../UI/ReportSubmissionModal";
 import { ChatSuggestions } from "./ChatSuggestions";
+import { useTranslation } from "react-i18next";
+import { InfoTooltip } from "../UI/InfoTooltip";
 
 interface Message {
   id: string;
@@ -33,36 +34,8 @@ interface SuggestionBox {
   prompt: string;
 }
 
-function InfoTooltip({ content }: { content: string }) {
-  return (
-    <div className="relative group">
-      <InformationCircleIcon className="w-5 h-5 text-indigo-400 hover:text-indigo-500 cursor-help transition-colors" />
-      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm text-white text-xs rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-        {content}
-      </div>
-    </div>
-  );
-}
-
-const DEFAULT_SUGGESTIONS = [
-  {
-    title: "What do you know about this student",
-    content:
-      "Please tell me if you know something about this student, based on the information stored about him (report, notes, pupil info, etc).",
-  },
-  {
-    title: "General info about my pupils",
-    content:
-      "Tell me more about the pupils that are currently have (how many, which class, etc) and more specifically what are the topics that seem to be the most misunderstood based on latest reports",
-  },
-  {
-    title: "Summary of latest report",
-    content:
-      "Please give me a summary of the latest report and clear next steps that were defined",
-  },
-];
-
 export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -351,6 +324,11 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
     }
   };
 
+  // Replace DEFAULT_SUGGESTIONS with translations
+  const DEFAULT_SUGGESTIONS = t("chatBox.defaultSuggestions", {
+    returnObjects: true,
+  }) as Array<{ title: string; content: string }>;
+
   return (
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col lg:flex-row gap-4 sm:gap-8">
@@ -361,13 +339,12 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             <div className="mb-3 sm:mb-4">
               <div className="flex items-center gap-2 justify-center">
                 <h3 className="text-base font-semibold text-blue-900">
-                  Correction of Exercises
+                  {t("chatBox.reportCreationLabel")}
                 </h3>
-                <InfoTooltip content="Upload pictures of handwritten exam answers to receive a detailed correction report." />
+                <InfoTooltip content={t("chatBox.infoTooltipFileUpload")} />
               </div>
               <p className="text-xs text-gray-600 text-center mt-1">
-                Get instant feedback, personalized recommendations, and targeted
-                exercises
+                {t("chatBox.infoTooltipFileUploadSubtitle")}
               </p>
             </div>
 
@@ -381,10 +358,10 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               <div className="mt-4 space-y-3">
                 <div className="p-3 sm:p-4 bg-blue-50 rounded-xl border border-blue-100">
                   <p className="text-sm text-blue-700 font-medium">
-                    {pendingFiles.length} file(s) ready to process
+                    {t("chatBox.filesInQueue", { count: pendingFiles.length })}
                   </p>
                   <p className="text-xs text-blue-600 mt-1">
-                    Please enter a title for the report to continue
+                    {t("chatBox.reportTitlePrompt")}
                   </p>
                 </div>
                 <div>
@@ -393,7 +370,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                     id="reportTitle"
                     value={reportTitle}
                     onChange={(e) => setReportTitle(e.target.value)}
-                    placeholder="Enter report title..."
+                    placeholder={t("chatBox.reportTitlePlaceholder")}
                     className="w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white/50 backdrop-blur text-sm"
                     required
                   />
@@ -425,7 +402,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                 <div className="flex flex-col items-center gap-2">
                   <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
                   <p className="text-sm text-gray-500">
-                    Loading chat history...
+                    {t("chatBox.loadingHistory")}
                   </p>
                 </div>
               </div>
@@ -433,10 +410,10 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               <div className="flex items-center justify-center py-8">
                 <p className="text-sm text-gray-500">
                   {!selectedPupilId
-                    ? "Select a student to start chatting"
+                    ? t("chatBox.noMessagesSelectStudent")
                     : pendingFiles.length > 0
                     ? ""
-                    : "No messages yet. Start a conversation!"}
+                    : t("chatBox.noMessagesYet")}
                 </p>
               </div>
             ) : (
@@ -508,14 +485,14 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                   onChange={(e) => setCurrentPrompt(e.target.value)}
                   placeholder={
                     !selectedPupilId
-                      ? "Select a student before sending a message"
+                      ? t("chatBox.selectStudentFirstError")
                       : pendingFiles.length > 0
                       ? reportTitle.trim()
-                        ? "Send files to create report"
-                        : "Please enter a title to create a report"
-                      : "Type your message..."
+                        ? t("chatBox.sendFilesToCreateReport")
+                        : t("chatBox.pleaseEnterTitleForReport")
+                      : t("chatBox.inputPlaceholder")
                   }
-                  className="flex-1 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-4 py-2 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 focus:outline-none transition-all disabled:opacity-50"
+                  className="flex-1 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-4 py-2 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition-all disabled:opacity-50"
                   disabled={
                     isProcessing ||
                     isLoadingHistory ||

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { database } from "../lib/database";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 interface PupilFormProps {
   onSuccess: () => void;
@@ -10,6 +11,7 @@ interface PupilFormProps {
 
 export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [pupilLevel, setPupilLevel] = useState("");
   const [teacherNotes, setTeacherNotes] = useState("");
@@ -27,7 +29,7 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
         teacher_notes: teacherNotes,
       });
 
-      toast.success("Student added successfully!");
+      toast.success(t("pupilForm.studentAddedSuccess"));
       onSuccess();
 
       // Reset form
@@ -35,7 +37,7 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
       setPupilLevel("");
       setTeacherNotes("");
     } catch (error) {
-      toast.error("Failed to add student");
+      toast.error(t("pupilForm.studentAddedError"));
       console.error("Error adding student:", error);
     } finally {
       setIsSubmitting(false);
@@ -49,7 +51,7 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
           htmlFor="name"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Full Name
+          {t("pupilForm.fullNameLabel")}
         </label>
         <input
           type="text"
@@ -60,7 +62,7 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
           className="block w-full rounded-xl text-xs border-gray-200 bg-gray-50 
                    focus:border-blue-500 focus:ring-blue-500 transition-all duration-200
                    hover:bg-gray-100"
-          placeholder="Enter student's full name"
+          placeholder={t("pupilForm.fullNamePlaceholder")}
         />
       </div>
 
@@ -69,7 +71,7 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
           htmlFor="pupilLevel"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Student Level
+          {t("pupilForm.studentLevelLabel")}
         </label>
         <input
           type="text"
@@ -80,7 +82,7 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
           className="block w-full rounded-xl text-xs border-gray-200 bg-gray-50 
                    focus:border-blue-500 focus:ring-blue-500 transition-all duration-200
                    hover:bg-gray-100"
-          placeholder="e.g., Grade 10, Advanced"
+          placeholder={t("pupilForm.studentLevelPlaceholder")}
         />
       </div>
 
@@ -89,7 +91,7 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
           htmlFor="teacherNotes"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Teacher Notes
+          {t("pupilForm.teacherNotesLabel")}
         </label>
         <textarea
           id="teacherNotes"
@@ -99,7 +101,7 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
           className="block w-full rounded-xl text-xs border-gray-200 bg-gray-50 
                    focus:border-blue-500 focus:ring-blue-500 transition-all duration-200
                    hover:bg-gray-100"
-          placeholder="Add any relevant notes about the student"
+          placeholder={t("pupilForm.teacherNotesPlaceholder")}
         />
       </div>
 
@@ -112,7 +114,7 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                    transition-all duration-200"
         >
-          Cancel
+          {t("pupilForm.cancelButton")}
         </button>
         <button
           type="submit"
@@ -123,7 +125,9 @@ export function PupilForm({ onSuccess, onClose }: PupilFormProps) {
                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                    disabled:opacity-50 transition-all duration-200"
         >
-          {isSubmitting ? "Adding..." : "Add Student"}
+          {isSubmitting
+            ? t("pupilForm.addButtonProgress")
+            : t("pupilForm.addButtonIdle")}
         </button>
       </div>
     </form>

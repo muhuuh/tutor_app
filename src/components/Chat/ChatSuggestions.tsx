@@ -1,4 +1,5 @@
 import { InfoTooltip } from "../UI/InfoTooltip";
+import { useTranslation } from "react-i18next";
 
 interface Suggestion {
   title: string;
@@ -21,17 +22,19 @@ export function ChatSuggestions({
   handleSuggestionClick,
   DEFAULT_SUGGESTIONS,
 }: ChatSuggestionsProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-gray-100 shadow-lg">
       <div className="mb-4 sm:mb-6">
         <div className="flex items-center justify-center gap-2">
           <h3 className="text-base sm:text-lg font-semibold text-blue-900">
-            Suggestions How to Continue
+            {t("chatSuggestions.title")}
           </h3>
-          <InfoTooltip content="Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant." />
+          <InfoTooltip content={t("chatSuggestions.tooltipInfo")} />
         </div>
         <p className="text-xs sm:text-sm text-gray-600 text-center mt-2">
-          Click on any suggestion to quickly start a conversation
+          {t("chatSuggestions.subtitle")}
         </p>
       </div>
       {isLoadingSuggestions ? (

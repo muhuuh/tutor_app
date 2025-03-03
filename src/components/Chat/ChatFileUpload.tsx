@@ -4,6 +4,7 @@ import { supabase } from "../../lib/supabase";
 import toast from "react-hot-toast";
 import { FiUploadCloud, FiCamera } from "react-icons/fi";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import { useTranslation } from "react-i18next";
 
 interface ChatFileUploadProps {
   selectedPupilId: string;
@@ -16,6 +17,7 @@ export function ChatFileUpload({
   onUploadComplete,
   setIsUploading,
 }: ChatFileUploadProps) {
+  const { t } = useTranslation();
   const [isProcessing, setIsProcessing] = useState(false);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
@@ -23,7 +25,7 @@ export function ChatFileUpload({
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       if (!selectedPupilId) {
-        toast.error("Please select a student first");
+        toast.error(t("chatFileUpload.selectStudentFirstError"));
         return;
       }
 
@@ -79,7 +81,7 @@ export function ChatFileUpload({
         setIsUploading(false);
       }
     },
-    [selectedPupilId, onUploadComplete, setIsUploading]
+    [selectedPupilId, onUploadComplete, setIsUploading, t]
   );
 
   const handleCameraCapture = async (
@@ -127,8 +129,7 @@ export function ChatFileUpload({
           }`}
         />
         <h3 className="text-xs sm:text-sm font-medium text-gray-900 mb-1">
-          Upload Foto of Exam and Answers{" "}
-          <span className="font-normal">(jpeg, png)</span>
+          {t("chatFileUpload.uploadLabel")}
         </h3>
 
         {isProcessing && (
@@ -136,7 +137,7 @@ export function ChatFileUpload({
             <div className="flex flex-col items-center gap-2">
               <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
               <p className="text-xs sm:text-sm text-gray-600">
-                Uploading files...
+                {t("chatFileUpload.uploading")}
               </p>
             </div>
           </div>
@@ -152,6 +153,7 @@ export function ChatFileUpload({
                 ? "border-gray-200 bg-gray-50/50 cursor-not-allowed"
                 : "border-gray-300 hover:border-indigo-400 hover:bg-indigo-50/10"
             }`}
+            aria-label={t("chatFileUpload.cameraButtonAria")}
           >
             <input
               ref={cameraInputRef}

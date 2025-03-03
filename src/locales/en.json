@@ -617,5 +617,64 @@
     "fullScreenPreviewAriaLabel": "Full Screen Preview",
     "downloadAriaLabel": "Download report",
     "deleteAriaLabel": "Delete report"
+  },
+  "chatBox": {
+    "defaultSuggestions": [
+      {
+        "title": "What do you know about this student",
+        "content": "Please tell me if you know something about this student, based on the information stored about him (report, notes, pupil info, etc)."
+      },
+      {
+        "title": "General info about my pupils",
+        "content": "Tell me more about the pupils that I currently have (how many, which class, etc) and more specifically what are the topics that seem to be the most misunderstood based on latest reports."
+      },
+      {
+        "title": "Summary of latest report",
+        "content": "Please give me a summary of the latest report and clear next steps that were defined."
+      }
+    ],
+    "infoTooltipFileUpload": "Upload pictures of handwritten exam answers to receive a detailed correction report.",
+    "infoTooltipFileUploadSubtitle": "Get instant feedback, personalized recommendations, and targeted exercises",
+    "fileQueueToast": "{count} file(s) added to queue",
+    "reportTitlePlaceholder": "Enter report title...",
+    "selectStudentFirstError": "Please select a student first",
+    "loadingHistory": "Loading chat history...",
+    "noMessagesSelectStudent": "Select a student to start chatting",
+    "noMessagesYet": "No messages yet. Start a conversation!",
+    "assistantError": "I apologize, but there was an error processing your message. Please try again.",
+    "reportCreationLabel": "Correction of Exercises",
+    "reportCreationHelp": "Upload pictures of handwritten exam answers to receive a detailed correction report.",
+    "filesInQueue": "{count} file(s) ready to process",
+    "reportTitlePrompt": "Please enter a title for the report to continue",
+    "inputPlaceholder": "Type your message...",
+    "sendFilesToCreateReport": "Send files to create report",
+    "pleaseEnterTitleForReport": "Please enter a title to create a report"
+  },
+  "chatFileUpload": {
+    "uploadLabel": "Upload Foto of Exam and Answers (jpeg, png)",
+    "uploadError": "Failed to upload {fileName}",
+    "uploading": "Uploading files...",
+    "selectStudentFirstError": "Please select a student first",
+    "cameraButtonAria": "Take a photo"
+  },
+  "pupilForm": {
+    "headingAddStudent": "Add New Student",
+    "studentAddedSuccess": "Student added successfully!",
+    "studentAddedError": "Failed to add student",
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "Enter student's full name",
+    "studentLevelLabel": "Student Level",
+    "studentLevelPlaceholder": "e.g., Grade 10, Advanced",
+    "teacherNotesLabel": "Teacher Notes",
+    "teacherNotesPlaceholder": "Add any relevant notes about the student",
+    "cancelButton": "Cancel",
+    "addButtonIdle": "Add Student",
+    "addButtonProgress": "Adding..."
+  },
+  "chatSuggestions": {
+    "title": "Suggestions How to Continue",
+    "tooltipInfo": "Based on your conversation, here are some suggested questions and topics you might want to explore with the AI assistant.",
+    "subtitle": "Click on any suggestion to quickly start a conversation",
+    "loading": "Loading suggestions..."
   }
 }
