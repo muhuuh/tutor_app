@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { Send, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function Contact() {
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -48,7 +50,7 @@ export function Contact() {
               animate={{ opacity: 1, y: 0 }}
               className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white"
             >
-              Get in Touch
+              {t("contact.heroHeading")}
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -56,7 +58,7 @@ export function Contact() {
               transition={{ delay: 0.2 }}
               className="mt-4 sm:mt-6 text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto px-4 sm:px-0"
             >
-              Have a question or feedback? We'd love to hear from you.
+              {t("contact.heroSubtitle")}
             </motion.p>
           </div>
         </div>
@@ -71,13 +73,14 @@ export function Contact() {
         >
           <div className="text-center mb-8">
             <h2 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
-              Drop Us a Line, We're All Ears
+              {t("contact.dropLineHeading")}
             </h2>
             <p className="text-gray-600">
-              Whether you have feedback, encountered an issue, or have a great
-              idea for a new feature -
+              {t("contact.dropLineSubtitlePart1")}
             </p>
-            <p className="text-gray-600 text-center">Let us know!</p>
+            <p className="text-gray-600 text-center">
+              {t("contact.dropLineSubtitlePart2")}
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -90,7 +93,7 @@ export function Contact() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Your Name"
+                  placeholder={t("contact.form.placeholders.name")}
                   className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200/30 focus:outline-none focus:border-transparent focus:ring-1 focus:ring-blue-500/30 transition-all shadow-sm hover:shadow-md"
                 />
               </div>
@@ -102,7 +105,7 @@ export function Contact() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Your Email"
+                  placeholder={t("contact.form.placeholders.email")}
                   className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200/30 focus:outline-none focus:border-transparent focus:ring-1 focus:ring-blue-500/30 transition-all shadow-sm hover:shadow-md"
                 />
               </div>
@@ -116,7 +119,7 @@ export function Contact() {
                 required
                 value={formData.subject}
                 onChange={handleChange}
-                placeholder="Subject"
+                placeholder={t("contact.form.placeholders.subject")}
                 className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200/30 focus:outline-none focus:border-transparent focus:ring-1 focus:ring-blue-500/30 transition-all shadow-sm hover:shadow-md"
               />
             </div>
@@ -129,7 +132,7 @@ export function Contact() {
                 rows={6}
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="Your Message"
+                placeholder={t("contact.form.placeholders.message")}
                 className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200/30 focus:outline-none focus:border-transparent focus:ring-1 focus:ring-blue-500/30 transition-all shadow-sm hover:shadow-md"
               />
             </div>
@@ -141,6 +144,7 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-600 transition-colors"
+                  aria-label={t("contact.socialIcons.facebook")}
                 >
                   <Facebook className="w-6 h-6" />
                 </a>
@@ -149,6 +153,7 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-sky-400 transition-colors"
+                  aria-label={t("contact.socialIcons.twitter")}
                 >
                   <Twitter className="w-6 h-6" />
                 </a>
@@ -157,6 +162,7 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-700 transition-colors"
+                  aria-label={t("contact.socialIcons.linkedin")}
                 >
                   <Linkedin className="w-6 h-6" />
                 </a>
@@ -165,6 +171,7 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-pink-600 transition-colors"
+                  aria-label={t("contact.socialIcons.instagram")}
                 >
                   <Instagram className="w-6 h-6" />
                 </a>
@@ -176,10 +183,10 @@ export function Contact() {
                 className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl"
               >
                 {isSubmitting ? (
-                  "Sending..."
+                  t("contact.form.btnSending")
                 ) : (
                   <span className="flex items-center">
-                    Send Message
+                    {t("contact.form.btnSend")}
                     <Send className="ml-2 w-5 h-5" />
                   </span>
                 )}

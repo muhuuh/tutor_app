@@ -1,21 +1,4 @@
 {
-  "common": {
-    "welcome": "Bienvenue sur l'Assistant de Chat IA",
-    "loading": "Chargement...",
-    "error": "Une erreur s'est produite",
-    "submit": "Envoyer",
-    "cancel": "Annuler"
-  },
-  "cookieBanner": {
-    "message": "Nous utilisons des cookies pour améliorer votre expérience. Lisez notre politique de confidentialité pour plus de détails.",
-    "accept": "Accepter",
-    "decline": "Refuser"
-  },
-  "chat": {
-    "placeholder": "Tapez votre message ici...",
-    "send": "Envoyer",
-    "clear": "Effacer le chat"
-  },
   "home": {
     "hero": {
       "badge": "Plateforme éducative alimentée par l'IA",
@@ -249,15 +232,28 @@
       "button": "Contacter le support"
     }
   },
-
+  "cookieBanner": {
+    "message": "Nous utilisons des cookies pour améliorer votre expérience. En cliquant sur « Accepter », vous consentez à l’utilisation de cookies non essentiels (p.ex. analyses). Consultez notre Politique de Confidentialité pour plus de détails.",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "ariaAcceptLabel": "Accepter les cookies",
+    "ariaDeclineLabel": "Refuser les cookies"
+  },
   "pricing": {
     "heroTitle": "Une tarification simple et transparente",
     "heroSubtitle": "Choisissez le forfait qui vous convient",
-    "freeTrialBannerTitle": "Essayez gratuitement pendant 7 jours",
-    "freeTrialBannerText": "Inscrivez-vous maintenant et bénéficiez d’un accès complet à toutes les fonctionnalités du forfait Basic. Aucune carte de crédit requise !",
+    "freeTrialBannerTitle": "Essayez gratuitement pendant 7 jours",
+    "freeTrialBannerText": "Inscrivez-vous maintenant et profitez d’un accès complet à toutes les fonctionnalités du forfait Basic. Aucune carte de crédit requise !",
     "freeTrialBannerButton": "Commencer l’essai gratuit",
     "mostPopular": "Le plus populaire",
-    "btnProcessing": "Traitement…",
+    "errorToast": "Une erreur s’est produite",
+    "btnProcessing": "Traitement...",
+    "buttonTexts": {
+      "contactSales": "Contacter l'équipe commerciale",
+      "currentPlan": "Forfait actuel",
+      "downgradeAvailableAfterCancellation": "Rétrogradation possible après annulation",
+      "getStarted": "Commencer"
+    },
     "planLabels": {
       "basic": {
         "name": "Basic",
@@ -277,30 +273,61 @@
         "description": "Pour les écoles et les grandes organisations éducatives"
       }
     },
+    "planFeatures": {
+      "basic": [
+        "Analyse avancée de l'écriture manuscrite",
+        "Reconnaissance des points partiels",
+        "Analyses de performance détaillées",
+        "Recherche de ressources ciblées",
+        "Création d'exercices personnalisés",
+        "Jusqu'à 5 profils étudiants"
+      ],
+      "professional": [
+        "Analyse avancée de l'écriture manuscrite",
+        "Reconnaissance des points partiels",
+        "Analyses de performance détaillées",
+        "Recherche de ressources ciblées",
+        "Création d'exercices personnalisés",
+        "Profils étudiants illimités",
+        "Accès anticipé aux nouvelles fonctionnalités"
+      ],
+      "institution": [
+        "Toutes les fonctionnalités Professional",
+        "Intégrations sur mesure",
+        "Équipe de support dédiée",
+        "Sessions de formation"
+      ]
+    },
     "manageSubscriptionModal": {
       "title": "Gérer votre abonnement",
-      "upgradeTitle": "Vous souhaitez effectuer une mise à niveau ?",
+      "upgradeTitle": "Vous souhaitez passer à un forfait supérieur ?",
       "upgradeText": "Vous pouvez passer directement au forfait Professional ! Cela remplacera automatiquement votre abonnement Basic.",
       "cancelTitle": "Vous souhaitez résilier ?",
       "cancelSteps": [
-        "Rendez-vous sur la page d’Abonnement",
-        "Cliquez sur « Gérer la facturation »",
-        "Annulez votre abonnement Basic",
+        "Allez sur votre page d’abonnement",
+        "Cliquez sur \"Gérer la facturation\"",
+        "Résiliez votre abonnement Basic",
         "Vous conservez les fonctionnalités Basic jusqu’à la fin de votre période de facturation"
       ],
-      "howToDowngradeTitle": "Comment repasser à un forfait inférieur",
+      "howToDowngradeTitle": "Comment passer à un forfait inférieur",
       "howToDowngradeSteps": [
-        "Rendez-vous sur la page d’Abonnement",
-        "Cliquez sur « Gérer la facturation »",
+        "Allez sur votre page d’abonnement",
+        "Cliquez sur \"Gérer la facturation\"",
         "Annulez votre abonnement Professional en cours",
-        "Vous conservez les fonctionnalités Professional jusqu’à la fin de votre période de facturation",
-        "Après expiration, vous pouvez souscrire au forfait Basic"
+        "Vous conservez les fonctionnalités Pro jusqu’à la fin de votre période de facturation",
+        "Après son expiration, vous pouvez souscrire au forfait Basic"
       ],
+      "cancelSubscriptionIntro": "Pour résilier votre abonnement {subscriptionType} :",
       "closeButton": "Fermer"
+    },
+    "creditBreakdownModal": {
+      "heading": "Répartition des crédits IA",
+      "description": "Découvrez combien de crédits chaque fonctionnalité utilise par interaction",
+      "closeButton": "Compris"
     },
     "comparePlanFeatures": {
       "heading": "Comparer les fonctionnalités des forfaits",
-      "subtitle": "Obtenez une vue détaillée de ce qui est inclus dans chaque forfait pour faire le meilleur choix selon vos besoins",
+      "subtitle": "Obtenez une vue détaillée de ce qui est inclus dans chaque forfait afin de faire le meilleur choix pour vos besoins",
       "tableHeaders": {
         "price": "Tarif",
         "aiCredits": "Crédits IA",
@@ -308,5 +335,276 @@
         "earlyAccess": "Accès anticipé"
       }
     }
+  },
+  "about": {
+    "heroTitleLine1": "Faites plus",
+    "heroTitleLine2": "avec moins d’effort",
+    "heroSubtitle": "Nous donnons aux enseignants des outils d’IA de pointe pour rendre l’éducation plus efficace, personnalisée et enrichissante pour tous.",
+    "stats": {
+      "assignmentsGraded": {
+        "label": "Devoirs corrigés",
+        "value": "1000+"
+      },
+      "accuracyRate": {
+        "label": "Taux de précision",
+        "value": "99%+"
+      },
+      "timeSavings": {
+        "label": "Gain de temps potentiel par an",
+        "value": "Jusqu’à 520 heures"
+      }
+    },
+    "missionCard": {
+      "title": "Notre mission",
+      "description": "Nous concevons des solutions basées sur l’IA qui allègent la charge de travail des enseignants et fournissent des informations exploitables. En éliminant les tâches répétitives, les professeurs peuvent se concentrer davantage sur l’essentiel : offrir des expériences d’apprentissage significatives."
+    },
+    "valuesCard": {
+      "title": "Nos valeurs",
+      "items": [
+        "Conception centrée sur l’enseignant",
+        "Innovation pratique",
+        "IA fiable & transparente",
+        "Amélioration continue & retours"
+      ]
+    }
+  },
+
+  "contact": {
+    "heroHeading": "Contactez-nous",
+    "heroSubtitle": "Vous avez une question ou un retour ? Nous serions ravis de vous lire.",
+    "dropLineHeading": "Écrivez-nous, nous sommes à votre écoute",
+    "dropLineSubtitlePart1": "Que vous ayez un commentaire, rencontré un problème ou une idée géniale pour une nouvelle fonctionnalité —",
+    "dropLineSubtitlePart2": "Faites-le nous savoir !",
+    "form": {
+      "placeholders": {
+        "name": "Votre nom",
+        "email": "Votre e-mail",
+        "subject": "Objet",
+        "message": "Votre message"
+      },
+      "btnSending": "Envoi...",
+      "btnSend": "Envoyer"
+    },
+    "socialIcons": {
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "instagram": "Instagram"
+    },
+    "toast": {
+      "success": "Message envoyé avec succès ! Nous vous répondrons bientôt.",
+      "error": "Échec de l’envoi du message. Veuillez réessayer."
+    }
+  },
+  "auth": {
+    "headingCreateAccount": "Créez votre compte",
+    "headingWelcomeBack": "Bon retour",
+    "signInToContinue": "Connectez-vous pour continuer",
+    "freeTrial": {
+      "title": "Essai gratuit de 7 jours inclus",
+      "subtitle": "Aucune carte de crédit requise"
+    },
+    "form": {
+      "emailLabel": "Adresse e-mail",
+      "passwordLabel": "Mot de passe",
+      "emailPlaceholder": "Adresse e-mail",
+      "passwordPlaceholder": "Mot de passe",
+      "btnCreateAccount": "Créer un compte",
+      "btnSignIn": "Se connecter",
+      "processing": "Traitement..."
+    },
+    "toggle": {
+      "alreadyHaveAccount": "Vous avez déjà un compte ?",
+      "dontHaveAccount": "Pas de compte ?",
+      "signInInstead": "Connectez-vous plutôt",
+      "createAccount": "Créer un compte"
+    },
+    "toast": {
+      "signupSuccess": "Compte créé ! Veuillez vérifier votre e-mail pour confirmer votre compte avant de vous connecter. Vérifiez votre dossier spam si vous ne le trouvez pas.",
+      "signupEmailExists": "Un compte avec cette adresse e-mail existe déjà.",
+      "signinSuccess": "Bon retour !",
+      "signinEmailNotVerified": "Veuillez vérifier votre e-mail avant de vous connecter. Vérifiez également votre dossier spam si vous n’avez pas reçu l’e-mail de vérification.",
+      "authError": "Échec de l’authentification"
+    }
+  },
+
+  "subscription": {
+    "title": "Gestion de l’abonnement",
+    "currentPlan": "Forfait actuel",
+    "validUntil": "Valable jusqu’au",
+    "creditsUsage": "Utilisation des crédits",
+    "noActiveSubscription": "Aucun abonnement actif trouvé.",
+    "renewNotice": "Votre abonnement est automatiquement renouvelé chaque mois. Vous pouvez résilier ou modifier votre abonnement à tout moment via le portail de facturation.",
+    "manageBillingBtn": "Gérer la facturation",
+    "loading": "Chargement..."
+  },
+
+  "subscriptionSuccess": {
+    "title": "Abonnement activé !",
+    "subtitle": "Merci pour votre abonnement. Votre compte a été mis à niveau avec succès.",
+    "redirectNotice": "Redirection vers les outils de correction des devoirs dans quelques secondes..."
+  },
+  "terms": {
+    "title": "Conditions d’utilisation",
+    "lastUpdated": "Dernière mise à jour : 1er février 2025",
+    "sections": {
+      "euDataProtection": {
+        "heading": "Conformité à la protection des données de l’UE (RGPD)",
+        "paragraphs": [
+          "Nous nous engageons à respecter le Règlement général sur la protection des données (RGPD) de l’UE. En tant que résident de l’UE, vous avez le droit d’accéder à vos données personnelles, de les rectifier ou d’en demander l’effacement à tout moment. Vous disposez également du droit de vous opposer ou de restreindre certains traitements de vos données, ainsi que du droit à la portabilité des données. Pour exercer ces droits, veuillez nous contacter à l’adresse support@robinagent.ai.",
+          "Nous conservons vos données personnelles uniquement tant que cela est nécessaire pour fournir nos services ou conformément à la législation en vigueur. Lorsque nous n’en avons plus besoin, nous les supprimons ou anonymisons de manière sécurisée."
+        ]
+      },
+      "section1": {
+        "heading": "1. Acceptation des conditions",
+        "paragraphs": [
+          "En accédant aux services de RobinAgent et en les utilisant, vous acceptez d’être lié par les présentes Conditions d’utilisation ainsi que par notre Politique de confidentialité. Si vous n’êtes pas d’accord avec une partie de ces conditions, vous ne pouvez pas utiliser nos services."
+        ]
+      },
+      "section2": {
+        "heading": "2. Description du service",
+        "paragraphs": [
+          "RobinAgent fournit des outils et services éducatifs alimentés par l’IA, conçus pour aider les enseignants à noter, créer du contenu pédagogique et suivre la progression des étudiants. Notre service utilise la technologie d’intelligence artificielle pour offrir une assistance et des analyses automatisées."
+        ]
+      },
+      "section3": {
+        "heading": "3. Abonnement et conditions de paiement",
+        "paragraphs": [
+          "Nos services sont fournis sur la base d’un abonnement. Les paiements sont traités en toute sécurité via Stripe, selon un cycle de facturation mensuel. Vous pouvez annuler votre abonnement à tout moment, et l’annulation prendra effet à la fin de votre période de facturation en cours. Aucun remboursement n’est accordé pour les mois entamés.",
+          "Conformément aux lois européennes sur la protection des consommateurs, vous pouvez également bénéficier d’un « droit de rétractation » légal pour certains achats d’abonnement."
+        ]
+      },
+      "section4": {
+        "heading": "4. Comptes utilisateurs et données",
+        "paragraphs": [
+          "Lorsque vous créez un compte, vous devez fournir des informations exactes et complètes. Vous êtes responsable de la sécurité de votre compte et de toutes les activités qui y sont associées. Nous stockons vos données de manière sécurisée à l’aide de l’infrastructure Supabase et utilisons des services d’IA pour traiter votre contenu. Tous les traitements de données sont conformes aux lois en vigueur sur la confidentialité et à notre Politique de confidentialité."
+        ]
+      },
+      "section5": {
+        "heading": "5. Droits de propriété intellectuelle",
+        "paragraphs": [
+          "Le Service ainsi que son contenu, ses fonctionnalités et sa fonctionnalité d’origine sont la propriété de RobinAgent et sont protégés par des droits d’auteur, de marque et autres lois internationales sur la propriété intellectuelle."
+        ]
+      },
+      "section6": {
+        "heading": "6. Contenu utilisateur et traitement via l’IA",
+        "paragraphs": [
+          "Vous conservez les droits sur tout contenu que vous soumettez, publiez ou affichez via le Service. En soumettant du contenu, vous nous accordez l’autorisation de le traiter à l’aide de technologies d’IA et de le stocker de manière sécurisée afin de fournir nos services. Nous ne revendiquons pas la propriété de votre contenu, mais nous avons besoin de ces droits pour pouvoir offrir efficacement notre service."
+        ]
+      },
+      "section7": {
+        "heading": "7. Confidentialité et protection des données",
+        "paragraphs": [
+          "Votre vie privée est importante pour nous. Nous traitons vos données à l’aide de technologies d’IA et les stockons de manière sécurisée via Supabase. Tous les traitements de données sont effectués conformément à la législation européenne en matière de protection des données, y compris le RGPD. Veuillez consulter notre Politique de confidentialité pour comprendre comment nous collectons, utilisons et protégeons vos informations personnelles, ainsi que pour connaître vos droits à l’égard de vos données."
+        ]
+      },
+      "aiDisclaimer": {
+        "heading": "Avis sur l’IA",
+        "paragraphs": [
+          "Bien que nous utilisions des modèles d’IA avancés pour fournir des suggestions, des analyses ou d’autres résultats automatisés, ces fonctionnalités sont fournies « en l’état ». L’IA peut ne pas toujours produire des résultats exacts ou dépourvus d’erreurs, et il vous appartient de vérifier l’information avant de vous y fier. RobinAgent décline toute responsabilité en cas de contenu généré par l’IA pouvant être incomplet ou inexact."
+        ]
+      },
+      "section8": {
+        "heading": "8. Limitation de responsabilité",
+        "paragraphs": [
+          "RobinAgent ne pourra être tenu responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou de votre incapacité à utiliser le Service. Bien que nous nous efforcions d’atteindre une précision élevée pour nos fonctionnalités alimentées par l’IA, nous ne pouvons pas garantir des résultats parfaits.",
+          "Les fonctionnalités alimentées par l’IA fournies par RobinAgent sont uniquement à des fins d’information et d’éducation et ne constituent pas un conseil juridique, financier, sanitaire ou tout autre conseil professionnel. Si vous avez besoin d’un avis professionnel, veuillez consulter un expert qualifié."
+        ]
+      },
+      "section9": {
+        "heading": "9. Modifications des conditions",
+        "paragraphs": [
+          "Nous nous réservons le droit de modifier ces conditions à tout moment. Nous informerons les utilisateurs de tout changement important par e-mail ou via le Service."
+        ]
+      },
+      "section10": {
+        "heading": "10. Coordonnées",
+        "paragraphs": [
+          "Si vous avez des questions concernant ces Conditions, veuillez nous contacter à l’adresse support@robinagent.ai"
+        ]
+      }
+    }
+  },
+  "privacy": {
+    "title": "Politique de Confidentialité",
+    "cookieUsage": {
+      "heading": "Utilisation des cookies",
+      "paragraph": "Nous utilisons des cookies pour améliorer votre expérience, analyser le trafic du site et diffuser de la publicité personnalisée."
+    },
+    "typesOfCookies": {
+      "heading": "Types de cookies",
+      "list": [
+        {
+          "label": "Cookies strictement nécessaires",
+          "description": "Ces cookies sont essentiels au fonctionnement du site et ne peuvent pas être désactivés."
+        },
+        {
+          "label": "Cookies non essentiels",
+          "description": "Cela inclut les cookies d’analyse et de marketing. Ils ne sont activés qu’après que vous avez donné votre consentement."
+        }
+      ]
+    },
+    "yourConsent": {
+      "heading": "Votre consentement",
+      "paragraph": "Lors de votre première visite, vous serez invité à accepter l’utilisation de cookies non essentiels. Vous pouvez accepter ou refuser. Votre choix sera respecté sur toutes les pages de notre site."
+    },
+    "withdrawalOfConsent": {
+      "heading": "Retrait du consentement",
+      "paragraph": "Vous pouvez modifier ou retirer votre consentement à tout moment en cliquant sur le lien « Paramètres des cookies » dans le pied de page de notre site. Lorsque vous retirez votre consentement, les cookies non essentiels seront désactivés et vous pourriez constater des changements dans le fonctionnement du site."
+    },
+    "retention": {
+      "heading": "Durée de conservation",
+      "paragraph": "Vos préférences en matière de cookies sont enregistrées pendant 365 jours. Si vous ne modifiez pas vos paramètres, votre choix restera en vigueur jusqu’à l’expiration du cookie."
+    },
+    "howWeUseCookies": {
+      "heading": "Comment nous utilisons les cookies",
+      "list": [
+        {
+          "label": "Analyse",
+          "description": "Pour comprendre comment les visiteurs interagissent avec notre site, quelles pages sont les plus populaires et comment nous pouvons améliorer notre service."
+        },
+        {
+          "label": "Fonctionnalité",
+          "description": "Pour mémoriser vos préférences et offrir des fonctionnalités enrichies et personnalisées."
+        },
+        {
+          "label": "Sécurité",
+          "description": "Pour aider à protéger notre service et nos utilisateurs contre les accès non autorisés."
+        }
+      ]
+    },
+    "contactUs": {
+      "heading": "Contactez-nous",
+      "paragraph": "Si vous avez des questions sur notre politique en matière de cookies ou sur nos pratiques en matière de confidentialité, veuillez nous contacter via notre page de contact."
+    },
+    "lastUpdatedLabel": "Dernière mise à jour"
+  },
+  "dashboard": {
+    "title": "Correction et création de rapports",
+    "subtitle": "Faites corriger les réponses manuscrites de vos étudiants et recevez des rapports personnalisés sur les notions à approfondir, des ressources, des propositions d’exercices, etc.",
+    "tabs": {
+      "chatAssistant": "Assistant de discussion",
+      "reports": "Rapports"
+    },
+    "selectStudentPlaceholder": "Sélectionner un étudiant",
+    "addNewStudentButton": "Ajouter un nouvel étudiant",
+    "modalTitleAddStudent": "Ajouter un nouvel étudiant",
+    "noStudentSelected": "Veuillez sélectionner un étudiant pour afficher ses rapports.",
+    "noReportsForStudent": "Aucun rapport disponible pour cet étudiant pour le moment.",
+    "failedToLoadReport": "Impossible de charger les données du rapport. Veuillez réessayer plus tard.",
+    "reportReadyToast": {
+      "title": "Rapport prêt !",
+      "message": "Votre rapport d’analyse a été généré et est maintenant disponible dans l’onglet Rapports."
+    },
+    "downloadSuccess": "Rapport téléchargé avec succès",
+    "downloadError": "Échec du téléchargement du rapport",
+    "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer ce rapport ?",
+    "deleteSuccess": "Rapport supprimé avec succès",
+    "deleteError": "Échec de la suppression du rapport",
+    "updateTitleSuccess": "Titre du rapport mis à jour",
+    "updateTitleError": "Échec de la mise à jour du titre du rapport",
+    "fullScreenPreviewAriaLabel": "Aperçu en plein écran",
+    "downloadAriaLabel": "Télécharger le rapport",
+    "deleteAriaLabel": "Supprimer le rapport"
   }
 }

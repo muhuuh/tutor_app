@@ -8,13 +8,7 @@ import { PupilForm } from "../components/PupilForm";
 import { supabase } from "../lib/supabase";
 import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
-import {
-  FiDownload,
-  FiTrash2,
-  FiMessageSquare,
-  FiFileText,
-  FiMaximize,
-} from "react-icons/fi";
+import { FiMessageSquare, FiFileText } from "react-icons/fi";
 
 import { PencilIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
@@ -28,16 +22,20 @@ import { AuroraBackground } from "../components/UI/aurora-background";
 import { CollapsibleSection } from "../components/Report/CollapsibleSection";
 import { parseMarkdownSections } from "../utils/markdown";
 import ReactDOM from "react-dom/client";
+import { useTranslation } from "react-i18next";
+import {
+  ArrowsPointingOutIcon,
+  ArrowDownTrayIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 
 const TABS = [
   {
     id: "chat",
-    label: "Chat Assistant",
     icon: <FiMessageSquare className="w-5 h-5" />,
   },
   {
     id: "reports",
-    label: "Reports",
     icon: <FiFileText className="w-5 h-5" />,
   },
 ];
@@ -105,6 +103,7 @@ export function Dashboard() {
   const [editedTitle, setEditedTitle] = useState("");
   const titleInputRef = useRef<HTMLInputElement>(null);
   const pdfRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   const fetchReports = async (pupilId: string) => {
     if (!pupilId) return;
@@ -335,9 +334,7 @@ export function Dashboard() {
     if (!selectedPupilId) {
       return (
         <div className="text-center py-8">
-          <p className="text-gray-500">
-            Please select a student to view their reports.
-          </p>
+          <p className="text-gray-500">{t("dashboard.noStudentSelected")}</p>
         </div>
       );
     }
@@ -345,9 +342,7 @@ export function Dashboard() {
     if (!currentReportId || availableReports.length === 0) {
       return (
         <div className="text-center py-8">
-          <p className="text-gray-500">
-            No reports available for this student yet.
-          </p>
+          <p className="text-gray-500">{t("dashboard.noReportsForStudent")}</p>
         </div>
       );
     }
@@ -363,7 +358,7 @@ export function Dashboard() {
     if (error) {
       return (
         <div className="text-red-600 p-4">
-          Failed to load report data. Please try again later.
+          {t("dashboard.failedToLoadReport")}
         </div>
       );
     }
@@ -440,24 +435,24 @@ export function Dashboard() {
           <div className="flex gap-2">
             <button
               onClick={() => setIsPreviewOpen(true)}
-              className="p-2 text-gray-700 hover:text-indigo-600 transition-colors"
-              aria-label="Full Screen Preview"
+              className="p-2 text-gray-400 hover:text-indigo-600 transition-colors"
+              aria-label={t("dashboard.fullScreenPreviewAriaLabel")}
             >
-              <FiMaximize className="w-5 h-5" />
+              <ArrowsPointingOutIcon className="w-5 h-5" />
             </button>
             <button
               onClick={handleDownloadReport}
-              className="p-2 text-gray-700 hover:text-indigo-600 transition-colors"
-              aria-label="Download report"
+              className="p-2 text-gray-400 hover:text-indigo-600 transition-colors"
+              aria-label={t("dashboard.downloadAriaLabel")}
             >
-              <FiDownload className="w-5 h-5" />
+              <ArrowDownTrayIcon className="w-5 h-5" />
             </button>
             <button
               onClick={handleDeleteReport}
-              className="p-2 text-gray-700 hover:text-red-500 transition-colors"
-              aria-label="Delete report"
+              className="p-2 text-gray-400 hover:text-red-600 transition-colors"
+              aria-label={t("dashboard.deleteAriaLabel")}
             >
-              <FiTrash2 className="w-5 h-5" />
+              <TrashIcon className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -598,12 +593,10 @@ export function Dashboard() {
           {/* Hero Section - Made more compact on mobile */}
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-4xl font-bold text-blue-900 text-center pt-12 sm:pt-12 tracking-wide">
-              Grading and Report Creation
+              {t("dashboard.title")}
             </h2>
             <p className="text-base sm:text-lg text-gray-600 text-center mt-3 sm:mt-4 max-w-3xl mx-auto px-2 sm:px-0">
-              Get handwritten answers from your pupils corrected, and receive
-              personalised reports about concepts to focus on, resources and
-              exercice propositions, and more
+              {t("dashboard.subtitle")}
             </p>
           </div>
 
@@ -620,7 +613,7 @@ export function Dashboard() {
                     disabled={loadingPupils}
                   >
                     <option value="" disabled>
-                      Select Student
+                      {t("dashboard.selectStudentPlaceholder")}
                     </option>
                     {pupils.map((pupil) => (
                       <option key={pupil.id} value={pupil.id}>
@@ -636,7 +629,7 @@ export function Dashboard() {
                     onClick={() => setShowAddPupil(true)}
                     className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
                   >
-                    Add New Student
+                    {t("dashboard.addNewStudentButton")}
                   </button>
                 )}
 
@@ -663,7 +656,18 @@ export function Dashboard() {
             {/* Tabs Section */}
             <div className="px-4 sm:px-6 border-b border-gray-100">
               <Tabs
-                tabs={TABS}
+                tabs={[
+                  {
+                    id: "chat",
+                    label: t("dashboard.tabs.chatAssistant"),
+                    icon: TABS[0].icon,
+                  },
+                  {
+                    id: "reports",
+                    label: t("dashboard.tabs.reports"),
+                    icon: TABS[1].icon,
+                  },
+                ]}
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
               />
@@ -716,7 +720,7 @@ export function Dashboard() {
                         as="h2"
                         className="text-lg font-bold text-blue-900"
                       >
-                        Add New Student
+                        {t("dashboard.modalTitleAddStudent")}
                       </Dialog.Title>
                       <button
                         onClick={() => setShowAddPupil(false)}

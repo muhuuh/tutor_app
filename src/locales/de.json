@@ -1,21 +1,4 @@
 {
-  "common": {
-    "welcome": "Willkommen beim KI-Chat-Assistenten",
-    "loading": "Wird geladen...",
-    "error": "Ein Fehler ist aufgetreten",
-    "submit": "Absenden",
-    "cancel": "Abbrechen"
-  },
-  "cookieBanner": {
-    "message": "Wir verwenden Cookies, um Ihre Erfahrung zu verbessern. Lesen Sie unsere Datenschutzrichtlinie für weitere Details.",
-    "accept": "Akzeptieren",
-    "decline": "Ablehnen"
-  },
-  "chat": {
-    "placeholder": "Geben Sie hier Ihre Nachricht ein...",
-    "send": "Senden",
-    "clear": "Chat löschen"
-  },
   "home": {
     "hero": {
       "badge": "KI-gestützte Bildungsplattform",
@@ -249,7 +232,13 @@
       "button": "Support kontaktieren"
     }
   },
-
+  "cookieBanner": {
+    "message": "Wir verwenden Cookies, um Ihre Erfahrung zu verbessern. Durch Klicken auf „Akzeptieren“ stimmen Sie der Verwendung nicht-essenzieller Cookies (z.B. Analysen) zu. Lesen Sie unsere Datenschutzrichtlinie für weitere Details.",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen",
+    "ariaAcceptLabel": "Cookies akzeptieren",
+    "ariaDeclineLabel": "Cookies ablehnen"
+  },
   "pricing": {
     "heroTitle": "Einfache, transparente Preise",
     "heroSubtitle": "Wählen Sie den Tarif, der zu Ihnen passt",
@@ -257,7 +246,14 @@
     "freeTrialBannerText": "Melden Sie sich jetzt an und erhalten Sie vollen Zugriff auf alle Funktionen des Basistarifs. Keine Kreditkarte erforderlich!",
     "freeTrialBannerButton": "Kostenlose Testphase starten",
     "mostPopular": "Am beliebtesten",
+    "errorToast": "Ein Fehler ist aufgetreten",
     "btnProcessing": "Verarbeite...",
+    "buttonTexts": {
+      "contactSales": "Vertrieb kontaktieren",
+      "currentPlan": "Aktueller Tarif",
+      "downgradeAvailableAfterCancellation": "Downgrade nach Kündigung möglich",
+      "getStarted": "Los geht's"
+    },
     "planLabels": {
       "basic": {
         "name": "Basic",
@@ -274,33 +270,64 @@
       "institution": {
         "name": "Institution",
         "price": "Individuell",
-        "description": "Für Schulen und größere Bildungseinrichtungen"
+        "description": "Für Schulen und große Bildungseinrichtungen"
       }
+    },
+    "planFeatures": {
+      "basic": [
+        "Fortschrittliche Handschrifterkennung",
+        "Teilpunkt-Erkennung",
+        "Detaillierte Leistungsanalysen",
+        "Gezielte Ressourcensuche",
+        "Individuelle Übungserstellung",
+        "Bis zu 5 Schülerprofile"
+      ],
+      "professional": [
+        "Fortschrittliche Handschrifterkennung",
+        "Teilpunkt-Erkennung",
+        "Detaillierte Leistungsanalysen",
+        "Gezielte Ressourcensuche",
+        "Individuelle Übungserstellung",
+        "Unbegrenzte Schülerprofile",
+        "Früher Zugriff auf neue Funktionen"
+      ],
+      "institution": [
+        "Alle Professional-Funktionen",
+        "Benutzerdefinierte Integrationen",
+        "Dediziertes Support-Team",
+        "Schulungssitzungen"
+      ]
     },
     "manageSubscriptionModal": {
       "title": "Abonnement verwalten",
       "upgradeTitle": "Möchten Sie upgraden?",
-      "upgradeText": "Sie können direkt auf den Profitarif wechseln! Dies ersetzt automatisch Ihr Basic-Abonnement.",
+      "upgradeText": "Sie können direkt auf den Professional-Tarif wechseln! Dadurch wird Ihr Basic-Abonnement automatisch ersetzt.",
       "cancelTitle": "Möchten Sie kündigen?",
       "cancelSteps": [
         "Gehen Sie zu Ihrer Abonnementseite",
-        "Klicken Sie auf „Abrechnung verwalten“",
+        "Klicken Sie auf \"Abrechnung verwalten\"",
         "Kündigen Sie Ihr Basic-Abonnement",
         "Ihre Basic-Funktionen bleiben bis zum Ende Ihres Abrechnungszeitraums aktiv"
       ],
-      "howToDowngradeTitle": "So downgraden Sie Ihren Tarif",
+      "howToDowngradeTitle": "So wechseln Sie zu einem niedrigeren Tarif",
       "howToDowngradeSteps": [
         "Gehen Sie zu Ihrer Abonnementseite",
-        "Klicken Sie auf „Abrechnung verwalten“",
-        "Kündigen Sie Ihr aktuelles Pro-Abonnement",
-        "Sie behalten Pro-Funktionen bis zum Ende Ihres Abrechnungszeitraums",
-        "Nach Ablauf können Sie das Basistarif buchen"
+        "Klicken Sie auf \"Abrechnung verwalten\"",
+        "Kündigen Sie Ihr aktuelles Professional-Abonnement",
+        "Sie behalten die Pro-Funktionen bis zum Ende Ihres Abrechnungszeitraums",
+        "Nach Ablauf können Sie auf den Basic-Tarif wechseln"
       ],
+      "cancelSubscriptionIntro": "So kündigen Sie Ihr {subscriptionType}-Abonnement:",
       "closeButton": "Schließen"
     },
+    "creditBreakdownModal": {
+      "heading": "KI-Credit-Übersicht",
+      "description": "Sehen Sie, wie viele Credits jede Funktion pro Interaktion verwendet",
+      "closeButton": "Verstanden"
+    },
     "comparePlanFeatures": {
-      "heading": "Tarif-Funktionen im Vergleich",
-      "subtitle": "Erhalten Sie einen detaillierten Überblick über die Leistungen in jedem Tarif, um die beste Wahl für Ihre Bedürfnisse zu treffen",
+      "heading": "Tarif-Funktionen vergleichen",
+      "subtitle": "Erhalten Sie einen detaillierten Überblick über die Inhalte jedes Tarifs, um die beste Wahl für Ihre Bedürfnisse zu treffen",
       "tableHeaders": {
         "price": "Preis",
         "aiCredits": "KI-Credits",
@@ -308,5 +335,276 @@
         "earlyAccess": "Früher Zugriff"
       }
     }
+  },
+  "about": {
+    "heroTitleLine1": "Mehr erreichen",
+    "heroTitleLine2": "mit weniger Aufwand",
+    "heroSubtitle": "Wir statten Lehrkräfte mit modernster KI-Technologie aus, um den Unterricht effizienter, individueller und effektiver für alle zu gestalten.",
+    "stats": {
+      "assignmentsGraded": {
+        "label": "Korrigierte Aufgaben",
+        "value": "1000+"
+      },
+      "accuracyRate": {
+        "label": "Genauigkeitsrate",
+        "value": "99%+"
+      },
+      "timeSavings": {
+        "label": "Mögliche Zeitersparnis pro Jahr",
+        "value": "Bis zu 520 Std."
+      }
+    },
+    "missionCard": {
+      "title": "Unsere Mission",
+      "description": "Wir entwickeln KI-basierte Lösungen, die die Arbeitsbelastung von Lehrkräften reduzieren und verwertbare Erkenntnisse liefern. Durch das Wegfallen repetitiver Aufgaben können Lehrer sich intensiver auf das Wesentliche konzentrieren: sinnvolle Lernerfahrungen zu vermitteln."
+    },
+    "valuesCard": {
+      "title": "Unsere Werte",
+      "items": [
+        "Lehrkraftzentrierte Gestaltung",
+        "Praktische Innovation",
+        "Zuverlässige & transparente KI",
+        "Kontinuierliche Weiterentwicklung & Feedback"
+      ]
+    }
+  },
+
+  "contact": {
+    "heroHeading": "Kontakt aufnehmen",
+    "heroSubtitle": "Haben Sie Fragen oder Feedback? Wir freuen uns, von Ihnen zu hören.",
+    "dropLineHeading": "Schreiben Sie uns, wir sind ganz Ohr",
+    "dropLineSubtitlePart1": "Egal ob Sie Feedback haben, auf ein Problem gestoßen sind oder eine tolle Idee für ein neues Feature —",
+    "dropLineSubtitlePart2": "Teilen Sie es uns mit!",
+    "form": {
+      "placeholders": {
+        "name": "Ihr Name",
+        "email": "Ihre E-Mail",
+        "subject": "Betreff",
+        "message": "Ihre Nachricht"
+      },
+      "btnSending": "Sende...",
+      "btnSend": "Nachricht senden"
+    },
+    "socialIcons": {
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "instagram": "Instagram"
+    },
+    "toast": {
+      "success": "Nachricht erfolgreich gesendet! Wir melden uns bald bei Ihnen.",
+      "error": "Fehler beim Senden der Nachricht. Bitte versuchen Sie es erneut."
+    }
+  },
+  "auth": {
+    "headingCreateAccount": "Konto erstellen",
+    "headingWelcomeBack": "Willkommen zurück",
+    "signInToContinue": "Melden Sie sich an, um fortzufahren",
+    "freeTrial": {
+      "title": "7-tägige kostenlose Testphase inklusive",
+      "subtitle": "Keine Kreditkarte erforderlich"
+    },
+    "form": {
+      "emailLabel": "E-Mail-Adresse",
+      "passwordLabel": "Passwort",
+      "emailPlaceholder": "E-Mail-Adresse",
+      "passwordPlaceholder": "Passwort",
+      "btnCreateAccount": "Konto erstellen",
+      "btnSignIn": "Anmelden",
+      "processing": "Verarbeite..."
+    },
+    "toggle": {
+      "alreadyHaveAccount": "Sie haben bereits ein Konto?",
+      "dontHaveAccount": "Noch kein Konto?",
+      "signInInstead": "Stattdessen anmelden",
+      "createAccount": "Konto erstellen"
+    },
+    "toast": {
+      "signupSuccess": "Konto erstellt! Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu bestätigen, bevor Sie sich anmelden. Prüfen Sie auch Ihren Spam-Ordner.",
+      "signupEmailExists": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",
+      "signinSuccess": "Willkommen zurück!",
+      "signinEmailNotVerified": "Bitte verifizieren Sie Ihre E-Mail, bevor Sie sich anmelden. Prüfen Sie auch Ihren Spam-Ordner, falls Sie keine Verifizierungs-E-Mail erhalten haben.",
+      "authError": "Authentifizierung fehlgeschlagen"
+    }
+  },
+
+  "subscription": {
+    "title": "Abonnement verwalten",
+    "currentPlan": "Aktueller Tarif",
+    "validUntil": "Gültig bis",
+    "creditsUsage": "Credit-Nutzung",
+    "noActiveSubscription": "Kein aktives Abonnement gefunden.",
+    "renewNotice": "Ihr Abonnement verlängert sich automatisch jeden Monat. Sie können Ihr Abonnement jederzeit über das Abrechnungsportal kündigen oder ändern.",
+    "manageBillingBtn": "Abrechnung verwalten",
+    "loading": "Laden..."
+  },
+
+  "subscriptionSuccess": {
+    "title": "Abonnement aktiviert!",
+    "subtitle": "Danke für Ihr Abonnement. Ihr Konto wurde erfolgreich aktualisiert.",
+    "redirectNotice": "Weiterleitung zu den Hausaufgabentools in wenigen Sekunden..."
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "lastUpdated": "Zuletzt aktualisiert: 1. Februar 2025",
+    "sections": {
+      "euDataProtection": {
+        "heading": "EU-Datenschutzkonformität (DSGVO)",
+        "paragraphs": [
+          "Wir verpflichten uns zur Einhaltung der EU-Datenschutz-Grundverordnung (DSGVO). Als in der EU ansässige Person haben Sie das Recht, jederzeit auf Ihre personenbezogenen Daten zuzugreifen, diese zu berichtigen oder deren Löschung zu verlangen. Sie haben außerdem das Recht, bestimmten Verarbeitungen Ihrer Daten zu widersprechen oder diese einzuschränken, sowie das Recht auf Datenübertragbarkeit. Zur Ausübung dieser Rechte kontaktieren Sie uns bitte unter support@robinagent.ai.",
+          "Wir speichern Ihre personenbezogenen Daten nur so lange, wie dies zur Erbringung unserer Dienste oder nach geltendem Recht erforderlich ist. Sobald wir Ihre personenbezogenen Daten nicht mehr benötigen, löschen oder anonymisieren wir diese sicher."
+        ]
+      },
+      "section1": {
+        "heading": "1. Zustimmung zu den Bedingungen",
+        "paragraphs": [
+          "Durch den Zugriff auf und die Nutzung der Dienste von RobinAgent erklären Sie sich mit diesen Nutzungsbedingungen und unserer Datenschutzrichtlinie einverstanden. Wenn Sie mit einem Teil dieser Bedingungen nicht einverstanden sind, dürfen Sie unsere Dienste nicht nutzen."
+        ]
+      },
+      "section2": {
+        "heading": "2. Beschreibung des Dienstes",
+        "paragraphs": [
+          "RobinAgent bietet KI-gestützte Bildungswerkzeuge und -dienste an, die Lehrkräfte bei der Bewertung, Erstellung von Lernmaterialien und Verwaltung des Lernfortschritts unterstützen. Unsere Dienste nutzen künstliche Intelligenz, um automatisierte Unterstützung und Einblicke zu liefern."
+        ]
+      },
+      "section3": {
+        "heading": "3. Abonnement- und Zahlungsbedingungen",
+        "paragraphs": [
+          "Unsere Dienste werden im Rahmen eines Abonnements bereitgestellt. Zahlungen werden über Stripe auf monatlicher Abrechnungsbasis sicher abgewickelt. Sie können Ihr Abonnement jederzeit kündigen; die Kündigung wird zum Ende Ihres aktuellen Abrechnungszeitraums wirksam. Für angebrochene Monate erfolgt keine Rückerstattung.",
+          "Sofern es die EU-Verbraucherschutzgesetze vorsehen, haben Sie möglicherweise auch Anspruch auf eine gesetzliche „Widerrufsfrist“ für bestimmte Abonnementkäufe."
+        ]
+      },
+      "section4": {
+        "heading": "4. Benutzerkonten und Daten",
+        "paragraphs": [
+          "Wenn Sie ein Konto erstellen, müssen Sie korrekte und vollständige Angaben machen. Sie sind für die Sicherheit Ihres Kontos und alle Vorgänge, die in Ihrem Konto stattfinden, verantwortlich. Wir speichern Ihre Daten sicher mithilfe der Supabase-Infrastruktur und verarbeiten Ihre Inhalte mithilfe von KI-Diensten. Alle Datenverarbeitungen erfolgen in Übereinstimmung mit den geltenden Datenschutzgesetzen sowie unserer Datenschutzrichtlinie."
+        ]
+      },
+      "section5": {
+        "heading": "5. Urheberrechte und geistiges Eigentum",
+        "paragraphs": [
+          "Der Dienst sowie dessen ursprüngliche Inhalte, Funktionen und Funktionalitäten sind Eigentum von RobinAgent und durch internationale Urheberrechte, Markenrechte und andere Gesetze zum geistigen Eigentum geschützt."
+        ]
+      },
+      "section6": {
+        "heading": "6. Benutzerinhalte und KI-Verarbeitung",
+        "paragraphs": [
+          "Sie behalten die Rechte an sämtlichen Inhalten, die Sie über den Dienst einreichen, veröffentlichen oder anzeigen. Durch das Einreichen von Inhalten gewähren Sie uns die Erlaubnis, diese mithilfe von KI-Technologien zu verarbeiten und sicher zu speichern, um unsere Dienste bereitzustellen. Wir erheben keinen Eigentumsanspruch an Ihren Inhalten, benötigen jedoch diese Rechte, um unseren Dienst effektiv anbieten zu können."
+        ]
+      },
+      "section7": {
+        "heading": "7. Datenschutz und Datensicherheit",
+        "paragraphs": [
+          "Ihre Privatsphäre ist uns wichtig. Wir verarbeiten Ihre Daten mithilfe von KI-Technologien und speichern sie sicher über Supabase. Alle Datenverarbeitungen erfolgen in Übereinstimmung mit den geltenden EU-Datenschutzgesetzen, einschließlich der DSGVO. Bitte lesen Sie unsere Datenschutzrichtlinie, um zu verstehen, wie wir Ihre personenbezogenen Daten erheben, verwenden und schützen, sowie welche Rechte Sie hinsichtlich Ihrer Daten haben."
+        ]
+      },
+      "aiDisclaimer": {
+        "heading": "KI-Hinweis",
+        "paragraphs": [
+          "Obwohl wir fortschrittliche KI-Modelle nutzen, um Vorschläge, Einblicke oder andere automatisierte Ergebnisse bereitzustellen, werden diese Funktionen „wie besehen“ angeboten. Die KI liefert möglicherweise nicht immer genaue oder fehlerfreie Ergebnisse. Sie sind dafür verantwortlich, die Informationen zu überprüfen, bevor Sie sich darauf verlassen. RobinAgent lehnt jegliche Haftung für KI-generierte Ergebnisse ab, die unvollständig oder ungenau sein können."
+        ]
+      },
+      "section8": {
+        "heading": "8. Haftungsbeschränkung",
+        "paragraphs": [
+          "RobinAgent haftet nicht für indirekte, zufällige, besondere, Folge- oder Strafschäden, die durch Ihre Nutzung oder die Unmöglichkeit der Nutzung des Dienstes entstehen. Obwohl wir uns um eine hohe Genauigkeit unserer KI-gestützten Funktionen bemühen, können wir keine perfekte Ergebnisse garantieren.",
+          "Die von RobinAgent bereitgestellten KI-Funktionen dienen ausschließlich Informations- und Bildungszwecken und stellen keine Rechts-, Finanz-, Gesundheits- oder andere professionelle Beratung dar. Bei Bedarf sollten Sie professionelle Beratung von entsprechend qualifizierten Personen einholen."
+        ]
+      },
+      "section9": {
+        "heading": "9. Änderungen der Bedingungen",
+        "paragraphs": [
+          "Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern. Wir werden die Nutzer über wesentliche Änderungen per E-Mail oder über den Dienst informieren."
+        ]
+      },
+      "section10": {
+        "heading": "10. Kontaktinformationen",
+        "paragraphs": [
+          "Wenn Sie Fragen zu diesen Bedingungen haben, kontaktieren Sie uns bitte unter support@robinagent.ai"
+        ]
+      }
+    }
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "cookieUsage": {
+      "heading": "Verwendung von Cookies",
+      "paragraph": "Wir verwenden Cookies, um Ihre Erfahrung zu verbessern, den Website-Verkehr zu analysieren und personalisierte Werbung bereitzustellen."
+    },
+    "typesOfCookies": {
+      "heading": "Arten von Cookies",
+      "list": [
+        {
+          "label": "Unbedingt erforderliche Cookies",
+          "description": "Diese Cookies sind für die Funktion der Website unerlässlich und können nicht deaktiviert werden."
+        },
+        {
+          "label": "Nicht-essenzielle Cookies",
+          "description": "Dazu gehören Analyse- und Marketing-Cookies. Sie werden erst aktiviert, nachdem Sie Ihre Einwilligung gegeben haben."
+        }
+      ]
+    },
+    "yourConsent": {
+      "heading": "Ihre Einwilligung",
+      "paragraph": "Bei Ihrem ersten Besuch werden Sie gebeten, der Verwendung nicht-essenzieller Cookies zuzustimmen. Sie können annehmen oder ablehnen. Ihre Wahl wird auf allen Seiten unserer Website berücksichtigt."
+    },
+    "withdrawalOfConsent": {
+      "heading": "Widerruf der Einwilligung",
+      "paragraph": "Sie können Ihre Einwilligung jederzeit ändern oder widerrufen, indem Sie auf den Link \"Cookie-Einstellungen\" im Footer unserer Website klicken. Wenn Sie Ihre Einwilligung widerrufen, werden nicht-essenzielle Cookies deaktiviert, und es können Änderungen in der Funktionalität der Website auftreten."
+    },
+    "retention": {
+      "heading": "Speicherdauer",
+      "paragraph": "Ihre Cookie-Einstellungen werden für 365 Tage gespeichert. Wenn Sie Ihre Einstellungen nicht ändern, bleibt Ihre Wahl gültig, bis das Cookie abläuft."
+    },
+    "howWeUseCookies": {
+      "heading": "Wie wir Cookies verwenden",
+      "list": [
+        {
+          "label": "Analyse",
+          "description": "Um zu verstehen, wie Besucher mit unserer Website interagieren, welche Seiten am beliebtesten sind und wie wir unseren Service verbessern können."
+        },
+        {
+          "label": "Funktionalität",
+          "description": "Um sich Ihre Präferenzen zu merken und erweiterte, personalisierte Funktionen bereitzustellen."
+        },
+        {
+          "label": "Sicherheit",
+          "description": "Um unseren Dienst und unsere Nutzer vor unbefugtem Zugriff zu schützen."
+        }
+      ]
+    },
+    "contactUs": {
+      "heading": "Kontaktieren Sie uns",
+      "paragraph": "Wenn Sie Fragen zu unserer Cookie-Richtlinie oder unseren Datenschutzpraktiken haben, kontaktieren Sie uns bitte über unsere Kontaktseite."
+    },
+    "lastUpdatedLabel": "Zuletzt aktualisiert"
+  },
+  "dashboard": {
+    "title": "Bewertung und Berichtserstellung",
+    "subtitle": "Lassen Sie handgeschriebene Lösungen Ihrer Schüler korrigieren und erhalten Sie personalisierte Berichte zu Schwerpunktthemen, Ressourcen, Übungsvorschlägen und mehr",
+    "tabs": {
+      "chatAssistant": "Chat-Assistent",
+      "reports": "Berichte"
+    },
+    "selectStudentPlaceholder": "Schüler auswählen",
+    "addNewStudentButton": "Neuen Schüler hinzufügen",
+    "modalTitleAddStudent": "Neuen Schüler hinzufügen",
+    "noStudentSelected": "Bitte wählen Sie einen Schüler aus, um dessen Berichte anzuzeigen.",
+    "noReportsForStudent": "Für diesen Schüler liegen noch keine Berichte vor.",
+    "failedToLoadReport": "Fehler beim Laden der Berichtsdateien. Bitte versuchen Sie es später erneut.",
+    "reportReadyToast": {
+      "title": "Bericht fertig!",
+      "message": "Ihr Analysebericht wurde erstellt und ist jetzt im Tab „Berichte“ verfügbar."
+    },
+    "downloadSuccess": "Bericht erfolgreich heruntergeladen",
+    "downloadError": "Fehler beim Herunterladen des Berichts",
+    "deleteConfirmation": "Möchten Sie diesen Bericht wirklich löschen?",
+    "deleteSuccess": "Bericht erfolgreich gelöscht",
+    "deleteError": "Fehler beim Löschen des Berichts",
+    "updateTitleSuccess": "Berichtstitel aktualisiert",
+    "updateTitleError": "Fehler beim Aktualisieren des Berichtstitels",
+    "fullScreenPreviewAriaLabel": "Vollbildvorschau",
+    "downloadAriaLabel": "Bericht herunterladen",
+    "deleteAriaLabel": "Bericht löschen"
   }
 }

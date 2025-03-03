@@ -6,6 +6,7 @@ import { AuroraBackground } from "../components/UI/aurora-background";
 import { supabase } from "../lib/supabase";
 import { motion } from "framer-motion";
 import { Gift } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function Auth() {
   const { user, signIn, signUp } = useAuth();
@@ -15,6 +16,7 @@ export function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     navigate(isSignUp ? "/signup" : "/signin", { replace: true });
@@ -36,14 +38,11 @@ export function Auth() {
 
         console.log("Signup response:", response);
         if (response.user?.identities?.length === 0) {
-          toast.error("An account with this email already exists.");
+          toast.error(t("auth.toast.signupEmailExists"));
           return;
         }
 
-        toast.success(
-          "Account created! Please check your email to confirm your account before signing in. Check your spam folder if you don't see it.",
-          { duration: 8000 }
-        );
+        toast.success(t("auth.toast.signupSuccess"), { duration: 8000 });
         setIsSignUp(false);
       } else {
         console.log("Starting signin process for:", email);
@@ -59,19 +58,18 @@ export function Auth() {
         if (!currentUser?.email_confirmed_at) {
           console.log("Email not verified, signing out user");
           await supabase.auth.signOut();
-          toast.error(
-            "Please verify your email before signing in. Check your spam folder if you haven't received the verification email.",
-            { duration: 6000 }
-          );
+          toast.error(t("auth.toast.signinEmailNotVerified"), {
+            duration: 6000,
+          });
           return;
         }
 
-        toast.success("Welcome back!");
+        toast.success(t("auth.toast.signinSuccess"));
       }
     } catch (error) {
       console.error("Authentication error:", error);
       toast.error(
-        error instanceof Error ? error.message : "Authentication failed"
+        error instanceof Error ? error.message : t("auth.toast.authError")
       );
     } finally {
       setLoading(false);
@@ -98,10 +96,12 @@ export function Auth() {
             </div>
             <div className="space-y-1">
               <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
-                {isSignUp ? "Create your account" : "Welcome back"}
+                {isSignUp
+                  ? t("auth.headingCreateAccount")
+                  : t("auth.headingWelcomeBack")}
               </h2>
               <p className="text-base text-gray-600">
-                {isSignUp ? "" : "Sign in to continue"}
+                {isSignUp ? "" : t("auth.signInToContinue")}
               </p>
             </div>
 
@@ -120,11 +120,11 @@ export function Auth() {
                     <div className="text-left">
                       <h3 className="font-semibold text-gray-900 flex flex-col sm:flex-row sm:items-center gap-1">
                         <span className="text-base">
-                          7-Day Free Trial Included
+                          {t("auth.freeTrial.title")}
                         </span>
                         <span className="text-blue-600 font-medium bg-blue-50 px-1.5 py-0.5 rounded-full text-xs inline-flex items-center">
                           <span className="mr-0.5">✨</span>
-                          No credit card required
+                          {t("auth.freeTrial.subtitle")}
                         </span>
                       </h3>
                     </div>
@@ -139,7 +139,7 @@ export function Auth() {
               <div className="space-y-4">
                 <div>
                   <label htmlFor="email" className="sr-only">
-                    Email address
+                    {t("auth.form.emailLabel")}
                   </label>
                   <input
                     id="email"
@@ -148,12 +148,12 @@ export function Auth() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 text-base"
-                    placeholder="Email address"
+                    placeholder={t("auth.form.emailPlaceholder")}
                   />
                 </div>
                 <div>
                   <label htmlFor="password" className="sr-only">
-                    Password
+                    {t("auth.form.passwordLabel")}
                   </label>
                   <input
                     id="password"
@@ -162,7 +162,7 @@ export function Auth() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 text-base"
-                    placeholder="Password"
+                    placeholder={t("auth.form.passwordPlaceholder")}
                   />
                 </div>
               </div>
@@ -175,10 +175,14 @@ export function Auth() {
                 {loading ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/50 border-t-white rounded-full animate-spin" />
-                    <span>Processing...</span>
+                    <span>{t("auth.form.processing")}</span>
                   </div>
                 ) : (
-                  <span>{isSignUp ? "Create Account" : "Sign In"}</span>
+                  <span>
+                    {isSignUp
+                      ? t("auth.form.btnCreateAccount")
+                      : t("auth.form.btnSignIn")}
+                  </span>
                 )}
               </button>
             </form>
@@ -191,8 +195,8 @@ export function Auth() {
                 <div className="relative flex justify-center text-sm">
                   <span className="px-3 py-1 text-gray-500 bg-white/70 text-base">
                     {isSignUp
-                      ? "Already have an account?"
-                      : "Don't have an account?"}
+                      ? t("auth.toggle.alreadyHaveAccount")
+                      : t("auth.toggle.dontHaveAccount")}
                   </span>
                 </div>
               </div>
@@ -202,7 +206,9 @@ export function Auth() {
                 onClick={() => setIsSignUp(!isSignUp)}
                 className="mt-4 w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-base font-medium text-gray-700 bg-white/50 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
               >
-                {isSignUp ? "Sign in instead" : "Create an account"}
+                {isSignUp
+                  ? t("auth.toggle.signInInstead")
+                  : t("auth.toggle.createAccount")}
               </button>
             </div>
           </div>

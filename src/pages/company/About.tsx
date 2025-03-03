@@ -1,13 +1,24 @@
 import { motion } from "framer-motion";
 import { Target, Award, TrendingUp } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function About() {
+  const { t } = useTranslation();
+
   const stats = [
-    { label: "Assignments Graded", value: "1000+", icon: Target },
-    { label: "Accuracy Rate", value: "99%+", icon: Award },
     {
-      label: "Potential Time Savings Per Year",
-      value: "Up to 520h",
+      label: t("about.stats.assignmentsGraded.label"),
+      value: t("about.stats.assignmentsGraded.value"),
+      icon: Target,
+    },
+    {
+      label: t("about.stats.accuracyRate.label"),
+      value: t("about.stats.accuracyRate.value"),
+      icon: Award,
+    },
+    {
+      label: t("about.stats.timeSavings.label"),
+      value: t("about.stats.timeSavings.value"),
       icon: TrendingUp,
     },
   ];
@@ -27,15 +38,14 @@ export function About() {
             className="space-y-4 sm:space-y-6 pb-6 sm:pb-8"
           >
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
-              Do More
+              {t("about.heroTitleLine1")}
               <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-purple-200">
-                With Less Effort
+                {t("about.heroTitleLine2")}
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed px-4 sm:px-0">
-              Empowering educators with cutting-edge AI tools to make education
-              more efficient, personalized, and effective for everyone.
+              {t("about.heroSubtitle")}
             </p>
           </motion.div>
         </div>
@@ -87,14 +97,11 @@ export function About() {
                     <Target className="w-6 h-6" />
                   </div>
                   <h2 className="text-xl font-bold text-gray-900">
-                    Our Mission
+                    {t("about.missionCard.title")}
                   </h2>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
-                  We build AI-driven solutions that reduce educators' workloads
-                  and surface actionable insights. By removing repetitive tasks,
-                  teachers are free to focus on delivering meaningful learning
-                  experiences.
+                  {t("about.missionCard.description")}
                 </p>
               </div>
             </motion.div>
@@ -112,16 +119,15 @@ export function About() {
                     <Award className="w-6 h-6" />
                   </div>
                   <h2 className="text-xl font-bold text-gray-900">
-                    Our Values
+                    {t("about.valuesCard.title")}
                   </h2>
                 </div>
                 <ul className="space-y-4">
-                  {[
-                    "Teacher-Centered Design",
-                    "Practical Innovation",
-                    "Reliable & Transparent AI",
-                    "Continual Growth & Feedback",
-                  ].map((value, index) => (
+                  {(
+                    t("about.valuesCard.items", {
+                      returnObjects: true,
+                    }) as string[]
+                  ).map((value: string, index: number) => (
                     <motion.li
                       key={index}
                       initial={{ opacity: 0, x: 20 }}

@@ -1,12 +1,15 @@
 import * as CookieConsent from "react-cookie-consent";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CookieBanner = () => {
+  const { t } = useTranslation();
+
   return (
     <CookieConsent.default
       location="bottom"
-      buttonText="Accept"
-      declineButtonText="Decline"
+      buttonText={t("cookieBanner.accept")}
+      declineButtonText={t("cookieBanner.decline")}
       enableDeclineButton
       cookieName="CookieConsent"
       expires={365}
@@ -30,8 +33,8 @@ const CookieBanner = () => {
         borderRadius: "0.5rem",
         padding: "0.5rem 1rem",
       }}
-      ariaAcceptLabel="Accept cookies"
-      ariaDeclineLabel="Decline cookies"
+      ariaAcceptLabel={t("cookieBanner.ariaAcceptLabel")}
+      ariaDeclineLabel={t("cookieBanner.ariaDeclineLabel")}
       onAccept={() => {
         console.log("User accepted non-essential cookies");
         // Initialize analytics here if needed
@@ -40,8 +43,7 @@ const CookieBanner = () => {
         console.log("User declined non-essential cookies");
       }}
     >
-      We use cookies to improve your experience. By clicking "Accept," you
-      consent to the use of non-essential cookies (e.g. analytics). Read our{" "}
+      {t("cookieBanner.message")}{" "}
       <Link
         to="/privacy"
         style={{ color: "#60a5fa", textDecoration: "underline" }}

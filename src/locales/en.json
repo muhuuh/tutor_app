@@ -1,21 +1,4 @@
 {
-  "common": {
-    "welcome": "Welcome to AI Chat Assistant",
-    "loading": "Loading...",
-    "error": "An error occurred",
-    "submit": "Submit",
-    "cancel": "Cancel"
-  },
-  "cookieBanner": {
-    "message": "We use cookies to improve your experience. Read our Privacy Policy for more details.",
-    "accept": "Accept",
-    "decline": "Decline"
-  },
-  "chat": {
-    "placeholder": "Type your message here...",
-    "send": "Send",
-    "clear": "Clear Chat"
-  },
   "home": {
     "hero": {
       "badge": "AI-Powered Education Platform",
@@ -247,15 +230,33 @@
       "button": "Contact Support"
     }
   },
-
+  "cookieBanner": {
+    "message": "We use cookies to improve your experience. By clicking \"Accept,\" you consent to the use of non-essential cookies (e.g. analytics). Read our Privacy Policy for details.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "ariaAcceptLabel": "Accept cookies",
+    "ariaDeclineLabel": "Decline cookies"
+  },
   "pricing": {
     "heroTitle": "Simple, transparent pricing",
     "heroSubtitle": "Choose the plan that's right for you",
+
     "freeTrialBannerTitle": "Try it Free for 7 Days",
     "freeTrialBannerText": "Sign up now and get full access to all Basic plan features. No credit card required!",
     "freeTrialBannerButton": "Start Free Trial",
+
     "mostPopular": "Most Popular",
+
+    "errorToast": "An error occurred",
     "btnProcessing": "Processing...",
+
+    "buttonTexts": {
+      "contactSales": "Contact Sales",
+      "currentPlan": "Current Plan",
+      "downgradeAvailableAfterCancellation": "Downgrade Available After Cancellation",
+      "getStarted": "Get Started"
+    },
+
     "planLabels": {
       "basic": {
         "name": "Basic",
@@ -275,10 +276,39 @@
         "description": "For schools and large educational organizations"
       }
     },
+
+    "planFeatures": {
+      "basic": [
+        "Advanced handwriting analysis",
+        "Partial credit recognition",
+        "Detailed performance analytics",
+        "Tailored resources search",
+        "Custom exercise generation",
+        "Up to 5 student profiles"
+      ],
+      "professional": [
+        "Advanced handwriting analysis",
+        "Partial credit recognition",
+        "Detailed performance analytics",
+        "Tailored resources search",
+        "Custom exercise generation",
+        "Unlimited student profiles",
+        "Early access to new features"
+      ],
+      "institution": [
+        "All Professional features",
+        "Custom integrations",
+        "Dedicated support team",
+        "Training sessions"
+      ]
+    },
+
     "manageSubscriptionModal": {
       "title": "Manage Your Subscription",
+
       "upgradeTitle": "Want to upgrade?",
       "upgradeText": "You can upgrade to the Professional plan directly! This will automatically replace your Basic subscription.",
+
       "cancelTitle": "Want to cancel?",
       "cancelSteps": [
         "Go to your Subscription page",
@@ -286,6 +316,7 @@
         "Cancel your Basic subscription",
         "Your Basic features remain active until the end of your billing period"
       ],
+
       "howToDowngradeTitle": "How to Downgrade Your Plan",
       "howToDowngradeSteps": [
         "Go to your Subscription page",
@@ -294,7 +325,16 @@
         "You keep Pro features until the end of your billing period",
         "After it expires, you can subscribe to Basic"
       ],
+
+      "cancelSubscriptionIntro": "To cancel your {subscriptionType} subscription:",
+
       "closeButton": "Close"
+    },
+
+    "creditBreakdownModal": {
+      "heading": "AI Credit Breakdown",
+      "description": "See how many credits each feature uses per interaction",
+      "closeButton": "Got it"
     },
     "comparePlanFeatures": {
       "heading": "Compare Plan Features",
@@ -306,5 +346,276 @@
         "earlyAccess": "Early Access"
       }
     }
+  },
+  "about": {
+    "heroTitleLine1": "Do More",
+    "heroTitleLine2": "With Less Effort",
+    "heroSubtitle": "Empowering educators with cutting-edge AI tools to make education more efficient, personalized, and effective for everyone.",
+    "stats": {
+      "assignmentsGraded": {
+        "label": "Assignments Graded",
+        "value": "1000+"
+      },
+      "accuracyRate": {
+        "label": "Accuracy Rate",
+        "value": "99%+"
+      },
+      "timeSavings": {
+        "label": "Potential Time Savings Per Year",
+        "value": "Up to 520h"
+      }
+    },
+    "missionCard": {
+      "title": "Our Mission",
+      "description": "We build AI-driven solutions that reduce educators' workloads and surface actionable insights. By removing repetitive tasks, teachers are free to focus on delivering meaningful learning experiences."
+    },
+    "valuesCard": {
+      "title": "Our Values",
+      "items": [
+        "Teacher-Centered Design",
+        "Practical Innovation",
+        "Reliable & Transparent AI",
+        "Continual Growth & Feedback"
+      ]
+    }
+  },
+
+  "contact": {
+    "heroHeading": "Get in Touch",
+    "heroSubtitle": "Have a question or feedback? We'd love to hear from you.",
+    "dropLineHeading": "Drop Us a Line, We're All Ears",
+    "dropLineSubtitlePart1": "Whether you have feedback, encountered an issue, or have a great idea for a new feature —",
+    "dropLineSubtitlePart2": "Let us know!",
+    "form": {
+      "placeholders": {
+        "name": "Your Name",
+        "email": "Your Email",
+        "subject": "Subject",
+        "message": "Your Message"
+      },
+      "btnSending": "Sending...",
+      "btnSend": "Send Message"
+    },
+    "socialIcons": {
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "instagram": "Instagram"
+    },
+    "toast": {
+      "success": "Message sent successfully! We'll get back to you soon.",
+      "error": "Failed to send message. Please try again."
+    }
+  },
+  "auth": {
+    "headingCreateAccount": "Create your account",
+    "headingWelcomeBack": "Welcome back",
+    "signInToContinue": "Sign in to continue",
+    "freeTrial": {
+      "title": "7-Day Free Trial Included",
+      "subtitle": "No credit card required"
+    },
+    "form": {
+      "emailLabel": "Email address",
+      "passwordLabel": "Password",
+      "emailPlaceholder": "Email address",
+      "passwordPlaceholder": "Password",
+      "btnCreateAccount": "Create Account",
+      "btnSignIn": "Sign In",
+      "processing": "Processing..."
+    },
+    "toggle": {
+      "alreadyHaveAccount": "Already have an account?",
+      "dontHaveAccount": "Don't have an account?",
+      "signInInstead": "Sign in instead",
+      "createAccount": "Create an account"
+    },
+    "toast": {
+      "signupSuccess": "Account created! Please check your email to confirm your account before signing in. Check your spam folder if you don't see it.",
+      "signupEmailExists": "An account with this email already exists.",
+      "signinSuccess": "Welcome back!",
+      "signinEmailNotVerified": "Please verify your email before signing in. Check your spam folder if you haven't received the verification email.",
+      "authError": "Authentication failed"
+    }
+  },
+
+  "subscription": {
+    "title": "Subscription Management",
+    "currentPlan": "Current Plan",
+    "validUntil": "Valid Until",
+    "creditsUsage": "Credits Usage",
+    "noActiveSubscription": "No active subscription found.",
+    "renewNotice": "Your subscription renews automatically each month. You can cancel or modify your subscription at any time through the billing portal.",
+    "manageBillingBtn": "Manage Billing",
+    "loading": "Loading..."
+  },
+
+  "subscriptionSuccess": {
+    "title": "Subscription Activated!",
+    "subtitle": "Thank you for subscribing. Your account has been successfully upgraded.",
+    "redirectNotice": "Redirecting to homework correction tools in a few seconds..."
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: February 1, 2025",
+    "sections": {
+      "euDataProtection": {
+        "heading": "EU Data Protection Compliance (GDPR)",
+        "paragraphs": [
+          "We are committed to complying with the EU General Data Protection Regulation (GDPR). As an EU resident, you have the right to access, rectify, or request erasure of your personal data at any time. You also have the right to object to or restrict certain processing of your data, as well as the right to data portability. To exercise these rights, please contact us at support@robinagent.ai.",
+          "We will store your personal data only for as long as it is necessary to provide our services or as otherwise required by applicable law. When we no longer need your personal data, we will securely delete or anonymize it."
+        ]
+      },
+      "section1": {
+        "heading": "1. Agreement to Terms",
+        "paragraphs": [
+          "By accessing and using RobinAgent's services, you agree to be bound by these Terms of Service and our Privacy Policy. If you disagree with any part of these terms, you may not access our services."
+        ]
+      },
+      "section2": {
+        "heading": "2. Description of Service",
+        "paragraphs": [
+          "RobinAgent provides AI-powered educational tools and services designed to assist educators in grading, creating educational content, and managing student progress. Our service utilizes artificial intelligence technology to provide automated assistance and insights."
+        ]
+      },
+      "section3": {
+        "heading": "3. Subscription and Payment Terms",
+        "paragraphs": [
+          "Our service is provided on a subscription basis. Payments are processed securely through Stripe on a monthly billing cycle. You may cancel your subscription at any time, and the cancellation will take effect at the end of your current billing period. No refunds are provided for partial months of service.",
+          "If required under EU consumer protection laws, you may also be entitled to a statutory 'cooling-off period' for certain subscription purchases."
+        ]
+      },
+      "section4": {
+        "heading": "4. User Accounts and Data",
+        "paragraphs": [
+          "When you create an account, you must provide accurate and complete information. You are responsible for maintaining the security of your account and for all activities that occur under it. We store your data securely using Supabase infrastructure and utilize AI services to process your content. All data processing complies with applicable privacy laws and our Privacy Policy."
+        ]
+      },
+      "section5": {
+        "heading": "5. Intellectual Property Rights",
+        "paragraphs": [
+          "The Service and its original content, features, and functionality are owned by RobinAgent and are protected by international copyright, trademark, and other intellectual property laws."
+        ]
+      },
+      "section6": {
+        "heading": "6. User Content and AI Processing",
+        "paragraphs": [
+          "You retain rights to any content you submit, post, or display on or through the Service. By submitting content, you grant us permission to process it using AI technologies and store it securely to provide our services. We do not claim ownership of your content but require these rights to provide our service effectively."
+        ]
+      },
+      "section7": {
+        "heading": "7. Privacy and Data Protection",
+        "paragraphs": [
+          "Your privacy is important to us. We process your data using AI technologies and store it securely using Supabase. All data processing is carried out in compliance with applicable EU data protection legislation, including the GDPR. Please review our Privacy Policy to understand how we collect, use, and protect your personal information, as well as how you can exercise your rights with respect to your data."
+        ]
+      },
+      "aiDisclaimer": {
+        "heading": "AI Disclaimer",
+        "paragraphs": [
+          "While we utilize advanced AI models to provide suggestions, insights, or other automated outputs, these features are provided on an 'as-is' basis. The AI may not always produce accurate or error-free results, and you are responsible for verifying the information before relying upon it. RobinAgent disclaims any liability arising from AI-generated outputs that may be incomplete or inaccurate."
+        ]
+      },
+      "section8": {
+        "heading": "8. Limitation of Liability",
+        "paragraphs": [
+          "RobinAgent shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the Service. While we strive for high accuracy in our AI-powered features, we cannot guarantee perfect results.",
+          "The AI-powered functionalities provided by RobinAgent are for informational and educational purposes only and do not constitute legal, financial, health, or any other professional advice. If you need professional advice, please consult a qualified professional."
+        ]
+      },
+      "section9": {
+        "heading": "9. Changes to Terms",
+        "paragraphs": [
+          "We reserve the right to modify these terms at any time. We will notify users of any material changes via email or through the Service."
+        ]
+      },
+      "section10": {
+        "heading": "10. Contact Information",
+        "paragraphs": [
+          "If you have any questions about these Terms, please contact us at support@robinagent.ai"
+        ]
+      }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "cookieUsage": {
+      "heading": "Cookie Usage",
+      "paragraph": "We use cookies to enhance your experience, analyze site traffic, and for personalized advertising."
+    },
+    "typesOfCookies": {
+      "heading": "Types of Cookies",
+      "list": [
+        {
+          "label": "Strictly Necessary Cookies",
+          "description": "These cookies are essential for the website to function and cannot be switched off."
+        },
+        {
+          "label": "Non-Essential Cookies",
+          "description": "These include analytics and marketing cookies. They are only activated after you give your consent."
+        }
+      ]
+    },
+    "yourConsent": {
+      "heading": "Your Consent",
+      "paragraph": "On your first visit, you will be asked to consent to the use of non-essential cookies. You may accept or decline. Your choice will be respected across all pages of our website."
+    },
+    "withdrawalOfConsent": {
+      "heading": "Withdrawal of Consent",
+      "paragraph": "You can change or withdraw your consent at any time by clicking the \"Cookie Settings\" link in the footer of our website. When you withdraw consent, non-essential cookies will be disabled, and you may notice changes in website functionality."
+    },
+    "retention": {
+      "heading": "Retention",
+      "paragraph": "Your cookie preferences are stored for 365 days. If you do not change your settings, your choice will remain in effect until the cookie expires."
+    },
+    "howWeUseCookies": {
+      "heading": "How We Use Cookies",
+      "list": [
+        {
+          "label": "Analytics",
+          "description": "To understand how visitors interact with our website, which pages are most popular, and how we can improve our service."
+        },
+        {
+          "label": "Functionality",
+          "description": "To remember your preferences and provide enhanced, personalized features."
+        },
+        {
+          "label": "Security",
+          "description": "To help protect our service and our users from unauthorized access."
+        }
+      ]
+    },
+    "contactUs": {
+      "heading": "Contact Us",
+      "paragraph": "If you have any questions about our cookie policy or privacy practices, please contact us through our contact page."
+    },
+    "lastUpdatedLabel": "Last updated"
+  },
+  "dashboard": {
+    "title": "Grading and Report Creation",
+    "subtitle": "Get handwritten answers from your pupils corrected, and receive personalised reports about concepts to focus on, resources and exercise propositions, and more",
+    "tabs": {
+      "chatAssistant": "Chat Assistant",
+      "reports": "Reports"
+    },
+    "selectStudentPlaceholder": "Select Student",
+    "addNewStudentButton": "Add New Student",
+    "modalTitleAddStudent": "Add New Student",
+    "noStudentSelected": "Please select a student to view their reports.",
+    "noReportsForStudent": "No reports available for this student yet.",
+    "failedToLoadReport": "Failed to load report data. Please try again later.",
+    "reportReadyToast": {
+      "title": "Report Ready!",
+      "message": "Your analysis report has been generated and is now available in the Reports tab."
+    },
+    "downloadSuccess": "Report downloaded successfully",
+    "downloadError": "Failed to download report",
+    "deleteConfirmation": "Are you sure you want to delete this report?",
+    "deleteSuccess": "Report deleted successfully",
+    "deleteError": "Failed to delete report",
+    "updateTitleSuccess": "Report title updated",
+    "updateTitleError": "Failed to update report title",
+    "fullScreenPreviewAriaLabel": "Full Screen Preview",
+    "downloadAriaLabel": "Download report",
+    "deleteAriaLabel": "Delete report"
   }
 }

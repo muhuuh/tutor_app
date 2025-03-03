@@ -37,52 +37,8 @@ interface PricingPlan {
   popular?: boolean;
 }
 
-// Update the pricing plans array
-const pricingPlans: PricingPlan[] = [
-  {
-    name: "basic",
-    icon: Package,
-    priceId: import.meta.env.VITE_STRIPE_BASIC_PRICE_ID,
-    credits: 500,
-    features: [
-      "Advanced handwriting analysis",
-      "Partial credit recognition",
-      "Detailed performance analytics",
-      "Tailored resources search",
-      "Custom exercise generation",
-      "Up to 5 student profiles",
-    ],
-  },
-  {
-    name: "professional",
-    popular: true,
-    icon: Zap,
-    priceId: import.meta.env.VITE_STRIPE_PRO_PRICE_ID,
-    credits: 2000,
-    features: [
-      "Advanced handwriting analysis",
-      "Partial credit recognition",
-      "Detailed performance analytics",
-      "Tailored resources search",
-      "Custom exercise generation",
-      "Unlimited student profiles",
-      "Early access to new features",
-    ],
-  },
-  {
-    name: "institution",
-    icon: Building2,
-    credits: "custom",
-    features: [
-      "All Professional features",
-      "Custom integrations",
-      "Dedicated support team",
-      "Training sessions",
-    ],
-  },
-];
-
 export function Pricing() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
@@ -93,10 +49,37 @@ export function Pricing() {
   const [showDowngradeInfo, setShowDowngradeInfo] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
-  // NEW: State to show/hide AI credit usage modal
   const [showCreditBreakdown, setShowCreditBreakdown] = useState(false);
 
-  const { t } = useTranslation();
+  const pricingPlans: PricingPlan[] = [
+    {
+      name: "basic",
+      icon: Package,
+      priceId: import.meta.env.VITE_STRIPE_BASIC_PRICE_ID,
+      credits: 500,
+      features: t("pricing.planFeatures.basic", {
+        returnObjects: true,
+      }) as string[],
+    },
+    {
+      name: "professional",
+      popular: true,
+      icon: Zap,
+      priceId: import.meta.env.VITE_STRIPE_PRO_PRICE_ID,
+      credits: 2000,
+      features: t("pricing.planFeatures.professional", {
+        returnObjects: true,
+      }) as string[],
+    },
+    {
+      name: "institution",
+      icon: Building2,
+      credits: "custom",
+      features: t("pricing.planFeatures.institution", {
+        returnObjects: true,
+      }) as string[],
+    },
+  ];
 
   useEffect(() => {
     async function fetchSubscription() {
@@ -173,20 +156,21 @@ export function Pricing() {
   };
 
   const getButtonText = (planName: string) => {
-    if (planName === "institution") return "Contact Sales";
+    if (planName === "institution")
+      return t("pricing.buttonTexts.contactSales");
     if (isSubscriptionDisabled(planName)) {
       return currentSubscription === planName.toLowerCase()
-        ? "Current Plan"
-        : "Downgrade Available After Cancellation";
+        ? t("pricing.buttonTexts.currentPlan")
+        : t("pricing.buttonTexts.downgradeAvailableAfterCancellation");
     }
-    return "Get Started";
+    return t("pricing.buttonTexts.getStarted");
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {error && (
         <div className="fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded z-50">
-          {error}
+          {t("pricing.errorToast")}
         </div>
       )}
 
@@ -362,7 +346,7 @@ export function Pricing() {
                     {isLoading === plan.priceId ? (
                       <div className="flex items-center justify-center gap-2">
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>Processing...</span>
+                        <span>{t("pricing.btnProcessing")}</span>
                       </div>
                     ) : (
                       getButtonText(plan.name)
@@ -405,61 +389,66 @@ export function Pricing() {
         >
           <div className="bg-white rounded-xl p-6 max-w-md w-full">
             <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              {currentSubscription === "basic"
-                ? "Manage Your Subscription"
-                : currentSubscription === "professional" &&
-                  selectedPlan === "basic"
-                ? "How to Downgrade Your Plan"
-                : "Manage Your Subscription"}
+              {t("pricing.manageSubscriptionModal.title")}
             </h3>
             <p className="text-gray-600 mb-4">
               {currentSubscription === "basic" ? (
                 <>
                   <div className="mb-4">
-                    <strong className="text-gray-900">Want to upgrade?</strong>
+                    <strong className="text-gray-900">
+                      {t("pricing.manageSubscriptionModal.upgradeTitle")}
+                    </strong>
                     <p className="mt-2">
-                      You can upgrade to the Professional plan directly! This
-                      will automatically replace your Basic subscription.
+                      {t("pricing.manageSubscriptionModal.upgradeText")}
                     </p>
                   </div>
                   <div>
-                    <strong className="text-gray-900">Want to cancel?</strong>
+                    <strong className="text-gray-900">
+                      {t("pricing.manageSubscriptionModal.cancelTitle")}
+                    </strong>
                     <ol className="list-decimal ml-4 mt-2 space-y-2">
-                      <li>Go to your Subscription page</li>
-                      <li>Click on "Manage Billing"</li>
-                      <li>Cancel your Basic subscription</li>
-                      <li>
-                        Your Basic features remain active until the end of your
-                        billing period
-                      </li>
+                      {(
+                        t("pricing.manageSubscriptionModal.cancelSteps", {
+                          returnObjects: true,
+                        }) as string[]
+                      ).map((step, index) => (
+                        <li key={index}>{step}</li>
+                      ))}
                     </ol>
                   </div>
                 </>
               ) : currentSubscription === "professional" &&
                 selectedPlan === "basic" ? (
                 <>
-                  To downgrade to the Basic plan:
+                  <strong className="text-gray-900">
+                    {t("pricing.manageSubscriptionModal.howToDowngradeTitle")}
+                  </strong>
                   <ol className="list-decimal ml-4 mt-2 space-y-2">
-                    <li>Go to your Subscription page</li>
-                    <li>Click on "Manage Billing"</li>
-                    <li>Cancel your current Professional subscription</li>
-                    <li>
-                      You keep Pro features until the end of your billing period
-                    </li>
-                    <li>After it expires, you can subscribe to Basic</li>
+                    {(
+                      t("pricing.manageSubscriptionModal.howToDowngradeSteps", {
+                        returnObjects: true,
+                      }) as string[]
+                    ).map((step, index) => (
+                      <li key={index}>{step}</li>
+                    ))}
                   </ol>
                 </>
               ) : (
                 <>
-                  To cancel your {currentSubscription} subscription:
+                  {t(
+                    "pricing.manageSubscriptionModal.cancelSubscriptionIntro",
+                    {
+                      subscriptionType: currentSubscription,
+                    }
+                  )}
                   <ol className="list-decimal ml-4 mt-2 space-y-2">
-                    <li>Go to your Subscription page</li>
-                    <li>Click on "Manage Billing"</li>
-                    <li>Cancel your subscription</li>
-                    <li>
-                      You keep {currentSubscription} features until end of your
-                      billing period
-                    </li>
+                    {(
+                      t("pricing.manageSubscriptionModal.cancelSteps", {
+                        returnObjects: true,
+                      }) as string[]
+                    ).map((step, index) => (
+                      <li key={index}>{step}</li>
+                    ))}
                   </ol>
                 </>
               )}
@@ -468,7 +457,7 @@ export function Pricing() {
               onClick={() => setShowDowngradeInfo(false)}
               className="w-full mt-4 px-4 py-2 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors"
             >
-              Close
+              {t("pricing.manageSubscriptionModal.closeButton")}
             </button>
           </div>
         </div>
@@ -500,11 +489,11 @@ export function Pricing() {
                     <Zap className="w-4 h-4" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900">
-                    AI Credit Breakdown
+                    {t("pricing.creditBreakdownModal.heading")}
                   </h3>
                 </div>
                 <p className="text-sm text-gray-600">
-                  See how many credits each feature uses per interaction
+                  {t("pricing.creditBreakdownModal.description")}
                 </p>
               </div>
 
@@ -531,7 +520,7 @@ export function Pricing() {
                 onClick={() => setShowCreditBreakdown(false)}
                 className="w-full px-3 py-2 bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm rounded-lg hover:from-violet-700 hover:to-blue-700 transition-all shadow hover:shadow-md font-medium"
               >
-                Got it
+                {t("pricing.creditBreakdownModal.closeButton")}
               </button>
             </div>
           </motion.div>

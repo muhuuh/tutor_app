@@ -1,30 +1,33 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 export function SubscriptionSuccess() {
-  const {
-    /* searchParams */
-  } = useSearchParams();
+  const { t } = useTranslation();
+  //const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [
-    ,/* error */
-    /* setError */
-  ] = useState<string | null>(null);
-  const {
-    /* user */
-  } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
+    // Check if user exists
+    if (!user) {
+      setError(t("subscriptionSuccess.userError"));
+      // Redirect to login if no user
+      navigate("/auth");
+      return;
+    }
+
     // Automatically redirect to homework corrections after 5 seconds
     const timer = setTimeout(() => {
       navigate("/tools/homework-corrections");
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [navigate]);
+  }, [navigate, user, t]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-4">
@@ -37,15 +40,14 @@ export function SubscriptionSuccess() {
           <CheckCircle className="w-8 h-8 text-emerald-500" />
         </div>
         <h1 className="text-2xl font-bold text-gray-900 mb-4">
-          Subscription Activated!
+          {t("subscriptionSuccess.title")}
         </h1>
         <p className="text-gray-600 mb-6">
-          Thank you for subscribing. Your account has been successfully
-          upgraded.
+          {t("subscriptionSuccess.subtitle")}
         </p>
-        {/* error && <div className="text-red-500 mb-4 text-sm">{error}</div> */}
+        {error && <div className="text-red-500 mb-4 text-sm">{error}</div>}
         <p className="text-sm text-gray-500">
-          Redirecting to homework correction tools in a few seconds...
+          {t("subscriptionSuccess.redirectNotice")}
         </p>
       </motion.div>
     </div>

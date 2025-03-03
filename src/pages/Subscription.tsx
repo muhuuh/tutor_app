@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabase";
 import { CreditCard, Calendar, Package, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 //link to customer portall: https://dashboard.stripe.com/test/settings/billing/portal
 
@@ -14,6 +15,7 @@ interface SubscriptionDetails {
 }
 
 export function Subscription() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -95,7 +97,7 @@ export function Subscription() {
       >
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-6">
-            Subscription Management
+            {t("subscription.title")}
           </h1>
 
           {error ? (
@@ -108,7 +110,7 @@ export function Subscription() {
                     <Package className="w-6 h-6 text-blue-500 mt-1" />
                     <div>
                       <h3 className="font-medium text-gray-900">
-                        Current Plan
+                        {t("subscription.currentPlan")}
                       </h3>
                       <p className="text-2xl font-bold text-blue-600 mt-1 capitalize">
                         {subscription.subscription_type}
@@ -121,7 +123,9 @@ export function Subscription() {
                   <div className="flex items-start gap-4">
                     <Calendar className="w-6 h-6 text-purple-500 mt-1" />
                     <div>
-                      <h3 className="font-medium text-gray-900">Valid Until</h3>
+                      <h3 className="font-medium text-gray-900">
+                        {t("subscription.validUntil")}
+                      </h3>
                       <p className="text-2xl font-bold text-purple-600 mt-1">
                         {subscription.valid_until
                           ? new Date(
@@ -136,14 +140,14 @@ export function Subscription() {
 
               <div className="bg-gray-50 rounded-xl p-6">
                 <h3 className="font-medium text-gray-900 mb-4">
-                  Credits Usage
+                  {t("subscription.creditsUsage")}
                 </h3>
                 <div className="relative pt-1">
                   <div className="flex items-center justify-between mb-2">
                     <div>
                       <span className="text-xs font-semibold inline-block text-blue-600">
                         {subscription.used_credits} / {subscription.max_credits}{" "}
-                        Credits Used
+                        Credits
                       </span>
                     </div>
                     <div className="text-right">
@@ -181,25 +185,25 @@ export function Subscription() {
                   {isPortalLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Loading...</span>
+                      <span>{t("subscription.loading")}</span>
                     </>
                   ) : (
                     <>
                       <CreditCard className="w-4 h-4" />
-                      <span>Manage Billing</span>
+                      <span>{t("subscription.manageBillingBtn")}</span>
                     </>
                   )}
                 </button>
               </div>
 
               <p className="text-sm text-gray-500 mt-4">
-                Your subscription renews automatically each month. You can
-                cancel or modify your subscription at any time through the
-                billing portal.
+                {t("subscription.renewNotice")}
               </p>
             </div>
           ) : (
-            <p className="text-gray-500">No active subscription found.</p>
+            <p className="text-gray-500">
+              {t("subscription.noActiveSubscription")}
+            </p>
           )}
         </div>
       </motion.div>
