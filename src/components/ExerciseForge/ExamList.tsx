@@ -14,6 +14,7 @@ import {
 import { FiTrash2, FiDownload } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 interface ExamListProps {
   loading: boolean;
@@ -120,13 +121,17 @@ export function ExamList({
   onExamDownload,
   newExamId,
 }: ExamListProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="col-span-1">
       {/* Show title only on mobile */}
       <div className="sm:hidden flex items-center gap-2 justify-center mb-4">
-        <h2 className="text-lg font-semibold text-blue-900">Your Exams</h2>
+        <h2 className="text-lg font-semibold text-blue-900">
+          {t("examList.mobileTitle")}
+        </h2>
         <div className="-mt-0.5">
-          <InfoTooltip content="Overview of the exams you have uploaded and edited in the past." />
+          <InfoTooltip content={t("examList.mobileTooltip")} />
         </div>
       </div>
 
@@ -157,12 +162,12 @@ export function ExamList({
                       {exam.title}
                       {newExamId === exam.id && (
                         <span className="text-xs font-medium text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full">
-                          New
+                          {t("examList.newExamBadge")}
                         </span>
                       )}
                     </h3>
                     <p className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">
-                      Last updated:{" "}
+                      {t("examList.lastUpdatedLabel")}:{" "}
                       {new Date(exam.updated_at).toLocaleDateString("en-GB", {
                         day: "numeric",
                         month: "long",
@@ -178,7 +183,7 @@ export function ExamList({
                         onExamDownload(exam.id);
                       }}
                       className="p-1.5 sm:p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
-                      aria-label="Download exam"
+                      aria-label={t("examList.downloadAriaLabel")}
                     >
                       <FiDownload className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>
@@ -188,7 +193,7 @@ export function ExamList({
                         onExamDelete(exam.id);
                       }}
                       className="p-1.5 sm:p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                      aria-label="Delete exam"
+                      aria-label={t("examList.deleteAriaLabel")}
                     >
                       <FiTrash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>
@@ -199,7 +204,7 @@ export function ExamList({
             {exams.length > 5 && (
               <div className="pt-3 sm:pt-4 border-t border-gray-100">
                 <p className="text-xs sm:text-sm text-gray-500 text-center">
-                  Scroll to see {exams.length - 5} more exams
+                  {t("examList.scrollSeeMore", { count: exams.length - 5 })}
                 </p>
               </div>
             )}

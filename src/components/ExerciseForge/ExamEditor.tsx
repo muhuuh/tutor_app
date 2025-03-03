@@ -15,6 +15,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import "katex/dist/katex.min.css";
 import html2pdf from "html2pdf.js";
 import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 interface ExamEditorProps {
   selectedExam?: Exam | null;
@@ -98,6 +99,7 @@ export function ExamEditor({
   onTitleChange,
   isCreatingNew = false,
 }: ExamEditorProps) {
+  const { t } = useTranslation();
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -128,7 +130,7 @@ export function ExamEditor({
       await html2pdf().set(opt).from(element).save();
     } catch (error) {
       console.error("Error generating PDF:", error);
-      toast.error("Failed to generate PDF");
+      toast.error(t("examEditor.pdfGenerationError"));
     }
   };
 
@@ -301,7 +303,7 @@ export function ExamEditor({
                   : "text-gray-600 hover:text-indigo-600 hover:bg-white/50"
               }`}
             >
-              Questions
+              {t("examEditor.editModeButton")}
             </button>
             <button
               onClick={() => setMode("correction")}
@@ -311,7 +313,7 @@ export function ExamEditor({
                   : "text-gray-600 hover:text-indigo-600 hover:bg-white/50"
               }`}
             >
-              Solutions
+              {t("examEditor.correctionTabLabel")}
             </button>
           </div>
         </div>
@@ -339,6 +341,7 @@ export function ExamEditor({
                 onClick={handleDownload}
                 className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
                 aria-label="Download"
+                title={t("examEditor.downloadPdfTooltip")}
               >
                 <FiDownload className="w-4 h-4" />
               </button>
@@ -353,6 +356,7 @@ export function ExamEditor({
                   onClick={onSave}
                   className="p-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
                   aria-label="Save Changes"
+                  title={t("examEditor.saveChangesTooltip")}
                 >
                   <FiSave className="w-4 h-4" />
                 </button>
@@ -367,6 +371,7 @@ export function ExamEditor({
                   onClick={onDelete}
                   className="p-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-300"
                   aria-label="Delete Exam"
+                  title={t("examEditor.deleteExamTooltip")}
                 >
                   <FiTrash2 className="w-4 h-4" />
                 </button>
@@ -416,10 +421,10 @@ export function ExamEditor({
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       />
                     </svg>
-                    Generating...
+                    {t("examEditor.generatingLabel")}
                   </>
                 ) : (
-                  "Generate Correction"
+                  t("examEditor.generateCorrectionButton")
                 )}
               </button>
             </div>
@@ -465,7 +470,7 @@ export function ExamEditor({
                       as="h3"
                       className="text-lg font-medium text-gray-900"
                     >
-                      Preview
+                      {t("examEditor.examPreviewTitle")}
                     </Dialog.Title>
                     <button
                       onClick={() => setIsPreviewOpen(false)}

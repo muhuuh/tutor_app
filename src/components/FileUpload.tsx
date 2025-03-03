@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud } from "react-icons/fi";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 interface FileUploadProps {
   selectedPupilId: string;
@@ -22,12 +23,13 @@ export function FileUpload({
     ],
   },
 }: FileUploadProps) {
+  const { t } = useTranslation();
   const [uploading, setUploading] = useState(false);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       if (showPupilSelect && !selectedPupilId) {
-        toast.error("Please select a student first");
+        toast.error(t("fileUploadGeneric.pleaseSelectStudent"));
         return;
       }
 
@@ -37,12 +39,12 @@ export function FileUpload({
         onUploadComplete(files);
       } catch (error) {
         console.error("Upload error:", error);
-        toast.error("Error uploading files");
+        toast.error(t("fileUploadGeneric.uploadError"));
       } finally {
         setUploading(false);
       }
     },
-    [selectedPupilId, onUploadComplete, showPupilSelect]
+    [selectedPupilId, onUploadComplete, showPupilSelect, t]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -74,23 +76,23 @@ export function FileUpload({
           <FiUploadCloud className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-500" />
           <p className="text-base sm:text-lg font-medium text-gray-900">
             {uploading
-              ? "Uploading..."
+              ? t("fileUploadGeneric.uploading")
               : isDragActive
-              ? "Drop files here"
-              : "Upload your exercises"}
+              ? t("fileUploadGeneric.dropFilesHere")
+              : t("fileUploadGeneric.uploadYourExercises")}
           </p>
         </div>
         <div className="text-center">
           <p className="text-gray-600 text-xs sm:text-sm mb-1 sm:mb-2">
-            Get AI suggestions for improving exercises and generating solutions
+            {t("fileUploadGeneric.aiSuggestions")}
           </p>
           <p className="text-gray-600 text-xs font-light italic mb-3 sm:mb-4">
-            (Format: .docx)
+            {t("fileUploadGeneric.formatHint")}
           </p>
         </div>
         {showPupilSelect && !selectedPupilId && (
           <p className="text-xs text-amber-600 font-medium text-center">
-            Please select a student first
+            {t("fileUploadGeneric.pleaseSelectStudent")}
           </p>
         )}
       </div>

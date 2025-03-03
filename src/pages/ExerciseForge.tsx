@@ -19,6 +19,13 @@ import { CreditWarningModal } from "../components/UI/CreditWarningModal";
 import { useCreditWarning } from "../hooks/useCreditWarning";
 import { InfoTooltip } from "../components/UI/InfoTooltip";
 import { Tabs } from "../components/Tabs/Tabs";
+import { useTranslation } from "react-i18next";
+
+// Define the Tab interface
+interface Tab {
+  id: string;
+  label: string;
+}
 
 type Mode = "edit" | "correction";
 
@@ -99,6 +106,8 @@ export function ExerciseForge() {
 
     setMobileTab(tab as "list" | "create");
   };
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!initialLoadComplete.current) {
@@ -620,21 +629,21 @@ export function ExerciseForge() {
           {/* Hero Section */}
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-4xl font-bold text-blue-900 text-center pt-12 tracking-wide">
-              Exercise Forge
+              {t("exerciseForge.heroTitle")}
             </h2>
             <p className="mt-3 sm:mt-4 text-base sm:text-lg text-gray-600 px-2 sm:px-0">
-              Create personalized exams powered by AI, based on student
-              performance data and modern teaching methodologies.
+              {t("exerciseForge.heroSubtitle")}
             </p>
           </div>
 
           {/* Mobile Tabs - Only visible on mobile */}
           <div className="sm:hidden mb-4">
             <Tabs
-              tabs={[
-                { id: "list", label: "Your Exams" },
-                { id: "create", label: "Create & Upload" },
-              ]}
+              tabs={
+                t("exerciseForge.exerciseForgeTabs", {
+                  returnObjects: true,
+                }) as Tab[]
+              }
               activeTab={mobileTab}
               onTabChange={handleMobileTabChange}
               variant="full-width"
@@ -643,7 +652,7 @@ export function ExerciseForge() {
 
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100">
             <div className="p-4 sm:p-8">
-              {/* Upload and Create Section - Full width on desktop */}
+              {/* Upload and Create Section */}
               <div
                 className={`${mobileTab === "list" ? "hidden sm:block" : ""}`}
               >
@@ -674,11 +683,11 @@ export function ExerciseForge() {
                         <PencilSquareIcon className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
                       </div>
                       <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-                        Create New Exam
+                        {t("exerciseForge.tabCreateLabel")}
                       </h2>
                     </div>
                     <p className="text-xs sm:text-sm text-gray-600">
-                      Start a conversation with AI to create a new exam
+                      {t("exerciseForge.tabCreateSubtitle")}
                     </p>
                   </button>
                 </div>
@@ -693,12 +702,13 @@ export function ExerciseForge() {
                   }`}
                 >
                   <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-gray-100 shadow-lg p-4 sm:p-6">
-                    {/* Only show title on desktop */}
                     <div className="hidden sm:flex items-center gap-2 mb-4 sm:mb-6">
                       <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
-                        Your Exams
+                        {t("exerciseForge.examListTitle")}
                       </h3>
-                      <InfoTooltip content="List of all your created exams" />
+                      <InfoTooltip
+                        content={t("exerciseForge.examListTooltip")}
+                      />
                     </div>
                     <ExamList
                       loading={loading}
@@ -754,25 +764,24 @@ export function ExerciseForge() {
                               </div>
                               <div>
                                 <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-                                  Create New Exam
+                                  {t("exerciseForge.tabCreateLabel")}
                                 </h2>
                                 <p className="text-xs sm:text-sm text-gray-600 mt-1">
-                                  Explain your requirements to the AI assistant
+                                  {t("exerciseForge.tabCreateHelp")}
                                 </p>
                               </div>
                             </div>
 
                             <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-gray-100">
                               <h3 className="text-sm font-medium text-gray-900 mb-3 sm:mb-4">
-                                Include in your request:
+                                {t("exerciseForge.tabCreateIncludeLabel")}
                               </h3>
                               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                                {[
-                                  "Subject matter and topics",
-                                  "Difficulty level",
-                                  "Types of questions",
-                                  "Specific requirements",
-                                ].map((item) => (
+                                {(
+                                  t("exerciseForge.tabCreateIncludeItems", {
+                                    returnObjects: true,
+                                  }) as string[]
+                                ).map((item: string) => (
                                   <li
                                     key={item}
                                     className="flex items-center gap-2 sm:gap-3"
@@ -809,7 +818,7 @@ export function ExerciseForge() {
                         <PencilSquareIcon className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" />
                       </div>
                       <p className="text-sm sm:text-base">
-                        Select an exam to start editing or create a new one
+                        {t("exerciseForge.noExamSelected")}
                       </p>
                     </div>
                   )}

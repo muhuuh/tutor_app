@@ -4,6 +4,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { processContent } from "./ExamEditor";
+import { useTranslation } from "react-i18next";
 
 interface Message {
   content: string;
@@ -35,6 +36,7 @@ export function ChatBox({
   isCreatingNew,
   mode,
 }: ChatBoxProps) {
+  const { t } = useTranslation();
   const chatResizeRef = useRef<HTMLDivElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -53,6 +55,7 @@ export function ChatBox({
             ref={chatResizeRef}
             className="h-3 sm:h-2 w-full cursor-ns-resize bg-gray-100/50 hover:bg-gray-200/50 transition-colors group relative"
             onMouseDown={onResize}
+            aria-label={t("exerciseChatBox.resizingHandleLabel")}
           >
             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-center">
               <div className="h-1 w-12 bg-gray-300/50 rounded-full group-hover:bg-gray-400/50 transition-colors" />
@@ -110,10 +113,13 @@ export function ChatBox({
                               msg.isUser ? "text-white/70" : "text-gray-500"
                             }`}
                           >
-                            {new Date(msg.timestamp).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
+                            {new Date(msg.timestamp).toLocaleTimeString(
+                              t("exerciseChatBox.timestampFormat"),
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            )}
                           </span>
                         </div>
                       )}
@@ -138,10 +144,10 @@ export function ChatBox({
             onChange={(e) => setMessage(e.target.value)}
             placeholder={
               isCreatingNew
-                ? "Describe the exam you'd like to create..."
+                ? t("exerciseChatBox.placeholderNewExam")
                 : mode === "correction"
-                ? "Ask about the correction..."
-                : "Ask AI anything about this exam..."
+                ? t("exerciseChatBox.placeholderCorrection")
+                : t("exerciseChatBox.placeholderEdit")
             }
             className="flex-1 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-3 sm:px-4 py-2 sm:py-2.5 text-sm text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 focus:outline-none transition-all disabled:opacity-50"
             disabled={isSendingMessage}
@@ -150,7 +156,7 @@ export function ChatBox({
             type="submit"
             disabled={!message.trim() || isSendingMessage}
             className="flex-shrink-0 flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
-            aria-label="Send message"
+            aria-label={t("exerciseChatBox.sendButtonAria")}
           >
             {isSendingMessage ? (
               <div className="h-3 w-3 sm:h-4 sm:w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
