@@ -117,7 +117,7 @@ serve(async (req) => {
       );
     }
 
-    const { pupilId, teacherId, imageUrls, reportTitle, timestamp } =
+    const { pupilId, teacherId, imageUrls, reportTitle, timestamp, language } =
       await req.json();
 
     // Verify that the teacherId matches the authenticated user
@@ -135,6 +135,7 @@ serve(async (req) => {
         imageUrls,
         reportTitle,
         timestamp,
+        language,
       }),
     });
 

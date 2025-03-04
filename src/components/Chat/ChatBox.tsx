@@ -35,7 +35,7 @@ interface SuggestionBox {
 }
 
 export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -137,6 +137,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
           messages: lastMessages,
           pupilId: selectedPupilId,
           teacherId: user?.id,
+          language: i18n.language,
         },
       });
 
@@ -207,6 +208,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
             imageUrls: pendingFiles.map((f) => f.url),
             reportTitle: reportTitle.trim(),
             timestamp: Date.now(),
+            language: i18n.language,
           },
         });
 
@@ -251,6 +253,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               pupilId: selectedPupilId,
               teacherId: user?.id,
               timestamp: Date.now(),
+              language: i18n.language,
             },
           });
 
