@@ -45,7 +45,8 @@ serve(async (req) => {
       throw new Error("Invalid token");
     }
 
-    const { examId, teacherId, message, mode, correctionId } = await req.json();
+    const { examId, teacherId, message, mode, correctionId, language } =
+      await req.json();
 
     // Verify that the teacherId matches the authenticated user
     if (teacherId !== user.id) {
@@ -142,6 +143,7 @@ serve(async (req) => {
         message,
         mode,
         correctionId,
+        language,
       }),
     });
 

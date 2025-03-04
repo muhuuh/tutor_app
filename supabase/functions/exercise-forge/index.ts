@@ -60,7 +60,8 @@ serve(async (req) => {
     }
     console.log("User verified:", user.id);
 
-    const { examId, teacherId, message, mode, correctionId } = await req.json();
+    const { examId, teacherId, message, mode, correctionId, language } =
+      await req.json();
     console.log("Request data:", { examId, teacherId, mode, correctionId });
 
     // Verify that the teacherId matches the authenticated user
@@ -157,6 +158,7 @@ serve(async (req) => {
         message,
         mode,
         correctionId,
+        language,
       }),
     });
 

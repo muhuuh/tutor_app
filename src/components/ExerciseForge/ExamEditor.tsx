@@ -130,7 +130,7 @@ export function ExamEditor({
       await html2pdf().set(opt).from(element).save();
     } catch (error) {
       console.error("Error generating PDF:", error);
-      toast.error(t("examEditor.pdfGenerationError"));
+      toast.error(t("examEditor.downloadFailedError"));
     }
   };
 
@@ -149,11 +149,10 @@ export function ExamEditor({
           <div className="flex flex-col items-center justify-center my-8 space-y-4">
             <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-500 border-t-transparent mb-4" />
             <p className="text-gray-700 text-center">
-              Creating correction... You will be notified when it's ready.
+              {t("examEditor.creatingCorrectionTitle")}
             </p>
             <p className="text-sm text-gray-500 text-center">
-              Feel free to continue working on other tasks. We'll let you know
-              when the correction is complete.
+              {t("examEditor.creatingCorrectionSubtitle")}
             </p>
           </div>
         );
@@ -162,10 +161,10 @@ export function ExamEditor({
       return (
         <div className="bg-white rounded-lg border border-gray-200 p-6 text-center">
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No Correction Available
+            {t("examEditor.noCorrectionAvailableTitle")}
           </h3>
           <p className="text-sm text-gray-600 mb-4">
-            Would you like to generate an AI-powered correction for this exam?
+            {t("examEditor.noCorrectionAvailableMessage")}
           </p>
           <button
             onClick={onCreateCorrection}
@@ -193,10 +192,10 @@ export function ExamEditor({
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                Generating...
+                {t("examEditor.generatingLabel")}
               </>
             ) : (
-              "Generate Correction"
+              t("examEditor.generateCorrectionButton")
             )}
           </button>
         </div>
@@ -215,7 +214,7 @@ export function ExamEditor({
                   className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1"
                 >
                   <FiMaximize className="w-4 h-4" />
-                  Full Screen
+                  {t("examEditor.fullScreenButton")}
                 </button>
               </div>
               <div className="h-[500px] overflow-y-auto">
@@ -233,7 +232,7 @@ export function ExamEditor({
               value={editableContent}
               onChange={(e) => setEditableContent(e.target.value)}
               className="w-full h-[500px] rounded-lg border border-gray-200 p-4 text-sm font-mono resize-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-              placeholder="Start typing your exam content..."
+              placeholder={t("examEditor.editPlaceholder")}
               disabled={isLoadingContent}
             />
           )}
@@ -346,7 +345,7 @@ export function ExamEditor({
                 <FiDownload className="w-4 h-4" />
               </button>
               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-                Download PDF
+                {t("examEditor.downloadPdfTooltip")}
               </div>
             </div>
             {((mode === "edit" && !isCreatingNew) ||
@@ -361,7 +360,7 @@ export function ExamEditor({
                   <FiSave className="w-4 h-4" />
                 </button>
                 <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-                  Save Changes
+                  {t("examEditor.saveChangesTooltip")}
                 </div>
               </div>
             )}
@@ -376,7 +375,7 @@ export function ExamEditor({
                   <FiTrash2 className="w-4 h-4" />
                 </button>
                 <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-                  Delete Exam
+                  {t("examEditor.deleteExamTooltip")}
                 </div>
               </div>
             )}
@@ -389,11 +388,10 @@ export function ExamEditor({
           <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 p-8 text-center">
             <div className="max-w-md mx-auto">
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                No Correction Available
+                {t("examEditor.noCorrectionAvailableTitle")}
               </h3>
               <p className="text-sm text-gray-600 mb-6">
-                Would you like to generate an AI-powered correction for this
-                exam?
+                {t("examEditor.noCorrectionAvailableMessage")}
               </p>
               <button
                 onClick={onCreateCorrection}

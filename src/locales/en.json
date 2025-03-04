@@ -760,7 +760,18 @@
     "deleteExamTooltip": "Delete Exam",
     "editTitleAria": "Edit exam title",
     "editModeButton": "Edit",
-    "previewModeButton": "Show Preview"
+    "previewModeButton": "Show Preview",
+    "fullScreenButton": "Full Screen",
+    "creatingCorrectionTitle": "Creating correction...",
+    "creatingCorrectionSubtitle": "Feel free to continue working on other tasks. We'll let you know when the correction is complete.",
+    "correctionSuccessTitle": "Correction is ready!",
+    "correctionRequestSubmitted": "Correction request submitted! Processing will begin shortly.",
+    "correctionFailedError": "Failed to create correction",
+    "saveSuccessMessage": "Exam saved successfully",
+    "saveCorrectionSuccessMessage": "Correction saved successfully",
+    "saveFailedError": "Failed to save {{type}}. Please try again.",
+    "downloadFailedError": "Failed to download document. Please try again.",
+    "newExamCreatedMessage": "New exam created!"
   },
   "exerciseChatBox": {
     "placeholderNewExam": "Describe the exam you'd like to create...",

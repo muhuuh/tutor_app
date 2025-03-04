@@ -107,7 +107,7 @@ export function ExerciseForge() {
     setMobileTab(tab as "list" | "create");
   };
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     if (!initialLoadComplete.current) {
@@ -437,6 +437,7 @@ export function ExerciseForge() {
             message: message.trim(),
             mode: isCreatingNew ? "create" : mode,
             correctionId: correction?.id || null,
+            language: i18n.language,
           },
         }
       );
@@ -529,6 +530,7 @@ export function ExerciseForge() {
             mode: "create_correction",
             message:
               "Please create a detailed correction of the exam that is helpful, with step by step explanations of the solution steps.",
+            language: i18n.language,
           },
         }
       );
