@@ -785,5 +785,12 @@
     "sendingIndicator": "Sending...",
     "typingIndicator": "The assistant is typing...",
     "timestampFormat": "en-US"
+  },
+  "reportSubmissionModal": {
+    "title": "Generating Your Report",
+    "subtitle": "We're analyzing your submitted work and creating a detailed report with personalized feedback and recommendations.",
+    "processingBox": "Processing your submission...",
+    "processingHint": "This usually takes about 1 minute. You'll be automatically redirected when it's ready.",
+    "closeButton": "Close"
   }
 }

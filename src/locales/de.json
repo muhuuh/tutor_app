@@ -749,7 +749,18 @@
     "deleteExamTooltip": "Prüfung löschen",
     "editTitleAria": "Prüfungstitel bearbeiten",
     "editModeButton": "Bearbeiten",
-    "previewModeButton": "Vorschau anzeigen"
+    "previewModeButton": "Vorschau anzeigen",
+    "fullScreenButton": "Vollbild",
+    "creatingCorrectionTitle": "Korrektur wird erstellt...",
+    "creatingCorrectionSubtitle": "Sie können inzwischen weiterarbeiten. Wir benachrichtigen Sie, sobald die Korrektur fertig ist.",
+    "correctionSuccessTitle": "Korrektur ist fertig!",
+    "correctionRequestSubmitted": "Korrekturanfrage eingereicht! Die Verarbeitung beginnt in Kürze.",
+    "correctionFailedError": "Fehler beim Erstellen der Korrektur",
+    "saveSuccessMessage": "Prüfung erfolgreich gespeichert",
+    "saveCorrectionSuccessMessage": "Korrektur erfolgreich gespeichert",
+    "saveFailedError": "Fehler beim Speichern von {{type}}. Bitte versuchen Sie es erneut.",
+    "downloadFailedError": "Fehler beim Herunterladen des Dokuments. Bitte versuchen Sie es erneut.",
+    "newExamCreatedMessage": "Neue Prüfung erstellt!"
   },
   "exerciseChatBox": {
     "placeholderNewExam": "Beschreiben Sie die Prüfung, die Sie erstellen möchten...",
@@ -763,5 +774,12 @@
     "sendingIndicator": "Wird gesendet...",
     "typingIndicator": "Assistent schreibt...",
     "timestampFormat": "de-DE"
+  },
+  "reportSubmissionModal": {
+    "title": "Bericht wird erstellt",
+    "subtitle": "Wir analysieren Ihre eingereichten Arbeiten und erstellen einen detaillierten Bericht mit personalisiertem Feedback und Empfehlungen.",
+    "processingBox": "Einsendung wird verarbeitet...",
+    "processingHint": "Dies dauert normalerweise etwa 1 Minute. Sie werden automatisch weitergeleitet, sobald es fertig ist.",
+    "closeButton": "Schließen"
   }
 }

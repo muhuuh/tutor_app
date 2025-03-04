@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FileText, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface ReportSubmissionModalProps {
   isOpen: boolean;
@@ -10,6 +11,8 @@ export function ReportSubmissionModal({
   isOpen,
   onClose,
 }: ReportSubmissionModalProps) {
+  const { t } = useTranslation();
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -42,15 +45,13 @@ export function ReportSubmissionModal({
                     <FileText className="w-12 h-12 text-white" />
                   </div>
                 </div>
-
-                {/* Updated text colors for light background */}
                 <div className="space-y-4">
                   <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-3xl font-bold text-gray-900"
                   >
-                    Generating Your Report
+                    {t("reportSubmissionModal.title")}
                   </motion.h2>
                   <motion.p
                     initial={{ opacity: 0, y: 20 }}
@@ -58,12 +59,9 @@ export function ReportSubmissionModal({
                     transition={{ delay: 0.1 }}
                     className="text-lg text-gray-600 max-w-md"
                   >
-                    We're analyzing your submitted work and creating a detailed
-                    report with personalized feedback and recommendations.
+                    {t("reportSubmissionModal.subtitle")}
                   </motion.p>
                 </div>
-
-                {/* Updated processing indicator for light theme */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -73,23 +71,18 @@ export function ReportSubmissionModal({
                   <div className="flex items-center justify-center gap-3">
                     <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
                     <span className="text-blue-700 font-medium">
-                      Processing your submission...
+                      {t("reportSubmissionModal.processingBox")}
                     </span>
                   </div>
                 </motion.div>
-
-                {/* Updated info text color */}
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                   className="text-sm text-gray-500"
                 >
-                  This usually takes about 1 minute. You'll be automatically
-                  redirected when it's ready.
+                  {t("reportSubmissionModal.processingHint")}
                 </motion.p>
-
-                {/* Updated close button style */}
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -97,7 +90,7 @@ export function ReportSubmissionModal({
                   onClick={onClose}
                   className="px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
-                  Close
+                  {t("reportSubmissionModal.closeButton")}
                 </motion.button>
               </div>
             </div>

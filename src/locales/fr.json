@@ -749,7 +749,18 @@
     "deleteExamTooltip": "Supprimer l’examen",
     "editTitleAria": "Modifier le titre de l’examen",
     "editModeButton": "Éditer",
-    "previewModeButton": "Voir l’aperçu"
+    "previewModeButton": "Voir l’aperçu",
+    "fullScreenButton": "Plein écran",
+    "creatingCorrectionTitle": "Création de la correction...",
+    "creatingCorrectionSubtitle": "Vous pouvez continuer à travailler sur d’autres tâches. Nous vous informerons lorsque la correction sera prête.",
+    "correctionSuccessTitle": "La correction est prête !",
+    "correctionRequestSubmitted": "Demande de correction envoyée ! Le traitement va commencer sous peu.",
+    "correctionFailedError": "Échec de la création de la correction",
+    "saveSuccessMessage": "Examen enregistré avec succès",
+    "saveCorrectionSuccessMessage": "Correction enregistrée avec succès",
+    "saveFailedError": "Échec de l’enregistrement de {{type}}. Veuillez réessayer.",
+    "downloadFailedError": "Échec du téléchargement du document. Veuillez réessayer.",
+    "newExamCreatedMessage": "Nouvel examen créé !"
   },
   "exerciseChatBox": {
     "placeholderNewExam": "Décrivez l’examen que vous souhaitez créer...",
@@ -763,5 +774,12 @@
     "sendingIndicator": "Envoi...",
     "typingIndicator": "L’assistant rédige...",
     "timestampFormat": "fr-FR"
+  },
+  "reportSubmissionModal": {
+    "title": "Génération de votre rapport",
+    "subtitle": "Nous analysons votre travail soumis et créons un rapport détaillé avec des retours personnalisés et des recommandations.",
+    "processingBox": "Traitement de votre soumission...",
+    "processingHint": "Cela prend généralement environ 1 minute. Vous serez redirigé automatiquement lorsqu’il sera prêt.",
+    "closeButton": "Fermer"
   }
 }
