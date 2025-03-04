@@ -584,7 +584,8 @@
     "subtitle": "Lassen Sie handgeschriebene Lösungen Ihrer Schüler korrigieren und erhalten Sie personalisierte Berichte zu Schwerpunktthemen, Ressourcen, Übungsvorschlägen und mehr",
     "tabs": {
       "chatAssistant": "Chat-Assistent",
-      "reports": "Berichte"
+      "reports": "Berichte",
+      "profil": "Profil"
     },
     "selectStudentPlaceholder": "Schüler auswählen",
     "addNewStudentButton": "Neuen Schüler hinzufügen",

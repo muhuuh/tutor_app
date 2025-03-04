@@ -8,7 +8,7 @@ import { PupilForm } from "../components/PupilForm";
 import { supabase } from "../lib/supabase";
 import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
-import { FiMessageSquare, FiFileText } from "react-icons/fi";
+import { FiMessageSquare, FiFileText, FiUser } from "react-icons/fi";
 
 import { PencilIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
@@ -28,6 +28,7 @@ import {
   ArrowDownTrayIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
+import { ProfilDashboard } from "./ProfilDashboard";
 
 const TABS = [
   {
@@ -37,6 +38,10 @@ const TABS = [
   {
     id: "reports",
     icon: <FiFileText className="w-5 h-5" />,
+  },
+  {
+    id: "profil",
+    icon: <FiUser className="w-5 h-5" />,
   },
 ];
 
@@ -581,6 +586,8 @@ export function Dashboard() {
         );
       case "reports":
         return <>{renderReportContent()}</>;
+      case "profil":
+        return <ProfilDashboard pupilId={selectedPupilId} />;
       default:
         return null;
     }
@@ -666,6 +673,11 @@ export function Dashboard() {
                     id: "reports",
                     label: t("dashboard.tabs.reports"),
                     icon: TABS[1].icon,
+                  },
+                  {
+                    id: "profil",
+                    label: t("dashboard.tabs.profil"),
+                    icon: TABS[2].icon,
                   },
                 ]}
                 activeTab={activeTab}

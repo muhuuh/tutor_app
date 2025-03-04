@@ -595,7 +595,8 @@
     "subtitle": "Get handwritten answers from your pupils corrected, and receive personalised reports about concepts to focus on, resources and exercise propositions, and more",
     "tabs": {
       "chatAssistant": "Chat Assistant",
-      "reports": "Reports"
+      "reports": "Reports",
+      "profil": "Profil"
     },
     "selectStudentPlaceholder": "Select Student",
     "addNewStudentButton": "Add New Student",

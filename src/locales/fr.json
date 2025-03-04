@@ -584,7 +584,8 @@
     "subtitle": "Faites corriger les réponses manuscrites de vos étudiants et recevez des rapports personnalisés sur les notions à approfondir, des ressources, des propositions d’exercices, etc.",
     "tabs": {
       "chatAssistant": "Assistant de discussion",
-      "reports": "Rapports"
+      "reports": "Rapports",
+      "profil": "Profil"
     },
     "selectStudentPlaceholder": "Sélectionner un étudiant",
     "addNewStudentButton": "Ajouter un nouvel étudiant",
