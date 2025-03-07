@@ -1,11 +1,26 @@
 import React from "react";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
 
+// Define concept interface for top/worst concepts
+interface Concept {
+  concept: string;
+  score: number;
+}
+
 interface ExecutiveSummaryProps {
   data?: {
+    // Original fields for backward compatibility
     overall_trend_numeric: number;
     overall_trend_text: string;
     strengths_weaknesses: string;
+
+    // New fields from the updated n8n response
+    trend_icon?: string;
+    general_performance?: string;
+    latest_trends?: string;
+    standout_points?: string;
+    top_concepts?: Concept[];
+    worst_concepts?: Concept[];
   } | null;
   isRefreshing?: boolean;
   onRefresh: () => Promise<void>;
@@ -20,9 +35,20 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
     await onRefresh();
   };
 
-  // Function to render trend icon based on numeric value
-  const renderTrendIcon = (trendValue: number) => {
-    if (trendValue > 0) {
+  // Function to render trend icon based on numeric value or trend_icon string
+  const renderTrendIcon = (data: ExecutiveSummaryProps["data"]) => {
+    if (!data) return null;
+
+    // Use trend_icon string if available, otherwise use numeric value
+    const trendValue = data.trend_icon
+      ? data.trend_icon === "positive"
+        ? 1
+        : data.trend_icon === "negative"
+        ? -1
+        : 0
+      : data.overall_trend_numeric;
+
+    if (trendValue > 0 || data.trend_icon === "positive") {
       return (
         <span className="text-green-500 flex items-center">
           <svg
@@ -42,7 +68,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
           Improving
         </span>
       );
-    } else if (trendValue < 0) {
+    } else if (trendValue < 0 || data.trend_icon === "negative") {
       return (
         <span className="text-red-500 flex items-center">
           <svg
@@ -127,27 +153,79 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
             <h4 className="text-sm font-medium text-gray-500">
               Overall Performance Trend
             </h4>
-            {renderTrendIcon(data.overall_trend_numeric)}
+            {renderTrendIcon(data)}
           </div>
 
           <div className="p-4 bg-gray-50 rounded-md">
-            <p className="text-gray-700">{data.overall_trend_text}</p>
+            <p className="text-gray-700">
+              {data.general_performance || data.overall_trend_text}
+            </p>
           </div>
 
+          {/* Strengths & Weaknesses / Latest Trends */}
           <div>
             <h4 className="text-sm font-medium text-gray-500 mb-2">
-              Strengths & Weaknesses
+              Latest Trends & Key Observations
             </h4>
             <div className="p-4 bg-gray-50 rounded-md">
               <div className="prose prose-sm max-w-none">
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: data.strengths_weaknesses.replace(/\n/g, "<br/>"),
+                    __html: (
+                      (data.latest_trends
+                        ? `<p><strong>Latest Trends:</strong> ${data.latest_trends}</p>`
+                        : "") +
+                        (data.standout_points
+                          ? `<p><strong>Standout Points:</strong> ${data.standout_points}</p>`
+                          : "") || data.strengths_weaknesses
+                    ).replace(/\n/g, "<br/>"),
                   }}
                 />
               </div>
             </div>
           </div>
+
+          {/* Top Concepts */}
+          {data.top_concepts && data.top_concepts.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 mb-2">
+                Strengths - Top Performing Concepts
+              </h4>
+              <div className="p-4 bg-gray-50 rounded-md">
+                <ul className="space-y-2">
+                  {data.top_concepts.map((concept, index) => (
+                    <li key={`top-${index}`} className="flex justify-between">
+                      <span>{concept.concept}</span>
+                      <span className="text-green-600 font-medium">
+                        {(concept.score * 100).toFixed(0)}%
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Worst Concepts */}
+          {data.worst_concepts && data.worst_concepts.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 mb-2">
+                Areas for Improvement
+              </h4>
+              <div className="p-4 bg-gray-50 rounded-md">
+                <ul className="space-y-2">
+                  {data.worst_concepts.map((concept, index) => (
+                    <li key={`worst-${index}`} className="flex justify-between">
+                      <span>{concept.concept}</span>
+                      <span className="text-red-600 font-medium">
+                        {(concept.score * 100).toFixed(0)}%
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="py-8 text-center">

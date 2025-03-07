@@ -106,6 +106,14 @@ serve(async (req) => {
       );
     }
 
+    // Format teacher notes as a single text string for easier n8n processing
+    // Add numbering and spacing for better readability
+    const formattedNotes = teacherNotes
+      .map((note, index) => `Note ${index + 1}: ${note}`)
+      .join("\n\n");
+
+    console.log("Formatted teacher notes for easier processing");
+
     // Make the webhook call to n8n AI service
     console.log("Calling n8n webhook for notes summarization");
     const response = await fetch(
@@ -117,7 +125,7 @@ serve(async (req) => {
         body: JSON.stringify({
           studentId,
           teacherId,
-          notes: teacherNotes,
+          notes: formattedNotes,
           language,
         }),
       }

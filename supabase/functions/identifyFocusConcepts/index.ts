@@ -86,6 +86,46 @@ serve(async (req) => {
       // Continue anyway as notes are optional context
     }
 
+    // Simplify concept scores for easier n8n processing
+    let conceptScoresText = "No concept scores available.";
+    if (
+      profileData?.concept_score &&
+      Object.keys(profileData.concept_score).length > 0
+    ) {
+      conceptScoresText = Object.entries(profileData.concept_score)
+        .map(([concept, scores]) => {
+          // Format scores as a simple list
+          const scoresList = Array.isArray(scores)
+            ? scores
+                .map(
+                  (score) =>
+                    `Score: ${score.score}, Exercise: ${score.exercise_id}`
+                )
+                .join("\n  ")
+            : "No detailed scores";
+
+          return `## Concept: ${concept}\n  ${scoresList}`;
+        })
+        .join("\n\n");
+    }
+
+    // Simplify executive summary for easier n8n processing
+    let summaryText = "No executive summary available.";
+    if (profileData?.executive_summary) {
+      const summary = profileData.executive_summary;
+      summaryText =
+        `## Executive Summary\n\n` +
+        `Overall Trend: ${summary.overall_trend_text || "Not available"}\n\n` +
+        `Strengths & Weaknesses:\n${
+          summary.strengths_weaknesses || "Not available"
+        }`;
+    }
+
+    // Format teacher notes as text
+    const teacherNotesText = Array.isArray(pupilData?.teacher_notes)
+      ? pupilData.teacher_notes.join("\n\n")
+      : pupilData?.teacher_notes || "No teacher notes available.";
+
     // Make the webhook call to n8n AI service
     console.log("Calling n8n webhook for focus concepts identification");
     const response = await fetch(
@@ -97,9 +137,9 @@ serve(async (req) => {
         body: JSON.stringify({
           studentId,
           teacherId,
-          conceptScores: profileData?.concept_score || {},
-          executiveSummary: profileData?.executive_summary || {},
-          teacherNotes: pupilData?.teacher_notes || "",
+          conceptScores: conceptScoresText,
+          executiveSummary: summaryText,
+          teacherNotes: teacherNotesText,
           language,
         }),
       }
