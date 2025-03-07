@@ -1,24 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
+import { supabase } from "../../lib/supabase";
 
 interface PersonalNotesProps {
   data?: {
-    notes_list: string[];
     ai_summary: string;
   } | null;
+  studentId: string;
   isRefreshing?: boolean;
   onRefresh: () => Promise<void>;
 }
 
 export const PersonalNotes: React.FC<PersonalNotesProps> = ({
   data,
+  studentId,
   isRefreshing = false,
   onRefresh,
 }) => {
   const [showSummary, setShowSummary] = useState(true);
+  const [teacherNotes, setTeacherNotes] = useState<string[]>([]);
+  const [loadingNotes, setLoadingNotes] = useState(false);
+
+  useEffect(() => {
+    if (studentId) {
+      fetchTeacherNotes();
+    }
+  }, [studentId]);
+
+  const fetchTeacherNotes = async () => {
+    if (!studentId) return;
+
+    try {
+      setLoadingNotes(true);
+      const { data: pupilData, error } = await supabase
+        .from("pupils")
+        .select("teacher_notes")
+        .eq("id", studentId)
+        .single();
+
+      if (error) {
+        console.error("Error fetching teacher notes:", error);
+      } else {
+        setTeacherNotes(pupilData?.teacher_notes || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch teacher notes:", err);
+    } finally {
+      setLoadingNotes(false);
+    }
+  };
 
   const handleRefresh = async () => {
     await onRefresh();
+    // Refresh notes after refreshing the summary
+    fetchTeacherNotes();
   };
 
   return (
@@ -81,55 +116,55 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
         </div>
       </div>
 
-      {data ? (
-        <div>
-          {showSummary ? (
-            <div className="p-4 bg-blue-50 rounded-md">
-              <h4 className="text-sm font-medium text-blue-900 mb-2">
-                AI-Generated Summary
-              </h4>
-              <div className="prose prose-sm max-w-none text-blue-800">
-                {data.ai_summary}
-              </div>
-
-              {data.notes_list && data.notes_list.length > 0 && (
-                <button
-                  onClick={() => setShowSummary(false)}
-                  className="mt-3 text-xs text-blue-700 hover:text-blue-900 underline"
-                >
-                  View all {data.notes_list.length} notes
-                </button>
-              )}
+      {showSummary ? (
+        <div className="p-4 bg-blue-50 rounded-md">
+          <h4 className="text-sm font-medium text-blue-900 mb-2">
+            AI-Generated Summary
+          </h4>
+          {data?.ai_summary ? (
+            <div className="prose prose-sm max-w-none text-blue-800">
+              {data.ai_summary}
             </div>
           ) : (
-            <div>
-              {data.notes_list && data.notes_list.length > 0 ? (
-                <ul className="space-y-3 max-h-96 overflow-y-auto">
-                  {data.notes_list.map((note, index) => (
-                    <li key={index} className="p-3 bg-gray-50 rounded-md">
-                      <p className="text-sm text-gray-700">{note}</p>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-center text-gray-500 py-4">
-                  No notes found.
-                </p>
-              )}
-            </div>
+            <p className="text-blue-800">
+              No summary available. Click refresh to generate.
+            </p>
+          )}
+
+          {teacherNotes.length > 0 && (
+            <button
+              onClick={() => setShowSummary(false)}
+              className="mt-3 text-xs text-blue-700 hover:text-blue-900 underline"
+            >
+              View all {teacherNotes.length} notes
+            </button>
           )}
         </div>
       ) : (
-        <div className="py-8 text-center">
-          <p className="text-gray-500">
-            No notes available. Click refresh to fetch and analyze notes.
-          </p>
+        <div>
+          {loadingNotes ? (
+            <div className="flex justify-center py-8">
+              <LoadingSpinner />
+            </div>
+          ) : teacherNotes.length > 0 ? (
+            <ul className="space-y-3 max-h-96 overflow-y-auto">
+              {teacherNotes.map((note, index) => (
+                <li key={index} className="p-3 bg-gray-50 rounded-md">
+                  <p className="text-sm text-gray-700">{note}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center text-gray-500 py-4">No notes found.</p>
+          )}
         </div>
       )}
 
       <div className="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center">
         <p className="text-xs text-gray-500">
-          {data?.notes_list ? `${data.notes_list.length} notes` : "No notes"}
+          {teacherNotes.length > 0
+            ? `${teacherNotes.length} notes`
+            : "No notes"}
         </p>
 
         <div className="text-xs text-gray-500">

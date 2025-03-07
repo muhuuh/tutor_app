@@ -50,8 +50,11 @@ serve(async (req) => {
       studentId,
       teacherId,
       reportTitle = "Parent Progress Report",
+      language = "en",
     } = await req.json();
-    console.log(`Generating parent report for student: ${studentId}`);
+    console.log(
+      `Generating parent report for student: ${studentId}, language: ${language}`
+    );
 
     // Verify that the teacherId matches the authenticated user
     if (teacherId !== user.id) {
@@ -103,6 +106,7 @@ serve(async (req) => {
           pupilData: pupilData || { id: studentId },
           profileData: profileData || {},
           timestamp: new Date().toISOString(),
+          language,
         }),
       }
     );
@@ -110,24 +114,9 @@ serve(async (req) => {
     const webhookData = await response.json();
     console.log("Received webhook response for parent report");
 
-    // Add the report to the standard reports table
-    console.log("Adding report to reports table");
-    const { data: reportData, error: reportError } = await supabaseServiceClient
-      .from("reports")
-      .insert({
-        teacher_id: teacherId,
-        pupil_id: studentId,
-        report_title: reportTitle,
-        content: webhookData.reportContent || "No report content generated",
-        created_at: new Date().toISOString(),
-      })
-      .select()
-      .single();
-
-    if (reportError) {
-      console.error("Error creating report:", reportError);
-      throw new Error(`Failed to create report: ${reportError.message}`);
-    }
+    // Generate a unique ID for the report
+    const reportId = crypto.randomUUID();
+    const reportTimestamp = new Date().toISOString();
 
     // Get existing communication reports or initialize empty array
     console.log("Fetching existing communication reports");
@@ -144,9 +133,10 @@ serve(async (req) => {
     const newReportsList = [
       ...existingReports,
       {
-        id: reportData.id,
+        id: reportId,
         title: reportTitle,
-        date: new Date().toISOString(),
+        date: reportTimestamp,
+        content: webhookData.reportContent || "No report content generated",
       },
     ];
 
@@ -155,7 +145,7 @@ serve(async (req) => {
     };
 
     // Update the communication report data in the profile
-    console.log("Updating profiles_dashboard with new communication report");
+    console.log("Updating profiles_dashboard with new parent report");
     const { data: updateData, error: updateError } = await supabaseServiceClient
       .from("profiles_dashboard")
       .upsert(
@@ -172,7 +162,7 @@ serve(async (req) => {
 
     if (updateError) {
       console.error("Error updating profile:", updateError);
-      // Continue anyway since the report is already in the reports table
+      throw new Error(`Failed to save parent report: ${updateError.message}`);
     }
 
     console.log("Parent report successfully generated and stored");
@@ -181,7 +171,7 @@ serve(async (req) => {
       JSON.stringify({
         ok: true,
         data: {
-          reportId: reportData.id,
+          reportId: reportId,
           reportTitle: reportTitle,
           communicationReports: newReportsList,
         },

@@ -46,8 +46,10 @@ serve(async (req) => {
       throw new Error("Invalid token");
     }
 
-    const { studentId, teacherId } = await req.json();
-    console.log(`Processing focus concepts for student: ${studentId}`);
+    const { studentId, teacherId, language = "en" } = await req.json();
+    console.log(
+      `Processing focus concepts for student: ${studentId}, language: ${language}`
+    );
 
     // Verify that the teacherId matches the authenticated user
     if (teacherId !== user.id) {
@@ -98,6 +100,7 @@ serve(async (req) => {
           conceptScores: profileData?.concept_score || {},
           executiveSummary: profileData?.executive_summary || {},
           teacherNotes: pupilData?.teacher_notes || "",
+          language,
         }),
       }
     );

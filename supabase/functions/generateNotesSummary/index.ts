@@ -46,8 +46,10 @@ serve(async (req) => {
       throw new Error("Invalid token");
     }
 
-    const { studentId, teacherId } = await req.json();
-    console.log(`Processing notes summary for student: ${studentId}`);
+    const { studentId, teacherId, language = "en" } = await req.json();
+    console.log(
+      `Processing notes summary for student: ${studentId}, language: ${language}`
+    );
 
     // Verify that the teacherId matches the authenticated user
     if (teacherId !== user.id) {
@@ -58,7 +60,7 @@ serve(async (req) => {
     console.log("Fetching teacher notes");
     const { data: pupilData, error: pupilError } = await supabaseServiceClient
       .from("pupils")
-      .select("teacher_notes")
+      .select("teacher_notes, id")
       .eq("id", studentId)
       .single();
 
@@ -69,14 +71,13 @@ serve(async (req) => {
       // Still proceed, but will have empty notes
     }
 
-    const teacherNotes = pupilData?.teacher_notes || "";
-    console.log(`Found teacher notes with length: ${teacherNotes.length}`);
+    const teacherNotes = pupilData?.teacher_notes || [];
+    console.log(`Found ${teacherNotes.length} teacher notes`);
 
     // If no notes are available, return a default structure
-    if (!teacherNotes || teacherNotes.trim().length === 0) {
+    if (!teacherNotes || teacherNotes.length === 0) {
       console.log("No teacher notes available to summarize");
       const emptyNotesData = {
-        notes_list: [],
         ai_summary: "No teacher notes available to summarize.",
       };
 
@@ -105,12 +106,6 @@ serve(async (req) => {
       );
     }
 
-    // Parse teacher notes into a list - assuming they're separated by newlines
-    const notesList = teacherNotes
-      .split("\n")
-      .filter((note) => note.trim().length > 0)
-      .map((note) => note.trim());
-
     // Make the webhook call to n8n AI service
     console.log("Calling n8n webhook for notes summarization");
     const response = await fetch(
@@ -122,7 +117,8 @@ serve(async (req) => {
         body: JSON.stringify({
           studentId,
           teacherId,
-          notes: notesList,
+          notes: teacherNotes,
+          language,
         }),
       }
     );
@@ -133,9 +129,8 @@ serve(async (req) => {
       JSON.stringify(webhookData).substring(0, 200) + "..."
     );
 
-    // Format the notes data
+    // Format the notes data - only store the AI summary, not the notes themselves
     const notesData = {
-      notes_list: notesList,
       ai_summary: webhookData.summary || "No summary available.",
     };
 
@@ -167,7 +162,10 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         ok: true,
-        data: notesData,
+        data: {
+          ai_summary: notesData.ai_summary,
+          pupil_id: pupilData?.id, // Return pupil ID to reference for fetching actual notes
+        },
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

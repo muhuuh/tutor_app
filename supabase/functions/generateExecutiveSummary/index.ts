@@ -45,8 +45,10 @@ serve(async (req) => {
       throw new Error("Invalid token");
     }
 
-    const { studentId, teacherId } = await req.json();
-    console.log(`Processing executive summary for student: ${studentId}`);
+    const { studentId, teacherId, language = "en" } = await req.json();
+    console.log(
+      `Processing executive summary for student: ${studentId}, language: ${language}`
+    );
 
     // Verify that the teacherId matches the authenticated user
     if (teacherId !== user.id) {
@@ -78,6 +80,7 @@ serve(async (req) => {
           studentId,
           teacherId,
           reports: reports || [],
+          language,
         }),
       }
     );

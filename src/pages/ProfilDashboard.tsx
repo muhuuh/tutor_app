@@ -25,7 +25,6 @@ interface ProfileData {
     }>;
   };
   notes: {
-    notes_list: string[];
     ai_summary: string;
   };
   communication_report: {
@@ -33,6 +32,7 @@ interface ProfileData {
       id: string;
       title: string;
       date: string;
+      content: string;
     }>;
   };
 }
@@ -47,6 +47,15 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState<Record<string, boolean>>({});
   const [generatingReport, setGeneratingReport] = useState(false);
+  // Get current UI language from localStorage or default to English
+  const [language, setLanguage] = useState(() => {
+    // Try to get the language from localStorage or use browser language preference
+    return (
+      localStorage.getItem("language") ||
+      navigator.language.split("-")[0] ||
+      "en"
+    );
+  });
 
   useEffect(() => {
     if (pupilId) {
@@ -105,7 +114,6 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
             priority_concepts: [],
           },
           notes: {
-            notes_list: [],
             ai_summary: "",
           },
           communication_report: {
@@ -144,6 +152,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
           body: {
             studentId: pupilId,
             teacherId: user.id,
+            language,
           },
         }
       );
@@ -182,6 +191,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
           body: {
             studentId: pupilId,
             teacherId: user.id,
+            language,
           },
         }
       );
@@ -220,6 +230,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
           body: {
             studentId: pupilId,
             teacherId: user.id,
+            language,
           },
         }
       );
@@ -258,6 +269,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
           body: {
             studentId: pupilId,
             teacherId: user.id,
+            language,
           },
         }
       );
@@ -297,6 +309,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
             studentId: pupilId,
             teacherId: user.id,
             reportTitle: reportTitle,
+            language,
           },
         }
       );
@@ -362,6 +375,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <PersonalNotes
               data={profileData?.notes}
+              studentId={pupilId}
               isRefreshing={refreshing.notesSummary}
               onRefresh={refreshNotesSummary}
             />

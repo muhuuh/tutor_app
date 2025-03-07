@@ -45,8 +45,10 @@ serve(async (req) => {
       throw new Error("Invalid token");
     }
 
-    const { studentId, teacherId } = await req.json();
-    console.log(`Processing concept scores for student: ${studentId}`);
+    const { studentId, teacherId, language = "en" } = await req.json();
+    console.log(
+      `Processing concept scores for student: ${studentId}, language: ${language}`
+    );
 
     // Verify that the teacherId matches the authenticated user
     if (teacherId !== user.id) {
@@ -67,20 +69,6 @@ serve(async (req) => {
 
     console.log(`Found ${reports?.length || 0} reports for analysis`);
 
-    // Fetch corrections data to get more detailed concept information
-    console.log("Fetching corrections data");
-    const { data: corrections, error: correctionsError } =
-      await supabaseServiceClient
-        .from("corrections")
-        .select("*,exams(*)")
-        .eq("pupil_id", studentId);
-
-    if (correctionsError) {
-      throw new Error("Failed to fetch corrections data");
-    }
-
-    console.log(`Found ${corrections?.length || 0} corrections for analysis`);
-
     // Make the webhook call to n8n AI service
     console.log("Calling n8n webhook for concept scores generation");
     const response = await fetch(
@@ -93,7 +81,7 @@ serve(async (req) => {
           studentId,
           teacherId,
           reports: reports || [],
-          corrections: corrections || [],
+          language,
         }),
       }
     );
