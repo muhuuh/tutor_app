@@ -69,44 +69,67 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
         {
           label: "Concept Mastery",
           data: scores,
-          backgroundColor: "rgba(59, 130, 246, 0.2)", // Updated blue color
-          borderColor: "rgb(59, 130, 246)", // Updated blue color
+          backgroundColor: "rgba(59, 130, 246, 0.4)", // More opacity for better visual
+          borderColor: "rgb(59, 130, 246)",
           borderWidth: 2,
-          pointBackgroundColor: "rgb(59, 130, 246)", // Updated blue color
+          pointBackgroundColor: "rgb(59, 130, 246)",
           pointBorderColor: "#fff",
           pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: "rgb(59, 130, 246)", // Updated blue color
+          pointHoverBorderColor: "rgb(59, 130, 246)",
+          pointRadius: 5,
+          pointHoverRadius: 7,
         },
       ],
     };
   }, [averageScores]);
 
   const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       r: {
         angleLines: {
           display: true,
-          color: "rgba(0, 0, 0, 0.1)", // Lighter lines
+          color: "rgba(0, 0, 0, 0.08)", // Lighter lines
         },
         grid: {
-          color: "rgba(0, 0, 0, 0.05)", // Lighter grid
+          color: "rgba(0, 0, 0, 0.03)", // Lighter grid
+          circular: true,
         },
         ticks: {
           backdropColor: "transparent", // Transparent background
-          color: "rgba(0, 0, 0, 0.7)", // Darker text
+          color: "rgba(0, 0, 0, 0.5)", // Darker text
+          showLabelBackdrop: false, // Hide label backdrop
+        },
+        pointLabels: {
+          color: "rgba(0, 0, 0, 0.7)",
         },
         suggestedMin: 0,
         suggestedMax: 10,
+        beginAtZero: true, // Start from zero
       },
     },
     plugins: {
       legend: {
         display: false, // Hide legend as it's redundant
       },
+      tooltip: {
+        enabled: true,
+        backgroundColor: "rgba(255, 255, 255, 0.95)",
+        titleColor: "#333",
+        bodyColor: "#666",
+        displayColors: false,
+        padding: 10,
+        callbacks: {
+          label: function (context: any) {
+            return ` Score: ${context.raw}`;
+          },
+        },
+      },
     },
     elements: {
       line: {
-        tension: 0.2, // Add slight curve
+        tension: 0.3, // Add more curve
       },
     },
   };
@@ -281,7 +304,7 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
         {data && Object.keys(data).length > 0 ? (
           <div>
             <div className="bg-gradient-to-r from-gray-50 to-white p-5 rounded-lg border border-gray-100 flex justify-center items-center mb-5">
-              <div className="w-full max-w-lg aspect-square max-h-80">
+              <div className="w-full max-w-lg aspect-square max-h-80 relative">
                 <Radar data={chartData} options={chartOptions} />
               </div>
             </div>
