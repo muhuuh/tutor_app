@@ -69,13 +69,13 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
         {
           label: "Concept Mastery",
           data: scores,
-          backgroundColor: "rgba(54, 162, 235, 0.2)",
-          borderColor: "rgb(54, 162, 235)",
+          backgroundColor: "rgba(59, 130, 246, 0.2)", // Updated blue color
+          borderColor: "rgb(59, 130, 246)", // Updated blue color
           borderWidth: 2,
-          pointBackgroundColor: "rgb(54, 162, 235)",
+          pointBackgroundColor: "rgb(59, 130, 246)", // Updated blue color
           pointBorderColor: "#fff",
           pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: "rgb(54, 162, 235)",
+          pointHoverBorderColor: "rgb(59, 130, 246)", // Updated blue color
         },
       ],
     };
@@ -86,9 +86,27 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
       r: {
         angleLines: {
           display: true,
+          color: "rgba(0, 0, 0, 0.1)", // Lighter lines
+        },
+        grid: {
+          color: "rgba(0, 0, 0, 0.05)", // Lighter grid
+        },
+        ticks: {
+          backdropColor: "transparent", // Transparent background
+          color: "rgba(0, 0, 0, 0.7)", // Darker text
         },
         suggestedMin: 0,
         suggestedMax: 10,
+      },
+    },
+    plugins: {
+      legend: {
+        display: false, // Hide legend as it's redundant
+      },
+    },
+    elements: {
+      line: {
+        tension: 0.2, // Add slight curve
       },
     },
   };
@@ -107,15 +125,35 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
 
     const scores = data[selectedConcept];
 
+    // Calculate stats
+    const avgScore = averageScores[selectedConcept];
+    const maxScore = Math.max(...scores.map((s) => s.score));
+    const minScore = Math.min(...scores.map((s) => s.score));
+
     return (
-      <div className="mt-4 p-4 bg-gray-50 rounded-md">
-        <div className="flex justify-between items-center mb-2">
-          <h4 className="font-medium text-gray-700">
-            {selectedConcept} Details
+      <div className="mt-5 bg-gradient-to-r from-blue-50 to-white p-5 rounded-lg border border-blue-100">
+        <div className="flex justify-between items-center mb-3">
+          <h4 className="font-medium text-blue-800 flex items-center">
+            <svg
+              className="w-4 h-4 mr-1.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            {selectedConcept}
           </h4>
           <button
             onClick={() => setSelectedConcept(null)}
-            className="text-gray-500 hover:text-gray-700"
+            className="p-1.5 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+            aria-label="Close"
           >
             <svg
               className="w-4 h-4"
@@ -134,111 +172,184 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
           </button>
         </div>
 
-        <div className="text-sm text-gray-600 mb-2">
-          Average Score:{" "}
-          <span className="font-medium">{averageScores[selectedConcept]}</span>
+        {/* Stats cards */}
+        <div className="grid grid-cols-3 gap-3 mb-4">
+          <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-100">
+            <div className="text-xs text-gray-500 mb-1">Average Score</div>
+            <div className="font-semibold text-lg text-blue-600">
+              {avgScore.toFixed(2)}
+            </div>
+          </div>
+          <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-100">
+            <div className="text-xs text-gray-500 mb-1">Highest Score</div>
+            <div className="font-semibold text-lg text-green-600">
+              {maxScore.toFixed(2)}
+            </div>
+          </div>
+          <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-100">
+            <div className="text-xs text-gray-500 mb-1">Lowest Score</div>
+            <div className="font-semibold text-lg text-red-600">
+              {minScore.toFixed(2)}
+            </div>
+          </div>
         </div>
 
-        <div className="text-xs text-gray-500 mb-1">Individual Scores:</div>
-
-        <div className="max-h-40 overflow-y-auto">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Score
-                </th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Report Title
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {scores.map((item, index) => (
-                <tr key={index}>
-                  <td className="px-3 py-2 whitespace-nowrap">{item.score}</td>
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    {item.report_title}
-                  </td>
+        <div className="bg-white rounded-lg border border-gray-100 overflow-hidden shadow-sm">
+          <div className="text-sm font-medium text-gray-700 px-4 py-3 bg-gray-50 border-b border-gray-100">
+            Exercise History
+          </div>
+          <div className="max-h-48 overflow-y-auto">
+            <table className="min-w-full divide-y divide-gray-200 text-sm">
+              <thead className="bg-gray-50 sticky top-0">
+                <tr>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Score
+                  </th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Report Title
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-100">
+                {scores.map((item, index) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="px-4 py-2 whitespace-nowrap">
+                      <span
+                        className={`inline-block px-2 py-1 rounded-md text-xs font-medium ${
+                          item.score > 7
+                            ? "bg-green-100 text-green-800"
+                            : item.score > 4
+                            ? "bg-blue-100 text-blue-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {item.score.toFixed(2)}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2 whitespace-nowrap text-gray-700">
+                      {item.report_title || `Exercise ${item.exercise_id}`}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <div className="flex justify-between items-center mb-4">
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+      {/* Header */}
+      <div className="flex justify-between items-center p-5 border-b border-gray-100">
         <h3 className="text-lg font-medium text-gray-900">Concept Mastery</h3>
         <button
           onClick={handleRefresh}
           disabled={isRefreshing}
-          className="text-blue-600 hover:text-blue-800 flex items-center"
+          className={`p-2 rounded-full transition-colors ${
+            isRefreshing ? "text-blue-400" : "text-blue-600 hover:bg-blue-100"
+          }`}
+          title="Refresh data"
         >
           {isRefreshing ? (
-            <>
-              <LoadingSpinner size="small" />
-              <span className="ml-2">Refreshing...</span>
-            </>
+            <LoadingSpinner size="small" />
           ) : (
-            <>
-              <svg
-                className="w-4 h-4 mr-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-              Refresh
-            </>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
           )}
         </button>
       </div>
 
-      {data && Object.keys(data).length > 0 ? (
-        <div>
-          <div className="aspect-w-16 aspect-h-9 max-h-80">
-            <Radar data={chartData} options={chartOptions} />
-          </div>
-
-          <div className="mt-4">
-            <h4 className="text-sm font-medium text-gray-500 mb-2">Concepts</h4>
-            <div className="flex flex-wrap gap-2">
-              {Object.keys(averageScores).map((concept) => (
-                <button
-                  key={concept}
-                  onClick={() => handleConceptClick(concept)}
-                  className={`px-3 py-1 text-sm rounded-full ${
-                    selectedConcept === concept
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                  }`}
-                >
-                  {concept}
-                </button>
-              ))}
+      {/* Content area */}
+      <div className="p-5">
+        {data && Object.keys(data).length > 0 ? (
+          <div>
+            <div className="bg-gradient-to-r from-gray-50 to-white p-5 rounded-lg border border-gray-100 flex justify-center items-center mb-5">
+              <div className="w-full max-w-lg aspect-square max-h-80">
+                <Radar data={chartData} options={chartOptions} />
+              </div>
             </div>
-          </div>
 
-          {selectedConcept && renderConceptDetail()}
-        </div>
-      ) : (
-        <div className="py-8 text-center">
-          <p className="text-gray-500">
-            No concept data available. Click refresh to generate.
-          </p>
-        </div>
-      )}
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 mb-3 flex items-center">
+                <svg
+                  className="w-4 h-4 mr-1.5 text-blue-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                  />
+                </svg>
+                Select a concept to see details
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {Object.keys(averageScores).map((concept) => (
+                  <button
+                    key={concept}
+                    onClick={() => handleConceptClick(concept)}
+                    className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
+                      selectedConcept === concept
+                        ? "bg-blue-100 text-blue-800 border border-blue-200 shadow-sm"
+                        : "bg-gray-50 text-gray-700 border border-gray-100 hover:bg-gray-100"
+                    }`}
+                  >
+                    {concept}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {selectedConcept && renderConceptDetail()}
+          </div>
+        ) : (
+          <div className="text-center py-10 bg-gray-50 rounded-lg">
+            <svg
+              className="w-12 h-12 mx-auto text-gray-300 mb-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2z"
+              />
+            </svg>
+            <p className="text-gray-500">
+              No concept data available. Click refresh to generate.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 flex justify-end items-center text-xs text-gray-500">
+        <p>Last updated: {new Date().toLocaleDateString()}</p>
+      </div>
     </div>
   );
 };

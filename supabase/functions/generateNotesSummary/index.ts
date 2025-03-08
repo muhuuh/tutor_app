@@ -46,9 +46,16 @@ serve(async (req) => {
       throw new Error("Invalid token");
     }
 
-    const { studentId, teacherId, language = "en" } = await req.json();
+    const {
+      studentId,
+      teacherId,
+      language = "en",
+      filteredNotes = null,
+    } = await req.json();
     console.log(
-      `Processing notes summary for student: ${studentId}, language: ${language}`
+      `Processing notes summary for student: ${studentId}, language: ${language}${
+        filteredNotes ? ", with filtered notes" : ""
+      }`
     );
 
     // Verify that the teacherId matches the authenticated user
@@ -71,8 +78,19 @@ serve(async (req) => {
       // Still proceed, but will have empty notes
     }
 
-    const teacherNotes = pupilData?.teacher_notes || [];
-    console.log(`Found ${teacherNotes.length} teacher notes`);
+    // Use filtered notes if provided, otherwise use all notes
+    let teacherNotes;
+    if (Array.isArray(filteredNotes) && filteredNotes.length > 0) {
+      console.log(
+        `Using ${filteredNotes.length} filtered notes provided by client`
+      );
+      teacherNotes = filteredNotes;
+    } else {
+      teacherNotes = pupilData?.teacher_notes || [];
+      console.log(
+        `Using all ${teacherNotes.length} teacher notes from database`
+      );
+    }
 
     // If no notes are available, return a default structure
     if (!teacherNotes || teacherNotes.length === 0) {
@@ -183,6 +201,23 @@ serve(async (req) => {
       );
     }
 
+    // Now we need to get the pupil ID for the response
+    let pupilId: string | null = null;
+
+    // Only fetch the pupil ID if we don't already have it
+    if (studentId && !pupilId) {
+      const { data: pupilIdData, error: pupilIdError } =
+        await supabaseServiceClient
+          .from("pupils")
+          .select("id")
+          .eq("id", studentId)
+          .single();
+
+      if (!pupilIdError && pupilIdData) {
+        pupilId = pupilIdData.id;
+      }
+    }
+
     console.log("Notes summary successfully generated and stored");
     // Success case
     return new Response(
@@ -190,7 +225,7 @@ serve(async (req) => {
         ok: true,
         data: {
           ai_summary: aiSummaryText,
-          pupil_id: pupilData?.id, // Return pupil ID to reference for fetching actual notes
+          pupil_id: pupilId, // Return pupil ID to reference for fetching actual notes
         },
       }),
       {

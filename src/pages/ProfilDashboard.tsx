@@ -253,7 +253,9 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
     }
   };
 
-  const refreshNotesSummary = async () => {
+  const refreshNotesSummary = async (options?: {
+    filteredNotes?: string[];
+  }) => {
     try {
       setRefreshing((prev) => ({ ...prev, notesSummary: true }));
       setError(null);
@@ -275,6 +277,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
             studentId: pupilId,
             teacherId: user.id,
             language,
+            filteredNotes: options?.filteredNotes, // Pass filtered notes if provided
           },
         }
       );
@@ -357,19 +360,11 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
         </div>
       ) : (
         <div className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ExecutiveSummary
-              data={profileData?.executive_summary}
-              isRefreshing={refreshing.executiveSummary}
-              onRefresh={refreshExecutiveSummary}
-            />
-
-            <FocusPanel
-              data={profileData?.focus_panel}
-              isRefreshing={refreshing.focusConcepts}
-              onRefresh={refreshFocusConcepts}
-            />
-          </div>
+          <ExecutiveSummary
+            data={profileData?.executive_summary}
+            isRefreshing={refreshing.executiveSummary}
+            onRefresh={refreshExecutiveSummary}
+          />
 
           <ConceptMasteryChart
             data={profileData?.concept_score}
