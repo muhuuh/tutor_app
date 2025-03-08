@@ -24,6 +24,7 @@ ChartJS.register(
 interface ConceptScore {
   score: number;
   exercise_id: string;
+  report_title: string;
 }
 
 interface ConceptMasteryChartProps {
@@ -148,7 +149,7 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
                   Score
                 </th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Exercise
+                  Report Title
                 </th>
               </tr>
             </thead>
@@ -157,7 +158,7 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
                 <tr key={index}>
                   <td className="px-3 py-2 whitespace-nowrap">{item.score}</td>
                   <td className="px-3 py-2 whitespace-nowrap">
-                    {item.exercise_id}
+                    {item.report_title}
                   </td>
                 </tr>
               ))}

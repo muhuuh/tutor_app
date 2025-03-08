@@ -15,6 +15,10 @@ serve(async (req) => {
 
   try {
     console.log("Starting gatherConceptScores edge function");
+    console.log(
+      "Request headers:",
+      JSON.stringify(Object.fromEntries(req.headers.entries()))
+    );
     // Create regular client for auth
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
@@ -61,7 +65,7 @@ serve(async (req) => {
       .from("reports")
       .select("*")
       .eq("pupil_id", studentId)
-      .order("created_at", { ascending: false });
+      .order("requested_at", { ascending: false });
 
     if (reportsError) {
       throw new Error("Failed to fetch student reports");
@@ -71,6 +75,9 @@ serve(async (req) => {
 
     // Process reports to extract only the necessary information and format as text
     let formattedReports = "";
+    // Extract report IDs for the webhook payload
+    const reportIds = reports?.map((report) => report.id) || [];
+
     if (reports && reports.length > 0) {
       formattedReports = reports
         .map((report) => {
@@ -150,6 +157,7 @@ serve(async (req) => {
           studentId,
           teacherId,
           reports: formattedReports, // Send the simplified text instead of complex JSON
+          reportIds, // Include the array of report IDs
           language,
         }),
       }
@@ -168,25 +176,68 @@ serve(async (req) => {
         console.log("Response data type:", typeof responseData);
         console.log("Response keys:", Object.keys(responseData));
 
-        // Case 1: If it's already in the expected format, return as is
+        // Case 1: If responseData has a string 'output' property (common n8n webhook response format)
+        if (
+          responseData &&
+          typeof responseData === "object" &&
+          "output" in responseData &&
+          typeof responseData.output === "string"
+        ) {
+          console.log("Case 1: Found output property that's a string");
+
+          // Try to parse the output string as JSON
+          try {
+            const parsedOutput = JSON.parse(responseData.output);
+            console.log("Successfully parsed output string as JSON");
+            return parsedOutput;
+          } catch (parseError) {
+            console.error("Error parsing output string as JSON:", parseError);
+
+            // Try cleaning the string to handle escaped characters
+            try {
+              const cleanedString = responseData.output
+                .replace(/\\n/g, "\n")
+                .replace(/\\"/g, '"')
+                .replace(/\\\\/g, "\\");
+
+              console.log(
+                "Cleaned JSON string preview:",
+                cleanedString.substring(0, 50) + "..."
+              );
+
+              return JSON.parse(cleanedString);
+            } catch (cleanedError) {
+              console.error(
+                "Error parsing cleaned output string:",
+                cleanedError
+              );
+            }
+          }
+        }
+
+        // Case 2: If it's already in the expected format, return as is
         if (
           responseData &&
           typeof responseData === "object" &&
           !Array.isArray(responseData) &&
-          "concepts" in responseData
+          Object.keys(responseData).some((key) =>
+            Array.isArray(responseData[key])
+          )
         ) {
-          console.log("Case 1: Data already in expected format");
+          console.log(
+            "Case 2: Data already in expected format with concept arrays"
+          );
           return responseData;
         }
 
-        // Case 2: If it's an object with an 'output' property (not in an array)
+        // Case 3: If it's an object with an 'output' property (not in an array)
         if (
           responseData &&
           typeof responseData === "object" &&
           !Array.isArray(responseData) &&
           "output" in responseData
         ) {
-          console.log("Case 2: Direct object with output property");
+          console.log("Case 3: Direct object with output property");
           const output = responseData.output;
           console.log("Output preview:", output.substring(0, 50) + "...");
 
@@ -255,13 +306,13 @@ serve(async (req) => {
           }
         }
 
-        // Case 3: If it's an array with an object that has an 'output' property (old format)
+        // Case 4: If it's an array with an object that has an 'output' property (old format)
         if (
           Array.isArray(responseData) &&
           responseData.length > 0 &&
           responseData[0].output
         ) {
-          console.log("Case 3: Array with output property");
+          console.log("Case 4: Array with output property");
           const output = responseData[0].output;
           console.log("Output preview:", output.substring(0, 50) + "...");
 
@@ -345,18 +396,54 @@ serve(async (req) => {
       JSON.stringify(parsedData).substring(0, 200) + "..."
     );
 
-    // Debug logged for the parsed data structure
-    console.log("Parsed data type:", typeof parsedData);
-    console.log("Parsed data is null or undefined:", parsedData == null);
-    if (parsedData && typeof parsedData === "object") {
-      console.log("Parsed data keys:", Object.keys(parsedData));
-      if ("concepts" in parsedData) {
-        console.log(
-          "concepts found with keys:",
-          Object.keys(parsedData.concepts)
-        );
-      }
+    // Create a mapping of report titles to report IDs
+    const reportTitleToIdMap: Record<string, string> = {};
+    if (reports && reports.length > 0) {
+      reports.forEach((report) => {
+        if (report.report_title && report.id) {
+          reportTitleToIdMap[report.report_title] = report.id;
+        }
+      });
     }
+
+    // Transform the parsed data to include report IDs (as exercise_id for the component)
+    const transformedData: Record<
+      string,
+      Array<{ score: number; exercise_id: string }>
+    > = {};
+
+    // Check if parsedData has concept keys with arrays of score objects
+    if (parsedData && typeof parsedData === "object") {
+      Object.entries(parsedData).forEach(([concept, scores]) => {
+        if (Array.isArray(scores)) {
+          transformedData[concept] = scores.map((item) => {
+            if (
+              typeof item === "object" &&
+              item !== null &&
+              "score" in item &&
+              "report_title" in item
+            ) {
+              const reportTitle = item.report_title as string;
+              const reportId = reportTitleToIdMap[reportTitle] || reportTitle;
+
+              return {
+                score:
+                  typeof item.score === "number"
+                    ? item.score
+                    : parseInt(item.score as string, 10) || 0,
+                exercise_id: reportId, // Use report ID as exercise_id, fallback to title if ID not found
+                report_title: reportTitle, // Keep the original title for reference
+              };
+            }
+            return { score: 0, exercise_id: "unknown" };
+          });
+        }
+      });
+    }
+
+    // Debug logged for the transformed data structure
+    console.log("Transformed data type:", typeof transformedData);
+    console.log("Transformed data keys:", Object.keys(transformedData));
 
     // Update or insert the data in profiles_dashboard table
     console.log("Updating profiles_dashboard table");
@@ -377,7 +464,7 @@ serve(async (req) => {
       updateResult = await supabaseServiceClient
         .from("profiles_dashboard")
         .update({
-          concept_score: parsedData.concepts || webhookData.concepts || {},
+          concept_score: transformedData,
         })
         .eq("teacher_id", teacherId)
         .eq("student_id", studentId);
@@ -389,7 +476,7 @@ serve(async (req) => {
         .insert({
           teacher_id: teacherId,
           student_id: studentId,
-          concept_score: parsedData.concepts || webhookData.concepts || {},
+          concept_score: transformedData,
         });
     }
 
@@ -407,7 +494,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         ok: true,
-        data: parsedData,
+        data: transformedData,
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -425,8 +512,8 @@ serve(async (req) => {
         type: "general_error",
       }),
       {
-        status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
       }
     );
   }
