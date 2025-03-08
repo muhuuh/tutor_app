@@ -91,23 +91,20 @@ serve(async (req) => {
       // Continue anyway with minimal pupil data
     }
 
-    // Also fetch the most recent reports for additional context
-    console.log("Fetching recent reports");
-    const { data: reports, error: reportsError } = await supabaseServiceClient
-      .from("reports")
-      .select("*")
-      .eq("pupil_id", studentId)
-      .order("created_at", { ascending: false })
-      .limit(5); // Get the 5 most recent reports
+    // Format profile data as text for the webhook
+    console.log("Formatting profile data for parent report generation");
 
-    // Format all profile data as text for easier n8n processing
     // Executive Summary
     let summaryText = "No executive summary available.";
     if (profileData?.executive_summary) {
       const summary = profileData.executive_summary;
       summaryText =
         `### Executive Summary\n\n` +
-        `Overall Trend: ${summary.overall_trend_text || "Not available"}\n\n` +
+        `Overall Trend: ${
+          summary.overall_trend_text ||
+          summary.general_performance ||
+          "Not available"
+        }\n\n` +
         `Strengths & Weaknesses:\n${
           summary.strengths_weaknesses || "Not available"
         }`;
@@ -129,7 +126,9 @@ serve(async (req) => {
                   scores.length
                 : "N/A";
 
-            return `- ${concept}: Average score ${avgScore}`;
+            return `- ${concept}: Average score ${
+              typeof avgScore === "number" ? avgScore.toFixed(2) : avgScore
+            }`;
           })
           .join("\n");
     }
@@ -149,65 +148,10 @@ serve(async (req) => {
 
     // Notes
     let notesText = "No teacher notes available.";
-    if (profileData?.notes?.ai_summary) {
+    if (typeof profileData?.notes === "string" && profileData.notes) {
+      notesText = `### Teacher Notes Summary\n\n${profileData.notes}`;
+    } else if (profileData?.notes?.ai_summary) {
       notesText = `### Teacher Notes Summary\n\n${profileData.notes.ai_summary}`;
-    }
-
-    // Recent Reports
-    let reportsText = "No recent assessment reports available.";
-    if (reports && reports.length > 0) {
-      reportsText = reports
-        .map((report) => {
-          // Extract the title
-          const title = report.report_title || "Untitled Report";
-          const date = new Date(report.created_at).toLocaleDateString();
-
-          // Extract output1 with a direct approach
-          let output1Content = "";
-          try {
-            if (report.report) {
-              // Check if it's already an object or a JSON string that needs parsing
-              let contentArr;
-              if (typeof report.report === "string") {
-                contentArr = JSON.parse(report.report);
-              } else {
-                contentArr = report.report; // Already an object, use directly
-              }
-
-              // Just find the first object with output1 key
-              if (Array.isArray(contentArr)) {
-                for (const item of contentArr) {
-                  if (item && typeof item === "object" && "output1" in item) {
-                    output1Content = item.output1;
-                    console.log(
-                      `Found output1 in array (length: ${output1Content.length})`
-                    );
-                    break; // Found it, exit the loop
-                  }
-                }
-              }
-              // Log the extraction result
-              if (!output1Content) {
-                console.log(
-                  `Failed to extract output1 from report ${report.id}`
-                );
-                console.log(
-                  `Raw content sample: ${JSON.stringify(
-                    report.report
-                  ).substring(0, 150)}...`
-                );
-              }
-            }
-          } catch (e) {
-            console.error(`Error processing report ${report.id}:`, e);
-          }
-
-          // Return formatted content
-          return `### ${title} (${date})\n\n${
-            output1Content || "*No assessment content available*"
-          }\n\n---\n\n`;
-        })
-        .join("");
     }
 
     // Combine all data into a structured format
@@ -221,10 +165,6 @@ ${conceptScoresText}
 ${focusAreasText}
 
 ${notesText}
-
-## Recent Assessments
-
-${reportsText}
 `;
 
     console.log("Formatted profile data into a simplified text format");
@@ -253,202 +193,30 @@ ${reportsText}
     const webhookData = await response.json();
     console.log("Received webhook response for parent report");
 
-    // Function to extract JSON from the special format
-    function extractJsonFromResponse(responseData: any) {
-      try {
-        // Add more detailed logging
-        console.log("Response data type:", typeof responseData);
-        console.log("Response keys:", Object.keys(responseData));
+    // Extract the report content from the webhook response
+    let reportContent = "";
 
-        // Case 1: If it's already in the expected format, return as is
-        if (
-          responseData &&
-          typeof responseData === "object" &&
-          !Array.isArray(responseData) &&
-          "reportContent" in responseData
-        ) {
-          console.log("Case 1: Data already in expected format");
-          return responseData;
-        }
-
-        // Case 2: If it's an object with an 'output' property (not in an array)
-        if (
-          responseData &&
-          typeof responseData === "object" &&
-          !Array.isArray(responseData) &&
-          "output" in responseData
-        ) {
-          console.log("Case 2: Direct object with output property");
-          const output = responseData.output;
-          console.log("Output preview:", output.substring(0, 50) + "...");
-
-          // Try to extract JSON from the markdown code block with a simpler regex
-          const jsonStringMatch = output.match(
-            /```json\s*\n([\s\S]*?)\n\s*```/
-          );
-
-          if (jsonStringMatch && jsonStringMatch[1]) {
-            console.log("Found JSON string in markdown code block");
-            const jsonString = jsonStringMatch[1];
-            console.log(
-              "Extracted JSON string preview:",
-              jsonString.substring(0, 50) + "..."
-            );
-
-            try {
-              const parsedJson = JSON.parse(jsonString);
-              console.log("Successfully parsed the extracted JSON");
-              return parsedJson;
-            } catch (parseError) {
-              console.error(
-                "Error parsing the extracted JSON string:",
-                parseError
-              );
-              // Try cleaning the string further (handling escaped characters, etc.)
-              try {
-                const cleanedString = jsonString
-                  .replace(/\\n/g, "\n")
-                  .replace(/\\"/g, '"')
-                  .replace(/\\\\/g, "\\");
-                console.log(
-                  "Cleaned JSON string preview:",
-                  cleanedString.substring(0, 50) + "..."
-                );
-                return JSON.parse(cleanedString);
-              } catch (cleanedError) {
-                console.error(
-                  "Error parsing the cleaned JSON string:",
-                  cleanedError
-                );
-              }
-            }
-          } else {
-            console.log(
-              "No JSON markdown code block found, trying direct JSON parse"
-            );
-            // If no markdown code block, try to extract JSON directly
-            try {
-              return JSON.parse(output);
-            } catch (e) {
-              console.error("Failed to parse output as direct JSON:", e);
-            }
-          }
-
-          // If all parsing attempts fail, try a more aggressive approach - look for any JSON object
-          console.log("Trying more aggressive JSON extraction");
-          const anyJsonMatch = output.match(/\{[\s\S]*\}/);
-          if (anyJsonMatch) {
-            try {
-              console.log("Found a JSON-like object, trying to parse");
-              return JSON.parse(anyJsonMatch[0]);
-            } catch (e) {
-              console.error("Failed to parse with aggressive method:", e);
-            }
-          }
-        }
-
-        // Case 3: If it's an array with an object that has an 'output' property (old format)
-        if (
-          Array.isArray(responseData) &&
-          responseData.length > 0 &&
-          responseData[0].output
-        ) {
-          console.log("Case 3: Array with output property");
-          const output = responseData[0].output;
-          console.log("Output preview:", output.substring(0, 50) + "...");
-
-          // Try to extract JSON from the markdown code block with a simpler regex
-          const jsonStringMatch = output.match(
-            /```json\s*\n([\s\S]*?)\n\s*```/
-          );
-
-          if (jsonStringMatch && jsonStringMatch[1]) {
-            console.log("Found JSON string in markdown code block");
-            const jsonString = jsonStringMatch[1];
-            console.log(
-              "Extracted JSON string preview:",
-              jsonString.substring(0, 50) + "..."
-            );
-
-            try {
-              const parsedJson = JSON.parse(jsonString);
-              console.log("Successfully parsed the extracted JSON");
-              return parsedJson;
-            } catch (parseError) {
-              console.error(
-                "Error parsing the extracted JSON string:",
-                parseError
-              );
-              // Try cleaning the string further (handling escaped characters, etc.)
-              try {
-                const cleanedString = jsonString
-                  .replace(/\\n/g, "\n")
-                  .replace(/\\"/g, '"')
-                  .replace(/\\\\/g, "\\");
-                console.log(
-                  "Cleaned JSON string preview:",
-                  cleanedString.substring(0, 50) + "..."
-                );
-                return JSON.parse(cleanedString);
-              } catch (cleanedError) {
-                console.error(
-                  "Error parsing the cleaned JSON string:",
-                  cleanedError
-                );
-              }
-            }
-          } else {
-            console.log(
-              "No JSON markdown code block found, trying direct JSON parse"
-            );
-            // If no markdown code block, try to extract JSON directly
-            try {
-              return JSON.parse(output);
-            } catch (e) {
-              console.error("Failed to parse output as direct JSON:", e);
-            }
-          }
-
-          // If all parsing attempts fail, try a more aggressive approach - look for any JSON object
-          console.log("Trying more aggressive JSON extraction");
-          const anyJsonMatch = output.match(/\{[\s\S]*\}/);
-          if (anyJsonMatch) {
-            try {
-              console.log("Found a JSON-like object, trying to parse");
-              return JSON.parse(anyJsonMatch[0]);
-            } catch (e) {
-              console.error("Failed to parse with aggressive method:", e);
-            }
-          }
-        }
-
-        console.log("Unrecognized response format, returning original data");
-        return responseData;
-      } catch (error) {
-        console.error("Error extracting JSON from response:", error);
-        return responseData; // Return original on error
-      }
+    // First try to handle the most common case - direct output field containing markdown
+    if (
+      webhookData &&
+      webhookData.output &&
+      typeof webhookData.output === "string"
+    ) {
+      console.log("Found 'output' field with markdown content");
+      reportContent = webhookData.output;
+    }
+    // If no output field is found, use a fallback message
+    else {
+      console.log("No direct 'output' field found in webhook response");
+      reportContent =
+        "Unable to generate report content. Please try again later.";
     }
 
-    // Extract and parse the actual data
-    const parsedData = extractJsonFromResponse(webhookData);
+    console.log("Report content length:", reportContent.length);
     console.log(
-      "Parsed webhook data:",
-      JSON.stringify(parsedData).substring(0, 200) + "..."
+      "Report content preview:",
+      reportContent.substring(0, 100) + "..."
     );
-
-    // Debug logged for the parsed data structure
-    console.log("Parsed data type:", typeof parsedData);
-    console.log("Parsed data is null or undefined:", parsedData == null);
-    if (parsedData && typeof parsedData === "object") {
-      console.log("Parsed data keys:", Object.keys(parsedData));
-      if ("reportContent" in parsedData) {
-        console.log(
-          "reportContent found, length:",
-          parsedData.reportContent.length
-        );
-      }
-    }
 
     // Generate a unique ID for the report
     const reportId = crypto.randomUUID();
@@ -472,7 +240,7 @@ ${reportsText}
         id: reportId,
         title: reportTitle,
         date: reportTimestamp,
-        content: parsedData.reportContent || "No report content generated",
+        content: reportContent,
       },
     ];
 

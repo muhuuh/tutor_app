@@ -59,9 +59,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-medium text-gray-900">
-          Communication Tools
-        </h3>
+        <h3 className="text-lg font-medium text-gray-900">Shareable Reports</h3>
         <button
           onClick={() => setShowForm(true)}
           className="text-blue-600 hover:text-blue-800 flex items-center"
