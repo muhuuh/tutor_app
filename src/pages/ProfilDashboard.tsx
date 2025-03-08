@@ -17,16 +17,21 @@ interface ProfileData {
     overall_trend_text: string;
     strengths_weaknesses: string;
   };
-  concept_score: Record<string, Array<{ score: number; exercise_id: string }>>;
+  concept_score: Record<
+    string,
+    Array<{ score: number; exercise_id: string; report_title?: string }>
+  >;
   focus_panel: {
     priority_concepts: Array<{
       concept: string;
       priority: number;
     }>;
   };
-  notes: {
-    ai_summary: string;
-  };
+  notes:
+    | {
+        ai_summary: string;
+      }
+    | string;
   communication_report: {
     reports_list: Array<{
       id: string;

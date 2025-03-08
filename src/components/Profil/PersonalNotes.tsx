@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
 import { supabase } from "../../lib/supabase";
+import ReactMarkdown from "react-markdown";
 
 interface PersonalNotesProps {
-  data?: {
-    ai_summary: string;
-  } | null;
+  data?:
+    | {
+        ai_summary: string;
+      }
+    | string
+    | null;
   studentId: string;
   isRefreshing?: boolean;
   onRefresh: () => Promise<void>;
@@ -20,6 +24,9 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
   const [showSummary, setShowSummary] = useState(true);
   const [teacherNotes, setTeacherNotes] = useState<string[]>([]);
   const [loadingNotes, setLoadingNotes] = useState(false);
+  const [newNote, setNewNote] = useState("");
+  const [addingNote, setAddingNote] = useState(false);
+  const [showAddNoteForm, setShowAddNoteForm] = useState(false);
 
   useEffect(() => {
     if (studentId) {
@@ -47,6 +54,51 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
       console.error("Failed to fetch teacher notes:", err);
     } finally {
       setLoadingNotes(false);
+    }
+  };
+
+  const handleAddNote = async () => {
+    if (!newNote.trim() || !studentId) return;
+
+    try {
+      setAddingNote(true);
+
+      // Get current notes first to append to them
+      const { data: currentData, error: fetchError } = await supabase
+        .from("pupils")
+        .select("teacher_notes")
+        .eq("id", studentId)
+        .single();
+
+      if (fetchError) {
+        console.error("Error fetching current notes:", fetchError);
+        return;
+      }
+
+      // Create updated notes array with the new note
+      const updatedNotes = [
+        ...(currentData?.teacher_notes || []),
+        newNote.trim(),
+      ];
+
+      // Update the notes in the database
+      const { error: updateError } = await supabase
+        .from("pupils")
+        .update({ teacher_notes: updatedNotes })
+        .eq("id", studentId);
+
+      if (updateError) {
+        console.error("Error adding note:", updateError);
+      } else {
+        // Success - update local state
+        setTeacherNotes(updatedNotes);
+        setNewNote(""); // Clear input
+        setShowAddNoteForm(false); // Hide form
+      }
+    } catch (err) {
+      console.error("Failed to add note:", err);
+    } finally {
+      setAddingNote(false);
     }
   };
 
@@ -121,9 +173,11 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
           <h4 className="text-sm font-medium text-blue-900 mb-2">
             AI-Generated Summary
           </h4>
-          {data?.ai_summary ? (
+          {data ? (
             <div className="prose prose-sm max-w-none text-blue-800">
-              {data.ai_summary}
+              <ReactMarkdown>
+                {typeof data === "string" ? data : data.ai_summary}
+              </ReactMarkdown>
             </div>
           ) : (
             <p className="text-blue-800">
@@ -146,16 +200,86 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
             <div className="flex justify-center py-8">
               <LoadingSpinner />
             </div>
-          ) : teacherNotes.length > 0 ? (
-            <ul className="space-y-3 max-h-96 overflow-y-auto">
-              {teacherNotes.map((note, index) => (
-                <li key={index} className="p-3 bg-gray-50 rounded-md">
-                  <p className="text-sm text-gray-700">{note}</p>
-                </li>
-              ))}
-            </ul>
           ) : (
-            <p className="text-center text-gray-500 py-4">No notes found.</p>
+            <>
+              {/* Add Note Button */}
+              {!showAddNoteForm && (
+                <button
+                  onClick={() => setShowAddNoteForm(true)}
+                  className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-sm flex items-center"
+                >
+                  <svg
+                    className="w-4 h-4 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                  Add Note
+                </button>
+              )}
+
+              {/* Add Note Form */}
+              {showAddNoteForm && (
+                <div className="mb-4 p-4 border border-blue-200 rounded-md bg-blue-50">
+                  <textarea
+                    value={newNote}
+                    onChange={(e) => setNewNote(e.target.value)}
+                    placeholder="Enter your note here..."
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm min-h-[100px]"
+                    disabled={addingNote}
+                  />
+                  <div className="flex justify-end mt-2 space-x-2">
+                    <button
+                      onClick={() => {
+                        setShowAddNoteForm(false);
+                        setNewNote("");
+                      }}
+                      className="px-3 py-1 text-gray-600 hover:text-gray-800 text-sm"
+                      disabled={addingNote}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleAddNote}
+                      disabled={!newNote.trim() || addingNote}
+                      className="px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-sm flex items-center"
+                    >
+                      {addingNote ? (
+                        <>
+                          <LoadingSpinner size="small" />
+                          <span className="ml-2">Saving...</span>
+                        </>
+                      ) : (
+                        "Save Note"
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Notes List */}
+              {teacherNotes.length > 0 ? (
+                <ul className="space-y-3 max-h-96 overflow-y-auto">
+                  {teacherNotes.map((note, index) => (
+                    <li key={index} className="p-3 bg-gray-50 rounded-md">
+                      <p className="text-sm text-gray-700">{note}</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-center text-gray-500 py-4">
+                  No notes found.
+                </p>
+              )}
+            </>
           )}
         </div>
       )}

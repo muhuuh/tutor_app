@@ -24,11 +24,11 @@ ChartJS.register(
 interface ConceptScore {
   score: number;
   exercise_id: string;
-  report_title: string;
+  report_title?: string;
 }
 
 interface ConceptMasteryChartProps {
-  data?: Record<string, Array<ConceptScore>> | null;
+  data: Record<string, Array<ConceptScore>> | null | undefined;
   isRefreshing?: boolean;
   onRefresh: () => Promise<void>;
 }

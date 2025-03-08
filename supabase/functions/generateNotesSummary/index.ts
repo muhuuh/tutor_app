@@ -137,20 +137,38 @@ serve(async (req) => {
       JSON.stringify(webhookData).substring(0, 200) + "..."
     );
 
-    // Format the notes data - only store the AI summary, not the notes themselves
-    const notesData = {
-      ai_summary: webhookData.summary || "No summary available.",
-    };
+    // Extract the markdown summary from the response
+    // Handle both formats - either an array with output field or direct object with summary field
+    let aiSummaryText = "No summary available.";
+
+    if (
+      Array.isArray(webhookData) &&
+      webhookData.length > 0 &&
+      webhookData[0].output
+    ) {
+      console.log("Using 'output' field from array response");
+      aiSummaryText = webhookData[0].output;
+    } else if (webhookData.summary) {
+      console.log("Using 'summary' field from direct response");
+      aiSummaryText = webhookData.summary;
+    } else if (webhookData.output) {
+      console.log("Using 'output' field from direct response");
+      aiSummaryText = webhookData.output;
+    } else {
+      console.log(
+        "Could not find summary in webhook response, using default text"
+      );
+    }
 
     // Update or insert the data in profiles_dashboard table
-    console.log("Updating profiles_dashboard table with notes summary");
+    console.log("Updating profiles_dashboard table with notes summary as text");
     const { data: updateData, error: updateError } = await supabaseServiceClient
       .from("profiles_dashboard")
       .upsert(
         {
           teacher_id: teacherId,
           student_id: studentId,
-          notes: notesData,
+          notes: aiSummaryText, // Store directly as text instead of JSON object
         },
         {
           onConflict: "teacher_id,student_id",
@@ -171,7 +189,7 @@ serve(async (req) => {
       JSON.stringify({
         ok: true,
         data: {
-          ai_summary: notesData.ai_summary,
+          ai_summary: aiSummaryText,
           pupil_id: pupilData?.id, // Return pupil ID to reference for fetching actual notes
         },
       }),
