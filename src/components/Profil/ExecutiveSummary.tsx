@@ -1,5 +1,6 @@
 import React from "react";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
+import { useTranslation } from "react-i18next";
 
 // Define concept interface for top/worst concepts
 interface Concept {
@@ -31,6 +32,8 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
   isRefreshing = false,
   onRefresh,
 }) => {
+  const { t } = useTranslation();
+
   const handleRefresh = async () => {
     await onRefresh();
   };
@@ -65,7 +68,9 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
               d="M5 10l7-7m0 0l7 7m-7-7v18"
             />
           </svg>
-          <span className="font-medium">Improving</span>
+          <span className="font-medium">
+            {t("executiveSummary.trend.improving")}
+          </span>
         </div>
       );
     } else if (trendValue < 0 || data.trend_icon === "negative") {
@@ -85,7 +90,9 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
               d="M19 14l-7 7m0 0l-7-7m7 7V3"
             />
           </svg>
-          <span className="font-medium">Declining</span>
+          <span className="font-medium">
+            {t("executiveSummary.trend.declining")}
+          </span>
         </div>
       );
     } else {
@@ -105,7 +112,9 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
               d="M5 12h14"
             />
           </svg>
-          <span className="font-medium">Stable</span>
+          <span className="font-medium">
+            {t("executiveSummary.trend.stable")}
+          </span>
         </div>
       );
     }
@@ -115,14 +124,16 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center p-5 border-b border-gray-100">
-        <h3 className="text-lg font-medium text-gray-900">Executive Summary</h3>
+        <h3 className="text-lg font-medium text-gray-900">
+          {t("executiveSummary.title")}
+        </h3>
         <button
           onClick={handleRefresh}
           disabled={isRefreshing}
           className={`p-2 rounded-full transition-colors ${
             isRefreshing ? "text-blue-400" : "text-blue-600 hover:bg-blue-100"
           }`}
-          title="Refresh summary"
+          title={t("executiveSummary.refreshTitle")}
         >
           {isRefreshing ? (
             <LoadingSpinner size="small" />
@@ -155,7 +166,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="text-sm font-medium text-gray-700">
-                    Overall Performance
+                    {t("executiveSummary.overallPerformance")}
                   </h4>
                   {renderTrendIcon(data)}
                 </div>
@@ -184,7 +195,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
                       d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                     />
                   </svg>
-                  Latest Trends & Key Observations
+                  {t("executiveSummary.latestTrendsTitle")}
                 </h4>
                 <div className="bg-gradient-to-r from-blue-50 to-white p-4 rounded-lg border border-blue-100 h-full">
                   <div className="prose prose-sm max-w-none text-gray-700">
@@ -192,10 +203,14 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
                       dangerouslySetInnerHTML={{
                         __html: (
                           (data.latest_trends
-                            ? `<p><strong class="text-blue-700">Latest Trends:</strong> ${data.latest_trends}</p>`
+                            ? `<p><strong class="text-blue-700">${t(
+                                "executiveSummary.latestTrends"
+                              )}:</strong> ${data.latest_trends}</p>`
                             : "") +
                             (data.standout_points
-                              ? `<p><strong class="text-blue-700">Standout Points:</strong> ${data.standout_points}</p>`
+                              ? `<p><strong class="text-blue-700">${t(
+                                  "executiveSummary.standoutPoints"
+                                )}:</strong> ${data.standout_points}</p>`
                               : "") || data.strengths_weaknesses
                         ).replace(/\n/g, "<br/>"),
                       }}
@@ -224,7 +239,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
-                  Focus Areas
+                  {t("executiveSummary.focusAreas")}
                 </h4>
               </div>
 
@@ -245,7 +260,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  Strengths - Top Performing Concepts
+                  {t("executiveSummary.strengths")}
                 </h4>
                 <div className="bg-gradient-to-r from-green-50 to-white p-4 rounded-lg border border-green-100">
                   {data.top_concepts && data.top_concepts.length > 0 ? (
@@ -266,7 +281,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
                     </ul>
                   ) : (
                     <p className="text-sm text-gray-500 italic">
-                      No strength data available
+                      {t("executiveSummary.noStrengths")}
                     </p>
                   )}
                 </div>
@@ -289,7 +304,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
                       d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                     />
                   </svg>
-                  Areas for Improvement
+                  {t("executiveSummary.improvements")}
                 </h4>
                 <div className="bg-gradient-to-r from-red-50 to-white p-4 rounded-lg border border-red-100">
                   {data.worst_concepts && data.worst_concepts.length > 0 ? (
@@ -310,7 +325,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
                     </ul>
                   ) : (
                     <p className="text-sm text-gray-500 italic">
-                      No improvement data available
+                      {t("executiveSummary.noImprovements")}
                     </p>
                   )}
                 </div>
@@ -333,16 +348,18 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
                 d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2z"
               />
             </svg>
-            <p className="text-gray-500">
-              No summary available. Click refresh to generate.
-            </p>
+            <p className="text-gray-500">{t("executiveSummary.noData")}</p>
           </div>
         )}
       </div>
 
       {/* Footer */}
       <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 flex justify-end items-center text-xs text-gray-500">
-        <p>Last updated: {new Date().toLocaleDateString()}</p>
+        <p>
+          {t("executiveSummary.footer", {
+            date: new Date().toLocaleDateString(),
+          })}
+        </p>
       </div>
     </div>
   );

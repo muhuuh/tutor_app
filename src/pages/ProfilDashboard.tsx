@@ -474,7 +474,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
       });
 
       // Show success message
-      alert("Report successfully deleted.");
+      //alert("Report successfully deleted.");
     } catch (err) {
       console.error("Failed to delete report:", err);
       alert("An unexpected error occurred. Please try again.");

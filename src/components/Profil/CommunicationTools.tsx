@@ -13,6 +13,7 @@ import rehypeKatex from "rehype-katex";
 import html2pdf from "html2pdf.js";
 import { toast } from "react-hot-toast";
 import * as ReactDOM from "react-dom/client";
+import { useTranslation } from "react-i18next";
 
 interface Report {
   id: string;
@@ -78,7 +79,10 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
   onViewReport,
   onDeleteReport,
 }) => {
-  const [reportTitle, setReportTitle] = useState("Progress Report");
+  const { t } = useTranslation();
+  const [reportTitle, setReportTitle] = useState(
+    t("communicationTools.defaultReportTitle")
+  );
   const [showForm, setShowForm] = useState(false);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -97,7 +101,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
     e.preventDefault();
     if (reportTitle.trim()) {
       await onGenerateReport(reportTitle);
-      setReportTitle("Progress Report");
+      setReportTitle(t("communicationTools.defaultReportTitle"));
       setShowForm(false);
     }
   };
@@ -128,7 +132,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
 
     console.log("CommunicationTools - Delete clicked for report ID:", reportId);
 
-    if (window.confirm("Are you sure you want to delete this report?")) {
+    if (window.confirm(t("communicationTools.deleteConfirmation"))) {
       if (onDeleteReport) {
         console.log(
           "CommunicationTools - Calling onDeleteReport with ID:",
@@ -204,13 +208,13 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
       }
 
       await html2pdf().set(opt).from(pdfRef.current).save();
-      toast.success("Report downloaded successfully");
+      toast.success(t("communicationTools.toast.downloadSuccess"));
 
       // Clean up
       root.unmount();
     } catch (error) {
       console.error("Error downloading report:", error);
-      toast.error("Failed to download report");
+      toast.error(t("communicationTools.toast.downloadError"));
     }
   };
 
@@ -228,7 +232,9 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center p-5 border-b border-gray-100">
-        <h3 className="text-lg font-medium text-gray-900">Shareable Reports</h3>
+        <h3 className="text-lg font-medium text-gray-900">
+          {t("communicationTools.title")}
+        </h3>
         <button
           onClick={() => setShowForm(true)}
           className="inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 transition-colors disabled:bg-blue-300"
@@ -248,14 +254,14 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
               d="M12 6v6m0 0v6m0-6h6m-6 0H6"
             />
           </svg>
-          Create Report
+          {t("communicationTools.createReport")}
         </button>
       </div>
 
       {showForm && (
         <div className="p-5 bg-gradient-to-r from-blue-50 to-white border-b border-blue-100">
           <h4 className="text-sm font-medium text-gray-700 mb-3">
-            Generate New Report
+            {t("communicationTools.generateNewReport")}
           </h4>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
@@ -263,7 +269,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                 htmlFor="reportTitle"
                 className="block text-xs font-medium text-gray-500 mb-1"
               >
-                Report Title
+                {t("communicationTools.reportTitleLabel")}
               </label>
               <input
                 type="text"
@@ -282,7 +288,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                 className="px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
                 disabled={isGenerating}
               >
-                Cancel
+                {t("communicationTools.cancel")}
               </button>
               <button
                 type="submit"
@@ -292,10 +298,12 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                 {isGenerating ? (
                   <>
                     <LoadingSpinner size="small" color="text-white" />
-                    <span className="ml-2">Generating...</span>
+                    <span className="ml-2">
+                      {t("communicationTools.generating")}
+                    </span>
                   </>
                 ) : (
-                  "Generate Report"
+                  t("communicationTools.generateReport")
                 )}
               </button>
             </div>
@@ -311,7 +319,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-3">
                   <h4 className="text-sm font-medium text-gray-700">
-                    Latest Report
+                    {t("communicationTools.latestReport")}
                   </h4>
                   <div className="text-xs text-gray-500">
                     {formatDate(latestReport.date)}
@@ -337,14 +345,14 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                   <button
                     onClick={() => handleViewReportDetails(latestReport)}
                     className="p-2 text-blue-600 bg-white border border-blue-200 rounded-md shadow-sm hover:bg-blue-50 transition-colors"
-                    title="View Full Report"
+                    title={t("communicationTools.viewFullReport")}
                   >
                     <ArrowsPointingOutIcon className="h-5 w-5" />
                   </button>
                   <button
                     onClick={() => handleDownloadReport(latestReport)}
                     className="p-2 text-blue-600 bg-white border border-blue-200 rounded-md shadow-sm hover:bg-blue-50 transition-colors"
-                    title="Download Report"
+                    title={t("communicationTools.downloadReport")}
                   >
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </button>
@@ -354,7 +362,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                       handleDeleteReportClick(latestReport.id, e);
                     }}
                     className="p-2 text-red-600 bg-white border border-red-200 rounded-md shadow-sm hover:bg-red-50 transition-colors"
-                    title="Delete Report"
+                    title={t("communicationTools.deleteReport")}
                   >
                     <TrashIcon className="h-5 w-5" />
                   </button>
@@ -366,7 +374,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
             {sortedReports.length > 1 && (
               <div>
                 <h4 className="text-sm font-medium text-gray-700 mb-3">
-                  Previous Reports
+                  {t("communicationTools.previousReports")}
                 </h4>
                 <div className="overflow-hidden border border-gray-200 rounded-lg">
                   <div className="divide-y divide-gray-200">
@@ -395,7 +403,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                               handleViewReportDetails(report);
                             }}
                             className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                            title="View Report"
+                            title={t("communicationTools.viewFullReport")}
                           >
                             <ArrowsPointingOutIcon className="h-4 w-4" />
                           </button>
@@ -405,7 +413,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                               handleDownloadReport(report);
                             }}
                             className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                            title="Download Report"
+                            title={t("communicationTools.downloadReport")}
                           >
                             <ArrowDownTrayIcon className="h-4 w-4" />
                           </button>
@@ -415,7 +423,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                               handleDeleteReportClick(report.id, e);
                             }}
                             className="p-1.5 text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                            title="Delete Report"
+                            title={t("communicationTools.deleteReport")}
                           >
                             <TrashIcon className="h-4 w-4" />
                           </button>
@@ -429,12 +437,14 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
           </div>
         ) : (
           <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
-            <p className="text-gray-500 mb-2">No reports generated yet.</p>
+            <p className="text-gray-500 mb-2">
+              {t("communicationTools.noReports")}
+            </p>
             <button
               onClick={() => setShowForm(true)}
               className="text-sm text-blue-600 hover:text-blue-800 font-medium"
             >
-              Create your first report
+              {t("communicationTools.createFirstReport")}
             </button>
           </div>
         )}
@@ -442,8 +452,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
 
       <div className="px-5 py-3 border-t border-gray-100 bg-gray-50">
         <p className="text-xs text-gray-500">
-          Reports are saved and can be shared with parents via email or PDF
-          download.
+          {t("communicationTools.footerNote")}
         </p>
       </div>
 
@@ -499,7 +508,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                           <button
                             onClick={() => handleDownloadReport(selectedReport)}
                             className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                            title="Download Report"
+                            title={t("communicationTools.downloadReport")}
                           >
                             <ArrowDownTrayIcon className="w-5 h-5" />
                           </button>
@@ -508,14 +517,14 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                               handleDeleteReportClick(selectedReport.id)
                             }
                             className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                            title="Delete Report"
+                            title={t("communicationTools.deleteReport")}
                           >
                             <TrashIcon className="w-5 h-5" />
                           </button>
                           <button
                             onClick={() => setIsModalOpen(false)}
                             className="p-2 text-gray-400 hover:text-gray-500 rounded-lg transition-colors"
-                            title="Close"
+                            title={t("communicationTools.cancel")}
                           >
                             <XMarkIcon className="w-5 h-5" />
                           </button>

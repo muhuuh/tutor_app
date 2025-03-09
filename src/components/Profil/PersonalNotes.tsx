@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
 import { supabase } from "../../lib/supabase";
 import ReactMarkdown from "react-markdown";
+import { useTranslation } from "react-i18next";
 
 // Define options that will be passed to the edge function
 interface NoteSummarizationOptions {
@@ -26,6 +27,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
   isRefreshing = false,
   onRefresh,
 }) => {
+  const { t } = useTranslation();
   const [showSummary, setShowSummary] = useState(true);
   const [teacherNotes, setTeacherNotes] = useState<string[]>([]);
   const [loadingNotes, setLoadingNotes] = useState(false);
@@ -147,7 +149,9 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center p-5 border-b border-gray-100">
-        <h3 className="text-lg font-medium text-gray-900">Personal Notes</h3>
+        <h3 className="text-lg font-medium text-gray-900">
+          {t("personalNotes.title")}
+        </h3>
         <div className="flex items-center space-x-1">
           {/* View toggle */}
           <div className="bg-gray-100 rounded-lg p-1 mr-2">
@@ -159,7 +163,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              Summary
+              {t("personalNotes.summaryTab")}
             </button>
             <button
               onClick={() => setShowSummary(false)}
@@ -169,7 +173,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              All Notes
+              {t("personalNotes.allNotesTab")}
             </button>
           </div>
 
@@ -181,7 +185,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                 ? "bg-blue-100 text-blue-600"
                 : "text-gray-500 hover:bg-gray-100"
             }`}
-            title="Filter notes"
+            title={t("personalNotes.filterNotesTitle")}
           >
             <svg
               className="w-5 h-5"
@@ -206,7 +210,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
             className={`p-2 rounded-full transition-colors ${
               isRefreshing ? "text-blue-400" : "text-blue-600 hover:bg-blue-100"
             }`}
-            title="Refresh summary"
+            title={t("personalNotes.refreshSummaryTitle")}
           >
             {isRefreshing ? (
               <LoadingSpinner size="small" />
@@ -234,7 +238,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
       {showFilterOptions && (
         <div className="px-5 py-4 bg-gradient-to-r from-blue-50 to-white border-b border-blue-100">
           <div className="text-sm font-medium text-gray-700 mb-3">
-            Filter notes for summary
+            {t("personalNotes.filterOptions.title")}
           </div>
           <div className="space-y-3">
             <label className="flex items-center space-x-2 cursor-pointer">
@@ -244,7 +248,9 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                 onChange={() => setFilterOption("all")}
                 className="text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-sm">Use all notes</span>
+              <span className="text-sm">
+                {t("personalNotes.filterOptions.allNotes")}
+              </span>
             </label>
 
             <label className="flex items-center space-x-2 cursor-pointer">
@@ -254,7 +260,9 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                 onChange={() => setFilterOption("count")}
                 className="text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-sm">Use only latest notes</span>
+              <span className="text-sm">
+                {t("personalNotes.filterOptions.latestNotes")}
+              </span>
             </label>
 
             {filterOption === "count" && (
@@ -269,7 +277,9 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                     className="w-40 accent-blue-600 mr-3"
                   />
                   <span className="text-sm text-gray-700 min-w-[70px]">
-                    {noteCount} {noteCount === 1 ? "note" : "notes"}
+                    {t("personalNotes.filterOptions.noteCount", {
+                      count: noteCount,
+                    })}
                   </span>
                 </div>
               </div>
@@ -297,7 +307,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              AI-Generated Summary
+              {t("personalNotes.aiSummary.title")}
             </h4>
             {data ? (
               <div className="prose prose-sm max-w-none text-gray-800">
@@ -307,7 +317,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
               </div>
             ) : (
               <div className="bg-white bg-opacity-70 rounded-lg p-4 text-gray-600 text-sm">
-                <p>No summary available. Click refresh to generate.</p>
+                <p>{t("personalNotes.aiSummary.noSummary")}</p>
               </div>
             )}
 
@@ -330,7 +340,9 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                     d="M19 9l-7 7-7-7"
                   />
                 </svg>
-                View all {teacherNotes.length} notes
+                {t("personalNotes.aiSummary.viewAllNotes", {
+                  count: teacherNotes.length,
+                })}
               </button>
             )}
           </div>
@@ -362,7 +374,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                         d="M12 4v16m8-8H4"
                       />
                     </svg>
-                    Add Note
+                    {t("personalNotes.allNotes.addNote")}
                   </button>
                 ) : (
                   <div className="mb-5 overflow-hidden">
@@ -370,7 +382,9 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                       <textarea
                         value={newNote}
                         onChange={(e) => setNewNote(e.target.value)}
-                        placeholder="Enter your note here..."
+                        placeholder={t(
+                          "personalNotes.allNotes.textareaPlaceholder"
+                        )}
                         className="w-full p-4 border-0 focus:outline-none focus:ring-0 text-sm min-h-[120px] resize-none"
                         disabled={addingNote}
                       />
@@ -384,7 +398,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                             className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm"
                             disabled={addingNote}
                           >
-                            Cancel
+                            {t("personalNotes.allNotes.cancel")}
                           </button>
                           <button
                             onClick={handleAddNote}
@@ -394,10 +408,12 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                             {addingNote ? (
                               <span className="flex items-center">
                                 <LoadingSpinner size="small" />
-                                <span className="ml-2">Saving...</span>
+                                <span className="ml-2">
+                                  {t("personalNotes.allNotes.saving")}
+                                </span>
                               </span>
                             ) : (
-                              "Save Note"
+                              t("personalNotes.allNotes.saveNote")
                             )}
                           </button>
                         </div>
@@ -435,7 +451,7 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
                       />
                     </svg>
                     <p className="text-gray-500">
-                      No notes found. Add your first note above.
+                      {t("personalNotes.allNotes.noNotes")}
                     </p>
                   </div>
                 )}
@@ -449,11 +465,17 @@ export const PersonalNotes: React.FC<PersonalNotesProps> = ({
       <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-xs text-gray-500">
         <p>
           {teacherNotes.length > 0
-            ? `${teacherNotes.length} note${teacherNotes.length > 1 ? "s" : ""}`
-            : "No notes"}
+            ? t("personalNotes.footer.noteCount", {
+                count: teacherNotes.length,
+              })
+            : t("personalNotes.footer.noNotes")}
         </p>
 
-        <p>Last updated: {new Date().toLocaleDateString()}</p>
+        <p>
+          {t("personalNotes.footer.lastUpdated", {
+            date: new Date().toLocaleDateString(),
+          })}
+        </p>
       </div>
     </div>
   );

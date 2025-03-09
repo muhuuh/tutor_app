@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
+import { useTranslation } from "react-i18next";
 
 // Register ChartJS components
 ChartJS.register(
@@ -38,6 +39,7 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
   isRefreshing = false,
   onRefresh,
 }) => {
+  const { t } = useTranslation();
   const [selectedConcept, setSelectedConcept] = useState<string | null>(null);
 
   // Calculate the average score for each concept
@@ -67,7 +69,7 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
       labels: concepts,
       datasets: [
         {
-          label: "Concept Mastery",
+          label: t("conceptMasteryChart.chart.label"),
           data: scores,
           backgroundColor: "rgba(59, 130, 246, 0.4)", // More opacity for better visual
           borderColor: "rgb(59, 130, 246)",
@@ -81,7 +83,7 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
         },
       ],
     };
-  }, [averageScores]);
+  }, [averageScores, t]);
 
   const chartOptions = {
     responsive: true,
@@ -122,7 +124,9 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
         padding: 10,
         callbacks: {
           label: function (context: any) {
-            return ` Score: ${context.raw}`;
+            return t("conceptMasteryChart.chart.tooltip", {
+              score: context.raw,
+            });
           },
         },
       },
@@ -176,7 +180,7 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
           <button
             onClick={() => setSelectedConcept(null)}
             className="p-1.5 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
-            aria-label="Close"
+            aria-label={t("conceptMasteryChart.detail.close")}
           >
             <svg
               className="w-4 h-4"
@@ -198,19 +202,25 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
         {/* Stats cards */}
         <div className="grid grid-cols-3 gap-3 mb-4">
           <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-100">
-            <div className="text-xs text-gray-500 mb-1">Average Score</div>
+            <div className="text-xs text-gray-500 mb-1">
+              {t("conceptMasteryChart.detail.averageScore")}
+            </div>
             <div className="font-semibold text-lg text-blue-600">
               {avgScore.toFixed(2)}
             </div>
           </div>
           <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-100">
-            <div className="text-xs text-gray-500 mb-1">Highest Score</div>
+            <div className="text-xs text-gray-500 mb-1">
+              {t("conceptMasteryChart.detail.highestScore")}
+            </div>
             <div className="font-semibold text-lg text-green-600">
               {maxScore.toFixed(2)}
             </div>
           </div>
           <div className="bg-white shadow-sm rounded-lg p-3 border border-gray-100">
-            <div className="text-xs text-gray-500 mb-1">Lowest Score</div>
+            <div className="text-xs text-gray-500 mb-1">
+              {t("conceptMasteryChart.detail.lowestScore")}
+            </div>
             <div className="font-semibold text-lg text-red-600">
               {minScore.toFixed(2)}
             </div>
@@ -219,17 +229,17 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
 
         <div className="bg-white rounded-lg border border-gray-100 overflow-hidden shadow-sm">
           <div className="text-sm font-medium text-gray-700 px-4 py-3 bg-gray-50 border-b border-gray-100">
-            Exercise History
+            {t("conceptMasteryChart.detail.exerciseHistory")}
           </div>
           <div className="max-h-48 overflow-y-auto">
             <table className="min-w-full divide-y divide-gray-200 text-sm">
               <thead className="bg-gray-50 sticky top-0">
                 <tr>
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Score
+                    {t("conceptMasteryChart.detail.score")}
                   </th>
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Report Title
+                    {t("conceptMasteryChart.detail.reportTitle")}
                   </th>
                 </tr>
               </thead>
@@ -269,14 +279,16 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center p-5 border-b border-gray-100">
-        <h3 className="text-lg font-medium text-gray-900">Concept Mastery</h3>
+        <h3 className="text-lg font-medium text-gray-900">
+          {t("conceptMasteryChart.title")}
+        </h3>
         <button
           onClick={handleRefresh}
           disabled={isRefreshing}
           className={`p-2 rounded-full transition-colors ${
             isRefreshing ? "text-blue-400" : "text-blue-600 hover:bg-blue-100"
           }`}
-          title="Refresh data"
+          title={t("conceptMasteryChart.refreshTitle")}
         >
           {isRefreshing ? (
             <LoadingSpinner size="small" />
@@ -325,7 +337,7 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
                     d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
                   />
                 </svg>
-                Select a concept to see details
+                {t("conceptMasteryChart.selectConcept")}
               </h4>
               <div className="flex flex-wrap gap-2">
                 {Object.keys(averageScores).map((concept) => (
@@ -362,16 +374,18 @@ export const ConceptMasteryChart: React.FC<ConceptMasteryChartProps> = ({
                 d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2z"
               />
             </svg>
-            <p className="text-gray-500">
-              No concept data available. Click refresh to generate.
-            </p>
+            <p className="text-gray-500">{t("conceptMasteryChart.noData")}</p>
           </div>
         )}
       </div>
 
       {/* Footer */}
       <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 flex justify-end items-center text-xs text-gray-500">
-        <p>Last updated: {new Date().toLocaleDateString()}</p>
+        <p>
+          {t("conceptMasteryChart.footer", {
+            date: new Date().toLocaleDateString(),
+          })}
+        </p>
       </div>
     </div>
   );

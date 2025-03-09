@@ -782,5 +782,128 @@
     "processingBox": "Einsendung wird verarbeitet...",
     "processingHint": "Dies dauert normalerweise etwa 1 Minute. Sie werden automatisch weitergeleitet, sobald es fertig ist.",
     "closeButton": "Schließen"
+  },
+  "profilDashboard": {
+    "title": "Schülerprofil",
+    "noStudentSelected": "Bitte wählen Sie einen Schüler aus, um sein Profil anzuzeigen",
+    "error": {
+      "generic": "Fehler beim Laden der Profildaten",
+      "tryAgain": "Erneut versuchen"
+    },
+    "components": {
+      "executiveSummary": {
+        "refresh": "Zusammenfassung aktualisieren"
+      },
+      "conceptMasteryChart": {
+        "refresh": "Konzeptbewertungen aktualisieren"
+      },
+      "focusPanel": {
+        "refresh": "Fokuskonzepte aktualisieren"
+      },
+      "personalNotes": {
+        "refresh": "Notizenübersicht aktualisieren"
+      },
+      "communicationTools": {
+        "generateReport": "Elternbericht erstellen",
+        "viewReport": "Bericht anzeigen",
+        "deleteReport": "Bericht löschen"
+      }
+    }
+  },
+  "communicationTools": {
+    "title": "Freigabefähige Berichte",
+    "createReport": "Bericht erstellen",
+    "generateNewReport": "Neuen Bericht erstellen",
+    "reportTitleLabel": "Berichtstitel",
+    "defaultReportTitle": "Fortschrittsbericht",
+    "cancel": "Abbrechen",
+    "generateReport": "Bericht erstellen",
+    "generating": "Wird erstellt...",
+    "noReports": "Noch keine Berichte erstellt.",
+    "createFirstReport": "Erstellen Sie Ihren ersten Bericht",
+    "latestReport": "Letzter Bericht",
+    "previousReports": "Vorherige Berichte",
+    "viewFullReport": "Vollständigen Bericht anzeigen",
+    "downloadReport": "Bericht herunterladen",
+    "deleteReport": "Bericht löschen",
+    "footerNote": "Berichte werden gespeichert und können per E-Mail oder PDF-Download mit Eltern geteilt werden.",
+    "deleteConfirmation": "Sind Sie sicher, dass Sie diesen Bericht löschen möchten?",
+    "toast": {
+      "downloadSuccess": "Bericht erfolgreich heruntergeladen",
+      "downloadError": "Fehler beim Herunterladen des Berichts"
+    }
+  },
+  "conceptMasteryChart": {
+    "title": "Konzeptbeherrschung",
+    "refreshTitle": "Daten aktualisieren",
+    "selectConcept": "Wählen Sie ein Konzept aus, um Details zu sehen",
+    "noData": "Keine Konzeptdaten verfügbar. Klicken Sie auf Aktualisieren, um zu generieren.",
+    "detail": {
+      "averageScore": "Durchschnittliche Punktzahl",
+      "highestScore": "Höchste Punktzahl",
+      "lowestScore": "Niedrigste Punktzahl",
+      "exerciseHistory": "Übungshistorie",
+      "score": "Punktzahl",
+      "reportTitle": "Berichtstitel",
+      "close": "Schließen"
+    },
+    "footer": "Zuletzt aktualisiert: {{date}}",
+    "chart": {
+      "label": "Konzeptbeherrschung",
+      "tooltip": "Punktzahl: {{score}}"
+    }
+  },
+  "executiveSummary": {
+    "title": "Zusammenfassung",
+    "refreshTitle": "Zusammenfassung aktualisieren",
+    "noData": "Keine Zusammenfassung verfügbar. Klicken Sie auf Aktualisieren, um zu generieren.",
+    "overallPerformance": "Gesamtleistung",
+    "trend": {
+      "improving": "Verbesserung",
+      "declining": "Rückgang",
+      "stable": "Stabil"
+    },
+    "latestTrendsTitle": "Neueste Trends & Schlüsselerkenntnisse",
+    "latestTrends": "Neueste Trends",
+    "standoutPoints": "Herausragende Punkte",
+    "focusAreas": "Schwerpunktbereiche",
+    "strengths": "Stärken - Beste Konzepte",
+    "noStrengths": "Keine Daten zu Stärken verfügbar",
+    "improvements": "Verbesserungsbereiche",
+    "noImprovements": "Keine Daten zu Verbesserungen verfügbar",
+    "footer": "Zuletzt aktualisiert: {{date}}"
+  },
+  "personalNotes": {
+    "title": "Persönliche Notizen",
+    "summaryTab": "Zusammenfassung",
+    "allNotesTab": "Alle Notizen",
+    "filterNotesTitle": "Notizen filtern",
+    "refreshSummaryTitle": "Zusammenfassung aktualisieren",
+    "filterOptions": {
+      "title": "Notizen für die Zusammenfassung filtern",
+      "allNotes": "Alle Notizen verwenden",
+      "latestNotes": "Nur die neuesten Notizen verwenden",
+      "noteCount": "{{count}} Notiz",
+      "noteCountPlural": "{{count}} Notizen"
+    },
+    "aiSummary": {
+      "title": "KI-generierte Zusammenfassung",
+      "noSummary": "Keine Zusammenfassung verfügbar. Klicken Sie auf Aktualisieren, um zu generieren.",
+      "viewAllNotes": "Alle {{count}} Notizen anzeigen"
+    },
+    "allNotes": {
+      "addNote": "Notiz hinzufügen",
+      "textareaPlaceholder": "Geben Sie Ihre Notiz hier ein...",
+      "cancel": "Abbrechen",
+      "saveNote": "Notiz speichern",
+      "saving": "Wird gespeichert...",
+      "noNotes": "Keine Notizen gefunden. Fügen Sie Ihre erste Notiz oben hinzu."
+    },
+    "footer": {
+      "noteCount": "{{count}} Notiz",
+      "noteCountPlural": "{{count}} Notizen",
+      "noNotes": "Keine Notizen",
+      "lastUpdated": "Zuletzt aktualisiert: {{date}}"
+    }
   }
 }

@@ -782,5 +782,128 @@
     "processingBox": "Traitement de votre soumission...",
     "processingHint": "Cela prend généralement environ 1 minute. Vous serez redirigé automatiquement lorsqu’il sera prêt.",
     "closeButton": "Fermer"
+  },
+  "profilDashboard": {
+    "title": "Profil de l'étudiant",
+    "noStudentSelected": "Veuillez sélectionner un étudiant pour voir son profil",
+    "error": {
+      "generic": "Échec du chargement des données du profil",
+      "tryAgain": "Réessayer"
+    },
+    "components": {
+      "executiveSummary": {
+        "refresh": "Actualiser le résumé exécutif"
+      },
+      "conceptMasteryChart": {
+        "refresh": "Actualiser les scores de concept"
+      },
+      "focusPanel": {
+        "refresh": "Actualiser les concepts prioritaires"
+      },
+      "personalNotes": {
+        "refresh": "Actualiser le résumé des notes"
+      },
+      "communicationTools": {
+        "generateReport": "Générer un rapport pour les parents",
+        "viewReport": "Voir le rapport",
+        "deleteReport": "Supprimer le rapport"
+      }
+    }
+  },
+  "communicationTools": {
+    "title": "Rapports partageables",
+    "createReport": "Créer un rapport",
+    "generateNewReport": "Générer un nouveau rapport",
+    "reportTitleLabel": "Titre du rapport",
+    "defaultReportTitle": "Rapport de progrès",
+    "cancel": "Annuler",
+    "generateReport": "Générer le rapport",
+    "generating": "Génération en cours...",
+    "noReports": "Aucun rapport généré pour le moment.",
+    "createFirstReport": "Créez votre premier rapport",
+    "latestReport": "Dernier rapport",
+    "previousReports": "Rapports précédents",
+    "viewFullReport": "Voir le rapport complet",
+    "downloadReport": "Télécharger le rapport",
+    "deleteReport": "Supprimer le rapport",
+    "footerNote": "Les rapports sont enregistrés et peuvent être partagés avec les parents par e-mail ou téléchargement PDF.",
+    "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer ce rapport ?",
+    "toast": {
+      "downloadSuccess": "Rapport téléchargé avec succès",
+      "downloadError": "Échec du téléchargement du rapport"
+    }
+  },
+  "conceptMasteryChart": {
+    "title": "Maîtrise des concepts",
+    "refreshTitle": "Actualiser les données",
+    "selectConcept": "Sélectionnez un concept pour voir les détails",
+    "noData": "Aucune donnée de concept disponible. Cliquez sur Actualiser pour générer.",
+    "detail": {
+      "averageScore": "Score moyen",
+      "highestScore": "Score le plus élevé",
+      "lowestScore": "Score le plus bas",
+      "exerciseHistory": "Historique des exercices",
+      "score": "Score",
+      "reportTitle": "Titre du rapport",
+      "close": "Fermer"
+    },
+    "footer": "Dernière mise à jour : {{date}}",
+    "chart": {
+      "label": "Maîtrise des concepts",
+      "tooltip": "Score : {{score}}"
+    }
+  },
+  "executiveSummary": {
+    "title": "Résumé exécutif",
+    "refreshTitle": "Actualiser le résumé",
+    "noData": "Aucun résumé disponible. Cliquez sur Actualiser pour générer.",
+    "overallPerformance": "Performance globale",
+    "trend": {
+      "improving": "En amélioration",
+      "declining": "En baisse",
+      "stable": "Stable"
+    },
+    "latestTrendsTitle": "Tendances récentes & observations clés",
+    "latestTrends": "Tendances récentes",
+    "standoutPoints": "Points remarquables",
+    "focusAreas": "Domaines prioritaires",
+    "strengths": "Forces - Concepts les plus performants",
+    "noStrengths": "Aucune donnée sur les forces disponible",
+    "improvements": "Axes d'amélioration",
+    "noImprovements": "Aucune donnée sur les améliorations disponible",
+    "footer": "Dernière mise à jour : {{date}}"
+  },
+  "personalNotes": {
+    "title": "Notes personnelles",
+    "summaryTab": "Résumé",
+    "allNotesTab": "Toutes les notes",
+    "filterNotesTitle": "Filtrer les notes",
+    "refreshSummaryTitle": "Actualiser le résumé",
+    "filterOptions": {
+      "title": "Filtrer les notes pour le résumé",
+      "allNotes": "Utiliser toutes les notes",
+      "latestNotes": "Utiliser uniquement les dernières notes",
+      "noteCount": "{{count}} note",
+      "noteCountPlural": "{{count}} notes"
+    },
+    "aiSummary": {
+      "title": "Résumé généré par IA",
+      "noSummary": "Aucun résumé disponible. Cliquez sur Actualiser pour générer.",
+      "viewAllNotes": "Voir toutes les {{count}} notes"
+    },
+    "allNotes": {
+      "addNote": "Ajouter une note",
+      "textareaPlaceholder": "Entrez votre note ici...",
+      "cancel": "Annuler",
+      "saveNote": "Enregistrer la note",
+      "saving": "Enregistrement...",
+      "noNotes": "Aucune note trouvée. Ajoutez votre première note ci-dessus."
+    },
+    "footer": {
+      "noteCount": "{{count}} note",
+      "noteCountPlural": "{{count}} notes",
+      "noNotes": "Aucune note",
+      "lastUpdated": "Dernière mise à jour : {{date}}"
+    }
   }
 }
