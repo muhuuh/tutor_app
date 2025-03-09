@@ -6,6 +6,8 @@ import { FocusPanel } from "../components/Profil/FocusPanel";
 import { PersonalNotes } from "../components/Profil/PersonalNotes";
 import { CommunicationTools } from "../components/Profil/CommunicationTools";
 import { LoadingSpinner } from "../components/UI/LoadingSpinner";
+import { useCreditWarning } from "../hooks/useCreditWarning";
+import { CreditWarningModal } from "../components/UI/CreditWarningModal";
 
 interface ProfileData {
   id: string;
@@ -61,6 +63,13 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
       "en"
     );
   });
+
+  const {
+    showCreditWarning,
+    setShowCreditWarning,
+    requiredCredits,
+    handleCreditError,
+  } = useCreditWarning();
 
   useEffect(() => {
     if (pupilId) {
@@ -181,6 +190,16 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
 
       if (error) throw error;
 
+      // Check for subscription errors
+      if (
+        data &&
+        data.ok === false &&
+        data.errorType === "subscription_error"
+      ) {
+        handleCreditError(data);
+        return;
+      }
+
       console.log("Executive summary refreshed successfully");
       // Refresh the profile data after update
       fetchProfileData(pupilId);
@@ -219,6 +238,16 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
       );
 
       if (error) throw error;
+
+      // Check for subscription errors
+      if (
+        data &&
+        data.ok === false &&
+        data.errorType === "subscription_error"
+      ) {
+        handleCreditError(data);
+        return;
+      }
 
       console.log("Concept scores refreshed successfully");
       // Refresh the profile data after update
@@ -433,7 +462,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="container px-4 mx-auto py-6 space-y-6">
       <h2 className="text-2xl font-semibold text-gray-900">Student Profile</h2>
 
       {loading ? (
@@ -483,6 +512,13 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
           </div>
         </div>
       )}
+
+      {/* Credit Warning Modal */}
+      <CreditWarningModal
+        isOpen={showCreditWarning}
+        onClose={() => setShowCreditWarning(false)}
+        requiredCredits={requiredCredits}
+      />
     </div>
   );
 }

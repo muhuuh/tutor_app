@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { CREDIT_COSTS } from "https://gist.githubusercontent.com/muhuuh/b23ffa4bec5475f446476a511e2cb100/raw/creditCosts.ts";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 
 const corsHeaders = {
@@ -59,6 +60,78 @@ serve(async (req) => {
     // Verify that the teacherId matches the authenticated user
     if (teacherId !== user.id) {
       throw new Error("Unauthorized: Teacher ID mismatch");
+    }
+
+    // Use service client for subscription check
+    const { data: subscription, error: subscriptionError } =
+      await supabaseServiceClient
+        .from("user_subscriptions")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+
+    if (subscriptionError) {
+      throw new Error("Failed to check subscription status");
+    }
+
+    if (!subscription) {
+      throw new Error("No active subscription found");
+    }
+
+    // Check if subscription is valid
+    const now = new Date();
+    const validUntil = new Date(subscription.valid_until);
+    if (validUntil < now) {
+      console.log("Subscription expired:", {
+        validUntil: validUntil.toISOString(),
+        now: now.toISOString(),
+      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          errorType: "subscription_error",
+          message: "Your subscription has expired",
+          requiredCredits: CREDIT_COSTS.PROFILE_UPDATE,
+        }),
+        {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    // Check if user has enough credits
+    const requiredCredits = CREDIT_COSTS.PROFILE_UPDATE;
+    if (
+      subscription.used_credits + requiredCredits >
+      subscription.max_credits
+    ) {
+      console.log("Credit check:", {
+        used: subscription.used_credits,
+        required: requiredCredits,
+        max: subscription.max_credits,
+      });
+      console.log("Insufficient credits, returning error payload");
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          errorType: "subscription_error",
+          message: "Insufficient credits",
+          requiredCredits: CREDIT_COSTS.PROFILE_UPDATE,
+        }),
+        {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
+        }
+      );
     }
 
     // Get the existing profile data to use all available insights
@@ -291,6 +364,22 @@ ${notesText}
     }
 
     console.log("Parent report successfully generated and stored");
+
+    // Update used credits after successful operation
+    const { error: creditUpdateError } = await supabaseServiceClient
+      .from("user_subscriptions")
+      .update({
+        used_credits: subscription.used_credits + requiredCredits,
+      })
+      .eq("id", subscription.id);
+
+    if (creditUpdateError) {
+      console.error("Error updating credits:", creditUpdateError);
+      // Continue anyway - the operation was successful
+    } else {
+      console.log(`Successfully deducted ${requiredCredits} credits`);
+    }
+
     // Success case
     return new Response(
       JSON.stringify({
@@ -310,14 +399,19 @@ ${notesText}
     console.error("Error in generateParentReport:", error);
     const errorMessage =
       error instanceof Error ? error.message : "An unexpected error occurred";
+    const isSubscriptionError =
+      errorMessage.includes("subscription") ||
+      errorMessage.includes("credit") ||
+      errorMessage.includes("expired");
 
     return new Response(
       JSON.stringify({
         error: errorMessage,
-        type: "general_error",
+        type: isSubscriptionError ? "subscription_error" : "general_error",
+        requiredCredits: CREDIT_COSTS.PROFILE_UPDATE,
       }),
       {
-        status: 500,
+        status: isSubscriptionError ? 402 : 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       }
     );
