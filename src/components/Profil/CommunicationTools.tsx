@@ -74,9 +74,9 @@ const processContent = (content: string) => {
 export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
   data,
   isGenerating = false,
-  studentId,
+  //studentId,
   onGenerateReport,
-  onViewReport,
+  // onViewReport,
   onDeleteReport,
 }) => {
   const { t } = useTranslation();

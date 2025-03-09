@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { ExecutiveSummary } from "../components/Profil/ExecutiveSummary";
 import { ConceptMasteryChart } from "../components/Profil/ConceptMasteryChart";
-import { FocusPanel } from "../components/Profil/FocusPanel";
+//import { FocusPanel } from "../components/Profil/FocusPanel";
 import { PersonalNotes } from "../components/Profil/PersonalNotes";
 import { CommunicationTools } from "../components/Profil/CommunicationTools";
 import { LoadingSpinner } from "../components/UI/LoadingSpinner";
@@ -55,14 +55,14 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
   const [refreshing, setRefreshing] = useState<Record<string, boolean>>({});
   const [generatingReport, setGeneratingReport] = useState(false);
   // Get current UI language from localStorage or default to English
-  const [language, setLanguage] = useState(() => {
+  const language = useState(() => {
     // Try to get the language from localStorage or use browser language preference
     return (
       localStorage.getItem("language") ||
       navigator.language.split("-")[0] ||
       "en"
     );
-  });
+  })[0]; // Only use the state value, not the setter
 
   const {
     showCreditWarning,
@@ -260,6 +260,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
     }
   };
 
+  /*
   const refreshFocusConcepts = async () => {
     try {
       setRefreshing((prev) => ({ ...prev, focusConcepts: true }));
@@ -298,7 +299,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
       setRefreshing((prev) => ({ ...prev, focusConcepts: false }));
     }
   };
-
+*/
   const refreshNotesSummary = async (options?: {
     filteredNotes?: string[];
   }) => {
