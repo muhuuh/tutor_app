@@ -330,6 +330,16 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
 
       if (error) throw error;
 
+      // Check for subscription errors
+      if (
+        data &&
+        data.ok === false &&
+        data.errorType === "subscription_error"
+      ) {
+        handleCreditError(data);
+        return;
+      }
+
       console.log("Notes summary refreshed successfully");
       // Refresh the profile data after update
       fetchProfileData(pupilId);
@@ -369,6 +379,16 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
       );
 
       if (error) throw error;
+
+      // Check for subscription errors
+      if (
+        data &&
+        data.ok === false &&
+        data.errorType === "subscription_error"
+      ) {
+        handleCreditError(data);
+        return;
+      }
 
       console.log("Parent report generated successfully");
       // Refresh the profile data after update
