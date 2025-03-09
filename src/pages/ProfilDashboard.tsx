@@ -78,8 +78,15 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
     );
   }
 
-  const fetchProfileData = async (studentId: string) => {
+  const fetchProfileData = async (
+    studentId: string,
+    isDeleteOperation = false
+  ) => {
     try {
+      if (isDeleteOperation) {
+        console.log("[DELETE] Fetching updated profile data after deletion");
+      }
+
       setLoading(true);
       setError(null);
 
@@ -126,10 +133,20 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
           },
         });
       } else {
-        setProfileData(data as ProfileData);
+        if (isDeleteOperation) {
+          console.log(
+            "[DELETE] Retrieved data after deletion:",
+            data.communication_report?.reports_list
+              ? `Found ${data.communication_report.reports_list.length} reports`
+              : "No reports list found"
+          );
+        }
+
+        // Set the profile data from what we fetched
+        setProfileData(data);
       }
     } catch (err) {
-      console.error("Failed to load profile data:", err);
+      console.error("Error fetching profile data:", err);
       setError("Failed to load profile data");
     } finally {
       setLoading(false);
@@ -340,6 +357,81 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
     window.open(`/reports/${reportId}`, "_blank");
   };
 
+  const handleDeleteReport = async (reportId: string) => {
+    try {
+      // Get the current user
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        alert("You must be logged in to delete reports.");
+        return;
+      }
+
+      // Get the current profile data
+      const { data: currentProfile, error: fetchError } = await supabase
+        .from("profiles_dashboard")
+        .select("communication_report")
+        .eq("student_id", pupilId)
+        .eq("teacher_id", user.id)
+        .single();
+
+      if (fetchError) {
+        console.error("Error fetching profile:", fetchError);
+        alert("Could not fetch current report data. Please try again.");
+        return;
+      }
+
+      // Ensure the data structure exists
+      if (!currentProfile?.communication_report?.reports_list) {
+        alert("No reports found to delete.");
+        return;
+      }
+
+      // Filter out the report to delete
+      const newReportsList =
+        currentProfile.communication_report.reports_list.filter(
+          (report: { id: string }) => report.id !== reportId
+        );
+
+      // Update the database
+      const { error: updateError } = await supabase
+        .from("profiles_dashboard")
+        .update({
+          communication_report: {
+            ...currentProfile.communication_report,
+            reports_list: newReportsList,
+          },
+        })
+        .eq("student_id", pupilId)
+        .eq("teacher_id", user.id);
+
+      if (updateError) {
+        console.error("Error updating profile:", updateError);
+        alert("Failed to delete report. Please try again.");
+        return;
+      }
+
+      // Update local state
+      setProfileData((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          communication_report: {
+            ...prev.communication_report,
+            reports_list: newReportsList,
+          },
+        };
+      });
+
+      // Show success message
+      alert("Report successfully deleted.");
+    } catch (err) {
+      console.error("Failed to delete report:", err);
+      alert("An unexpected error occurred. Please try again.");
+    }
+  };
+
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold text-gray-900">Student Profile</h2>
@@ -386,6 +478,7 @@ export function ProfilDashboard({ pupilId }: ProfilDashboardProps) {
               studentId={pupilId}
               onGenerateReport={generateParentReport}
               onViewReport={handleViewReport}
+              onDeleteReport={handleDeleteReport}
             />
           </div>
         </div>

@@ -1,10 +1,18 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useRef, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { LoadingSpinner } from "../UI/LoadingSpinner";
-import { XMarkIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  XMarkIcon,
+  TrashIcon,
+  ArrowsPointingOutIcon,
+  ArrowDownTrayIcon,
+} from "@heroicons/react/24/outline";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import html2pdf from "html2pdf.js";
+import { toast } from "react-hot-toast";
+import * as ReactDOM from "react-dom/client";
 
 interface Report {
   id: string;
@@ -38,9 +46,26 @@ const processContent = (content: string) => {
     (_, base, exp) => `$${base} \\times 10^{${exp}}$`
   );
 
+  // Convert simple exponential notation (e.g., 10^24)
+  content = content.replace(
+    /(\d+)\^(-?\d+)/g,
+    (_, base, exp) => `$${base}^{${exp}}$`
+  );
+
   // Convert units with superscripts (e.g., m²)
   content = content.replace(/([a-zA-Z])²/g, (_, unit) => `$${unit}^2$`);
   content = content.replace(/([a-zA-Z])³/g, (_, unit) => `$${unit}^3$`);
+
+  // Convert compound units (e.g., N·m²/kg²)
+  content = content.replace(/([A-Z]·[a-zA-Z²³]+\/[a-zA-Z²³]+)/g, (match) => {
+    return `$\\text{${match
+      .replace("·", "\\cdot ")
+      .replace("²", "^2")
+      .replace("³", "^3")}$`;
+  });
+
+  // Convert single capital letters that likely represent variables
+  content = content.replace(/\s([A-Z])\s/g, (_, letter) => ` $${letter}$ `);
 
   return content;
 };
@@ -57,9 +82,16 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
   const [showForm, setShowForm] = useState(false);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const pdfRef = useRef<HTMLDivElement>(null);
 
-  // Get latest report
-  const latestReport = data?.reports_list?.length ? data.reports_list[0] : null;
+  // Sort reports by date (newest first) and get latest report
+  const sortedReports = data?.reports_list
+    ? [...data.reports_list].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      )
+    : [];
+
+  const latestReport = sortedReports.length > 0 ? sortedReports[0] : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,26 +117,112 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
     setIsModalOpen(true);
   };
 
-  const handleDeleteReportClick = async (reportId: string) => {
+  const handleDeleteReportClick = async (
+    reportId: string,
+    e?: React.MouseEvent
+  ) => {
+    // Prevent event propagation if provided
+    if (e) {
+      e.stopPropagation();
+    }
+
+    console.log("CommunicationTools - Delete clicked for report ID:", reportId);
+
     if (window.confirm("Are you sure you want to delete this report?")) {
       if (onDeleteReport) {
+        console.log(
+          "CommunicationTools - Calling onDeleteReport with ID:",
+          reportId
+        );
         await onDeleteReport(reportId);
+        console.log("CommunicationTools - onDeleteReport completed");
 
         // If the deleted report was the selected one, close the modal
         if (selectedReport?.id === reportId) {
           setSelectedReport(null);
           setIsModalOpen(false);
         }
+      } else {
+        console.warn(
+          "CommunicationTools - onDeleteReport prop is not provided"
+        );
       }
     }
   };
 
-  // Get a preview of content (first ~200 characters)
-  const getContentPreview = (content: string) => {
-    const previewLength = 200;
-    if (content.length <= previewLength) return content;
-    return content.substring(0, previewLength) + "...";
+  // Handle PDF download using the same approach as Dashboard.tsx
+  const handleDownloadReport = async (report: Report) => {
+    if (!report || !pdfRef.current) return;
+
+    try {
+      const opt = {
+        margin: 20,
+        filename: `${report.title}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      };
+
+      // Create a temporary div for rendering markdown
+      const tempDiv = document.createElement("div");
+      const root = ReactDOM.createRoot(tempDiv);
+      root.render(
+        <div className="prose prose-sm max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeKatex]}
+          >
+            {processContent(report.content)}
+          </ReactMarkdown>
+        </div>
+      );
+
+      // Wait for rendering to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Update the PDF ref with the rendered content
+      if (pdfRef.current) {
+        pdfRef.current.innerHTML = `
+          <style>
+            @page {
+              margin: 1cm;
+            }
+            body {
+              font-family: 'Helvetica', 'Arial', sans-serif;
+              line-height: 1.5;
+            }
+            .prose p {
+              orphans: 2;
+              widows: 2;
+            }
+          </style>
+          <div class="p-8 bg-white">
+            <h1 class="text-2xl font-bold mb-6">${report.title}</h1>
+            ${tempDiv.innerHTML}
+          </div>
+        `;
+      }
+
+      await html2pdf().set(opt).from(pdfRef.current).save();
+      toast.success("Report downloaded successfully");
+
+      // Clean up
+      root.unmount();
+    } catch (error) {
+      console.error("Error downloading report:", error);
+      toast.error("Failed to download report");
+    }
   };
+
+  // Log when data changes
+  useEffect(() => {
+    console.log(
+      "[CommunicationTools] Data updated:",
+      data?.reports_list
+        ? `Found ${data.reports_list.length} reports`
+        : "No reports data"
+    );
+  }, [data]);
 
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
@@ -186,7 +304,7 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
       )}
 
       <div className="p-5">
-        {data && data.reports_list && data.reports_list.length > 0 ? (
+        {sortedReports.length > 0 ? (
           <div>
             {/* Latest Report Preview */}
             {latestReport && (
@@ -200,57 +318,69 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                   </div>
                 </div>
 
-                <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-4">
-                  <h3 className="font-medium text-gray-900 mb-2">
-                    {latestReport.title}
-                  </h3>
-                  <div className="prose prose-sm max-w-none text-gray-600 max-h-24 overflow-hidden">
-                    <ReactMarkdown>
-                      {getContentPreview(latestReport.content)}
-                    </ReactMarkdown>
+                <div
+                  className="relative p-4 rounded-lg border border-gray-200 mb-4 cursor-pointer overflow-hidden group"
+                  onClick={() => handleViewReportDetails(latestReport)}
+                >
+                  {/* Gradient hover effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <h3 className="font-medium text-gray-900 mb-2">
+                      {latestReport.title}
+                    </h3>
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-2">
+                <div className="flex space-x-2 justify-end">
                   <button
                     onClick={() => handleViewReportDetails(latestReport)}
-                    className="px-3 py-1.5 text-xs text-blue-600 bg-white border border-blue-300 rounded-md shadow-sm hover:bg-blue-50"
+                    className="p-2 text-blue-600 bg-white border border-blue-200 rounded-md shadow-sm hover:bg-blue-50 transition-colors"
+                    title="View Full Report"
                   >
-                    View Full Report
+                    <ArrowsPointingOutIcon className="h-5 w-5" />
                   </button>
                   <button
-                    onClick={() => onViewReport(latestReport.id)}
-                    className="px-3 py-1.5 text-xs text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700"
+                    onClick={() => handleDownloadReport(latestReport)}
+                    className="p-2 text-blue-600 bg-white border border-blue-200 rounded-md shadow-sm hover:bg-blue-50 transition-colors"
+                    title="Download Report"
                   >
-                    Export
+                    <ArrowDownTrayIcon className="h-5 w-5" />
                   </button>
-                  {onDeleteReport && (
-                    <button
-                      onClick={() => handleDeleteReportClick(latestReport.id)}
-                      className="px-3 py-1.5 text-xs text-red-600 bg-white border border-red-300 rounded-md shadow-sm hover:bg-red-50 flex items-center"
-                    >
-                      <TrashIcon className="h-3 w-3 mr-1" />
-                      Delete
-                    </button>
-                  )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteReportClick(latestReport.id, e);
+                    }}
+                    className="p-2 text-red-600 bg-white border border-red-200 rounded-md shadow-sm hover:bg-red-50 transition-colors"
+                    title="Delete Report"
+                  >
+                    <TrashIcon className="h-5 w-5" />
+                  </button>
                 </div>
               </div>
             )}
 
             {/* Previous Reports List */}
-            {data.reports_list.length > 1 && (
+            {sortedReports.length > 1 && (
               <div>
                 <h4 className="text-sm font-medium text-gray-700 mb-3">
                   Previous Reports
                 </h4>
                 <div className="overflow-hidden border border-gray-200 rounded-lg">
                   <div className="divide-y divide-gray-200">
-                    {data.reports_list.slice(1).map((report) => (
+                    {sortedReports.slice(1).map((report) => (
                       <div
                         key={report.id}
-                        className="flex items-center justify-between py-3 px-4 hover:bg-gray-50"
+                        className="relative flex items-center justify-between py-3 px-4 cursor-pointer overflow-hidden group"
+                        onClick={() => handleViewReportDetails(report)}
                       >
-                        <div>
+                        {/* Gradient hover effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                        {/* Content */}
+                        <div className="relative z-10">
                           <h5 className="text-sm font-medium text-gray-900">
                             {report.title}
                           </h5>
@@ -258,27 +388,37 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                             {formatDate(report.date)}
                           </p>
                         </div>
-                        <div className="flex space-x-2">
+                        <div className="relative z-10 flex space-x-2">
                           <button
-                            onClick={() => handleViewReportDetails(report)}
-                            className="text-xs text-blue-600 hover:text-blue-800"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleViewReportDetails(report);
+                            }}
+                            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                            title="View Report"
                           >
-                            View
+                            <ArrowsPointingOutIcon className="h-4 w-4" />
                           </button>
                           <button
-                            onClick={() => onViewReport(report.id)}
-                            className="text-xs text-blue-600 hover:text-blue-800"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownloadReport(report);
+                            }}
+                            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                            title="Download Report"
                           >
-                            Export
+                            <ArrowDownTrayIcon className="h-4 w-4" />
                           </button>
-                          {onDeleteReport && (
-                            <button
-                              onClick={() => handleDeleteReportClick(report.id)}
-                              className="text-xs text-red-600 hover:text-red-800"
-                            >
-                              <TrashIcon className="h-4 w-4" />
-                            </button>
-                          )}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteReportClick(report.id, e);
+                            }}
+                            className="p-1.5 text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                            title="Delete Report"
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -305,6 +445,11 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
           Reports are saved and can be shared with parents via email or PDF
           download.
         </p>
+      </div>
+
+      {/* Hidden div for PDF generation */}
+      <div className="hidden">
+        <div ref={pdfRef} />
       </div>
 
       {/* Full Screen Modal for Report Viewing */}
@@ -352,24 +497,25 @@ export const CommunicationTools: React.FC<CommunicationToolsProps> = ({
                             {formatDate(selectedReport.date)}
                           </div>
                           <button
-                            onClick={() => onViewReport(selectedReport.id)}
-                            className="px-3 py-1.5 text-xs text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700 mr-2"
+                            onClick={() => handleDownloadReport(selectedReport)}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            title="Download Report"
                           >
-                            Export
+                            <ArrowDownTrayIcon className="w-5 h-5" />
                           </button>
-                          {onDeleteReport && (
-                            <button
-                              onClick={() =>
-                                handleDeleteReportClick(selectedReport.id)
-                              }
-                              className="p-2 text-red-500 hover:text-red-700 rounded-lg transition-colors"
-                            >
-                              <TrashIcon className="w-5 h-5" />
-                            </button>
-                          )}
+                          <button
+                            onClick={() =>
+                              handleDeleteReportClick(selectedReport.id)
+                            }
+                            className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                            title="Delete Report"
+                          >
+                            <TrashIcon className="w-5 h-5" />
+                          </button>
                           <button
                             onClick={() => setIsModalOpen(false)}
                             className="p-2 text-gray-400 hover:text-gray-500 rounded-lg transition-colors"
+                            title="Close"
                           >
                             <XMarkIcon className="w-5 h-5" />
                           </button>
