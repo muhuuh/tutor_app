@@ -86,9 +86,18 @@ export function Home() {
 
   // Value propositions for hero badge pills - simplified
   const valueProps = [
-    { icon: <FiZap className="w-4 h-4" />, text: "AI-Powered" },
-    { icon: <FiClock className="w-4 h-4" />, text: "Save 10+ hrs/week" },
-    { icon: <FiAward className="w-4 h-4" />, text: "STEM Focused" },
+    {
+      icon: <FiZap className="w-4 h-4" />,
+      text: t("home.hero.badges.aiPowered"),
+    },
+    {
+      icon: <FiClock className="w-4 h-4" />,
+      text: t("home.hero.badges.saveTime"),
+    },
+    {
+      icon: <FiAward className="w-4 h-4" />,
+      text: t("home.hero.badges.stemFocused"),
+    },
   ];
 
   return (
@@ -168,9 +177,7 @@ export function Home() {
               {/* Main heading with cleaner text */}
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-200 to-purple-300 drop-shadow-sm">
-                  Your Personal AI <br />
-                  STEM Tutor <br />
-                  Assistant
+                  {t("home.hero.title")}
                 </span>
               </h1>
 
@@ -181,8 +188,7 @@ export function Home() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-xl text-gray-200/90 max-w-2xl leading-relaxed mb-8"
               >
-                Save 10+ hours per week while providing personalized,
-                expert-level feedback to each of your students.
+                {t("home.hero.subtitle")}
               </motion.p>
 
               {/* Social proof element */}
@@ -194,7 +200,7 @@ export function Home() {
               >
                 <div className="flex -space-x-2"></div>
                 <span className="text-blue-100 text-sm">
-                  Trusted by educators worldwide
+                  {t("home.hero.socialProof")}
                 </span>
               </motion.div>
 
@@ -411,7 +417,7 @@ export function Home() {
                       ease: "easeInOut",
                     }}
                   >
-                    Auto Grading
+                    {t("home.hero.animatedFeatures.autoGrading")}
                   </motion.div>
 
                   <motion.div
@@ -427,7 +433,7 @@ export function Home() {
                       delay: 1,
                     }}
                   >
-                    Personalized Feedback
+                    {t("home.hero.animatedFeatures.personalizedFeedback")}
                   </motion.div>
 
                   <motion.div
@@ -443,7 +449,7 @@ export function Home() {
                       delay: 2,
                     }}
                   >
-                    Custom Exercises
+                    {t("home.hero.animatedFeatures.customExercises")}
                   </motion.div>
 
                   {/* New feature label: Performance Tracking */}
@@ -460,7 +466,7 @@ export function Home() {
                       delay: 1.5,
                     }}
                   >
-                    Performance Tracking
+                    {t("home.hero.animatedFeatures.performanceTracking")}
                   </motion.div>
 
                   {/* New feature label: Tailored Education Videos */}
@@ -477,7 +483,7 @@ export function Home() {
                       delay: 0.8,
                     }}
                   >
-                    Tailored Videos
+                    {t("home.hero.animatedFeatures.tailoredVideos")}
                   </motion.div>
                 </motion.div>
               </div>

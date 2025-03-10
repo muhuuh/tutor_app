@@ -3,11 +3,19 @@
     "hero": {
       "badge": "KI-gestützte Bildungsplattform",
       "title": "Ihr persönlicher KI-MINT-Tutor-Assistent",
-      "subtitle": "Verbessern Sie Ihr MINT-Tutoring mit personalisierten Einblicken und intelligenten Tools. Konzentrieren Sie sich auf das Wesentliche - Ihre Schüler zu inspirieren.",
-      "cta": {
-        "start": "Los geht's",
-        "trial": "Kostenlose Testversion starten",
-        "login": "Lehrer-Login"
+      "subtitle": "Sparen Sie über 10 Stunden pro Woche bei manuellen Aufgaben und bieten Sie jedem Schüler eine personalisierte, hochqualifizierte Unterstützung.",
+      "socialProof": "Von Lehrkräften weltweit geschätzt",
+      "badges": {
+        "aiPowered": "KI-gestützt",
+        "saveTime": "10+ Std./Woche einsparen",
+        "stemFocused": "STEM-Fokussiert"
+      },
+      "animatedFeatures": {
+        "autoGrading": "Automatische Bewertung",
+        "personalizedFeedback": "Personalisierte Rückmeldung",
+        "customExercises": "Maßgeschneiderte Übungen",
+        "performanceTracking": "Fortschrittsverfolgung",
+        "tailoredVideos": "Individuelle Videos"
       }
     },
     "resources": {

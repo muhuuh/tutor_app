@@ -3,11 +3,19 @@
     "hero": {
       "badge": "Plateforme éducative alimentée par l'IA",
       "title": "Votre Assistant Tuteur STEM IA Personnel",
-      "subtitle": "Améliorez votre tutorat STEM avec des insights personnalisés et des outils intelligents. Concentrez-vous sur l'essentiel - inspirer vos étudiants.",
-      "cta": {
-        "start": "Commencer",
-        "trial": "Essai gratuit",
-        "login": "Connexion Enseignant"
+      "subtitle": "Gagnez plus de 10 heures par semaine sur les tâches manuelles, tout en offrant un soutien personnalisé de niveau expert à chacun de vos étudiants.",
+      "socialProof": "Plébiscité par des enseignants du monde entier",
+      "badges": {
+        "aiPowered": "Alimenté par l'IA",
+        "saveTime": "Économisez 10+ h/semaine",
+        "stemFocused": "Spécialiste STEM"
+      },
+      "animatedFeatures": {
+        "autoGrading": "Correction automatique",
+        "personalizedFeedback": "Feedback personnalisé",
+        "customExercises": "Exercices personnalisés",
+        "performanceTracking": "Suivi des performances",
+        "tailoredVideos": "Vidéos adaptées"
       }
     },
     "resources": {
