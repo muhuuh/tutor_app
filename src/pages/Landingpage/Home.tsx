@@ -6,6 +6,15 @@ import EducatorChallenges from "./EducatorChallenges";
 import NextGenTools from "./NextGenTools";
 import * as CookieConsent from "react-cookie-consent";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+
+// Add TypeScript declaration for gtag
+declare global {
+  interface Window {
+    gtag: (command: string, action: string, params?: any) => void;
+    dataLayer: any[];
+  }
+}
 
 interface Resource {
   icon: JSX.Element;
@@ -20,6 +29,23 @@ interface Resource {
 export function Home() {
   const { t } = useTranslation();
   const { user } = useAuth();
+
+  // Google Analytics event tracking helper
+  const trackEvent = (eventName: string, eventParams = {}) => {
+    // Make sure gtag is available
+    if (window.gtag) {
+      window.gtag("event", eventName, eventParams);
+    }
+  };
+
+  // Track page view when component mounts
+  useEffect(() => {
+    trackEvent("page_view", {
+      page_title: "Home Page",
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  }, []);
 
   const resources: Resource[] = [
     {
@@ -41,6 +67,12 @@ export function Home() {
   ];
 
   const handleManageCookies = () => {
+    // Track cookie settings click
+    trackEvent("button_click", {
+      button_name: "manage_cookies",
+      page: "home",
+    });
+
     CookieConsent.resetCookieConsentValue();
     window.location.reload();
   };
@@ -219,6 +251,12 @@ export function Home() {
                     <Link
                       to="/tools/homework-corrections"
                       className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 transition-all duration-300 shadow-lg shadow-blue-700/30 hover:shadow-xl hover:shadow-blue-700/40 w-full sm:w-auto backdrop-blur-sm relative overflow-hidden"
+                      onClick={() =>
+                        trackEvent("cta_click", {
+                          button_name: "get_started",
+                          user_status: "logged_in",
+                        })
+                      }
                     >
                       <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                       <span className="relative">
@@ -236,6 +274,12 @@ export function Home() {
                       <Link
                         to="/auth"
                         className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white rounded-xl font-medium shadow-lg shadow-blue-700/30 hover:shadow-xl hover:shadow-purple-700/40 transition-all duration-300 relative overflow-hidden"
+                        onClick={() =>
+                          trackEvent("cta_click", {
+                            button_name: "free_trial",
+                            user_status: "not_logged_in",
+                          })
+                        }
                       >
                         <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                         <span className="relative">
@@ -251,6 +295,12 @@ export function Home() {
                       <Link
                         to="/auth"
                         className="group inline-flex items-center justify-center px-8 py-4 bg-gray-800/60 text-gray-100 rounded-xl font-medium hover:bg-gray-800/80 transition-all duration-300 backdrop-blur-sm border border-gray-700/50 shadow-lg shadow-gray-900/20 relative overflow-hidden"
+                        onClick={() =>
+                          trackEvent("cta_click", {
+                            button_name: "login",
+                            user_status: "not_logged_in",
+                          })
+                        }
                       >
                         <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-gray-700/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                         <span className="relative">
@@ -534,6 +584,13 @@ export function Home() {
                 <article
                   key={index}
                   className="group relative bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 flex flex-col"
+                  onClick={() => {
+                    trackEvent("resource_click", {
+                      resource_title: resource.title,
+                      resource_category: resource.category,
+                      resource_type: resource.isLoomVideo ? "video" : "link",
+                    });
+                  }}
                 >
                   {resource.isLoomVideo ? (
                     <>
