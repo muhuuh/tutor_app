@@ -21,6 +21,7 @@ import { Subscription } from "./pages/Subscription";
 import CookieBanner from "./components/CookieBanner";
 import { Privacy } from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import SocialMediaVisual from "./pages/SocialMedia/SocialMediaVisual";
 import "./i18n";
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
         <Route path="/subscription" element={<Subscription />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/social-visual" element={<SocialMediaVisual />} />
         <Route element={<ProtectedRoute />}>
           {/* Your existing protected routes */}
         </Route>
