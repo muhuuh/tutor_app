@@ -1,9 +1,27 @@
 import { motion } from "framer-motion";
 import { Target, Award, TrendingUp } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 export function About() {
   const { t } = useTranslation();
+
+  // Google Analytics event tracking helper
+  const trackEvent = (eventName: string, eventParams = {}) => {
+    // Make sure gtag is available
+    if (window.gtag) {
+      window.gtag("event", eventName, eventParams);
+    }
+  };
+
+  // Track page view when component mounts
+  useEffect(() => {
+    trackEvent("page_view", {
+      page_title: "About Page",
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  }, []);
 
   const stats = [
     {

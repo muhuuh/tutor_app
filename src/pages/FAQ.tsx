@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import type { ComponentType } from "react";
+import { useEffect } from "react";
 
 interface FAQItem {
   question: string;
@@ -26,8 +27,22 @@ export function FAQ() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  // Remove unused state if not needed
-  // const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  // Google Analytics event tracking helper
+  const trackEvent = (eventName: string, eventParams = {}) => {
+    // Make sure gtag is available
+    if (window.gtag) {
+      window.gtag("event", eventName, eventParams);
+    }
+  };
+
+  // Track page view when component mounts
+  useEffect(() => {
+    trackEvent("page_view", {
+      page_title: "FAQ Page",
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  }, []);
 
   // Use translations for FAQ categories
   const faqs: CategoryItem[] = [
@@ -116,6 +131,12 @@ export function FAQ() {
                       animate={{ opacity: 1 }}
                       transition={{ delay: faqIndex * 0.1 }}
                       className="group bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all p-8"
+                      onClick={() => {
+                        trackEvent("faq_click", {
+                          faq_question: faq.question,
+                          faq_category: category.category,
+                        });
+                      }}
                     >
                       <div className="flex items-start gap-4">
                         <div className="w-8 h-8 bg-violet-100 rounded-lg flex items-center justify-center text-violet-600 group-hover:bg-violet-200 transition-colors">
@@ -147,7 +168,13 @@ export function FAQ() {
                   {t("faq.contactSupport.description")}
                 </p>
                 <button
-                  onClick={() => navigate("/company/contact")}
+                  onClick={() => {
+                    trackEvent("button_click", {
+                      button_name: "contact_support",
+                      page: "faq",
+                    });
+                    navigate("/company/contact");
+                  }}
                   className="inline-flex items-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-colors hover:shadow-lg text-sm sm:text-base"
                 >
                   {t("faq.contactSupport.button")}
