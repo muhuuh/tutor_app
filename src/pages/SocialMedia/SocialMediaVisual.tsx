@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { AuroraBackground } from "../../components/UI/aurora-background";
 import { SocialAuroraBackground } from "../../components/UI/SocialAuroraBackground";
@@ -120,11 +120,10 @@ export const SocialMediaVisual = () => {
 
     // Check if AuroraBackground is working properly
     try {
-      const test = (
-        <AuroraBackground>
-          <div></div>
-        </AuroraBackground>
-      );
+      // Test AuroraBackground without assigning to unused variable
+      <AuroraBackground>
+        <div></div>
+      </AuroraBackground>;
     } catch (error) {
       console.error(
         "Error with AuroraBackground, using custom background",
