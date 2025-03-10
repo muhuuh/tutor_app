@@ -9,4 +9,10 @@ declare global {
     readonly VITE_SUPABASE_URL: string;
     readonly VITE_SUPABASE_ANON_KEY: string;
   }
+
+  // Google Analytics gtag
+  interface Window {
+    gtag: (command: string, action: string, params?: any) => void;
+    dataLayer: any[];
+  }
 }

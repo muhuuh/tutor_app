@@ -81,6 +81,23 @@ export function Pricing() {
     },
   ];
 
+  // Google Analytics event tracking helper
+  const trackEvent = (eventName: string, eventParams = {}) => {
+    // Make sure gtag is available
+    if (window.gtag) {
+      window.gtag("event", eventName, eventParams);
+    }
+  };
+
+  // Track page view when component mounts
+  useEffect(() => {
+    trackEvent("page_view", {
+      page_title: "Pricing Page",
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  }, []);
+
   useEffect(() => {
     async function fetchSubscription() {
       if (!user) return;
@@ -104,13 +121,38 @@ export function Pricing() {
 
   const handleSubscribe = async (priceId: string | undefined) => {
     if (!user) {
-      navigate("/signup");
+      // Track user not logged in when trying to subscribe
+      trackEvent("subscription_error", {
+        error_type: "not_logged_in",
+      });
+
+      navigate("/auth");
       return;
     }
 
-    if (!priceId) return;
+    if (!priceId) {
+      // Track error when price ID is missing
+      trackEvent("subscription_error", {
+        error_type: "missing_price_id",
+      });
+
+      setError(t("pricing.errors.invalidPlan"));
+      return;
+    }
+
+    // Find the selected plan by priceId
+    const selectedPlan = pricingPlans.find((plan) => plan.priceId === priceId);
+
+    // Track subscription attempt
+    trackEvent("begin_checkout", {
+      plan_name: selectedPlan?.name || "unknown",
+      price_id: priceId,
+      currency: "USD",
+    });
 
     setIsLoading(priceId);
+    setError(null);
+
     try {
       const response = await fetch(
         `${
@@ -130,12 +172,40 @@ export function Pricing() {
       );
 
       const { sessionId, error: checkoutError } = await response.json();
-      if (checkoutError) throw new Error(checkoutError);
+      if (checkoutError) {
+        // Track checkout session creation error
+        trackEvent("checkout_error", {
+          error_type: "session_creation_failed",
+          error_message: checkoutError,
+        });
+        throw new Error(checkoutError);
+      }
 
       const stripe = await stripePromise;
+
+      // Track successful checkout session creation
+      trackEvent("checkout_step", {
+        step: "redirecting_to_stripe",
+        session_id: sessionId,
+      });
+
       const { error } = await stripe!.redirectToCheckout({ sessionId });
-      if (error) throw error;
+
+      if (error) {
+        // Track redirect error
+        trackEvent("checkout_error", {
+          error_type: "redirect_failed",
+          error_message: error.message,
+        });
+        throw error;
+      }
     } catch (err) {
+      // Track general checkout error
+      trackEvent("checkout_error", {
+        error_type: "general_error",
+        error_message: err instanceof Error ? err.message : "Unknown error",
+      });
+
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setIsLoading(null);
@@ -322,6 +392,13 @@ export function Pricing() {
                   {/* CTA Button */}
                   <button
                     onClick={() => {
+                      // Track pricing plan button click
+                      trackEvent("pricing_plan_click", {
+                        plan_name: plan.name,
+                        plan_type: plan.popular ? "popular" : "standard",
+                        is_disabled: isSubscriptionDisabled(plan.name),
+                      });
+
                       if (
                         isSubscriptionDisabled(plan.name) &&
                         plan.name.toLowerCase() === "basic"

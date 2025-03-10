@@ -8,14 +8,6 @@ import * as CookieConsent from "react-cookie-consent";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
-// Add TypeScript declaration for gtag
-declare global {
-  interface Window {
-    gtag: (command: string, action: string, params?: any) => void;
-    dataLayer: any[];
-  }
-}
-
 interface Resource {
   icon: JSX.Element;
   title: string;

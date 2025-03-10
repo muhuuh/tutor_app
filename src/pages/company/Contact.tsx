@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { Send, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
@@ -14,15 +14,50 @@ export function Contact() {
     message: "",
   });
 
+  // Google Analytics event tracking helper
+  const trackEvent = (eventName: string, eventParams = {}) => {
+    // Make sure gtag is available
+    if (window.gtag) {
+      window.gtag("event", eventName, eventParams);
+    }
+  };
+
+  // Track page view when component mounts
+  useEffect(() => {
+    trackEvent("page_view", {
+      page_title: "Contact Page",
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Track form submission attempt
+    trackEvent("form_submission", {
+      form_name: "contact_form",
+      form_fields: Object.keys(formData).length,
+    });
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Track successful form submission
+      trackEvent("form_submission_success", {
+        form_name: "contact_form",
+      });
+
       toast.success("Message sent successfully! We'll get back to you soon.");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
+      // Track failed form submission
+      trackEvent("form_submission_error", {
+        form_name: "contact_form",
+        error_type: error instanceof Error ? error.message : "unknown",
+      });
+
       toast.error("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -145,6 +180,9 @@ export function Contact() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-600 transition-colors"
                   aria-label={t("contact.socialIcons.facebook")}
+                  onClick={() =>
+                    trackEvent("social_click", { platform: "facebook" })
+                  }
                 >
                   <Facebook className="w-6 h-6" />
                 </a>
@@ -154,6 +192,9 @@ export function Contact() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-sky-400 transition-colors"
                   aria-label={t("contact.socialIcons.twitter")}
+                  onClick={() =>
+                    trackEvent("social_click", { platform: "twitter" })
+                  }
                 >
                   <Twitter className="w-6 h-6" />
                 </a>
@@ -163,6 +204,9 @@ export function Contact() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-700 transition-colors"
                   aria-label={t("contact.socialIcons.linkedin")}
+                  onClick={() =>
+                    trackEvent("social_click", { platform: "linkedin" })
+                  }
                 >
                   <Linkedin className="w-6 h-6" />
                 </a>
@@ -172,6 +216,9 @@ export function Contact() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-pink-600 transition-colors"
                   aria-label={t("contact.socialIcons.instagram")}
+                  onClick={() =>
+                    trackEvent("social_click", { platform: "instagram" })
+                  }
                 >
                   <Instagram className="w-6 h-6" />
                 </a>
