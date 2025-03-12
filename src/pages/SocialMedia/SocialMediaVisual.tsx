@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { AuroraBackground } from "../../components/UI/aurora-background";
 import { SocialAuroraBackground } from "../../components/UI/SocialAuroraBackground";
-import { FiCheck } from "react-icons/fi";
+import {
+  FiCheck,
+  FiActivity,
+  FiVideo,
+  FiEdit,
+  FiMessageSquare,
+  FiLayers,
+} from "react-icons/fi";
 
-// Floating card component with always-on animation
+// Floating card component with always-on animation - improved design
 const FloatingCard = ({
   title,
   delay = 0,
@@ -12,6 +19,7 @@ const FloatingCard = ({
   translateY = 0,
   rotateZ = 0,
   scale = 1,
+  icon,
 }: {
   title: string;
   delay?: number;
@@ -19,6 +27,7 @@ const FloatingCard = ({
   translateY?: number;
   rotateZ?: number;
   scale?: number;
+  icon: JSX.Element;
 }) => {
   return (
     <motion.div
@@ -44,23 +53,13 @@ const FloatingCard = ({
         ease: "easeInOut",
       }}
     >
-      <div className="h-2 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
-      <div className="p-4">
-        <h3 className="text-lg font-bold mb-2 text-gray-800">{title}</h3>
-        <div className="space-y-2">
-          {/* Placeholders with check icons */}
-          <div className="flex items-center gap-2">
-            <FiCheck className="text-green-500 flex-shrink-0" />
-            <div className="h-3 w-full bg-blue-100/50 rounded-full"></div>
+      <div className="h-2 bg-gradient-to-r from-blue-400 to-indigo-500/80"></div>
+      <div className="p-5">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-2 rounded-lg bg-blue-100/50 text-blue-600">
+            {icon}
           </div>
-          <div className="flex items-center gap-2">
-            <FiCheck className="text-green-500 flex-shrink-0" />
-            <div className="h-3 w-4/5 bg-blue-100/50 rounded-full"></div>
-          </div>
-          <div className="flex items-center gap-2">
-            <FiCheck className="text-green-500 flex-shrink-0" />
-            <div className="h-3 w-5/6 bg-blue-100/50 rounded-full"></div>
-          </div>
+          <h3 className="text-lg font-bold text-gray-800">{title}</h3>
         </div>
       </div>
     </motion.div>
@@ -80,7 +79,7 @@ const Particles = () => {
   }));
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden">
+    <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
@@ -148,13 +147,13 @@ export const SocialMediaVisual = () => {
 
       {/* Hero headline */}
       <motion.div
-        className="text-center z-10 mb-10 relative -top-36"
+        className="text-center z-20 mb-10 relative -top-36"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
         <h1 className="text-6xl font-bold mb-1">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-200 to-purple-300 drop-shadow-sm">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-300 to-purple-400 drop-shadow-sm">
             RobinA
           </span>
         </h1>
@@ -164,72 +163,149 @@ export const SocialMediaVisual = () => {
       </motion.div>
 
       {/* All visual elements container */}
-      <div className="relative z-10 -top-20">
-        {/* Central orb */}
+      <div className="relative z-20 -top-20">
+        {/* Central orb - replaced with the animation from Home component */}
         <motion.div
-          className="relative w-48 h-48 flex items-center justify-center mx-auto"
+          className="relative w-48 h-48 mx-auto"
           animate={{
-            scale: [1, 1.05, 1],
+            rotateY: [0, 5, 0, -5, 0],
+            rotateX: [0, 3, 0, -3, 0],
           }}
           transition={{
-            duration: 8,
             repeat: Infinity,
+            duration: 8,
             ease: "easeInOut",
           }}
         >
-          {/* Animated glowing orb */}
-          <div className="absolute w-48 h-48">
+          {/* Orbiting elements with multiple rings */}
+          <div className="absolute inset-0">
+            {/* First orbit ring */}
             <motion.div
-              className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/30 to-purple-600/30 backdrop-blur-3xl"
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.5, 0.8, 0.5],
-              }}
+              className="absolute w-full h-full rounded-full border border-blue-500/10"
+              animate={{ rotate: [0, 360] }}
               transition={{
-                duration: 6,
                 repeat: Infinity,
-                ease: "easeInOut",
+                duration: 40,
+                ease: "linear",
               }}
-            />
-            <motion.div
-              className="absolute inset-4 rounded-full bg-gradient-to-tr from-blue-400/40 to-purple-500/40 backdrop-blur-3xl"
-              animate={{
-                scale: [0.95, 1.05, 0.95],
-                opacity: [0.6, 0.9, 0.6],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5,
-              }}
-            />
-            <motion.div
-              className="absolute inset-8 rounded-full bg-gradient-to-br from-indigo-300/50 to-purple-400/50 backdrop-blur-3xl"
-              animate={{
-                scale: [0.9, 1.1, 0.9],
-                opacity: [0.7, 1, 0.7],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-            />
+            >
+              <motion.div
+                className="absolute -right-2 top-1/2 w-4 h-4 bg-blue-500 rounded-full"
+                animate={{ opacity: [0.6, 1, 0.6] }}
+                transition={{ repeat: Infinity, duration: 3 }}
+              />
+            </motion.div>
 
-            {/* Core glow */}
-            <div className="absolute inset-12 rounded-full shadow-[0_0_30px_15px_rgba(110,120,255,0.4)] bg-blue-100"></div>
+            {/* Second orbit ring */}
+            <motion.div
+              className="absolute w-[110%] h-[110%] -inset-[5%] rounded-full border border-purple-500/10"
+              animate={{ rotate: [360, 0] }}
+              transition={{
+                repeat: Infinity,
+                duration: 30,
+                ease: "linear",
+              }}
+            >
+              <motion.div
+                className="absolute left-0 top-1/3 w-5 h-5 bg-purple-500 rounded-full"
+                animate={{
+                  scale: [0.8, 1.2, 0.8],
+                  opacity: [0.6, 1, 0.6],
+                }}
+                transition={{ repeat: Infinity, duration: 4, delay: 1 }}
+              />
+            </motion.div>
+
+            {/* Third orbit ring */}
+            <motion.div
+              className="absolute w-[120%] h-[120%] -inset-[10%] rounded-full border border-indigo-500/10"
+              animate={{ rotate: [180, 540] }}
+              transition={{
+                repeat: Infinity,
+                duration: 35,
+                ease: "linear",
+              }}
+            >
+              <motion.div
+                className="absolute right-1/4 bottom-0 w-4 h-4 bg-indigo-400 rounded-full"
+                animate={{
+                  scale: [0.7, 1.1, 0.7],
+                  opacity: [0.5, 0.9, 0.5],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 3.5,
+                  delay: 0.5,
+                }}
+              />
+            </motion.div>
+          </div>
+
+          {/* Main orb layers */}
+          <motion.div
+            className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-600/20 to-indigo-800/20 backdrop-blur-3xl"
+            animate={{
+              scale: [1, 1.05, 1],
+              opacity: [0.7, 0.9, 0.7],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 8,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div
+            className="absolute inset-4 rounded-full bg-gradient-to-tr from-indigo-500/20 to-purple-600/20 backdrop-blur-3xl"
+            animate={{
+              scale: [0.95, 1.05, 0.95],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 10,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div
+            className="absolute inset-8 rounded-full bg-gradient-to-br from-indigo-400/20 to-purple-600/20 backdrop-blur-3xl"
+            animate={{
+              scale: [0.92, 1.08, 0.92],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 9,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+          />
+
+          {/* Core with mask icon - lightened the background color */}
+          <div className="absolute inset-12 rounded-full bg-gradient-to-br from-indigo-800/80 to-blue-800/80 shadow-[0_0_30px_15px_rgba(110,120,255,0.2)]">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.img
+                src="/mask-icon.png"
+                alt="AI Tutor Assistant"
+                className="w-20 h-auto opacity-90 filter brightness-150"
+                animate={{
+                  scale: [1, 1.03, 1],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 6,
+                  ease: "easeInOut",
+                }}
+              />
+            </div>
           </div>
         </motion.div>
 
-        {/* Orbiting cards */}
+        {/* Orbiting cards - improved with relevant icons */}
         <FloatingCard
-          title="Real-Time Performance Tracking"
+          title="Student Performance Tracking"
           translateX={-320}
           translateY={-190}
           rotateZ={-2}
           delay={0.2}
+          icon={<FiActivity className="w-5 h-5" />}
         />
         <FloatingCard
           title="Tailored Education Videos"
@@ -237,13 +313,15 @@ export const SocialMediaVisual = () => {
           translateY={-210}
           rotateZ={2}
           delay={0.6}
+          icon={<FiVideo className="w-5 h-5" />}
         />
         <FloatingCard
-          title="Crafted New Exercises"
+          title="Custom Exercises based on Needs"
           translateX={-250}
           translateY={30}
           rotateZ={-2}
           delay={1.0}
+          icon={<FiEdit className="w-5 h-5" />}
         />
         <FloatingCard
           title="Instant Grading and Feedback"
@@ -251,13 +329,15 @@ export const SocialMediaVisual = () => {
           translateY={150}
           rotateZ={0}
           delay={1.4}
+          icon={<FiMessageSquare className="w-5 h-5" />}
         />
         <FloatingCard
-          title="Brainstorm Personalized Study Plans"
+          title="AI Brainstorming about Students"
           translateX={250}
           translateY={30}
           rotateZ={2}
           delay={1.8}
+          icon={<FiLayers className="w-5 h-5" />}
         />
       </div>
     </div>
