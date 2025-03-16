@@ -47,13 +47,6 @@ export function FAQ() {
   // Use translations for FAQ categories
   const faqs: CategoryItem[] = [
     {
-      category: t("faq.categories.gettingStarted.title"),
-      icon: BookOpen,
-      questions: t("faq.categories.gettingStarted.faqs", {
-        returnObjects: true,
-      }) as FAQItem[],
-    },
-    {
       category: t("faq.categories.features.title"),
       icon: Zap,
       questions: t("faq.categories.features.faqs", {
@@ -64,6 +57,13 @@ export function FAQ() {
       category: t("faq.categories.pricing.title"),
       icon: Users,
       questions: t("faq.categories.pricing.faqs", {
+        returnObjects: true,
+      }) as FAQItem[],
+    },
+    {
+      category: t("faq.categories.gettingStarted.title"),
+      icon: BookOpen,
+      questions: t("faq.categories.gettingStarted.faqs", {
         returnObjects: true,
       }) as FAQItem[],
     },

@@ -3,7 +3,7 @@
     "hero": {
       "badge": "Plateforme éducative alimentée par l'IA",
       "title": "Votre Assistant Tuteur STEM IA Personnel",
-      "subtitle": "Gagnez plus de 10 heures par semaine sur les tâches manuelles, tout en offrant un soutien personnalisé de niveau expert à chacun de vos étudiants.",
+      "subtitle": "Gagnez plus de 10 heures par semaine grâce à la correction automatique, aux vidéos en ligne sur mesure, aux exercices personnalisés, au suivi des performances, et bien plus encore.",
       "socialProof": "Plébiscité par des enseignants du monde entier",
       "badges": {
         "aiPowered": "Alimenté par l'IA",
@@ -185,6 +185,10 @@
       "features": {
         "title": "Fonctionnalités & Capacités",
         "faqs": [
+          {
+            "question": "Quelles fonctionnalités sont disponibles avec l'abonnement de base ?",
+            "answer": "Vous avez accès à la correction automatique des devoirs manuscrits, à des vidéos en ligne adaptées en fonction des résultats des corrections d'exercices, à de nouveaux exercices personnalisés incluant les solutions, au suivi des performances des élèves sur tous les concepts abordés au fil du temps, et bien plus encore."
+          },
           {
             "question": "Quels types d’exercices peuvent être évalués",
             "answer": "Notre IA peut noter un large éventail d’exercices STEM, notamment en mathématiques, physique et chimie. Elle gère à la fois les problèmes numériques et les solutions détaillées étape par étape."

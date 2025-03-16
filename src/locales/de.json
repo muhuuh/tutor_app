@@ -3,7 +3,7 @@
     "hero": {
       "badge": "KI-gestützte Bildungsplattform",
       "title": "Ihr persönlicher KI-MINT-Tutor-Assistent",
-      "subtitle": "Sparen Sie über 10 Stunden pro Woche bei manuellen Aufgaben und bieten Sie jedem Schüler eine personalisierte, hochqualifizierte Unterstützung.",
+      "subtitle": "Sparen Sie mehr als 10 Stunden pro Woche dank automatischer Bewertung, maßgeschneiderter Online-Videos, personalisierter Übungen, Leistungsüberwachung und vielem mehr.",
       "socialProof": "Von Lehrkräften weltweit geschätzt",
       "badges": {
         "aiPowered": "KI-gestützt",
@@ -185,6 +185,10 @@
       "features": {
         "title": "Funktionen & Fähigkeiten",
         "faqs": [
+          {
+            "question": "Welche Funktionen sind im Basistarif verfügbar?",
+            "answer": "Sie haben Zugriff auf die automatische Bewertung handschriftlicher Aufgaben, maßgeschneiderte Online-Videos basierend auf den Ergebnissen der Übungskorrekturen, personalisierte neue Übungen einschließlich Lösungen, die Leistungsüberwachung der Schüler für alle im Laufe der Zeit behandelten Konzepte und vieles mehr."
+          },
           {
             "question": "Welche Arten von Aufgaben können benotet werden?",
             "answer": "Unsere KI kann eine Vielzahl von MINT-Aufgaben (Mathematik, Physik, Chemie) bewerten. Sie verarbeitet sowohl numerische Aufgaben als auch schrittweise Lösungen."

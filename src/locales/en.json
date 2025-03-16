@@ -3,7 +3,7 @@
     "hero": {
       "badge": "AI-Powered Education Platform",
       "title": "Your Personal AI STEM Tutor Assistant",
-      "subtitle": "Save 10+ hours per week on manual tasks, while providing personalized, expert-level support to each of your students.",
+      "subtitle": "Save 10+ hours per week thanks to automated grading, tailored online videos, personalised exercices, performance tracking, and more.",
       "socialProof": "Trusted by educators worldwide",
       "badges": {
         "aiPowered": "AI-Powered",
@@ -189,13 +189,18 @@
         "title": "Features & Capabilities",
         "faqs": [
           {
+            "question": "What features are available with the Basic plan?",
+            "answer": "You have access to automated grading of handwritten assignments, tailored online videos based on the results of the exercise corrections, personalised new exercises including solutions, performance tracking of the students for all concepts covered over time, and more."
+          },
+          {
             "question": "What types of assignments can be graded",
             "answer": "Our AI can grade a wide range of STEM assignments, including mathematics, physics, and chemistry. It handles both numerical problems and step-by-step solutions."
           },
           {
-            "question": "How accurate is the handwriting recognition",
-            "answer": "Our advanced AI achieves over 95% accuracy in recognizing handwritten mathematical expressions and text, especially when the writing is reasonably clear."
+            "question": "What types of assignments can be graded",
+            "answer": "Our AI can grade a wide range of STEM assignments, including mathematics, physics, and chemistry. It handles both numerical problems and step-by-step solutions."
           },
+
           {
             "question": "Can I use this for non-STEM subjects like languages or history?",
             "answer": "Currently, our platform is specifically designed for STEM subjects (Science, Technology, Engineering, Mathematics) and doesn't support subjects like languages, history, or geography. This specialization allows us to provide highly accurate assessment and feedback for mathematical equations, scientific notation, and technical diagrams."
