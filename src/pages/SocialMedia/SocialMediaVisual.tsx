@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { AuroraBackground } from "../../components/UI/aurora-background";
 import { SocialAuroraBackground } from "../../components/UI/SocialAuroraBackground";
 import {
-  FiCheck,
   FiActivity,
   FiVideo,
   FiEdit,
