@@ -2,8 +2,8 @@
   "home": {
     "hero": {
       "badge": "AI-Powered Education Platform",
-      "title": "Your Personal AI STEM Tutor Assistant",
-      "subtitle": "Save 10+ hours per week thanks to automated grading, tailored online videos, personalised exercices, performance tracking, and more.",
+      "title": "AI Tool for STEM Tutors",
+      "subtitle": "Save hours and boost your students' performance thanks to automated grading, tailored online videos, personalised exercises, performance tracking, and more.",
       "socialProof": "Trusted by educators worldwide",
       "badges": {
         "aiPowered": "AI-Powered",
@@ -18,7 +18,7 @@
         "tailoredVideos": "Tailored Videos"
       },
       "cta": {
-        "start": "Let's start",
+        "start": "Save Time",
         "trial": "Start Free Trial",
         "login": "Educator Login"
       }

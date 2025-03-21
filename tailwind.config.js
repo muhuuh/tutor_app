@@ -8,6 +8,9 @@ export default {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        bungee: ['"Bungee"', "cursive"],
+      },
       keyframes: {
         fadeIn: {
           "0%": { opacity: "0" },
