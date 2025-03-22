@@ -176,7 +176,7 @@ export default function EducatorChallengesMindMap() {
     <section className="py-16 md:py-20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Heading */}
-        <div className="text-center mb-8 lg:mb-16">
+        <div className="text-center mb-8 lg:mb-16 ">
           <motion.span
             className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100/80 to-blue-100/80 border border-violet-200/20 text-violet-700 shadow-sm backdrop-blur-sm hover:backdrop-blur transition-all duration-300"
             initial={{ opacity: 0, y: 10 }}
@@ -193,7 +193,7 @@ export default function EducatorChallengesMindMap() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mt-8 mb-16"
+            className="text-center mt-8 mb-8 md:mb-16"
           >
             <motion.h2
               className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent pb-2"
@@ -317,7 +317,7 @@ export default function EducatorChallengesMindMap() {
         </div>
 
         {/* AI Solution Banner - Above carousel */}
-        <div className="md:hidden mb-8 text-center">
+        <div className="md:hidden mb-8 text-center ">
           <div className="inline-block px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-100/20">
             <div className="flex items-center justify-center gap-2 mb-2">
               <span className="text-sm font-medium text-blue-700">
@@ -411,22 +411,20 @@ export default function EducatorChallengesMindMap() {
         </div>
 
         {/* Text Section after Carousel */}
-        <motion.div className="max-w-2xl mx-auto mt-16 px-4">
+        <motion.div className="max-w-2xl mx-auto mt-10 sm:mt-8 px-4">
           <motion.div className="text-center space-y-8">
             <motion.h3 className="text-3xl sm:text-4xl font-bold text-gray-900">
               {t("home.educatorChallenges.tiredHeading")}
             </motion.h3>
 
-            <div className="space-y-6">
-              <motion.p className="text-gray-600 text-lg leading-relaxed">
+            <div className="space-y-4">
+              <motion.p className="text-gray-600 text-lg">
                 {t("home.educatorChallenges.p1")}
               </motion.p>
-
-              <motion.p className="text-gray-600 text-lg leading-relaxed">
+              <motion.p className="text-gray-600 text-lg">
                 {t("home.educatorChallenges.p2")}
               </motion.p>
-
-              <motion.p className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mt-8">
+              <motion.p className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mt-4">
                 {t("home.educatorChallenges.p3")}
               </motion.p>
             </div>
