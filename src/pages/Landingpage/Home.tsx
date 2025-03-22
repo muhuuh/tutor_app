@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { FiArrowRight, FiVideo, FiZap, FiClock, FiAward } from "react-icons/fi";
+import {
+  FiArrowRight,
+  FiVideo,
+  FiZap,
+  FiClock,
+  FiAward,
+  FiCheckCircle,
+} from "react-icons/fi";
 import { motion } from "framer-motion";
 import EducatorChallenges from "./EducatorChallenges";
 import NextGenTools from "./NextGenTools";

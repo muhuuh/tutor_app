@@ -2,9 +2,9 @@
   "home": {
     "hero": {
       "badge": "AI-Powered Education Platform",
-      "title": "AI Tool for STEM Tutors",
-      "subtitle": "Save hours and boost your students' performance thanks to automated grading, tailored online videos, personalised exercises, performance tracking, and more.",
-      "socialProof": "Trusted by educators worldwide",
+      "title": "Grade Instantly Teach Smarter!",
+      "subtitle": "Save hours and help your STEM students thrive with AI",
+      "socialProof": "Trusted by STEM educators globally",
       "badges": {
         "aiPowered": "AI-Powered",
         "saveTime": "Save 10+ hrs/week",
@@ -19,7 +19,7 @@
       },
       "cta": {
         "start": "Save Time",
-        "trial": "Start Free Trial",
+        "trial": "Try It Free Now!",
         "login": "Educator Login"
       }
     },
@@ -85,7 +85,7 @@
     "callToAction": {
       "heading": "Ready to Transform Your Teaching?",
       "subheading": "Join thousands of educators enhancing their STEM instruction with AI-powered tools",
-      "button": "Start Free Trial"
+      "button": "Try It Free Now!"
     },
     "footer": {
       "columns": {
