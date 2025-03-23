@@ -10,9 +10,16 @@ import {
   FiTarget,
   FiUsers,
 } from "react-icons/fi";
-import useEmblaCarousel from "embla-carousel-react";
-import AutoPlay from "embla-carousel-autoplay";
 import { useTranslation } from "react-i18next";
+
+// Define image paths for our painpoints
+const PAINPOINT_IMAGES = {
+  clock: "/clock_icon.png", // Time image
+  students: "/group_of_people.png", // Group of students image
+  papers: "/pile_paper.png", // Pile of papers image
+  stressed: "/teacher_icon.png", // Stressed person image
+  whiteboard: "/whiteboard_icon.png", // Whiteboard with math problem image
+};
 
 const getPainPoints = (t: any) => [
   {
@@ -24,6 +31,8 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.manual.solution",
       "Expert instant assessment for complex problem-solving"
     ),
+    image: PAINPOINT_IMAGES.papers, // Pile of papers
+    shortDesc: "Hours spent manually correcting assignments",
   },
   {
     title: t(
@@ -34,6 +43,8 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.partialCredit.solution",
       "Step-by-step error analysis with intelligent credit allocation"
     ),
+    image: PAINPOINT_IMAGES.stressed, // Stressed person
+    shortDesc: "Struggling with fair point allocation",
   },
   {
     title: t(
@@ -44,6 +55,8 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.personalization.solution",
       "Automated personalized learning paths based on performance"
     ),
+    image: PAINPOINT_IMAGES.students, // Group of students
+    shortDesc: "Creating individual learning paths at scale",
   },
   {
     title: t(
@@ -54,6 +67,8 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.churn.solution",
       "Automated generation of targeted practice materials"
     ),
+    image: PAINPOINT_IMAGES.whiteboard, // Whiteboard with math problem
+    shortDesc: "Too much time creating new content",
   },
   {
     title: t(
@@ -64,6 +79,8 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.timeConsuming.solution",
       "Complete step-by-step correction and hints to help students"
     ),
+    image: PAINPOINT_IMAGES.clock, // Clock image
+    shortDesc: "Writing detailed correction explanations",
   },
   {
     title: t(
@@ -74,6 +91,8 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.overwhelmingProgress.solution",
       "Real-time analytics dashboard with performance insights for each student"
     ),
+    image: PAINPOINT_IMAGES.students, // Group of students (reused)
+    shortDesc: "Monitoring individual student performance",
   },
   {
     title: t(
@@ -84,6 +103,8 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.draftingPersonalized.solution",
       "Smart learning path generator based on student gaps"
     ),
+    image: PAINPOINT_IMAGES.whiteboard, // Whiteboard with math problem (reused)
+    shortDesc: "Tailoring assignments to student needs",
   },
 ];
 
@@ -144,33 +165,6 @@ export default function EducatorChallengesMindMap() {
   const centerX = containerWidth / 2;
   const centerY = containerHeight / 2;
   const radius = 220;
-
-  // Embla carousel setup
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "center",
-      skipSnaps: false,
-      startIndex: 1,
-    },
-    [AutoPlay({ delay: 4000, stopOnInteraction: true })]
-  );
-
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect);
-    return () => {
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi, onSelect]);
 
   return (
     <section className="py-10 md:py-20 relative overflow-hidden">
@@ -316,7 +310,7 @@ export default function EducatorChallengesMindMap() {
           </div>
         </div>
 
-        {/* AI Solution Banner - Above carousel */}
+        {/* AI Solution Banner - Above new alternating layout */}
         <div className="md:hidden mb-8 text-center ">
           <div className="inline-block px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-100/20">
             <div className="flex items-center justify-center gap-2 mb-2">
@@ -330,87 +324,55 @@ export default function EducatorChallengesMindMap() {
           </div>
         </div>
 
-        {/* Updated Mobile Version - Modern Carousel */}
-        <div className="md:hidden relative px-4">
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex touch-pan-y">
-              {painPoints.map((point, index) => {
-                const isSelected = selectedIndex === index;
-                return (
-                  <div
-                    key={index}
-                    className="flex-[0_0_85%] min-w-0 relative pl-4"
-                  >
-                    <motion.div
-                      className={`relative transition-all duration-300 ${
-                        isSelected
-                          ? "scale-100 opacity-100"
-                          : "scale-90 opacity-50"
-                      }`}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      {/* Card Container */}
-                      <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-lg border border-gray-100/50 overflow-hidden">
-                        {/* Card Header */}
-                        <div className="relative p-6 bg-gradient-to-br from-blue-50 to-purple-50">
-                          <div className="flex items-center gap-4">
-                            <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center text-blue-600">
-                              {getIconForTitle(point.title)}
-                            </div>
-                            <h3 className="font-semibold text-lg text-gray-900">
-                              {point.title}
-                            </h3>
-                          </div>
-                        </div>
-
-                        {/* Card Content */}
-                        <div className="p-6">
-                          <div className="prose prose-sm">
-                            <p className="text-gray-600 leading-relaxed">
-                              {point.solution}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
+        {/* NEW Mobile Version - Alternating Layout */}
+        <div className="md:hidden mt-10 px-3 space-y-5">
+          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-gray-100/80">
+            {painPoints.map((point, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className="py-3 relative group"
+                whileHover={{ x: index % 2 === 0 ? 2 : -2 }}
+              >
+                {/* Alternating layout - odd indexes have text left, even have text right */}
+                <div
+                  className={`flex ${
+                    index % 2 === 0 ? "flex-row" : "flex-row-reverse"
+                  } items-center gap-4`}
+                >
+                  {/* Text Container - Takes more space */}
+                  <div className="flex-grow">
+                    <h3 className="text-[15px] font-semibold text-gray-800 mb-1 leading-tight group-hover:text-blue-700 transition-colors">
+                      {point.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 leading-relaxed">
+                      {point.shortDesc}
+                    </p>
                   </div>
-                );
-              })}
-            </div>
-          </div>
 
-          {/* Improved Carousel Navigation */}
-          <div className="mt-8 flex flex-col items-center gap-4">
-            {/* Dots */}
-            <div className="flex justify-center gap-2">
-              {painPoints.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => emblaApi?.scrollTo(index)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    selectedIndex === index
-                      ? "w-6 bg-gradient-to-r from-blue-500 to-purple-500"
-                      : "w-1.5 bg-gray-200"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
+                  {/* Image Container - Small and contained */}
+                  <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-100/50 shadow-sm group-hover:shadow-md group-hover:border-blue-200/70 transition-all">
+                    <img
+                      src={point.image}
+                      alt=""
+                      className="w-10 h-10 object-contain opacity-85 group-hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                </div>
 
-            {/* Current/Total Indicator */}
-            <div className="text-sm text-gray-500">
-              <span className="font-medium text-blue-600">
-                {selectedIndex + 1}
-              </span>
-              <span className="mx-1">/</span>
-              <span>{painPoints.length}</span>
-            </div>
+                {/* Simple divider line - except for last item */}
+                {index < painPoints.length - 1 && (
+                  <div className="w-full border-t border-gray-100/80 mt-5"></div>
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
 
-        {/* Text Section after Carousel */}
+        {/* Text Section after Alternating Layout */}
         <motion.div className="max-w-2xl mx-auto mt-10 sm:mt-8 px-4">
           <motion.div className="text-center space-y-8">
             <motion.h3 className="text-3xl sm:text-4xl font-bold text-gray-900">
