@@ -583,7 +583,7 @@ export function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-900/90 to-transparent"></div>
       </section>
 
-      <div className="space-y-16">
+      <div className="space-y-10">
         <EducatorChallenges />
         <NextGenTools />
 

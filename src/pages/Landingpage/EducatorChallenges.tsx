@@ -173,7 +173,7 @@ export default function EducatorChallengesMindMap() {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="py-16 md:py-20 relative overflow-hidden">
+    <section className="py-10 md:py-20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Heading */}
         <div className="text-center mb-8 lg:mb-16 ">
@@ -418,9 +418,6 @@ export default function EducatorChallengesMindMap() {
             </motion.h3>
 
             <div className="space-y-4">
-              <motion.p className="text-gray-600 text-lg">
-                {t("home.educatorChallenges.p1")}
-              </motion.p>
               <motion.p className="text-gray-600 text-lg">
                 {t("home.educatorChallenges.p2")}
               </motion.p>
