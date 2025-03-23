@@ -6,7 +6,7 @@ import EducatorChallenges from "./EducatorChallenges";
 import NextGenTools from "./NextGenTools";
 import * as CookieConsent from "react-cookie-consent";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Resource {
   icon: JSX.Element;
@@ -21,6 +21,7 @@ interface Resource {
 export function Home() {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const [isMobile, setIsMobile] = useState(false);
 
   // Google Analytics event tracking helper
   const trackEvent = (eventName: string, eventParams = {}) => {
@@ -30,13 +31,28 @@ export function Home() {
     }
   };
 
-  // Track page view when component mounts
+  // Track page view when component mounts and set mobile state
   useEffect(() => {
     trackEvent("page_view", {
       page_title: "Home Page",
       page_location: window.location.href,
       page_path: window.location.pathname,
     });
+
+    // Set initial mobile state
+    setIsMobile(window.innerWidth < 768);
+
+    // Add resize listener
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const resources: Resource[] = [
@@ -134,6 +150,38 @@ export function Home() {
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] -z-10" />
 
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        {/* Peeking face animation - only visible on mobile */}
+        {isMobile && (
+          <motion.div
+            className="absolute z-20 right-0 top-[15%] transform origin-right"
+            initial={{ x: "100%", rotate: 5, scale: 0.9 }}
+            animate={{
+              x: ["100%", "45%", "45%", "45%", "100%"],
+              rotate: [5, -8, -10, -8, 5],
+              scale: [0.9, 1.05, 1.05, 1.05, 0.9],
+              y: ["0%", "-5%", "-7%", "-5%", "0%"],
+            }}
+            transition={{
+              times: [0, 0.35, 0.55, 0.75, 1],
+              duration: 6,
+              ease: [
+                "easeOut",
+                "easeInOut",
+                "easeInOut",
+                "easeInOut",
+                "easeIn",
+              ],
+            }}
+          >
+            <img
+              src="/hero_face.png"
+              alt=""
+              className="w-28 h-28 md:w-32 md:h-32 object-contain filter drop-shadow-xl"
+              aria-hidden="true"
+            />
+          </motion.div>
+        )}
+
         {/* Simplified background for mobile, full version for desktop */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-950 to-indigo-900">
           {/* Only render this complex gradient on desktop */}
