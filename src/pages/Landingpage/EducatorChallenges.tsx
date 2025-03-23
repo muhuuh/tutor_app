@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+//import { useRef } from "react";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 // Define image paths for our painpoints
@@ -109,7 +109,7 @@ const getPainPoints = (t: any) => [
 export default function EducatorChallengesMindMap() {
   const { t } = useTranslation();
   const painPoints = getPainPoints(t);
-  const containerRef = useRef(null);
+  //const containerRef = useRef(null);
 
   return (
     <section className="py-8 md:py-14 relative overflow-hidden">
