@@ -2,9 +2,9 @@
   "home": {
     "hero": {
       "badge": "AI-Powered Education Platform",
-      "title": "Grade Instantly, Teach Smarter!",
-      "subtitle": "Save hours and help your STEM students thrive with AI",
-      "socialProof": "Trusted by STEM educators globally",
+      "title": "Save Time, Teach Smarter!",
+      "subtitle": "Help your STEM students thrive with cutting-edge AI-powered features",
+      "socialProof": "Trusted by educators globally",
       "badges": {
         "aiPowered": "AI-Powered",
         "saveTime": "Save 10+ hrs/week",
@@ -427,6 +427,7 @@
   },
   "auth": {
     "headingCreateAccount": "Create your account",
+    "headingCreateAccountSubtitle": "and start using our AI-powered tools for free",
     "headingWelcomeBack": "Welcome back",
     "signInToContinue": "Sign in to continue",
     "freeTrial": {

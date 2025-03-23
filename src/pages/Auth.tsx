@@ -100,8 +100,10 @@ export function Auth() {
                   ? t("auth.headingCreateAccount")
                   : t("auth.headingWelcomeBack")}
               </h2>
-              <p className="text-base text-gray-600">
-                {isSignUp ? "" : t("auth.signInToContinue")}
+              <p className="text-sm text-gray-600">
+                {isSignUp
+                  ? t("auth.headingCreateAccountSubtitle")
+                  : t("auth.signInToContinue")}
               </p>
             </div>
 

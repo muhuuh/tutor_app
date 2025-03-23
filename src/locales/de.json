@@ -2,8 +2,8 @@
   "home": {
     "hero": {
       "badge": "KI-gestützte Bildungsplattform",
-      "title": "Spare Zeit, schlauer unterrichten!",
-      "subtitle": "Sparen Sie Stunden und helfen Sie mit KI Ihren Studenten noch erfolgreicher zu werden.",
+      "title": "Save Time, Teach Smarter!",
+      "subtitle": "Unterstützen Sie Ihren Studenten noch erfolgreicher zu werden mit neusten KI Features.",
       "socialProof": "Von Lehrkräften weltweit geschätzt",
       "badges": {
         "aiPowered": "KI-gestützt",
@@ -410,6 +410,7 @@
   },
   "auth": {
     "headingCreateAccount": "Konto erstellen",
+    "headingCreateAccountSubtitle": "und nutzen Sie unsere AI-gestützten Tools kostenlos",
     "headingWelcomeBack": "Willkommen zurück",
     "signInToContinue": "Melden Sie sich an, um fortzufahren",
     "freeTrial": {

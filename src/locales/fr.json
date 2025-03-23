@@ -410,6 +410,7 @@
   },
   "auth": {
     "headingCreateAccount": "Créez votre compte",
+    "headingCreateAccountSubtitle": "et commencez à utiliser nos features IA gratuitement",
     "headingWelcomeBack": "Bon retour",
     "signInToContinue": "Connectez-vous pour continuer",
     "freeTrial": {

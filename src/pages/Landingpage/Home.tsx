@@ -112,7 +112,6 @@ export function Home() {
     );
   };
 
-  // Value propositions for hero badge pills - simplified
   const valueProps = [
     {
       icon: <FiZap className="w-4 h-4" />,
@@ -204,18 +203,22 @@ export function Home() {
             <div className="text-center lg:text-left space-y-8 relative z-10">
               {/* Value proposition pills in a row */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-2">
-                {valueProps.map((prop, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.15 }}
-                    className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-200 ring-1 ring-blue-400/30 border border-blue-400/20 backdrop-blur-sm"
-                  >
-                    <span className="text-blue-300">{prop.icon}</span>
-                    {prop.text}
-                  </motion.div>
-                ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="flex flex-wrap justify-center lg:justify-start gap-2 w-full"
+                >
+                  {valueProps.map((prop, index) => (
+                    <div
+                      key={index}
+                      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-purple-500/20 text-blue-200 shadow-sm shadow-blue-500/20 border border-blue-400/20 backdrop-blur-sm hover:from-blue-500/30 hover:via-indigo-500/30 hover:to-purple-500/30 hover:shadow-purple-500/20 transition-all duration-300"
+                    >
+                      <span className="text-blue-300">{prop.icon}</span>
+                      {prop.text}
+                    </div>
+                  ))}
+                </motion.div>
               </div>
 
               {/* Main heading with cleaner text */}
