@@ -152,34 +152,80 @@ export function Home() {
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         {/* Peeking face animation - only visible on mobile */}
         {isMobile && (
-          <motion.div
-            className="absolute z-20 right-0 top-[15%] transform origin-right"
-            initial={{ x: "100%", rotate: 5, scale: 0.9 }}
-            animate={{
-              x: ["100%", "45%", "45%", "45%", "100%"],
-              rotate: [5, -8, -10, -8, 5],
-              scale: [0.9, 1.05, 1.05, 1.05, 0.9],
-              y: ["0%", "-5%", "-7%", "-5%", "0%"],
-            }}
-            transition={{
-              times: [0, 0.35, 0.55, 0.75, 1],
-              duration: 6,
-              ease: [
-                "easeOut",
-                "easeInOut",
-                "easeInOut",
-                "easeInOut",
-                "easeIn",
-              ],
-            }}
-          >
-            <img
-              src="/hero_face.png"
-              alt=""
-              className="w-28 h-28 md:w-32 md:h-32 object-contain filter drop-shadow-xl"
-              aria-hidden="true"
-            />
-          </motion.div>
+          <>
+            <motion.div
+              className="absolute z-20 right-0 top-[15%] transform origin-right"
+              initial={{ x: "100%", rotate: 5, scale: 0.9 }}
+              animate={{
+                x: ["100%", "45%", "45%", "45%", "100%"],
+                rotate: [5, -8, -10, -8, 5],
+                scale: [0.9, 1.05, 1.05, 1.05, 0.9],
+                y: ["0%", "-5%", "-7%", "-5%", "0%"],
+              }}
+              transition={{
+                times: [0, 0.35, 0.55, 0.75, 1],
+                duration: 6,
+                ease: [
+                  "easeOut",
+                  "easeInOut",
+                  "easeInOut",
+                  "easeInOut",
+                  "easeIn",
+                ],
+              }}
+            >
+              <img
+                src="/hero_face.png"
+                alt=""
+                className="w-28 h-28 md:w-32 md:h-32 object-contain filter drop-shadow-xl"
+                aria-hidden="true"
+              />
+            </motion.div>
+
+            {/* Peeking arm animation pointing to CTA button - only visible on mobile */}
+            <motion.div
+              className="absolute z-20 right-0 bottom-[23%] transform origin-right"
+              initial={{ x: "100%", rotate: 0, scale: 0.9 }}
+              animate={{
+                x: ["100%", "30%", "30%", "30%", "100%"],
+                rotate: [0, -20, -18, -20, 0],
+                scale: [0.9, 1, 1.05, 1, 0.9],
+                y: ["0%", "0%", "-5%", "0%", "0%"],
+              }}
+              transition={{
+                times: [0, 0.3, 0.5, 0.7, 1],
+                duration: 7.5,
+                delay: 1.5, // Start a bit sooner for better sequence with face
+                ease: [
+                  "easeOut",
+                  "easeInOut",
+                  "easeInOut",
+                  "easeInOut",
+                  "easeIn",
+                ],
+              }}
+            >
+              <motion.div
+                animate={{
+                  y: [0, -5, 0, -5, 0],
+                }}
+                transition={{
+                  duration: 1.5,
+                  times: [0, 0.25, 0.5, 0.75, 1],
+                  repeat: 2,
+                  repeatDelay: 0.5,
+                  delay: 3.5, // Start bouncing after the arm has peeked in
+                }}
+              >
+                <img
+                  src="/arm_hero.png"
+                  alt=""
+                  className="w-44 h-44 object-contain filter drop-shadow-xl"
+                  aria-hidden="true"
+                />
+              </motion.div>
+            </motion.div>
+          </>
         )}
 
         {/* Simplified background for mobile, full version for desktop */}
