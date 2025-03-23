@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
-import {
-  FiCheck,
-  FiEdit3,
-  FiBook,
-  FiUserCheck,
-  FiArrowRight,
-} from "react-icons/fi";
+import { FiCheck, FiArrowRight } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
+
+const TOOLS_IMAGES = {
+  lightBulb: "/bulb_icon.png",
+  dashboard: "/dashboard_icon.png",
+  mathPaper: "/exam_vis.png",
+};
 
 export default function NextGenTools() {
   const { t } = useTranslation();
@@ -19,11 +19,10 @@ export default function NextGenTools() {
     }
   };
 
-  // We reference your translation JSON instead of hard-coded text
   const tools = [
     {
       title: t("home.nextGenTools.tools.exerciseCorrections.title"),
-      icon: <FiEdit3 className="w-6 h-6" />,
+      icon: TOOLS_IMAGES.lightBulb,
       description: t("home.nextGenTools.tools.exerciseCorrections.description"),
       longDescription: t(
         "home.nextGenTools.tools.exerciseCorrections.longDescription"
@@ -35,7 +34,7 @@ export default function NextGenTools() {
     },
     {
       title: t("home.nextGenTools.tools.personalizedTutoring.title"),
-      icon: <FiUserCheck className="w-6 h-6" />,
+      icon: TOOLS_IMAGES.dashboard,
       description: t(
         "home.nextGenTools.tools.personalizedTutoring.description"
       ),
@@ -49,7 +48,7 @@ export default function NextGenTools() {
     },
     {
       title: t("home.nextGenTools.tools.exerciseForge.title"),
-      icon: <FiBook className="w-6 h-6" />,
+      icon: TOOLS_IMAGES.mathPaper,
       description: t("home.nextGenTools.tools.exerciseForge.description"),
       longDescription: t(
         "home.nextGenTools.tools.exerciseForge.longDescription"
@@ -62,40 +61,55 @@ export default function NextGenTools() {
   ];
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="pb-8 pt-12 md:py-14 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center space-y-6 mb-16"
-        >
+        {/* Section Header - Styled to match screenshot */}
+        <div className="text-center mb-6 lg:mb-10">
+          {/* Purple badge */}
           <motion.span
-            whileHover={{ scale: 1.05 }}
-            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium bg-gradient-to-r from-violet-100/80 to-blue-100/80 border border-violet-200/20 text-violet-700"
+            className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100/80 to-blue-100/80 border border-violet-200/20 text-violet-700 shadow-sm backdrop-blur-sm hover:backdrop-blur transition-all duration-300"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
           >
-            <span className="relative flex h-2 w-2">
+            <span className="relative flex h-2 w-2 mr-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
             </span>
-            {/* Translated badge */}
             {t("home.nextGenTools.badge")}
           </motion.span>
 
-          {/* Title with gradient */}
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent pb-1">
-            {t("home.nextGenTools.title")}
-            <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600 pb-1">
-              {t("home.nextGenTools.title2")}
-            </span>
-          </h2>
+          {/* Title with gradient - Matching screenshot styling */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-6 mb-6 md:mb-8"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+              <span className="bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text text-transparent pb-1">
+                {t("home.nextGenTools.title")}
+              </span>
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600 pb-1">
+                {t("home.nextGenTools.title2")}
+              </span>
+            </h2>
+          </motion.div>
 
-          {/* Subtitle */}
-          <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
-            {t("home.nextGenTools.subtitle")}
-          </p>
-        </motion.div>
+          {/* Subtitle with highlighted text like in screenshot */}
+          <div className="inline-block px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-100/20">
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm md:text-lg"
+            >
+              {t("home.nextGenTools.subtitle")}
+              <span className="block text-base  md:text-lg pb-2 font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {t("home.nextGenTools.subtitle2")}
+              </span>
+            </motion.p>
+          </div>
+        </div>
 
         {/* Tools Grid */}
         <div className="mt-16 pb-8 grid gap-6 lg:grid-cols-3">
@@ -113,15 +127,25 @@ export default function NextGenTools() {
 
               {/* Content */}
               <div className="relative z-10 flex-1 flex flex-col">
-                {/* Icon container - consistent styling */}
-                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 text-blue-600">
-                  {tool.icon}
-                </div>
-
-                <h3 className="mt-6 text-xl font-semibold text-gray-900 leading-tight">
+                {/* Title first */}
+                <h3 className="text-xl font-semibold text-gray-900 leading-tight mb-3">
                   {tool.title}
                 </h3>
-                <p className="mt-2 text-gray-600">{tool.description}</p>
+
+                {/* Icon and subtitle side by side */}
+                <div className="flex items-center gap-4">
+                  {/* Image container */}
+                  <div className="flex-shrink-0 w-18 h-18 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50/90 to-purple-50/90 border border-blue-100/30 shadow">
+                    <img
+                      src={tool.icon}
+                      alt=""
+                      className="w-16 h-16 object-contain"
+                    />
+                  </div>
+
+                  {/* Description/subtitle */}
+                  <p className="text-gray-600 flex-1">{tool.description}</p>
+                </div>
 
                 <div className="mt-4 pt-4 border-t border-gray-100 flex-1 flex flex-col">
                   <p className="text-sm text-gray-500 leading-relaxed">

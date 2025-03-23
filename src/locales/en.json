@@ -36,9 +36,11 @@
 
     "nextGenTools": {
       "badge": "NEXT-GEN TEACHING TOOLS",
-      "title": "Transformative Education",
+      "title": "Cutting-Edge",
       "title2": "Technology",
-      "subtitle": "Imagine being able to spend most of your time on what truly matters: helping your students thrive.",
+      "subtitle": "Imagine being able to spend most of your time on what truly matters:",
+      "subtitle2": "Helping your students thrive!",
+
       "tools": {
         "exerciseCorrections": {
           "title": "Exercise Corrections",

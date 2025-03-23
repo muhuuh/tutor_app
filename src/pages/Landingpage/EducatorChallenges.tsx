@@ -112,7 +112,7 @@ export default function EducatorChallengesMindMap() {
   //const containerRef = useRef(null);
 
   return (
-    <section className="py-8 md:py-14 relative overflow-hidden">
+    <section className="pb-2 pt-16 md:pt-16 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Heading */}
         <div className="text-center mb-6 lg:mb-10">
@@ -204,7 +204,7 @@ export default function EducatorChallengesMindMap() {
         <div className="md:hidden mb-8 text-center ">
           <div className="inline-block px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-100/20">
             <div className="flex items-center justify-center gap-2 mb-2"></div>
-            <p className="text-xs text-gray-600">
+            <p className="text-sm md:text-lg text-gray-600">
               {t("home.educatorChallenges.allChallengesBannerSub")}
             </p>
           </div>
