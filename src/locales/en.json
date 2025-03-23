@@ -133,31 +133,38 @@
       "painPoints": {
         "manual": {
           "title": "Manual Grading Marathon",
-          "solution": "Expert instant assessment for complex problem-solving"
+          "solution": "Expert instant assessment for complex problem-solving",
+          "shortDesc": "Hours spent manually correcting assignments"
         },
         "partialCredit": {
           "title": "Partial Credit Dilemma",
-          "solution": "Step-by-step error analysis with intelligent credit allocation"
+          "solution": "Step-by-step error analysis with intelligent credit allocation",
+          "shortDesc": "Creating individual learning paths at scale"
         },
         "personalization": {
           "title": "Personalization Overload",
-          "solution": "Automated personalized learning paths based on performance"
+          "solution": "Automated personalized learning paths based on performance",
+          "shortDesc": "Creating individual learning paths at scale"
         },
         "churn": {
           "title": "Churn to Create New Exercises",
-          "solution": "Automated generation of targeted practice materials"
+          "solution": "Automated generation of targeted practice materials",
+          "shortDesc": "Too much time creating new content"
         },
         "timeConsuming": {
           "title": "Time-Consuming Drafting of Corrections",
-          "solution": "Complete step-by-step correction and hints to help students"
+          "solution": "Complete step-by-step correction and hints to help students",
+          "shortDesc": "Hours spent writing detailed correction explanations"
         },
         "overwhelmingProgress": {
           "title": "Overwhelming Progress Tracking",
-          "solution": "Real-time analytics dashboard with performance insights for each student"
+          "solution": "Real-time analytics dashboard with performance insights for each student",
+          "shortDesc": "Monitoring individual student performance"
         },
         "draftingPersonalized": {
           "title": "Drafting Personalized Plans",
-          "solution": "Smart learning path generator based on student gaps"
+          "solution": "Smart learning path generator based on student gaps",
+          "shortDesc": "Tailoring assignments to student needs"
         }
       }
     },

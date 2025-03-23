@@ -130,31 +130,38 @@
       "painPoints": {
         "manual": {
           "title": "Aufwändige manuelle Bewertung",
-          "solution": "Experten-Sofortbewertung für komplexe Problemstellungen"
+          "solution": "Experten-Sofortbewertung für komplexe Problemstellungen",
+          "shortDesc": "Stundenlanges manuelles Korrigieren von Aufgaben"
         },
         "partialCredit": {
           "title": "Problem der Teilpunkte",
-          "solution": "Schrittweise Fehleranalyse mit intelligenter Punkteverteilung"
+          "solution": "Schrittweise Fehleranalyse mit intelligenter Punkteverteilung",
+          "shortDesc": "Skalierbare individuelle Lernpfade erstellen"
         },
         "personalization": {
           "title": "Überlastung durch Individualisierung",
-          "solution": "Automatisierte personalisierte Lernwege basierend auf der Leistung"
+          "solution": "Automatisierte personalisierte Lernwege basierend auf der Leistung",
+          "shortDesc": "Skalierbare Lernwege erstellen"
         },
         "churn": {
           "title": "Aufwand für neue Übungserstellung",
-          "solution": "Automatisierte Erstellung gezielter Übungsmaterialien"
+          "solution": "Automatisierte Erstellung gezielter Übungsmaterialien",
+          "shortDesc": "Sehr viel Zeit für die Erstellung neuer Inhalte"
         },
         "timeConsuming": {
           "title": "Zeitaufwendige Erstellung von Korrekturen",
-          "solution": "Vollständige, schrittweise Korrektur mit Hinweisen zur Unterstützung der Lernenden"
+          "solution": "Vollständige, schrittweise Korrektur mit Hinweisen zur Unterstützung der Lernenden",
+          "shortDesc": "Stundenlanges Schreiben von detaillierten Korrektur-Erklärungen"
         },
         "overwhelmingProgress": {
           "title": "Überwältigende Fortschrittsverfolgung",
-          "solution": "Echtzeit-Analyse-Dashboard mit Leistungsübersicht für jeden Schüler"
+          "solution": "Echtzeit-Analyse-Dashboard mit Leistungsübersicht für jeden Schüler",
+          "shortDesc": "Überwachung der individuellen Schülerleistungen"
         },
         "draftingPersonalized": {
           "title": "Entwurf personalisierter Pläne",
-          "solution": "Intelligenter Lernweg-Generator basierend auf Wissenslücken"
+          "solution": "Intelligenter Lernweg-Generator basierend auf Wissenslücken",
+          "shortDesc": "Anpassung von Aufgaben an die Bedürfnisse der Schüler"
         }
       }
     },

@@ -130,31 +130,38 @@
       "painPoints": {
         "manual": {
           "title": "Marathon de correction manuelle",
-          "solution": "Évaluation instantanée experte pour la résolution de problèmes complexes"
+          "solution": "Évaluation instantanée experte pour la résolution de problèmes complexes",
+          "shortDesc": "Des heures passées à corriger les devoirs manuellement"
         },
         "partialCredit": {
           "title": "Dilemme des points partiels",
-          "solution": "Analyse d'erreur étape par étape avec attribution intelligente des points"
+          "solution": "Analyse d'erreur étape par étape avec attribution intelligente des points",
+          "shortDesc": "Création de parcours d'apprentissage à l'échelle"
         },
         "personalization": {
           "title": "Surcharge de personnalisation",
-          "solution": "Parcours d'apprentissage personnalisés automatisés basés sur la performance"
+          "solution": "Parcours d'apprentissage personnalisés automatisés basés sur la performance",
+          "shortDesc": "Création de parcours d'apprentissage à l'échelle"
         },
         "churn": {
           "title": "Création laborieuse de nouveaux exercices",
-          "solution": "Génération automatisée de supports d'entraînement ciblés"
+          "solution": "Génération automatisée de supports d'entraînement ciblés",
+          "shortDesc": "Temps passé à créer du matériel nouveau"
         },
         "timeConsuming": {
           "title": "Rédaction chronophage des corrections",
-          "solution": "Correction détaillée étape par étape et indices pour aider les étudiants"
+          "solution": "Correction détaillée étape par étape et indices pour aider les étudiants",
+          "shortDesc": "Des heures passées à rédiger des explications détaillées pour les corrections"
         },
         "overwhelmingProgress": {
           "title": "Suivi des progrès accablant",
-          "solution": "Tableau de bord analytique en temps réel avec des informations de performance pour chaque étudiant"
+          "solution": "Tableau de bord analytique en temps réel avec des informations de performance pour chaque étudiant",
+          "shortDesc": "Suivi des performances individuelles des étudiants"
         },
         "draftingPersonalized": {
           "title": "Élaboration de plans personnalisés",
-          "solution": "Générateur de parcours d'apprentissage intelligent basé sur les lacunes des étudiants"
+          "solution": "Générateur de parcours d'apprentissage intelligent basé sur les lacunes des étudiants",
+          "shortDesc": "Adaptation des devoirs aux besoins des étudiants"
         }
       }
     },

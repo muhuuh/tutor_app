@@ -24,7 +24,10 @@ const getPainPoints = (t: any) => [
       "Expert instant assessment for complex problem-solving"
     ),
     image: PAINPOINT_IMAGES.grading, // Pile of papers
-    shortDesc: "Hours spent manually correcting assignments",
+    shortDesc: t(
+      "home.educatorChallenges.painPoints.manual.shortDesc",
+      "Hours spent manually correcting assignments"
+    ),
   },
 
   {
@@ -37,7 +40,10 @@ const getPainPoints = (t: any) => [
       "Automated personalized learning paths based on performance"
     ),
     image: PAINPOINT_IMAGES.students, // Group of students
-    shortDesc: "Creating individual learning paths at scale",
+    shortDesc: t(
+      "home.educatorChallenges.painPoints.personalization.shortDesc",
+      "Creating individual learning paths at scale"
+    ),
   },
   {
     title: t(
@@ -49,7 +55,10 @@ const getPainPoints = (t: any) => [
       "Automated generation of targeted practice materials"
     ),
     image: PAINPOINT_IMAGES.whiteboard, // Whiteboard with math problem
-    shortDesc: "Too much time creating new content",
+    shortDesc: t(
+      "home.educatorChallenges.painPoints.churn.shortDesc",
+      "Too much time creating new content"
+    ),
   },
   {
     title: t(
@@ -61,7 +70,10 @@ const getPainPoints = (t: any) => [
       "Complete step-by-step correction and hints to help students"
     ),
     image: PAINPOINT_IMAGES.clock, // Clock image
-    shortDesc: "Writing detailed correction explanations",
+    shortDesc: t(
+      "home.educatorChallenges.painPoints.timeConsuming.shortDesc",
+      "Hours spent writing detailed correction explanations"
+    ),
   },
   {
     title: t(
@@ -73,7 +85,10 @@ const getPainPoints = (t: any) => [
       "Real-time analytics dashboard with performance insights for each student"
     ),
     image: PAINPOINT_IMAGES.stressed,
-    shortDesc: "Monitoring individual student performance",
+    shortDesc: t(
+      "home.educatorChallenges.painPoints.overwhelmingProgress.shortDesc",
+      "Monitoring individual student performance"
+    ),
   },
   {
     title: t(
@@ -85,7 +100,10 @@ const getPainPoints = (t: any) => [
       "Smart learning path generator based on student gaps"
     ),
     image: PAINPOINT_IMAGES.papers,
-    shortDesc: "Tailoring assignments to student needs",
+    shortDesc: t(
+      "home.educatorChallenges.painPoints.draftingPersonalized.shortDesc",
+      "Tailoring assignments to student needs"
+    ),
   },
 ];
 
