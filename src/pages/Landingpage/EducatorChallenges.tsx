@@ -1,15 +1,6 @@
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import {
-  FiArrowUpRight,
-  FiAward,
-  FiBarChart2,
-  FiBookOpen,
-  FiClock,
-  FiEdit3,
-  FiTarget,
-  FiUsers,
-} from "react-icons/fi";
+import { FiArrowUpRight } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 
 // Define image paths for our painpoints
@@ -19,6 +10,7 @@ const PAINPOINT_IMAGES = {
   papers: "/pile_paper.png", // Pile of papers image
   stressed: "/teacher_icon.png", // Stressed person image
   whiteboard: "/whiteboard_icon.png", // Whiteboard with math problem image
+  grading: "/grading_icon.png", // Grading icon image
 };
 
 const getPainPoints = (t: any) => [
@@ -31,21 +23,10 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.manual.solution",
       "Expert instant assessment for complex problem-solving"
     ),
-    image: PAINPOINT_IMAGES.papers, // Pile of papers
+    image: PAINPOINT_IMAGES.grading, // Pile of papers
     shortDesc: "Hours spent manually correcting assignments",
   },
-  {
-    title: t(
-      "home.educatorChallenges.painPoints.partialCredit.title",
-      "Partial Credit Dilemma"
-    ),
-    solution: t(
-      "home.educatorChallenges.painPoints.partialCredit.solution",
-      "Step-by-step error analysis with intelligent credit allocation"
-    ),
-    image: PAINPOINT_IMAGES.stressed, // Stressed person
-    shortDesc: "Struggling with fair point allocation",
-  },
+
   {
     title: t(
       "home.educatorChallenges.painPoints.personalization.title",
@@ -91,7 +72,7 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.overwhelmingProgress.solution",
       "Real-time analytics dashboard with performance insights for each student"
     ),
-    image: PAINPOINT_IMAGES.students, // Group of students (reused)
+    image: PAINPOINT_IMAGES.stressed,
     shortDesc: "Monitoring individual student performance",
   },
   {
@@ -103,7 +84,7 @@ const getPainPoints = (t: any) => [
       "home.educatorChallenges.painPoints.draftingPersonalized.solution",
       "Smart learning path generator based on student gaps"
     ),
-    image: PAINPOINT_IMAGES.whiteboard, // Whiteboard with math problem (reused)
+    image: PAINPOINT_IMAGES.papers,
     shortDesc: "Tailoring assignments to student needs",
   },
 ];
@@ -134,6 +115,7 @@ const getPosition = (index: number, total: number, radius: number) => {
   };
 };
 
+/*
 const getIconForTitle = (title: string) => {
   switch (title) {
     case "Manual Grading Marathon":
@@ -154,7 +136,7 @@ const getIconForTitle = (title: string) => {
       return <FiTarget className="w-6 h-6" />;
   }
 };
-
+*/
 export default function EducatorChallengesMindMap() {
   const { t } = useTranslation();
   const painPoints = getPainPoints(t);
@@ -313,11 +295,7 @@ export default function EducatorChallengesMindMap() {
         {/* AI Solution Banner - Above new alternating layout */}
         <div className="md:hidden mb-8 text-center ">
           <div className="inline-block px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-100/20">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="text-sm font-medium text-blue-700">
-                {t("home.educatorChallenges.allChallengesBanner")}
-              </span>
-            </div>
+            <div className="flex items-center justify-center gap-2 mb-2"></div>
             <p className="text-xs text-gray-600">
               {t("home.educatorChallenges.allChallengesBannerSub")}
             </p>
@@ -326,7 +304,7 @@ export default function EducatorChallengesMindMap() {
 
         {/* NEW Mobile Version - Alternating Layout */}
         <div className="md:hidden mt-10 px-3 space-y-5">
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-gray-100/80">
+          <div className="bg-white/70 rounded-2xl p-5 shadow-sm border border-gray-100/80">
             {painPoints.map((point, index) => (
               <motion.div
                 key={index}
@@ -341,11 +319,11 @@ export default function EducatorChallengesMindMap() {
                 <div
                   className={`flex ${
                     index % 2 === 0 ? "flex-row" : "flex-row-reverse"
-                  } items-center gap-4`}
+                  } items-center gap-5`}
                 >
                   {/* Text Container - Takes more space */}
                   <div className="flex-grow">
-                    <h3 className="text-[15px] font-semibold text-gray-800 mb-1 leading-tight group-hover:text-blue-700 transition-colors">
+                    <h3 className="text-[16px] font-semibold text-gray-800 mb-1.5 leading-tight group-hover:text-blue-700 transition-colors">
                       {point.title}
                     </h3>
                     <p className="text-xs text-gray-500 leading-relaxed">
@@ -354,18 +332,18 @@ export default function EducatorChallengesMindMap() {
                   </div>
 
                   {/* Image Container - Small and contained */}
-                  <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-100/50 shadow-sm group-hover:shadow-md group-hover:border-blue-200/70 transition-all">
+                  <div className="flex-shrink-0 w-24 h-24 flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-50/80 to-purple-50/80 border border-blue-100/30 shadow-sm group-hover:shadow-md group-hover:border-blue-200/60 transition-all">
                     <img
                       src={point.image}
                       alt=""
-                      className="w-10 h-10 object-contain opacity-85 group-hover:opacity-100 transition-opacity"
+                      className="w-16 h-16 object-contain opacity-95 group-hover:opacity-100 transition-opacity"
                     />
                   </div>
                 </div>
 
                 {/* Simple divider line - except for last item */}
                 {index < painPoints.length - 1 && (
-                  <div className="w-full border-t border-gray-100/80 mt-5"></div>
+                  <div className="w-full border-t border-gray-100 mt-5"></div>
                 )}
               </motion.div>
             ))}
