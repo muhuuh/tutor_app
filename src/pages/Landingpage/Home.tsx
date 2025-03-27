@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { FiArrowRight, FiVideo, FiZap, FiClock, FiAward } from "react-icons/fi";
 import { motion } from "framer-motion";
 import EducatorChallenges from "./EducatorChallenges";
+import MainFeatures from "./MainFeatures";
 import NextGenTools from "./NextGenTools";
 import * as CookieConsent from "react-cookie-consent";
 import { useTranslation } from "react-i18next";
@@ -678,6 +679,7 @@ export function Home() {
       </section>
 
       <div className="space-y-10">
+        <MainFeatures />
         <EducatorChallenges />
         <NextGenTools />
 
