@@ -73,18 +73,18 @@ export default function MainFeatures() {
   const features = getFeatures(t);
 
   return (
-    <section className="py-16 md:py-24 relative overflow-hidden">
+    <section className="pt-16 pb-6  relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Heading */}
         <div className="text-center mb-10">
           <motion.span
-            className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-blue-100/80 to-indigo-100/80 border border-blue-200/20 text-blue-700 shadow-sm backdrop-blur-sm hover:backdrop-blur transition-all duration-300"
+            className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100/80 to-blue-100/80 border border-violet-200/20 text-violet-700 shadow-sm backdrop-blur-sm hover:backdrop-blur transition-all duration-300"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <span className="relative flex h-2 w-2 mr-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+              <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75 animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500" />
             </span>
             {t("home.mainFeatures.badge", "Tool Features")}
           </motion.span>
@@ -102,12 +102,17 @@ export default function MainFeatures() {
             >
               {t("home.mainFeatures.heading", "Main Features")}
             </motion.h2>
-            <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
-              {t(
-                "home.mainFeatures.subtitle",
-                "Curious? This is what you will soon be able to do"
-              )}
-            </p>
+            <div className="md:hidden mb-8 text-center ">
+              <div className="inline-block px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-100/20">
+                <div className="flex items-center justify-center gap-2 mb-2"></div>
+                <p className="text-sm md:text-lg text-gray-600">
+                  {t(
+                    "home.mainFeatures.subtitle",
+                    "Curious? This is what you will soon be able to do"
+                  )}
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
 
@@ -155,7 +160,7 @@ export default function MainFeatures() {
             href="/auth"
             className="inline-flex items-center rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 px-6 py-3 text-base font-medium text-white shadow-lg hover:from-blue-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
           >
-            Try it now
+            Try it Free now
             <svg
               className="ml-2 -mr-1 h-5 w-5"
               xmlns="http://www.w3.org/2000/svg"
