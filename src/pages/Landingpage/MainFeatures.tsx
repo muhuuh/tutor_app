@@ -68,9 +68,19 @@ const getFeatures = (t: any) => [
   },
 ];
 
-export default function MainFeatures() {
+interface MainFeaturesProps {
+  onFeatureClick?: (featureName: string) => void;
+}
+
+export default function MainFeatures({ onFeatureClick }: MainFeaturesProps) {
   const { t } = useTranslation();
   const features = getFeatures(t);
+
+  const handleFeatureClick = (featureName: string) => {
+    if (onFeatureClick) {
+      onFeatureClick(featureName);
+    }
+  };
 
   return (
     <section className="pt-16 pb-6  relative overflow-hidden">
@@ -127,6 +137,7 @@ export default function MainFeatures() {
               transition={{ delay: index * 0.1 }}
               className="group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all p-5 md:p-8 border border-gray-100 hover:-translate-y-1 duration-300 flex flex-col items-center"
               whileHover={{ y: -5 }}
+              onClick={() => handleFeatureClick(feature.title)}
             >
               {/* Feature Icon - Larger and more prominent */}
               <div className="w-20 h-20  rounded-2xl flex items-center justify-center text-white mb-5 group-hover:shadow-md transition-all">
@@ -159,6 +170,7 @@ export default function MainFeatures() {
           <a
             href="/auth"
             className="inline-flex items-center rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 px-6 py-3 text-base font-medium text-white shadow-lg hover:from-blue-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
+            onClick={() => handleFeatureClick("cta_try_it_free")}
           >
             Try it Free now
             <svg

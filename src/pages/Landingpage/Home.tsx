@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { FiArrowRight, FiVideo, FiZap, FiClock, FiAward } from "react-icons/fi";
 import { motion } from "framer-motion";
-import EducatorChallenges from "./EducatorChallenges";
+import EducatorChallengesMindMap from "./EducatorChallenges";
 import MainFeatures from "./MainFeatures";
 import NextGenTools from "./NextGenTools";
 import * as CookieConsent from "react-cookie-consent";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface Resource {
   icon: JSX.Element;
@@ -24,20 +24,93 @@ export function Home() {
   const { user } = useAuth();
   const [isMobile, setIsMobile] = useState(false);
 
-  // Google Analytics event tracking helper
+  // Refs for section visibility tracking
+  const heroSectionRef = useRef<HTMLElement>(null);
+  const mainFeaturesRef = useRef<HTMLDivElement>(null);
+  const educatorChallengesRef = useRef<HTMLDivElement>(null);
+  const nextGenToolsRef = useRef<HTMLDivElement>(null);
+  const resourcesSectionRef = useRef<HTMLElement>(null);
+  const ctaSectionRef = useRef<HTMLElement>(null);
+
+  // Track section visibility state
+  const [sectionViewed, setSectionViewed] = useState({
+    hero: false,
+    mainFeatures: false,
+    educatorChallenges: false,
+    nextGenTools: false,
+    resources: false,
+    cta: false,
+  });
+
+  // Track scroll depth
+  const [scrollDepth, setScrollDepth] = useState({
+    25: false,
+    50: false,
+    75: false,
+    100: false,
+  });
+
+  // Track page load time for engagement metrics
+  const pageLoadTime = useRef(Date.now());
+
+  // Helper to calculate the current scroll depth percentage
+  const calculateScrollDepth = () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight;
+    const winHeight = window.innerHeight;
+    return Math.round((scrollTop / (docHeight - winHeight)) * 100);
+  };
+
+  // Google Analytics event tracking helper with more detailed parameters
   const trackEvent = (eventName: string, eventParams = {}) => {
     // Make sure gtag is available
     if (window.gtag) {
-      window.gtag("event", eventName, eventParams);
+      // Add common parameters to all events
+      const enhancedParams = {
+        ...eventParams,
+        page_title: "Home Page",
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        user_type: user ? "logged_in" : "not_logged_in",
+        device_type: isMobile ? "mobile" : "desktop",
+        timestamp: new Date().toISOString(),
+      };
+
+      window.gtag("event", eventName, enhancedParams);
+      console.log(`Analytics event: ${eventName}`, enhancedParams);
     }
   };
 
-  // Track page view when component mounts and set mobile state
+  // Track initial page load events
   useEffect(() => {
+    // Set page load time
+    pageLoadTime.current = Date.now();
+
+    // Track page view with enhanced parameters
     trackEvent("page_view", {
-      page_title: "Home Page",
-      page_location: window.location.href,
-      page_path: window.location.pathname,
+      session_id: generateSessionId(),
+      landing_page: true,
+    });
+
+    // Track session start
+    const isFirstVisit = !localStorage.getItem("returning_visitor");
+    if (isFirstVisit) {
+      localStorage.setItem("returning_visitor", "true");
+      trackEvent("first_visit", {
+        referrer: document.referrer,
+        entry_point: "home_page",
+      });
+    } else {
+      trackEvent("return_visit", {
+        visit_count: getVisitCount(),
+        days_since_last_visit: getDaysSinceLastVisit(),
+      });
+    }
+
+    // Track session start
+    trackEvent("session_start", {
+      session_id: generateSessionId(),
+      referrer: document.referrer,
     });
 
     // Set initial mobile state
@@ -45,14 +118,319 @@ export function Home() {
 
     // Add resize listener
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      const newIsMobile = window.innerWidth < 768;
+      if (newIsMobile !== isMobile) {
+        setIsMobile(newIsMobile);
+        trackEvent("screen_resize", {
+          new_width: window.innerWidth,
+          new_height: window.innerHeight,
+          new_device_type: newIsMobile ? "mobile" : "desktop",
+        });
+      }
     };
 
     window.addEventListener("resize", handleResize);
 
+    // Set up session duration tracking
+    const sessionStartTime = Date.now();
+    const trackSessionDuration = () => {
+      const duration = Math.floor((Date.now() - sessionStartTime) / 1000);
+      trackEvent("session_duration", {
+        duration_seconds: duration,
+        is_bounce: isBounce(duration),
+      });
+    };
+
+    // Track session duration on page hide/unload
+    window.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") {
+        trackSessionDuration();
+      }
+    });
+    window.addEventListener("beforeunload", trackSessionDuration);
+
     // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("beforeunload", trackSessionDuration);
+    };
+  }, []);
+
+  // Helper functions for analytics
+  const generateSessionId = () => {
+    // Get or create a session ID
+    let sessionId = sessionStorage.getItem("session_id");
+    if (!sessionId) {
+      sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+      sessionStorage.setItem("session_id", sessionId);
+    }
+    return sessionId;
+  };
+
+  const getVisitCount = () => {
+    const count = parseInt(localStorage.getItem("visit_count") || "0", 10);
+    localStorage.setItem("visit_count", (count + 1).toString());
+    return count + 1;
+  };
+
+  const getDaysSinceLastVisit = () => {
+    const lastVisit = localStorage.getItem("last_visit_date");
+    if (!lastVisit) return 0;
+
+    const days = Math.floor(
+      (Date.now() - parseInt(lastVisit, 10)) / (1000 * 60 * 60 * 24)
+    );
+    localStorage.setItem("last_visit_date", Date.now().toString());
+    return days;
+  };
+
+  const isBounce = (durationSeconds: number) => {
+    // Consider it a bounce if they spent less than 30 seconds and didn't interact
+    return durationSeconds < 30 && !localStorage.getItem("user_engaged");
+  };
+
+  // Track scroll depth and section visibility
+  useEffect(() => {
+    let scrollTimeoutId: NodeJS.Timeout | null = null;
+    let lastScrollY = 0;
+
+    // Debounced scroll handler to prevent excessive event firing
+    const handleScroll = () => {
+      // Cancel any pending timeout
+      if (scrollTimeoutId) {
+        clearTimeout(scrollTimeoutId);
+      }
+
+      // Only process scroll events that move more than a certain threshold
+      const currentScrollY = window.scrollY;
+      const hasScrolledSignificantly =
+        Math.abs(currentScrollY - lastScrollY) > 50;
+
+      if (hasScrolledSignificantly || !scrollTimeoutId) {
+        lastScrollY = currentScrollY;
+
+        // Use timeout to debounce the scroll handling
+        scrollTimeoutId = setTimeout(() => {
+          processScrollPosition(currentScrollY);
+          scrollTimeoutId = null;
+        }, 200); // 200ms delay to debounce
+      }
+    };
+
+    const processScrollPosition = (scrollY: number) => {
+      // Track scroll depth
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      const scrollPercent = (scrollY / (docHeight - winHeight)) * 100;
+
+      // Only track each depth threshold once per session
+      if (scrollPercent >= 25 && !scrollDepth[25]) {
+        setScrollDepth((prev) => ({ ...prev, 25: true }));
+        trackEvent("scroll_depth", {
+          depth: 25,
+          scroll_location: getScrollLocation(),
+        });
+      }
+      if (scrollPercent >= 50 && !scrollDepth[50]) {
+        setScrollDepth((prev) => ({ ...prev, 50: true }));
+        trackEvent("scroll_depth", {
+          depth: 50,
+          scroll_location: getScrollLocation(),
+        });
+      }
+      if (scrollPercent >= 75 && !scrollDepth[75]) {
+        setScrollDepth((prev) => ({ ...prev, 75: true }));
+        trackEvent("scroll_depth", {
+          depth: 75,
+          scroll_location: getScrollLocation(),
+        });
+      }
+      if (scrollPercent >= 99 && !scrollDepth[100]) {
+        setScrollDepth((prev) => ({ ...prev, 100: true }));
+        trackEvent("scroll_depth", { depth: 100, scroll_location: "footer" });
+      }
+
+      // Check if sections are visible
+      checkSectionVisibility();
+    };
+
+    const getScrollLocation = () => {
+      // Determine which section the user is currently looking at
+      const viewportHeight = window.innerHeight;
+      const viewportMidpoint = window.scrollY + viewportHeight / 2;
+
+      if (
+        heroSectionRef.current &&
+        isElementVisible(heroSectionRef.current, viewportMidpoint)
+      ) {
+        return "hero_section";
+      } else if (
+        mainFeaturesRef.current &&
+        isElementVisible(mainFeaturesRef.current, viewportMidpoint)
+      ) {
+        return "main_features";
+      } else if (
+        educatorChallengesRef.current &&
+        isElementVisible(educatorChallengesRef.current, viewportMidpoint)
+      ) {
+        return "educator_challenges";
+      } else if (
+        nextGenToolsRef.current &&
+        isElementVisible(nextGenToolsRef.current, viewportMidpoint)
+      ) {
+        return "next_gen_tools";
+      } else if (
+        resourcesSectionRef.current &&
+        isElementVisible(resourcesSectionRef.current, viewportMidpoint)
+      ) {
+        return "resources";
+      } else if (
+        ctaSectionRef.current &&
+        isElementVisible(ctaSectionRef.current, viewportMidpoint)
+      ) {
+        return "cta_section";
+      }
+
+      return "unknown";
+    };
+
+    const isElementVisible = (
+      element: HTMLElement,
+      viewportMidpoint: number
+    ) => {
+      const rect = element.getBoundingClientRect();
+      const elementTop = rect.top + window.scrollY;
+      const elementBottom = rect.bottom + window.scrollY;
+      return (
+        viewportMidpoint >= elementTop && viewportMidpoint <= elementBottom
+      );
+    };
+
+    const checkSectionVisibility = () => {
+      // Mark sections as viewed when they become visible
+      // Uses isInViewport function to determine if a section is in the viewport
+      const sectionVisibilityMap = {
+        hero: {
+          ref: heroSectionRef.current,
+          position: 1,
+          viewed: sectionViewed.hero,
+        },
+        mainFeatures: {
+          ref: mainFeaturesRef.current,
+          position: 2,
+          viewed: sectionViewed.mainFeatures,
+        },
+        educatorChallenges: {
+          ref: educatorChallengesRef.current,
+          position: 3,
+          viewed: sectionViewed.educatorChallenges,
+        },
+        nextGenTools: {
+          ref: nextGenToolsRef.current,
+          position: 4,
+          viewed: sectionViewed.nextGenTools,
+        },
+        resources: {
+          ref: resourcesSectionRef.current,
+          position: 5,
+          viewed: sectionViewed.resources,
+        },
+        cta: {
+          ref: ctaSectionRef.current,
+          position: 6,
+          viewed: sectionViewed.cta,
+        },
+      };
+
+      // Check each section once, and only track if it's not already viewed
+      Object.entries(sectionVisibilityMap).forEach(([key, value]) => {
+        if (value.ref && isInViewport(value.ref) && !value.viewed) {
+          // Update our state to mark this section as viewed (to avoid duplicate events)
+          setSectionViewed((prev) => ({
+            ...prev,
+            [key]: true,
+          }));
+
+          // Only track this event once per section per page load
+          trackEvent("section_view", {
+            section_name:
+              key === "hero"
+                ? "hero"
+                : key === "mainFeatures"
+                ? "main_features"
+                : key === "educatorChallenges"
+                ? "educator_challenges"
+                : key === "nextGenTools"
+                ? "next_gen_tools"
+                : key === "resources"
+                ? "resources"
+                : "cta_section",
+            section_position: value.position,
+            view_count: 1, // Always 1 since we're ensuring each section is only tracked once
+            time_since_page_load: Math.floor(
+              (Date.now() - pageLoadTime.current) / 1000
+            ),
+          });
+        }
+      });
+    };
+
+    const isInViewport = (element: HTMLElement) => {
+      // Modify the threshold to count as "viewed" only when a significant portion is visible
+      // This helps avoid tracking a section that's barely visible at the edge of the screen
+      const rect = element.getBoundingClientRect();
+      const threshold = 0.3; // Element is considered viewed when 30% is visible
+
+      const elementHeight = rect.bottom - rect.top;
+      const visibleHeight =
+        Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+      const visibleRatio = visibleHeight / elementHeight;
+
+      return visibleRatio >= threshold;
+    };
+
+    // Register scroll event listener with passive option for better performance
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Initial check with slight delay to ensure DOM is ready
+    const initialTimeout = setTimeout(() => {
+      processScrollPosition(window.scrollY);
+    }, 500);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutId) clearTimeout(scrollTimeoutId);
+      clearTimeout(initialTimeout);
+    };
+  }, []); // No dependencies to prevent re-attaching scroll listener
+
+  // Track user engagement
+  useEffect(() => {
+    const trackEngagement = () => {
+      // Track that the user engaged with the page
+      localStorage.setItem("user_engaged", "true");
+      trackEvent("user_engagement", { engagement_type: "any_interaction" });
+
+      // Remove the listeners after first engagement
+      document.removeEventListener("click", trackEngagement);
+      document.removeEventListener("keydown", trackEngagement);
+      document.removeEventListener("mousemove", trackEngagement);
+      document.removeEventListener("touchstart", trackEngagement);
+    };
+
+    // Register engagement event listeners
+    document.addEventListener("click", trackEngagement);
+    document.addEventListener("keydown", trackEngagement);
+    document.addEventListener("mousemove", trackEngagement);
+    document.addEventListener("touchstart", trackEngagement);
+
+    // Cleanup
+    return () => {
+      document.removeEventListener("click", trackEngagement);
+      document.removeEventListener("keydown", trackEngagement);
+      document.removeEventListener("mousemove", trackEngagement);
+      document.removeEventListener("touchstart", trackEngagement);
     };
   }, []);
 
@@ -76,10 +454,11 @@ export function Home() {
   ];
 
   const handleManageCookies = () => {
-    // Track cookie settings click
+    // Track cookie settings click with enhanced details
     trackEvent("button_click", {
       button_name: "manage_cookies",
-      page: "home",
+      button_location: "footer",
+      page_section: "footer",
     });
 
     CookieConsent.resetCookieConsentValue();
@@ -150,7 +529,10 @@ export function Home() {
       <div className="fixed inset-0 bg-gradient-to-b from-gray-50 to-white -z-10" />
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] -z-10" />
 
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      <section
+        ref={heroSectionRef}
+        className="relative min-h-[90vh] flex items-center overflow-hidden"
+      >
         {/* Peeking face animation - only visible on mobile */}
         {isMobile && (
           <>
@@ -346,7 +728,7 @@ export function Home() {
                 </span>
               </motion.div>
 
-              {/* Enhanced CTA buttons */}
+              {/* Enhanced CTA buttons with better tracking */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -364,7 +746,10 @@ export function Home() {
                       onClick={() =>
                         trackEvent("cta_click", {
                           button_name: "get_started",
+                          button_location: "hero_section",
                           user_status: "logged_in",
+                          interaction_type: "primary_cta",
+                          destination: "/tools/homework-corrections",
                         })
                       }
                     >
@@ -387,7 +772,10 @@ export function Home() {
                         onClick={() =>
                           trackEvent("cta_click", {
                             button_name: "free_trial",
+                            button_location: "hero_section",
                             user_status: "not_logged_in",
+                            interaction_type: "primary_cta",
+                            destination: "/auth",
                           })
                         }
                       >
@@ -408,7 +796,10 @@ export function Home() {
                         onClick={() =>
                           trackEvent("cta_click", {
                             button_name: "login",
+                            button_location: "hero_section",
                             user_status: "not_logged_in",
+                            interaction_type: "secondary_cta",
+                            destination: "/auth",
                           })
                         }
                       >
@@ -679,12 +1070,48 @@ export function Home() {
       </section>
 
       <div className="space-y-10">
-        <MainFeatures />
-        <EducatorChallenges />
-        <NextGenTools />
+        <div ref={mainFeaturesRef}>
+          <MainFeatures
+            onFeatureClick={(featureName: string) =>
+              trackEvent("feature_click", {
+                feature_name: featureName,
+                section_name: "main_features",
+                interaction_type: "feature_card",
+              })
+            }
+          />
+        </div>
+
+        <div ref={educatorChallengesRef}>
+          <EducatorChallengesMindMap
+            onChallengeClick={(challengeName: string) =>
+              trackEvent("challenge_click", {
+                challenge_name: challengeName,
+                section_name: "educator_challenges",
+                interaction_type: "challenge_card",
+              })
+            }
+          />
+        </div>
+
+        <div ref={nextGenToolsRef}>
+          <NextGenTools
+            onToolClick={(toolName: string) =>
+              trackEvent("tool_click", {
+                tool_name: toolName,
+                section_name: "next_gen_tools",
+                interaction_type: "tool_card",
+              })
+            }
+          />
+        </div>
 
         {/* Resources Section */}
-        <section id="guides-tutorials" className="relative overflow-hidden">
+        <section
+          ref={resourcesSectionRef}
+          id="guides-tutorials"
+          className="relative overflow-hidden"
+        >
           <div className="max-w-7xl mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -712,18 +1139,37 @@ export function Home() {
               </p>
             </motion.div>
 
-            {/* Resources Grid */}
+            {/* Resources Grid with enhanced tracking */}
             <div className="grid md:grid-cols-2 gap-6">
               {resources.map((resource, index) => (
                 <article
                   key={index}
                   className="group relative bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 flex flex-col"
                   onClick={() => {
+                    // Track resource engagement with enhanced details
                     trackEvent("resource_click", {
                       resource_title: resource.title,
                       resource_category: resource.category,
                       resource_type: resource.isLoomVideo ? "video" : "link",
+                      resource_index: index,
+                      section_name: "resources",
+                      interaction_type: resource.isLoomVideo
+                        ? "video_resource"
+                        : "link_resource",
+                      time_on_page: Math.floor(
+                        (Date.now() - pageLoadTime.current) / 1000
+                      ),
+                      scroll_depth_reached: calculateScrollDepth(),
                     });
+
+                    // For video resources, also track video view starts
+                    if (resource.isLoomVideo) {
+                      trackEvent("video_interaction", {
+                        video_title: resource.title,
+                        video_id: resource.videoId,
+                        interaction_type: "view_start",
+                      });
+                    }
                   }}
                 >
                   {resource.isLoomVideo ? (
@@ -787,7 +1233,10 @@ export function Home() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24">
+        <section
+          ref={ctaSectionRef}
+          className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24"
+        >
           <div className="absolute inset-0 bg-grid-white/[0.2] bg-[size:20px_20px]" />
           <div className="absolute h-full w-full bg-gradient-to-b from-black/0 via-black/[0.1] to-black/[0.4]" />
           <div className="relative max-w-7xl mx-auto px-4 text-center">
@@ -801,6 +1250,15 @@ export function Home() {
               <Link
                 to="/signup"
                 className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-white/25 hover:scale-105"
+                onClick={() =>
+                  trackEvent("cta_click", {
+                    button_name: "bottom_signup",
+                    button_location: "cta_section",
+                    user_status: user ? "logged_in" : "not_logged_in",
+                    interaction_type: "bottom_cta",
+                    destination: "/signup",
+                  })
+                }
               >
                 {t("home.callToAction.button")}
                 <FiArrowRight className="ml-2 inline-block transition-transform group-hover:translate-x-1" />
@@ -895,6 +1353,13 @@ export function Home() {
                   <Link
                     to="/privacy"
                     className="text-sm hover:text-white transition-colors block py-1"
+                    onClick={() =>
+                      trackEvent("footer_link_click", {
+                        link_name: "privacy_policy",
+                        link_location: "footer",
+                        destination: "/privacy",
+                      })
+                    }
                   >
                     {t("home.footer.columns.legal.links.privacy")}
                   </Link>
@@ -903,6 +1368,13 @@ export function Home() {
                   <Link
                     to="/terms"
                     className="text-sm hover:text-white transition-colors block py-1"
+                    onClick={() =>
+                      trackEvent("footer_link_click", {
+                        link_name: "terms_of_service",
+                        link_location: "footer",
+                        destination: "/terms",
+                      })
+                    }
                   >
                     {t("home.footer.columns.legal.links.terms")}
                   </Link>

@@ -8,7 +8,11 @@ const TOOLS_IMAGES = {
   mathPaper: "/exam_vis.png",
 };
 
-export default function NextGenTools() {
+interface NextGenToolsProps {
+  onToolClick?: (toolName: string) => void;
+}
+
+export default function NextGenTools({ onToolClick }: NextGenToolsProps) {
   const { t } = useTranslation();
 
   // Function to scroll to Guides & Tutorials section
@@ -16,6 +20,17 @@ export default function NextGenTools() {
     const guidesSection = document.querySelector("#guides-tutorials");
     if (guidesSection) {
       guidesSection.scrollIntoView({ behavior: "smooth" });
+
+      // Track the scroll to guides click
+      if (onToolClick) {
+        onToolClick("scroll_to_guides");
+      }
+    }
+  };
+
+  const handleToolClick = (toolName: string) => {
+    if (onToolClick) {
+      onToolClick(toolName);
     }
   };
 
@@ -121,6 +136,7 @@ export default function NextGenTools() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
               className="group relative bg-white rounded-2xl p-6 pb-8 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col"
+              onClick={() => handleToolClick(tool.title)}
             >
               {/* Hover gradient effect */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -169,7 +185,10 @@ export default function NextGenTools() {
 
                   {/* Learn More button */}
                   <motion.button
-                    onClick={scrollToGuides}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent triggering the parent div's onClick
+                      scrollToGuides();
+                    }}
                     className="mt-auto pt-8 flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors group/link"
                     whileHover={{ x: 4 }}
                   >

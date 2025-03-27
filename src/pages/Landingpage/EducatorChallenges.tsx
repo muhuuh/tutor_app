@@ -106,10 +106,22 @@ const getPainPoints = (t: any) => [
   },
 ];
 
-export default function EducatorChallengesMindMap() {
+interface EducatorChallengesProps {
+  onChallengeClick?: (challengeName: string) => void;
+}
+
+export default function EducatorChallengesMindMap({
+  onChallengeClick,
+}: EducatorChallengesProps) {
   const { t } = useTranslation();
   const painPoints = getPainPoints(t);
   //const containerRef = useRef(null);
+
+  const handleChallengeClick = (challengeName: string) => {
+    if (onChallengeClick) {
+      onChallengeClick(challengeName);
+    }
+  };
 
   return (
     <section className="pb-2 pt-16 md:pt-16 relative overflow-hidden">
@@ -156,6 +168,7 @@ export default function EducatorChallengesMindMap() {
                 transition={{ delay: index * 0.05 }}
                 className="py-2 relative group"
                 whileHover={{ x: index % 2 === 0 ? 3 : -3 }}
+                onClick={() => handleChallengeClick(point.title)}
               >
                 {/* Alternating layout - odd indexes have text left, even have text right */}
                 <div
@@ -222,6 +235,7 @@ export default function EducatorChallengesMindMap() {
                 transition={{ delay: index * 0.05 }}
                 className="py-2 relative group"
                 whileHover={{ x: index % 2 === 0 ? 2 : -2 }}
+                onClick={() => handleChallengeClick(point.title)}
               >
                 {/* Alternating layout - odd indexes have text left, even have text right */}
                 <div
