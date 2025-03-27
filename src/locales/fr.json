@@ -18,6 +18,33 @@
         "tailoredVideos": "Vidéos adaptées"
       }
     },
+    "mainFeatures": {
+      "badge": "Fonctionnalités",
+      "heading": "Fonctionnalités principales",
+      "subtitle": "Curieux ? Voici ce que vous pourrez bientôt faire",
+      "features": {
+        "autoGrading": {
+          "title": "Correction automatisée",
+          "shortDesc": "Prenez une photo d’un exercice manuscrit, obtenez instantanément un rapport de correction détaillé"
+        },
+        "customExercises": {
+          "title": "Exercices personnalisés",
+          "shortDesc": "Recevez des exercices personnalisés basés sur les concepts mal compris ou tout sujet souhaité - avec solution détaillée étape par étape"
+        },
+        "videos": {
+          "title": "Vidéos éducatives sur mesure",
+          "shortDesc": "Recevez instantanément les meilleures vidéos éducatives en ligne prêtes à être partagées sur les concepts mal compris par l'élève"
+        },
+        "tracking": {
+          "title": "Suivi des performances",
+          "shortDesc": "Suivi automatique des performances de l'élève sur tous les concepts et exercices dans le temps, avec vue d’ensemble des points forts et axes d'amélioration, rapport partageable avec les parents"
+        },
+        "brainstorm": {
+          "title": "Brainstorming avec l'IA",
+          "shortDesc": "RobinA connaît tout ce que vous avez partagé sur l’élève – notes, performances, lacunes, etc. Brainstormez pour planifier les prochaines sessions et aider l’élève à progresser"
+        }
+      }
+    },
     "resources": {
       "tool1": {
         "title": "Outil 1: Correction alimentée par l'IA avec ressources personnalisées",

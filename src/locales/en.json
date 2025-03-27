@@ -23,6 +23,33 @@
         "login": "Educator Login"
       }
     },
+    "mainFeatures": {
+      "badge": "Tool Features",
+      "heading": "Main Features",
+      "subtitle": "Curious? This is what you will soon be able to do",
+      "features": {
+        "autoGrading": {
+          "title": "Automated Grading",
+          "shortDesc": "Snap a photo of handwritten exercise, get instant detailed correction report"
+        },
+        "customExercises": {
+          "title": "Custom Exercises",
+          "shortDesc": "Get customized new exercises based on concepts not well understood or any topic you want - including step by step solution"
+        },
+        "videos": {
+          "title": "Tailored Education Videos",
+          "shortDesc": "Instantly receive the best online educational videos ready to share for the concepts not well understood by the student"
+        },
+        "tracking": {
+          "title": "Student Performance Tracking",
+          "shortDesc": "Automated student performance tracking of all concepts and exercises over time, with overview of strengths and focus areas, ready-to-share report for parents"
+        },
+        "brainstorm": {
+          "title": "Brainstorm with AI",
+          "shortDesc": "RobinA knows everything about the student that you shared - notes, performances, weaknesses, etc. Brainstorm to plan next sessions and improve the student"
+        }
+      }
+    },
     "resources": {
       "tool1": {
         "title": "Tool 1: AI-Powered Correction with Tailored Resources",
@@ -127,7 +154,7 @@
       "badge": "EDUCATOR CHALLENGES",
       "heading": "Understanding Your Biggest Challenges",
       "allChallengesBanner": "STEM Teaching Struggles We Understand",
-      "allChallengesBannerSub": "We’ve listened to you. The common teaching struggles make it harder to focus on what you love: teaching.",
+      "allChallengesBannerSub": "We've listened to you. The common teaching struggles make it harder to focus on what you love: teaching.",
       "tiredHeading": "Feeling Overwhelmed by These Challenges?",
       "p1": "STEM educators struggle with time-consuming grading and personalized support.",
       "p2": "It is time consuming to give each student the individualized attention they need to thrive—which is what makes teaching so fulfilling.",

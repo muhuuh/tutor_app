@@ -18,6 +18,33 @@
         "tailoredVideos": "Individuelle Videos"
       }
     },
+    "mainFeatures": {
+      "badge": "Werkzeugfunktionen",
+      "heading": "Hauptfunktionen",
+      "subtitle": "Neugierig? Das wirst du bald tun können",
+      "features": {
+        "autoGrading": {
+          "title": "Automatische Korrektur",
+          "shortDesc": "Mach ein Foto von der handschriftlichen Aufgabe und erhalte sofort einen detaillierten Korrekturbericht"
+        },
+        "customExercises": {
+          "title": "Individuelle Übungen",
+          "shortDesc": "Erhalte individuelle neue Übungen basierend auf nicht verstandenen Konzepten oder jedem gewünschten Thema – inklusive Schritt-für-Schritt-Lösung"
+        },
+        "videos": {
+          "title": "Maßgeschneiderte Lernvideos",
+          "shortDesc": "Erhalte sofort die besten Online-Lernvideos zum Teilen für die vom Schüler nicht verstandenen Konzepte"
+        },
+        "tracking": {
+          "title": "Leistungsüberwachung",
+          "shortDesc": "Automatische Überwachung der Schülerleistungen über alle Konzepte und Übungen hinweg mit Übersicht über Stärken und Fokusbereiche, teilbarer Bericht für Eltern"
+        },
+        "brainstorm": {
+          "title": "Brainstorming mit KI",
+          "shortDesc": "RobinA kennt alles, was du über den Schüler geteilt hast – Notizen, Leistungen, Schwächen usw. Brainstorme, um die nächsten Sitzungen zu planen und den Schüler zu fördern"
+        }
+      }
+    },
     "resources": {
       "tool1": {
         "title": "Tool 1: KI-gestützte Korrektur mit maßgeschneiderten Ressourcen",
