@@ -129,11 +129,11 @@ export default function MainFeatures() {
               whileHover={{ y: -5 }}
             >
               {/* Feature Icon - Larger and more prominent */}
-              <div className="w-20 h-20 bg-indigo-600 rounded-2xl flex items-center justify-center text-white mb-5 group-hover:shadow-md transition-all">
+              <div className="w-20 h-20  rounded-2xl flex items-center justify-center text-white mb-5 group-hover:shadow-md transition-all">
                 <img
                   src={feature.image}
                   alt=""
-                  className="w-12 h-12 object-contain"
+                  className="w-20 h-20 object-contain"
                 />
               </div>
 
