@@ -3,8 +3,8 @@
     "hero": {
       "badge": "AI-Powered Education Platform",
       "title": "Save Time, Teach Smarter!",
-      "subtitle": "Help your STEM students thrive with cutting-edge AI-powered features",
-      "socialProof": "Trusted by educators globally",
+      "subtitle": "Instantly grade homework, generate tailored exercises and create a detailed student profile.",
+      "socialProof": "Trusted by 100+ Math Tutors Worldwide",
       "badges": {
         "aiPowered": "AI-Powered",
         "saveTime": "Save 10+ hrs/week",
@@ -19,7 +19,7 @@
       },
       "cta": {
         "start": "Save Time",
-        "trial": "Try It Free Now!",
+        "trial": "Start Your Free Trial!",
         "login": "Educator Login"
       }
     },
