@@ -1,12 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import { AuroraBackground } from "../components/UI/aurora-background";
 import { supabase } from "../lib/supabase";
-import { motion } from "framer-motion";
-import { Gift } from "lucide-react";
+//import { motion } from "framer-motion";
+//import { Gift } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Dialog, Transition } from "@headlessui/react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+
+// Define screenshot data
+const screenshotData = [
+  {
+    imageName: "homework_correction_chat",
+    translationKey: "auth.screenshots.homeworkCorrectionChat",
+  },
+  {
+    imageName: "homework_correction_report_overview",
+    translationKey: "auth.screenshots.homeworkCorrectionReportOverview",
+  },
+  {
+    imageName: "homework_correction_report_overview_summary",
+    translationKey: "auth.screenshots.homeworkCorrectionReportOverviewSummary",
+  },
+  {
+    imageName: "homework_correction_profile",
+    translationKey: "auth.screenshots.homeworkCorrectionProfile",
+  },
+  {
+    imageName: "exercice_forge_example",
+    translationKey: "auth.screenshots.exerciceForgeExample",
+  },
+  {
+    imageName: "exercice_forge_new_exam",
+    translationKey: "auth.screenshots.exerciceForgeNewExam",
+  },
+];
 
 export function Auth() {
   const { user, signIn, signUp } = useAuth();
@@ -16,11 +50,26 @@ export function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const { t } = useTranslation();
 
   useEffect(() => {
     navigate(isSignUp ? "/signup" : "/signin", { replace: true });
   }, [isSignUp, navigate]);
+
+  // Function to toggle modal directly
+  const toggleModal = () => {
+    console.log("Toggling modal");
+    const newState = !isModalOpen;
+    console.log("Setting modal state to:", newState);
+    setIsModalOpen(newState);
+  };
+
+  // Log modal state changes
+  useEffect(() => {
+    console.log("Modal state changed:", isModalOpen);
+  }, [isModalOpen]);
 
   if (user) {
     const redirectTo = location.state?.from?.pathname || "/";
@@ -76,6 +125,18 @@ export function Auth() {
     }
   };
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) =>
+      prev === screenshotData.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) =>
+      prev === 0 ? screenshotData.length - 1 : prev - 1
+    );
+  };
+
   return (
     <AuroraBackground className="min-h-screen pb-10">
       <div className="min-h-screen flex items-center justify-center pb-0 pt-32 sm:pt-28 px-4 sm:px-6 lg:px-8">
@@ -100,40 +161,25 @@ export function Auth() {
                   ? t("auth.headingCreateAccount")
                   : t("auth.headingWelcomeBack")}
               </h2>
+
               <p className="text-sm text-gray-600">
+                {" "}
+                <span className="mr-0.5">✨ </span>
                 {isSignUp
                   ? t("auth.headingCreateAccountSubtitle")
                   : t("auth.signInToContinue")}
               </p>
             </div>
 
-            {isSignUp && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4 relative group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-500/20 to-blue-500/20 rounded-xl blur-xl transform group-hover:scale-105 transition-transform" />
-                <div className="relative bg-white/80 backdrop-blur-sm border border-violet-100 rounded-xl p-3 shadow-lg">
-                  <div className="flex items-start gap-3">
-                    <div className="p-1.5 bg-gradient-to-br from-violet-500 to-blue-500 rounded-lg text-white shrink-0">
-                      <Gift className="w-4 h-4" />
-                    </div>
-                    <div className="text-left">
-                      <h3 className="font-semibold text-gray-900 flex flex-col sm:flex-row sm:items-center gap-1">
-                        <span className="text-base">
-                          {t("auth.freeTrial.title")}
-                        </span>
-                        <span className="text-blue-600 font-medium bg-blue-50 px-1.5 py-0.5 rounded-full text-xs inline-flex items-center">
-                          <span className="mr-0.5">✨</span>
-                          {t("auth.freeTrial.subtitle")}
-                        </span>
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
+            {/* Demo Tool Link */}
+            <button
+              onClick={toggleModal}
+              className="mt-4 text-sm px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 hover:text-indigo-800 transition-all duration-200 rounded-full shadow-sm border border-indigo-100 flex items-center gap-1 font-medium mx-auto cursor-pointer relative z-10"
+              type="button"
+              aria-haspopup="dialog"
+            >
+              <span className="mr-0.5">🔍</span> {t("auth.curious")}
+            </button>
           </div>
 
           <div className="backdrop-blur-xl bg-white/70 rounded-2xl p-8 shadow-xl border border-white/20 w-full">
@@ -216,6 +262,89 @@ export function Auth() {
           </div>
         </div>
       </div>
+
+      {/* Screenshot Preview Modal - Simplified Implementation */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-50 overflow-y-auto"
+          aria-labelledby="modal-title"
+          role="dialog"
+          aria-modal="true"
+        >
+          {/* Background overlay */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            aria-hidden="true"
+            onClick={() => setIsModalOpen(false)}
+          ></div>
+
+          {/* Modal panel */}
+          <div className="flex min-h-full items-center justify-center p-4">
+            <div className="w-full max-w-4xl overflow-hidden rounded-2xl bg-white/90 backdrop-blur-md p-6 shadow-xl relative">
+              {/* Close button */}
+              <button
+                type="button"
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+                onClick={() => setIsModalOpen(false)}
+              >
+                <XMarkIcon className="h-6 w-6" />
+              </button>
+
+              {/* Modal title */}
+              <h3 className="text-xl font-semibold text-center text-gray-900 mb-4">
+                {t("auth.featurePreview")}
+              </h3>
+
+              {/* Carousel */}
+              <div className="overflow-hidden rounded-xl">
+                <div className="relative">
+                  <img
+                    src={`/tool_screenshot/${screenshotData[currentSlide].imageName}.png`}
+                    alt={`Tool Screenshot ${currentSlide + 1}`}
+                    className="w-full h-full object-contain rounded-xl shadow-md"
+                  />
+
+                  {/* Navigation arrows */}
+                  <button
+                    onClick={prevSlide}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-md focus:outline-none"
+                  >
+                    <ChevronLeftIcon className="h-6 w-6 text-gray-800" />
+                  </button>
+
+                  <button
+                    onClick={nextSlide}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-md focus:outline-none"
+                  >
+                    <ChevronRightIcon className="h-6 w-6 text-gray-800" />
+                  </button>
+                </div>
+
+                {/* Slide indicators */}
+                <div className="flex justify-center gap-2 mt-4">
+                  {screenshotData.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`h-2 w-2 rounded-full ${
+                        currentSlide === index ? "bg-indigo-600" : "bg-gray-300"
+                      }`}
+                      aria-label={`View screenshot ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Feature description */}
+              <div className="mt-4 bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-100 shadow-sm">
+                <p className="text-base text-gray-800">
+                  {t(screenshotData[currentSlide].translationKey)}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </AuroraBackground>
   );
 }

@@ -463,34 +463,44 @@
   },
   "auth": {
     "headingCreateAccount": "Create your account",
-    "headingCreateAccountSubtitle": "and start using our AI-powered tools for free",
+    "headingCreateAccountSubtitle": "Get started with our AI-powered education platform",
     "headingWelcomeBack": "Welcome back",
-    "signInToContinue": "Sign in to continue",
+    "signInToContinue": "Sign in to continue to your dashboard",
     "freeTrial": {
       "title": "7-Day Free Trial Included",
       "subtitle": "No credit card required"
     },
     "form": {
       "emailLabel": "Email address",
+      "emailPlaceholder": "Your email",
       "passwordLabel": "Password",
-      "emailPlaceholder": "Email address",
-      "passwordPlaceholder": "Password",
-      "btnCreateAccount": "Create Account",
-      "btnSignIn": "Sign In",
+      "passwordPlaceholder": "Your password",
+      "btnSignIn": "Sign in",
+      "btnCreateAccount": "Create account",
       "processing": "Processing..."
     },
     "toggle": {
       "alreadyHaveAccount": "Already have an account?",
       "dontHaveAccount": "Don't have an account?",
       "signInInstead": "Sign in instead",
-      "createAccount": "Create an account"
+      "createAccount": "Create a free account"
     },
     "toast": {
-      "signupSuccess": "Account created! Please check your email to confirm your account before signing in. Check your spam folder if you don't see it.",
-      "signupEmailExists": "An account with this email already exists.",
-      "signinSuccess": "Welcome back!",
-      "signinEmailNotVerified": "Please verify your email before signing in. Check your spam folder if you haven't received the verification email.",
-      "authError": "Authentication failed"
+      "signupSuccess": "Account created successfully! Please check your email to verify your account before signing in.",
+      "signupEmailExists": "An account with this email already exists. Please sign in instead.",
+      "signinSuccess": "Signed in successfully!",
+      "signinEmailNotVerified": "Please verify your email address before signing in. Check your inbox for the verification link.",
+      "authError": "An error occurred during authentication. Please try again."
+    },
+    "curious": "Curious how the tool looks like?",
+    "featurePreview": "Feature Preview",
+    "screenshots": {
+      "homeworkCorrectionChat": "Select any student and upload their exercises to get immediate correction and report about concepts to focus on. Also chat with AI about the latest performance of that student, brainstorm about idea how to improve, get quickly concepts to focus on, and more.",
+      "homeworkCorrectionReportOverview": "Report with high level summary of the performance, detailed grading, tailored online videos based on the concepts the student need to focus on and personalized exercises for these concepts.",
+      "homeworkCorrectionReportOverviewSummary": "Report with high level summary of the performance, detailed grading, tailored online videos based on the concepts the student need to focus on and personalized exercises for these concepts.",
+      "homeworkCorrectionProfile": "Detailed student profile based on all past performances. Overview of strength and areas of growth, easy to quickly understand where to focus on with student. Generate immediate report to share with parents based on that profile analysis.",
+      "exerciceForgeExample": "Upload any exercises, and brainstorm with AI how to modify them and generate detailed step by step solutions for them.",
+      "exerciceForgeNewExam": "Explain what kind of exercises you would need, giving as many details as you want and let the AI craft the perfect exercises or exam for you."
     }
   },
 
