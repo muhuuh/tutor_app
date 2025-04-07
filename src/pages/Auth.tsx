@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
@@ -7,7 +7,7 @@ import { supabase } from "../lib/supabase";
 //import { motion } from "framer-motion";
 //import { Gift } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Dialog, Transition } from "@headlessui/react";
+//import { Dialog, Transition } from "@headlessui/react";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -411,7 +411,7 @@ export function Auth() {
                   }}
                 />
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex justify-center gap-1.5 py-1 px-3 bg-black/30 backdrop-blur-sm rounded-full">
-                  {screenshotData.map((item, index) => (
+                  {screenshotData.map((_, index) => (
                     <button
                       key={index}
                       onClick={(e) => {
@@ -515,7 +515,7 @@ export function Auth() {
 
                   {/* Slide indicators - centered and stylish */}
                   <div className="flex justify-center gap-1.5 py-2 bg-white border-t border-gray-100">
-                    {screenshotData.map((item, index) => (
+                    {screenshotData.map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
