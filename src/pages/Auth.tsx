@@ -263,7 +263,7 @@ export function Auth() {
         </div>
       </div>
 
-      {/* Screenshot Preview Modal - Simplified Implementation */}
+      {/* Screenshot Preview Modal - Enhanced Design */}
       {isModalOpen && (
         <div
           className="fixed inset-0 z-50 overflow-y-auto"
@@ -271,63 +271,93 @@ export function Auth() {
           role="dialog"
           aria-modal="true"
         >
-          {/* Background overlay */}
+          {/* Animated background overlay */}
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/70 backdrop-blur-md transition-opacity duration-300 ease-in-out"
             aria-hidden="true"
             onClick={() => setIsModalOpen(false)}
           ></div>
 
-          {/* Modal panel */}
-          <div className="flex min-h-full items-center justify-center p-4">
-            <div className="w-full max-w-4xl overflow-hidden rounded-2xl bg-white/90 backdrop-blur-md p-6 shadow-xl relative">
-              {/* Close button */}
+          {/* Modal panel with enhanced design */}
+          <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
+            <div
+              className="w-full max-w-4xl overflow-hidden rounded-3xl bg-gradient-to-b from-white to-gray-50 p-6 sm:p-8 shadow-2xl relative border border-gray-100 transition-all duration-300 ease-in-out transform"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Enhanced close button */}
               <button
                 type="button"
-                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none z-10"
                 onClick={() => setIsModalOpen(false)}
               >
-                <XMarkIcon className="h-6 w-6" />
+                <XMarkIcon className="h-5 w-5" />
               </button>
 
-              {/* Modal title */}
-              <h3 className="text-xl font-semibold text-center text-gray-900 mb-4">
-                {t("auth.featurePreview")}
-              </h3>
+              {/* Modal title with enhanced styling */}
+              <div className="mb-6 text-center">
+                <h3 className="text-2xl font-bold text-gray-900 mb-1">
+                  {t("auth.featurePreview")}
+                </h3>
+                <p className="text-sm text-gray-500">
+                  Explore our platform's powerful features
+                </p>
+              </div>
 
-              {/* Carousel */}
-              <div className="overflow-hidden rounded-xl">
-                <div className="relative">
+              {/* Enhanced Carousel */}
+              <div className="overflow-hidden rounded-2xl bg-gray-50 shadow-inner border border-gray-200 mb-4">
+                <div className="relative aspect-[16/9] overflow-hidden rounded-t-2xl">
+                  {/* Loading state indicator */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-0">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                  </div>
+
+                  {/* Main image with error fallback */}
                   <img
                     src={`/tool_screenshot/${screenshotData[currentSlide].imageName}.png`}
                     alt={`Tool Screenshot ${currentSlide + 1}`}
-                    className="w-full h-full object-contain rounded-xl shadow-md"
+                    className="w-full h-full object-contain z-10 relative"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null; // Prevent infinite loop
+                      target.src = "/placeholder-image.png"; // Fallback image
+                    }}
                   />
 
-                  {/* Navigation arrows */}
+                  {/* Enhanced Navigation arrows */}
                   <button
-                    onClick={prevSlide}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-md focus:outline-none"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      prevSlide();
+                    }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none z-20"
                   >
-                    <ChevronLeftIcon className="h-6 w-6 text-gray-800" />
+                    <ChevronLeftIcon className="h-6 w-6 text-indigo-600" />
                   </button>
 
                   <button
-                    onClick={nextSlide}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-md focus:outline-none"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      nextSlide();
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none z-20"
                   >
-                    <ChevronRightIcon className="h-6 w-6 text-gray-800" />
+                    <ChevronRightIcon className="h-6 w-6 text-indigo-600" />
                   </button>
                 </div>
 
-                {/* Slide indicators */}
-                <div className="flex justify-center gap-2 mt-4">
-                  {screenshotData.map((_, index) => (
+                {/* Enhanced Slide indicators */}
+                <div className="flex justify-center gap-2 py-4 px-6 bg-white border-t border-gray-100">
+                  {screenshotData.map((item, index) => (
                     <button
                       key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`h-2 w-2 rounded-full ${
-                        currentSlide === index ? "bg-indigo-600" : "bg-gray-300"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentSlide(index);
+                      }}
+                      className={`h-3 w-3 rounded-full transition-all duration-200 ${
+                        currentSlide === index
+                          ? "bg-indigo-600 scale-110 shadow-sm"
+                          : "bg-gray-300 hover:bg-gray-400"
                       }`}
                       aria-label={`View screenshot ${index + 1}`}
                     />
@@ -335,11 +365,54 @@ export function Auth() {
                 </div>
               </div>
 
-              {/* Feature description */}
-              <div className="mt-4 bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-100 shadow-sm">
-                <p className="text-base text-gray-800">
-                  {t(screenshotData[currentSlide].translationKey)}
-                </p>
+              {/* Enhanced Feature description */}
+              <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+                <div className="flex items-start">
+                  <div className="bg-indigo-100 rounded-full p-2 mr-3 mt-0.5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-indigo-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-md font-semibold text-indigo-900 mb-1">
+                      Feature Highlight {currentSlide + 1}/
+                      {screenshotData.length}
+                    </h4>
+                    <p className="text-base text-gray-700 leading-relaxed">
+                      {t(screenshotData[currentSlide].translationKey)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pagination display */}
+              <div className="mt-6 flex justify-between items-center text-sm text-gray-500">
+                <span>
+                  Showing {currentSlide + 1} of {screenshotData.length}
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={prevSlide}
+                    className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={nextSlide}
+                    className="px-3 py-1 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-md transition-colors"
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
           </div>
