@@ -213,10 +213,14 @@ export function Auth() {
             </button>
           </div>
 
-          <div className="backdrop-blur-xl bg-white/70 rounded-2xl p-8 shadow-xl border border-white/20 w-full">
-            <form className="space-y-5" onSubmit={handleSubmit}>
+          <div className="backdrop-blur-xl bg-gradient-to-b from-white/90 to-white/70 rounded-2xl p-8 shadow-xl border border-white/30 w-full relative overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute -top-24 -right-24 w-40 h-40 bg-gradient-to-br from-indigo-300/20 to-purple-300/20 rounded-full blur-3xl"></div>
+            <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-gradient-to-tr from-blue-300/20 to-indigo-300/20 rounded-full blur-3xl"></div>
+
+            <form className="space-y-6 relative z-10" onSubmit={handleSubmit}>
               <div className="space-y-4">
-                <div>
+                <div className="relative group">
                   <label htmlFor="email" className="sr-only">
                     {t("auth.form.emailLabel")}
                   </label>
@@ -226,11 +230,12 @@ export function Auth() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 text-base"
+                    className="appearance-none relative block w-full px-4 py-3.5 border border-gray-200 placeholder-gray-400/60 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/90 text-base shadow-sm transition-all duration-200 group-hover:border-gray-300 placeholder:text-sm placeholder:font-light"
                     placeholder={t("auth.form.emailPlaceholder")}
                   />
+                  <div className="absolute inset-0 rounded-xl border border-indigo-500/0 group-focus-within:border-indigo-500/50 pointer-events-none transition-all duration-300"></div>
                 </div>
-                <div>
+                <div className="relative group">
                   <label htmlFor="password" className="sr-only">
                     {t("auth.form.passwordLabel")}
                   </label>
@@ -240,39 +245,74 @@ export function Auth() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 text-base"
+                    className="appearance-none relative block w-full px-4 py-3.5 border border-gray-200 placeholder-gray-400/60 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/90 text-base shadow-sm transition-all duration-200 group-hover:border-gray-300 placeholder:text-sm placeholder:font-light"
                     placeholder={t("auth.form.passwordPlaceholder")}
                   />
+                  <div className="absolute inset-0 rounded-xl border border-indigo-500/0 group-focus-within:border-indigo-500/50 pointer-events-none transition-all duration-300"></div>
                 </div>
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-6 w-full flex justify-center py-3 px-4 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-500/25"
+                className="relative mt-6 w-full flex justify-center py-3.5 px-4 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] shadow-indigo-500/25 overflow-hidden"
               >
-                {loading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white/50 border-t-white rounded-full animate-spin" />
-                    <span>{t("auth.form.processing")}</span>
-                  </div>
-                ) : (
-                  <span>
-                    {isSignUp
-                      ? t("auth.form.btnCreateAccount")
-                      : t("auth.form.btnSignIn")}
-                  </span>
-                )}
+                <span className="relative z-10">
+                  {loading ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
+                      <span>{t("auth.form.processing")}</span>
+                    </div>
+                  ) : (
+                    <span className="flex items-center gap-1">
+                      {isSignUp ? (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-5 h-5"
+                          >
+                            <path d="M11 5a3 3 0 11-6 0 3 3 0 016 0zM2.615 16.428a1.224 1.224 0 01-.569-1.175 6.002 6.002 0 0111.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 018 18a9.953 9.953 0 01-5.385-1.572zM16.25 5.75a.75.75 0 00-1.5 0v2h-2a.75.75 0 000 1.5h2v2a.75.75 0 001.5 0v-2h2a.75.75 0 000-1.5h-2v-2z" />
+                          </svg>
+                          {t("auth.form.btnCreateAccount")}
+                        </>
+                      ) : (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-5 h-5"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M3 4.25A2.25 2.25 0 015.25 2h5.5A2.25 2.25 0 0113 4.25v2a.75.75 0 01-1.5 0v-2a.75.75 0 00-.75-.75h-5.5a.75.75 0 00-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 00.75-.75v-2a.75.75 0 011.5 0v2A2.25 2.25 0 0110.75 18h-5.5A2.25 2.25 0 013 15.75V4.25z"
+                              clipRule="evenodd"
+                            />
+                            <path
+                              fillRule="evenodd"
+                              d="M19 10a.75.75 0 00-.75-.75H8.704l1.048-.943a.75.75 0 10-1.004-1.114l-2.5 2.25a.75.75 0 000 1.114l2.5 2.25a.75.75 0 101.004-1.114l-1.048-.943h9.546A.75.75 0 0019 10z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          {t("auth.form.btnSignIn")}
+                        </>
+                      )}
+                    </span>
+                  )}
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
               </button>
             </form>
 
-            <div className="mt-6">
+            <div className="mt-6 relative z-10">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300/50" />
+                  <div className="w-full border-t border-gray-200/70" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-3 py-1 text-gray-500 bg-white/70 text-base">
+                  <span className="px-4 py-1 text-gray-500 bg-white/80 text-sm font-medium rounded-full shadow-sm backdrop-blur-sm">
                     {isSignUp
                       ? t("auth.toggle.alreadyHaveAccount")
                       : t("auth.toggle.dontHaveAccount")}
@@ -283,11 +323,42 @@ export function Auth() {
               <button
                 type="button"
                 onClick={() => setIsSignUp(!isSignUp)}
-                className="mt-4 w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-base font-medium text-gray-700 bg-white/50 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+                className="mt-5 w-full inline-flex justify-center items-center py-3 px-4 border border-indigo-100 rounded-xl shadow-sm text-base font-medium text-indigo-700 bg-indigo-50/80 hover:bg-indigo-100 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-400 transition-all duration-200 backdrop-blur-sm gap-1.5"
               >
-                {isSignUp
-                  ? t("auth.toggle.signInInstead")
-                  : t("auth.toggle.createAccount")}
+                {isSignUp ? (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M3 4.25A2.25 2.25 0 015.25 2h5.5A2.25 2.25 0 0113 4.25v2a.75.75 0 01-1.5 0v-2a.75.75 0 00-.75-.75h-5.5a.75.75 0 00-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 00.75-.75v-2a.75.75 0 011.5 0v2A2.25 2.25 0 0110.75 18h-5.5A2.25 2.25 0 013 15.75V4.25z"
+                        clipRule="evenodd"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        d="M19 10a.75.75 0 00-.75-.75H8.704l1.048-.943a.75.75 0 10-1.004-1.114l-2.5 2.25a.75.75 0 000 1.114l2.5 2.25a.75.75 0 101.004-1.114l-1.048-.943h9.546A.75.75 0 0019 10z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    {t("auth.toggle.signInInstead")}
+                  </>
+                ) : (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path d="M11 5a3 3 0 11-6 0 3 3 0 016 0zM2.615 16.428a1.224 1.224 0 01-.569-1.175 6.002 6.002 0 0111.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 018 18a9.953 9.953 0 01-5.385-1.572zM16.25 5.75a.75.75 0 00-1.5 0v2h-2a.75.75 0 000 1.5h2v2a.75.75 0 001.5 0v-2h2a.75.75 0 000-1.5h-2v-2z" />
+                    </svg>
+                    {t("auth.toggle.createAccount")}
+                  </>
+                )}
               </button>
             </div>
           </div>
