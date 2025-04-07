@@ -15,6 +15,50 @@ import { ChatSuggestions } from "./ChatSuggestions";
 import { useTranslation } from "react-i18next";
 import { InfoTooltip } from "../UI/InfoTooltip";
 
+// Define custom animation styles
+const chatAnimationStyles = `
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+  
+  .message-user {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .message-user:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg, transparent 50%, rgb(79, 70, 229) 50%);
+    border-bottom-right-radius: 16px;
+  }
+  
+  .message-assistant {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .message-assistant:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(225deg, transparent 50%, white 50%);
+    border-bottom-left-radius: 16px;
+  }
+`;
+
 interface Message {
   id: string;
   content: string;
@@ -334,6 +378,7 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
 
   return (
     <div className="space-y-4 sm:space-y-6">
+      <style dangerouslySetInnerHTML={{ __html: chatAnimationStyles }} />
       <div className="flex flex-col lg:flex-row gap-4 sm:gap-8">
         {/* Left Column - File Upload & Suggestions */}
         <div className="w-full lg:w-1/3 space-y-4 sm:space-y-6 lg:h-[600px] flex flex-col">
@@ -423,14 +468,38 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
               <>
                 {messages.map((message) =>
                   message.id === "typing" ? (
-                    <div key="typing" className="flex justify-start">
-                      <div className="bg-gray-50 rounded-2xl p-4 shadow-sm">
-                        <div className="flex gap-2">
+                    <div
+                      key="typing"
+                      className="flex justify-start animate-fadeIn"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="w-5 h-5 text-indigo-600"
+                        >
+                          <path d="M16.5 7.5h-9v9h9v-9Z" />
+                          <path
+                            fillRule="evenodd"
+                            d="M8.25 2.25A.75.75 0 0 1 9 3v.75h2.25V3a.75.75 0 0 1 1.5 0v.75H15V3a.75.75 0 0 1 1.5 0v.75h.75a3 3 0 0 1 3 3v.75H21A.75.75 0 0 1 21 9h-.75v2.25H21a.75.75 0 0 1 0 1.5h-.75V15H21a.75.75 0 0 1 0 1.5h-.75v.75a3 3 0 0 1-3 3h-.75V21a.75.75 0 0 1-1.5 0v-.75h-2.25V21a.75.75 0 0 1-1.5 0v-.75H9V21a.75.75 0 0 1-1.5 0v-.75h-.75a3 3 0 0 1-3-3v-.75H3A.75.75 0 0 1 3 15h.75v-2.25H3a.75.75 0 0 1 0-1.5h.75V9H3a.75.75 0 0 1 0-1.5h.75v-.75a3 3 0 0 1 3-3h.75V3a.75.75 0 0 1 .75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h10.5a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V6.75Z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm max-w-[85%] relative message-assistant"
+                        style={{ borderTopLeftRadius: "0.5rem" }}
+                      >
+                        <div className="flex items-center gap-1.5">
                           {[...Array(3)].map((_, i) => (
                             <div
                               key={i}
-                              className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"
-                              style={{ animationDelay: `${i * 150}ms` }}
+                              className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse"
+                              style={{
+                                animationDelay: `${i * 150}ms`,
+                                animationDuration: "1.2s",
+                              }}
                             />
                           ))}
                         </div>
@@ -441,18 +510,43 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                       key={message.id}
                       className={`flex ${
                         message.isUser ? "justify-end" : "justify-start"
-                      }`}
+                      } my-2 animate-fadeIn`}
                     >
+                      {!message.isUser && (
+                        <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="w-5 h-5 text-indigo-600"
+                          >
+                            <path d="M16.5 7.5h-9v9h9v-9Z" />
+                            <path
+                              fillRule="evenodd"
+                              d="M8.25 2.25A.75.75 0 0 1 9 3v.75h2.25V3a.75.75 0 0 1 1.5 0v.75H15V3a.75.75 0 0 1 1.5 0v.75h.75a3 3 0 0 1 3 3v.75H21A.75.75 0 0 1 21 9h-.75v2.25H21a.75.75 0 0 1 0 1.5h-.75V15H21a.75.75 0 0 1 0 1.5h-.75v.75a3 3 0 0 1-3 3h-.75V21a.75.75 0 0 1-1.5 0v-.75h-2.25V21a.75.75 0 0 1-1.5 0v-.75H9V21a.75.75 0 0 1-1.5 0v-.75h-.75a3 3 0 0 1-3-3v-.75H3A.75.75 0 0 1 3 15h.75v-2.25H3a.75.75 0 0 1 0-1.5h.75V9H3a.75.75 0 0 1 0-1.5h.75v-.75a3 3 0 0 1 3-3h.75V3a.75.75 0 0 1 .75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h10.5a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V6.75Z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      )}
                       <div
-                        className={`max-w-[85%] rounded-2xl p-4 transition-all duration-200 ${
+                        className={`max-w-[85%] rounded-2xl p-4 transition-all duration-300 ${
                           message.isUser
-                            ? "bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow"
-                            : "bg-gray-50/95 backdrop-blur-sm border border-gray-100 shadow"
+                            ? "bg-gradient-to-br from-indigo-500 via-indigo-600 to-indigo-700 text-white shadow-md relative message-user"
+                            : "bg-white border border-gray-200 shadow-sm relative message-assistant"
                         }`}
+                        style={{
+                          borderTopLeftRadius: !message.isUser
+                            ? "0.5rem"
+                            : "1rem",
+                          borderTopRightRadius: message.isUser
+                            ? "0.5rem"
+                            : "1rem",
+                        }}
                       >
                         <div
-                          className={`prose prose-sm ${
-                            message.isUser ? "prose-invert" : ""
+                          className={`${
+                            message.isUser ? "" : "prose prose-sm"
                           } max-w-none`}
                         >
                           <ReactMarkdown
@@ -460,9 +554,42 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                             rehypePlugins={[rehypeKatex]}
                             components={{
                               p: ({ children }) => (
-                                <p className="m-0 text-sm leading-relaxed whitespace-pre-wrap">
+                                <p
+                                  className={`m-0 leading-relaxed whitespace-pre-wrap ${
+                                    message.isUser
+                                      ? "text-white text-sm tracking-wide"
+                                      : "text-sm text-gray-800"
+                                  }`}
+                                >
                                   {children}
                                 </p>
+                              ),
+                              ul: ({ children }) => (
+                                <ul
+                                  className={`${
+                                    message.isUser ? "text-white pl-5" : "pl-5"
+                                  }`}
+                                >
+                                  {children}
+                                </ul>
+                              ),
+                              ol: ({ children }) => (
+                                <ol
+                                  className={`${
+                                    message.isUser ? "text-white pl-5" : "pl-5"
+                                  }`}
+                                >
+                                  {children}
+                                </ol>
+                              ),
+                              li: ({ children }) => (
+                                <li
+                                  className={`${
+                                    message.isUser ? "text-white" : ""
+                                  }`}
+                                >
+                                  {children}
+                                </li>
                               ),
                             }}
                           >
@@ -470,6 +597,22 @@ export function ChatBox({ selectedPupilId, onReportGenerated }: ChatBoxProps) {
                           </ReactMarkdown>
                         </div>
                       </div>
+                      {message.isUser && (
+                        <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center ml-2 flex-shrink-0">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="w-5 h-5 text-white"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      )}
                     </div>
                   )
                 )}
