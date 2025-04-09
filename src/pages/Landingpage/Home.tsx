@@ -523,6 +523,25 @@ export function Home() {
     },
   ];
 
+  const [isHeroFullscreen, setIsHeroFullscreen] = useState(false);
+  const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
+
+  const prevHeroSlide = () => {
+    setCurrentHeroSlide((prevSlide) => (prevSlide === 0 ? 3 : prevSlide - 1));
+  };
+
+  const nextHeroSlide = () => {
+    setCurrentHeroSlide((prevSlide) => (prevSlide === 3 ? 0 : prevSlide + 1));
+  };
+
+  // Hero image paths
+  const heroImages = [
+    "/tool_screenshot/hero_1.png",
+    "/tool_screenshot/hero_2.png",
+    "/tool_screenshot/hero_3.png",
+    "/tool_screenshot/hero_4.png",
+  ];
+
   return (
     <div className="min-h-screen overflow-hidden pt-16">
       {/* Fixed background that spans the entire page */}
@@ -567,7 +586,7 @@ export function Home() {
 
             {/* Peeking arm animation pointing to CTA button - only visible on mobile */}
             <motion.div
-              className="absolute z-20 right-0 bottom-[23%] transform origin-right"
+              className="absolute z-20 right-0 bottom-[45%] transform origin-right"
               initial={{ x: "100%", rotate: 0, scale: 0.9 }}
               animate={{
                 x: ["100%", "30%", "30%", "30%", "100%"],
@@ -786,6 +805,117 @@ export function Home() {
                         </span>
                       </Link>
                     </motion.div>
+
+                    {/* Hero Screenshots Carousel */}
+                    <div className="relative w-full max-w-md mx-auto my-4">
+                      <div className="relative overflow-hidden rounded-lg shadow-lg h-64">
+                        <div className="relative h-full">
+                          {/* Loading indicator */}
+                          <div className="absolute inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-10">
+                            <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                          </div>
+
+                          {/* Carousel container */}
+                          <div
+                            className="flex transition-transform duration-300 ease-in-out h-full"
+                            style={{
+                              transform: `translateX(-${
+                                currentHeroSlide * 100
+                              }%)`,
+                            }}
+                          >
+                            {heroImages.map((image, index) => (
+                              <img
+                                key={index}
+                                src={image}
+                                alt={`Hero ${index + 1}`}
+                                className="w-full h-full object-cover cursor-pointer flex-shrink-0 min-w-full"
+                                onClick={() => setIsHeroFullscreen(true)}
+                                onLoad={(e) => {
+                                  // Hide loading indicator when image loads
+                                  const target = e.target as HTMLImageElement;
+                                  const parent =
+                                    target.parentElement?.parentElement;
+                                  const loadingIndicator =
+                                    parent?.querySelector(
+                                      "div.absolute.inset-0.flex"
+                                    );
+                                  if (loadingIndicator)
+                                    loadingIndicator.classList.add("hidden");
+                                }}
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.src = `https://via.placeholder.com/800x500?text=Hero+${
+                                    index + 1
+                                  }`;
+                                }}
+                              />
+                            ))}
+                          </div>
+
+                          {/* Left navigation arrow */}
+                          <button
+                            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white z-20 hover:bg-black/70 transition-colors"
+                            onClick={prevHeroSlide}
+                            aria-label="Previous image"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M15 19l-7-7 7-7"
+                              />
+                            </svg>
+                          </button>
+
+                          {/* Right navigation arrow */}
+                          <button
+                            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white z-20 hover:bg-black/70 transition-colors"
+                            onClick={nextHeroSlide}
+                            aria-label="Next image"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+
+                        {/* Dots indicator */}
+                        <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-2">
+                          {heroImages.map((_, index) => (
+                            <button
+                              key={index}
+                              className={`w-2 h-2 rounded-full transition-colors ${
+                                currentHeroSlide === index
+                                  ? "bg-white"
+                                  : "bg-white/50"
+                              }`}
+                              onClick={() => setCurrentHeroSlide(index)}
+                              aria-label={`Show image ${index + 1}`}
+                            ></button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
                     <motion.div
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.98 }}
@@ -812,6 +942,88 @@ export function Home() {
                   </>
                 )}
               </motion.div>
+
+              {/* Fullscreen modal for hero screenshots */}
+              {isHeroFullscreen && (
+                <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
+                  <div className="relative w-full max-w-4xl">
+                    <img
+                      src={heroImages[currentHeroSlide]}
+                      alt={`Hero ${currentHeroSlide + 1}`}
+                      className="w-full h-auto object-contain max-h-[90vh]"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src =
+                          "https://via.placeholder.com/1200x800?text=Screenshot+Not+Found";
+                      }}
+                    />
+
+                    {/* Close button */}
+                    <button
+                      className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                      onClick={() => setIsHeroFullscreen(false)}
+                      aria-label="Close fullscreen view"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+
+                    {/* Navigation arrows */}
+                    <button
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                      onClick={prevHeroSlide}
+                      aria-label="Previous image"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 19l-7-7 7-7"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                      onClick={nextHeroSlide}
+                      aria-label="Next image"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Enhanced visual container */}
