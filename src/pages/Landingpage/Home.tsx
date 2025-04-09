@@ -536,8 +536,8 @@ export function Home() {
 
   // Hero image paths
   const heroImages = [
-    "/tool_screenshot/hero_1.png",
     "/tool_screenshot/hero_2.png",
+    "/tool_screenshot/hero_1.png",
     "/tool_screenshot/hero_3.png",
     "/tool_screenshot/hero_4.png",
   ];
@@ -643,56 +643,8 @@ export function Home() {
             <div className="absolute inset-0 opacity-5 [background-image:linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [background-size:48px_48px]"></div>
           )}
 
-          {/* Reduce or simplify glow spots on mobile */}
-          {window.innerWidth >= 768 ? (
-            <>
-              {/* Original animated glow spots for desktop */}
-              <motion.div
-                className="absolute left-1/4 top-1/4 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500 opacity-20 rounded-full blur-[80px]"
-                animate={{
-                  opacity: [0.15, 0.3, 0.15],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-              <motion.div
-                className="absolute right-1/4 bottom-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 bg-purple-500 opacity-20 rounded-full blur-[100px]"
-                animate={{
-                  opacity: [0.15, 0.3, 0.15],
-                  scale: [1, 1.15, 1],
-                }}
-                transition={{
-                  duration: 10,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2,
-                }}
-              />
-              <motion.div
-                className="absolute left-2/3 top-1/3 w-72 h-72 bg-indigo-500 opacity-20 rounded-full blur-[90px]"
-                animate={{
-                  opacity: [0.1, 0.25, 0.1],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 9,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-              />
-            </>
-          ) : (
-            // Static simplified version for mobile
-            <div className="absolute left-1/4 top-1/4 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-blue-500 opacity-15 rounded-full blur-[60px]"></div>
-          )}
-
-          {/* Only include particles on desktop or reduce count dramatically */}
-          {window.innerWidth >= 768 && <HeroParticles />}
+          {/* Only include particles on mobile */}
+          {window.innerWidth < 768 && <HeroParticles />}
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -806,8 +758,8 @@ export function Home() {
                       </Link>
                     </motion.div>
 
-                    {/* Hero Screenshots Carousel */}
-                    <div className="relative w-full max-w-md mx-auto my-4">
+                    {/* Hero Screenshots Carousel - only visible on mobile */}
+                    <div className="relative w-full max-w-md mx-auto my-4 lg:hidden">
                       <div className="relative overflow-hidden rounded-lg shadow-lg h-64">
                         <div className="relative h-full">
                           {/* Loading indicator */}
@@ -851,6 +803,25 @@ export function Home() {
                                 }}
                               />
                             ))}
+                          </div>
+
+                          {/* Click to expand indicator for mobile */}
+                          <div className="absolute top-2 right-2 bg-black/40 backdrop-blur-sm text-white text-xs py-1 px-2 rounded-md flex items-center gap-1 z-30 pointer-events-none">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3 w-3"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M15 3h6m0 0v6m0-6L14 10m-4 7l-7 7m0 0H9m-6-6v-6m0 0h6"
+                              />
+                            </svg>
+                            <span>Tap to expand</span>
                           </div>
 
                           {/* Left navigation arrow */}
@@ -1033,245 +1004,132 @@ export function Home() {
               transition={{ duration: 0.8, delay: 0.7 }}
               className="hidden lg:block relative"
             >
-              <div className="relative">
-                {/* Visual frame with simplified container */}
-                {window.innerWidth >= 768 ? (
-                  // Original complex orb with all animations for desktop
-                  <motion.div
-                    className="relative w-80 h-80 mx-auto"
-                    animate={{
-                      rotateY: [0, 5, 0, -5, 0],
-                      rotateX: [0, 3, 0, -3, 0],
-                    }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 8,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    {/* Orbiting elements with multiple rings */}
-                    <div className="absolute inset-0">
-                      {/* First orbit ring */}
-                      <motion.div
-                        className="absolute w-full h-full rounded-full border border-blue-500/10"
-                        animate={{ rotate: [0, 360] }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 40,
-                          ease: "linear",
-                        }}
-                      >
-                        <motion.div
-                          className="absolute -right-2 top-1/2 w-4 h-4 bg-blue-500 rounded-full"
-                          animate={{ opacity: [0.6, 1, 0.6] }}
-                          transition={{ repeat: Infinity, duration: 3 }}
-                        />
-                      </motion.div>
-
-                      {/* Second orbit ring */}
-                      <motion.div
-                        className="absolute w-[110%] h-[110%] -inset-[5%] rounded-full border border-purple-500/10"
-                        animate={{ rotate: [360, 0] }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 30,
-                          ease: "linear",
-                        }}
-                      >
-                        <motion.div
-                          className="absolute left-0 top-1/3 w-5 h-5 bg-purple-500 rounded-full"
-                          animate={{
-                            scale: [0.8, 1.2, 0.8],
-                            opacity: [0.6, 1, 0.6],
-                          }}
-                          transition={{
-                            repeat: Infinity,
-                            duration: 4,
-                            delay: 1,
-                          }}
-                        />
-                      </motion.div>
-
-                      {/* Third orbit ring */}
-                      <motion.div
-                        className="absolute w-[120%] h-[120%] -inset-[10%] rounded-full border border-indigo-500/10"
-                        animate={{ rotate: [180, 540] }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 35,
-                          ease: "linear",
-                        }}
-                      >
-                        <motion.div
-                          className="absolute right-1/4 bottom-0 w-4 h-4 bg-indigo-400 rounded-full"
-                          animate={{
-                            scale: [0.7, 1.1, 0.7],
-                            opacity: [0.5, 0.9, 0.5],
-                          }}
-                          transition={{
-                            repeat: Infinity,
-                            duration: 3.5,
-                            delay: 0.5,
-                          }}
-                        />
-                      </motion.div>
-                    </div>
-
-                    {/* Main orb layers */}
-                    <motion.div
-                      className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-600/20 to-indigo-800/20 backdrop-blur-3xl"
-                      animate={{
-                        scale: [1, 1.05, 1],
-                        opacity: [0.7, 0.9, 0.7],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 8,
-                        ease: "easeInOut",
-                      }}
-                    />
-                    <motion.div
-                      className="absolute inset-10 rounded-full bg-gradient-to-tr from-indigo-500/20 to-purple-600/20 backdrop-blur-3xl"
-                      animate={{
-                        scale: [0.95, 1.05, 0.95],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 10,
-                        ease: "easeInOut",
-                      }}
-                    />
-                    <motion.div
-                      className="absolute inset-16 rounded-full bg-gradient-to-br from-indigo-400/20 to-purple-600/20 backdrop-blur-3xl"
-                      animate={{
-                        scale: [0.92, 1.08, 0.92],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 9,
-                        ease: "easeInOut",
-                        delay: 1,
-                      }}
-                    />
-
-                    {/* Core with mask icon */}
-                    <div className="absolute inset-20 rounded-full bg-gradient-to-br from-indigo-900/90 to-blue-900/90 shadow-[0_0_30px_15px_rgba(110,120,255,0.2)]">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <motion.img
-                          src="/mask-icon.png"
-                          alt="AI Tutor Assistant"
-                          className="w-32 h-auto opacity-90 filter brightness-1.5"
-                          animate={{
-                            scale: [1, 1.03, 1],
-                          }}
-                          transition={{
-                            repeat: Infinity,
-                            duration: 6,
-                            ease: "easeInOut",
-                          }}
-                        />
+              <div className="relative flex flex-col items-center justify-center h-full">
+                {/* Hero Screenshots Carousel for desktop */}
+                <div className="relative w-full mx-auto">
+                  <div className="relative overflow-hidden rounded-xl shadow-2xl h-[400px]">
+                    <div className="relative h-full">
+                      {/* Loading indicator */}
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm z-10">
+                        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                       </div>
-                    </div>
 
-                    {/* Enhanced floating feature labels with animations - made slightly smaller and added two more */}
-                    <motion.div
-                      className="absolute -top-6 right-2 px-3 py-1 rounded-full bg-gradient-to-r from-blue-600/60 to-blue-700/60 text-blue-50 text-xs font-medium tracking-wide backdrop-blur-md border border-blue-500/30 shadow-lg shadow-blue-500/20"
-                      animate={{
-                        y: [0, -6, 0],
-                        opacity: [0.85, 1, 0.85],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 5,
-                        ease: "easeInOut",
-                      }}
-                    >
-                      {t("home.hero.animatedFeatures.autoGrading")}
-                    </motion.div>
+                      {/* Carousel container */}
+                      <div
+                        className="flex transition-transform duration-300 ease-in-out h-full"
+                        style={{
+                          transform: `translateX(-${currentHeroSlide * 100}%)`,
+                        }}
+                      >
+                        {heroImages.map((image, index) => (
+                          <img
+                            key={index}
+                            src={image}
+                            alt={`Hero ${index + 1}`}
+                            className="w-full h-full object-cover cursor-pointer flex-shrink-0 min-w-full"
+                            onClick={() => setIsHeroFullscreen(true)}
+                            onLoad={(e) => {
+                              // Hide loading indicator when image loads
+                              const target = e.target as HTMLImageElement;
+                              const parent =
+                                target.parentElement?.parentElement;
+                              const loadingIndicator = parent?.querySelector(
+                                "div.absolute.inset-0.flex"
+                              );
+                              if (loadingIndicator)
+                                loadingIndicator.classList.add("hidden");
+                            }}
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = `https://via.placeholder.com/800x500?text=Hero+${
+                                index + 1
+                              }`;
+                            }}
+                          />
+                        ))}
+                      </div>
 
-                    <motion.div
-                      className="absolute bottom-12 -left-14 px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600/60 to-indigo-700/60 text-indigo-50 text-xs font-medium tracking-wide backdrop-blur-md border border-indigo-500/30 shadow-lg shadow-indigo-500/20"
-                      animate={{
-                        y: [0, 6, 0],
-                        opacity: [0.85, 1, 0.85],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 6,
-                        ease: "easeInOut",
-                        delay: 1,
-                      }}
-                    >
-                      {t("home.hero.animatedFeatures.personalizedFeedback")}
-                    </motion.div>
+                      {/* Click to expand indicator for desktop */}
+                      <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white text-sm py-1.5 px-2.5 rounded-md flex items-center gap-1.5 z-30 pointer-events-none">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 3h6m0 0v6m0-6L14 10m-4 7l-7 7m0 0H9m-6-6v-6m0 0h6"
+                          />
+                        </svg>
+                        <span>Click to view fullscreen</span>
+                      </div>
 
-                    <motion.div
-                      className="absolute -bottom-2 right-5 px-3 py-1 rounded-full bg-gradient-to-r from-purple-600/60 to-purple-700/60 text-purple-50 text-xs font-medium tracking-wide backdrop-blur-md border border-purple-500/30 shadow-lg shadow-purple-500/20"
-                      animate={{
-                        y: [0, 6, 0],
-                        opacity: [0.85, 1, 0.85],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 5.5,
-                        ease: "easeInOut",
-                        delay: 2,
-                      }}
-                    >
-                      {t("home.hero.animatedFeatures.customExercises")}
-                    </motion.div>
+                      {/* Left navigation arrow */}
+                      <button
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-black/50 text-white z-20 hover:bg-black/70 transition-colors"
+                        onClick={prevHeroSlide}
+                        aria-label="Previous image"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 19l-7-7 7-7"
+                          />
+                        </svg>
+                      </button>
 
-                    {/* New feature label: Performance Tracking */}
-                    <motion.div
-                      className="absolute top-6 -left-16 px-3 py-1 rounded-full bg-gradient-to-r from-cyan-600/60 to-blue-600/60 text-cyan-50 text-xs font-medium tracking-wide backdrop-blur-md border border-cyan-500/30 shadow-lg shadow-cyan-500/20"
-                      animate={{
-                        y: [0, -5, 0],
-                        opacity: [0.85, 1, 0.85],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 5.7,
-                        ease: "easeInOut",
-                        delay: 1.5,
-                      }}
-                    >
-                      {t("home.hero.animatedFeatures.performanceTracking")}
-                    </motion.div>
+                      {/* Right navigation arrow */}
+                      <button
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-black/50 text-white z-20 hover:bg-black/70 transition-colors"
+                        onClick={nextHeroSlide}
+                        aria-label="Next image"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
 
-                    {/* New feature label: Tailored Education Videos */}
-                    <motion.div
-                      className="absolute right-[-70px] top-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-teal-600/60 to-emerald-600/60 text-teal-50 text-xs font-medium tracking-wide backdrop-blur-md border border-teal-500/30 shadow-lg shadow-teal-500/20"
-                      animate={{
-                        x: [0, -6, 0],
-                        opacity: [0.85, 1, 0.85],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 5.2,
-                        ease: "easeInOut",
-                        delay: 0.8,
-                      }}
-                    >
-                      {t("home.hero.animatedFeatures.tailoredVideos")}
-                    </motion.div>
-                  </motion.div>
-                ) : (
-                  // Simplified static version for mobile
-                  <div className="relative w-60 h-60 mx-auto">
-                    {/* Main orb with minimal effects */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-600/20 to-indigo-800/20"></div>
-                    <div className="absolute inset-10 rounded-full bg-gradient-to-tr from-indigo-500/20 to-purple-600/20"></div>
-                    <div className="absolute inset-20 rounded-full bg-gradient-to-br from-indigo-900/90 to-blue-900/90">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <img
-                          src="/mask-icon.png"
-                          alt="AI Tutor Assistant"
-                          className="w-32 h-auto opacity-90 filter brightness-1.5"
-                        />
+                      {/* Dots indicator */}
+                      <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+                        {heroImages.map((_, index) => (
+                          <button
+                            key={index}
+                            className={`w-3 h-3 rounded-full transition-colors ${
+                              currentHeroSlide === index
+                                ? "bg-white"
+                                : "bg-white/50"
+                            }`}
+                            onClick={() => setCurrentHeroSlide(index)}
+                            aria-label={`Show image ${index + 1}`}
+                          ></button>
+                        ))}
                       </div>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             </motion.div>
           </div>
