@@ -193,13 +193,29 @@ export function Auth() {
                   : t("auth.headingWelcomeBack")}
               </h2>
 
-              <p className="text-sm text-gray-600">
-                {" "}
-                <span className="mr-0.5">✨ </span>
-                {isSignUp
-                  ? t("auth.headingCreateAccountSubtitle")
-                  : t("auth.signInToContinue")}
-              </p>
+              {isSignUp ? (
+                <div className="text-sm text-gray-600 flex flex-col items-center space-y-1">
+                  <div className="flex items-center">
+                    <span className="mr-1.5 text-indigo-500">🚀</span>
+                    <span className="font-medium">
+                      Start your 7-day free trial instantly.
+                    </span>
+                  </div>
+                  <div className="flex items-center text-xs">
+                    <span className="text-indigo-500 mr-1">✨ </span>
+                    <span>No credit card, no strings attached.</span>
+                  </div>
+                  <div className="flex items-center text-xs font-medium text-indigo-600">
+                    <span>Just sign up & start!</span>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-sm text-gray-600">
+                  {" "}
+                  <span className="mr-0.5">✨ </span>
+                  {t("auth.signInToContinue")}
+                </p>
+              )}
             </div>
 
             {/* Demo Tool Link */}
