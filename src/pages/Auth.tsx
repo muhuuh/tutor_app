@@ -547,15 +547,25 @@ export function Auth() {
                         />
                       </svg>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-semibold text-indigo-900 mb-1 flex items-center">
-                        Feature {currentSlide + 1}/{screenshotData.length}
-                        <span className="ml-2 inline-block h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
-                      </h4>
-                      <p className="text-sm text-gray-700 leading-relaxed">
-                        {t(screenshotData[currentSlide].translationKey)}
-                      </p>
-                    </div>
+                    {(() => {
+                      const translation = t(
+                        screenshotData[currentSlide].translationKey,
+                        { returnObjects: true }
+                      ) as { title: string; description: string };
+                      return (
+                        <div>
+                          <h4 className="text-sm font-semibold text-indigo-900 mb-1 flex items-center">
+                            {translation.title}{" "}
+                            <span className="ml-2 text-xs font-normal text-gray-500">
+                              ({currentSlide + 1}/{screenshotData.length})
+                            </span>
+                          </h4>
+                          <p className="text-sm text-gray-700 leading-relaxed">
+                            {translation.description}
+                          </p>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>

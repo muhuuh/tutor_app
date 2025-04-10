@@ -536,10 +536,9 @@ export function Home() {
 
   // Hero image paths
   const heroImages = [
-    "/tool_screenshot/hero_2.png",
-    "/tool_screenshot/hero_1.png",
-    "/tool_screenshot/hero_3.png",
-    "/tool_screenshot/hero_4.png",
+    "/tool_screenshot/hero_5.png",
+    "/tool_screenshot/hero_6.png",
+    "/tool_screenshot/hero_7.png",
   ];
 
   return (
